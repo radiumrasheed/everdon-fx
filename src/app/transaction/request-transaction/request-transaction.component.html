@@ -1,0 +1,637 @@
+<!-- .row -->
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Transaction Request Form</h4>
+        <h6 class="card-subtitle"></h6>
+
+        <br>
+
+
+        <form class="form">
+
+          <!--<div class="form-group m-t-40 row">
+            <label for="example-text-input" class="col-md-2 col-form-label">Text</label>
+            <div class="col-md-10">
+              <input class="form-control" type="text" value="Artisanal kale" id="example-text-input"></div>
+          </div>-->
+
+
+          <div class="form-group row">
+            <label for="search-client" class="col-md-2 col-form-label">Client</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <input id="search-client" type="text" class="form-control" placeholder="Search Client...">
+                <span class="input-group-btn">
+                  <button class="btn btn-info" type="button">Go!</button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="transaction-type" class="col-md-2 col-form-label">Transaction Type</label>
+            <div class="col-md-10">
+              <select class="custom-select col-12" id="transaction-type">
+                <option>Choose...</option>
+                <option selected value="1">Purchase</option>
+                <option value="2">Sale</option>
+                <option value="3">Swap</option>
+                <option value="3">Refund</option>
+                <option value="3">Expense</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="transaction-mode" class="col-md-2 col-form-label">Transaction Mode</label>
+            <div class="col-md-10">
+              <select class="custom-select col-12" id="transaction-mode">
+                <option>Choose...</option>
+                <option value="1">Cash</option>
+                <option selected value="2">Transfer</option>
+                <option value="3">Offshore</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="product" class="col-md-2 col-form-label">Product</label>
+            <div class="col-md-10">
+              <select class="custom-select col-12" id="product">
+                <option>Choose...</option>
+                <option selected value="1">USD</option>
+                <option value="2">EUR</option>
+                <option value="3">GDP</option>
+                <option value="4">NGN</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="product-amount" class="col-md-2 col-form-label">Product Amount</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" id="product-amount" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-addon">.00</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="rate" class="col-md-2 col-form-label">Rate</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">₦</span>
+                <input type="text" class="form-control" id="rate" aria-label="Amount (to the nearest naira)">
+                <span class="input-group-addon"> / USD</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="wacc" class="col-md-2 col-form-label">WACC</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">₦</span>
+                <input type="text" class="form-control" id="wacc" aria-label="Amount (to the nearest naira)">
+                <span class="input-group-addon"> / USD</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="actual-amount" class="col-md-2 col-form-label">Actual Amount</label>
+            <div class="col-md-10">
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" id="actual-amount" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-addon">.00</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="checkbox checkbox-success col-md-10">
+              <input id="mail-client" type="checkbox">
+              <label for="mail-client"> Mail Client </label>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10">
+              <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+              <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.row -->
+<!--
+&lt;!&ndash; .row &ndash;&gt;
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card card-body">
+      <h4 class="card-title">Default Horizontal Forms</h4>
+      <h6 class="card-subtitle"> All bootstrap element classies </h6>
+      <form class="form-horizontal m-t-40">
+        <div class="form-group">
+          <label>Default Text <span class="help"> e.g. "George deo"</span></label>
+          <input type="text" class="form-control" value="George deo..."></div>
+        <div class="form-group">
+          <label for="example-email">Email <span class="help"> e.g. "example@gmail.com"</span></label>
+          <input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email"></div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" value="password"></div>
+        <div class="form-group">
+          <label>Placeholder</label>
+          <input type="text" class="form-control" placeholder="placeholder"></div>
+        <div class="form-group">
+          <label>Text area</label>
+          <textarea class="form-control" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Read only input</label>
+          <input class="form-control" type="text" placeholder="Readonly input here…" readonly></div>
+        <div class="form-group">
+          <fieldset disabled>
+            <label for="disabledTextInput">Disabled input</label>
+            <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input"></fieldset>
+        </div>
+        <div class="form-group row p-t-20">
+          <div class="col-sm-4">
+            <div class="form-check">
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Check this custom checkbox</span> </label>
+            </div>
+            <div class="form-check bd-example-indeterminate">
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Check this custom checkbox</span> </label>
+            </div>
+            <div class="form-check">
+              <label class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Check this custom checkbox</span> </label>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="form-check">
+              <label class="custom-control custom-radio">
+                <input id="radio1" name="radio" type="radio" class="custom-control-input"> <span
+                class="custom-control-indicator"></span> <span class="custom-control-description">Toggle this custom radio</span>
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="custom-control custom-radio">
+                <input id="radio2" name="radio" type="radio" class="custom-control-input"> <span
+                class="custom-control-indicator"></span> <span class="custom-control-description">Or toggle this other custom radio</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Input Select</label>
+          <select class="custom-select col-12" id="inlineFormCustomSelect1">
+            <option selected>Choose...</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+          </select>
+        </div>
+        <fieldset class="form-group">
+          <label>Default file upload</label>
+          <label class="custom-file d-block">
+            <input type="file" id="file" class="custom-file-input"> <span class="custom-file-control"></span> </label>
+        </fieldset>
+        <div class="form-group">
+          <label>Default file upload</label>
+          <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp"></div>
+        <div class="form-group">
+          <label>Helping text</label>
+          <input type="text" class="form-control" placeholder="Helping text"> <span class="help-block"><small>A block of help text that breaks onto a new line and may extend beyond one line.</small></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+&lt;!&ndash; .row &ndash;&gt;
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card card-body">
+      <h4 class="card-title">Input groups</h4>
+      <h6 class="card-subtitle"> All bootstrap element classies </h6>
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+          <form>
+            <div class="input-group"><span class="input-group-addon" id="basic-addon1">@</span>
+              <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1"></div>
+            <br>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Recipient's username"
+                     aria-describedby="basic-addon2"> <span class="input-group-addon"
+                                                            id="basic-addon2">@example.com</span></div>
+            <br>
+            <label for="basic-url">Your vanity URL</label>
+            <div class="input-group"><span class="input-group-addon" id="basic-addon3">https://example.com/users/</span>
+              <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></div>
+            <br>
+            <div class="input-group"><span class="input-group-addon">$</span>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"> <span
+                class="input-group-addon">.00</span></div>
+            <br>
+            <div class="input-group"><span class="input-group-addon">$</span> <span
+              class="input-group-addon">0.00</span>
+              <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"></div>
+            &lt;!&ndash; form-group &ndash;&gt;
+          </form>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+          <form>
+            <label class="control-label m-t-20" for="example-input1-group2">Checkboxes and radio addons</label>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group"> <span class="input-group-addon">
+          <input type="checkbox" aria-label="Checkbox for following text input">
+        </span>
+                  <input type="text" class="form-control" aria-label="Text input with checkbox"></div>
+              </div>
+              <div class="col-lg-6">
+                <div class="input-group"> <span class="input-group-addon">
+          <input type="radio" aria-label="Radio button for following text input">
+        </span>
+                  <input type="text" class="form-control" aria-label="Text input with radio button"></div>
+              </div>
+            </div>
+            <label class="control-label m-t-20" for="example-input1-group2">Multiple addons</label>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group"> <span class="input-group-addon">
+          <input type="checkbox" aria-label="Checkbox for following text input">
+        </span> <span class="input-group-addon">$</span>
+                  <input type="text" class="form-control" aria-label="Text input with checkbox"></div>
+              </div>
+              <div class="col-lg-6">
+                <div class="input-group"><span class="input-group-addon">$</span> <span
+                  class="input-group-addon">0.00</span>
+                  <input type="text" class="form-control" aria-label="Text input with radio button"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+          <form class="input-form">
+            <label class="control-label m-t-20" for="example-input1-group2">Button addons</label>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group"> <span class="input-group-btn">
+          <button class="btn btn-info" type="button">Go!</button>
+        </span>
+                  <input type="text" class="form-control" placeholder="Search for..."></div>
+              </div>
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Search for..."> <span class="input-group-btn">
+          <button class="btn btn-info" type="button">Go!</button>
+        </span></div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="input-group"> <span class="input-group-btn">
+          <button class="btn btn-danger" type="button">Hate it</button>
+        </span>
+                  <input type="text" class="form-control" placeholder="Product name"> <span class="input-group-btn">
+          <button class="btn btn-success" type="button">Love it</button>
+        </span></div>
+              </div>
+            </div>
+            &lt;!&ndash; form-group &ndash;&gt;
+          </form>
+        </div>
+        <div class="col-sm-12 col-xs-12">
+          <label class="control-label m-t-20" for="example-input1-group2">Multiple addons</label>
+          <form class="input-form">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"> Action
+                    </button>
+                    <div class="dropdown-menu"><a class="dropdown-item" href="#">Action</a> <a class="dropdown-item"
+                                                                                               href="#">Another
+                      action</a> <a class="dropdown-item" href="#">Something else here</a>
+                      <div role="separator" class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Separated link</a></div>
+                  </div>
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button"></div>
+              </div>
+              <div class="col-lg-6">
+                <div class="input-group">
+                  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+                  <div class="input-group-btn">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false"> Action
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#">Action</a> <a
+                      class="dropdown-item" href="#">Another action</a> <a class="dropdown-item" href="#">Something else
+                      here</a>
+                      <div role="separator" class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Separated link</a></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+&lt;!&ndash; /.row &ndash;&gt;
+&lt;!&ndash; .row &ndash;&gt;
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card card-body">
+      <h3 class="box-title m-b-0">Input States</h3>
+      <p class="text-muted m-b-30 font-13"> Validation styles for error, warning, and success states on form
+        controls.</p>
+      <div class="row">
+        <div class="col-sm-6 col-xs-12">
+          <form class="form-horizontal row" role="form">
+            <div class="col-12">
+              <div class="form-group has-success">
+                <label class="form-control-label" for="inputSuccess1">Input with success</label>
+                <input type="text" class="form-control form-control-success" id="inputSuccess1">
+                <div class="form-control-feedback">Success! You've done it.</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+              <div class="form-group has-warning">
+                <label class="form-control-label" for="inputWarning1">Input with warning</label>
+                <input type="text" class="form-control form-control-warning" id="inputWarning1">
+                <div class="form-control-feedback">Shucks, check the formatting of that and try again.</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+              <div class="form-group has-danger">
+                <label class="form-control-label" for="inputDanger1">Input with danger</label>
+                <input type="text" class="form-control form-control-danger" id="inputDanger1">
+                <div class="form-control-feedback">Sorry, that username's taken. Try another?</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal" role="form">
+            <div class="form-group row has-success">
+              <label for="inputHorizontalSuccess" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control form-control-success" id="inputHorizontalSuccess"
+                       placeholder="name@example.com">
+                <div class="form-control-feedback">Success! You've done it.</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+            </div>
+            <div class="form-group row has-warning">
+              <label for="inputHorizontalWarning" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control form-control-warning" id="inputHorizontalWarning"
+                       placeholder="name@example.com">
+                <div class="form-control-feedback">Shucks, check the formatting of that and try again.</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+            </div>
+            <div class="form-group row has-danger">
+              <label for="inputHorizontalDnger" class="col-sm-2 col-form-label">Email</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control form-control-danger" id="inputHorizontalDnger"
+                       placeholder="name@example.com">
+                <div class="form-control-feedback">Sorry, that username's taken. Try another?</div>
+                <small class="form-text text-muted">Example help text that remains unchanged.</small>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-5 offset-sm-1 col-xs-12">
+          <form role="form" class="form-horizontal row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="col-sm-3 form-control-label" for="example-input-small">Small</label>
+                <div class="col-sm-6">
+                  <input type="text" id="example-input-small" name="example-input-small"
+                         class="form-control form-control-sm" placeholder="form-control-sm"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 form-control-label" for="example-input-normal">Normal</label>
+                <div class="col-sm-6">
+                  <input type="text" id="example-input-normal" name="example-input-normal" class="form-control"
+                         placeholder="Normal"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 form-control-label" for="example-input-large">Large</label>
+                <div class="col-sm-6">
+                  <input type="text" id="example-input-large" name="example-input-large"
+                         class="form-control form-control-lg" placeholder="form-control-lg"></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 form-control-label">Grid Sizes</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" placeholder=".col-4"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-5 col-sm-offset-3">
+                  <input type="text" class="form-control" placeholder=".col-5"></div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <input type="text" class="form-control" placeholder=".col-6"></div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+&lt;!&ndash; /.row &ndash;&gt;
+<div class="row">
+  <div class="col-md-6">
+    <div class="card card-body">
+      <h3 class="box-title m-b-0">Sample Basic Forms</h3>
+      <p class="text-muted m-b-30 font-13"> Bootstrap Elements </p>
+      <div class="row">
+        <div class="col-sm-12 col-xs-12">
+          <form>
+            <div class="form-group">
+              <label for="username">User Name</label>
+              <input type="text" class="form-control" id="username" placeholder="Enter Username"></div>
+            <div class="form-group">
+              <label for="exampleInputEmail2">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email"></div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password"></div>
+            <div class="form-group">
+              <label for="cpass">Password</label>
+              <input type="password" class="form-control" id="cpass" placeholder="Confirm Password"></div>
+            <div class="form-group">
+              <div class="checkbox checkbox-success">
+                <input id="checkbox1" type="checkbox">
+                <label for="checkbox1"> Remember me </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+            <button type="submit" class="btn btn-inverse waves-effect waves-light">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-body">
+      <h3 class="box-title m-b-0">Sample Horizontal form</h3>
+      <p class="text-muted m-b-30 font-13"> Use Bootstrap's predefined grid classes for horizontal form </p>
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label for="uname" class="col-sm-3 text-right control-label col-form-label">Username*</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="uname" placeholder="Username"></div>
+        </div>
+        <div class="form-group row">
+          <label for="umail" class="col-sm-3 text-right control-label col-form-label">Email*</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="umail" placeholder="Email"></div>
+        </div>
+        <div class="form-group row">
+          <label for="web" class="col-sm-3 text-right control-label col-form-label">Website</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="web" placeholder="Website"></div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-3 text-right control-label col-form-label">Password*</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputPassword3" placeholder="Password"></div>
+        </div>
+        <div class="form-group row">
+          <label for="inputPassword4" class="col-sm-3 text-right control-label col-form-label">Re Password*</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="inputPassword4" placeholder="Retype Password"></div>
+        </div>
+        <div class="form-group row">
+          <div class="offset-sm-3 col-sm-9">
+            <div class="checkbox checkbox-success">
+              <input id="checkbox33" type="checkbox">
+              <label for="checkbox33">Check me out !</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-b-0">
+          <div class="offset-sm-3 col-sm-9">
+            <button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Sign in</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+&lt;!&ndash; /.row &ndash;&gt;
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Basic Material inputs</h4>
+        <h6 class="card-subtitle">Just add <code>form-material</code> class to the form that's it.</h6>
+        <form class="form-material m-t-40">
+          <div class="form-group">
+            <label>Default Text <span class="help"> e.g. "George deo"</span></label>
+            <input type="text" class="form-control form-control-line" value="Some text value..."></div>
+          <div class="form-group">
+            <label for="example-email">Email <span class="help"> e.g. "example@gmail.com"</span></label>
+            <input type="email" id="example-email2" name="example-email" class="form-control" placeholder="Email"></div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" value="password"></div>
+          <div class="form-group">
+            <label>Placeholder</label>
+            <input type="text" class="form-control" placeholder="placeholder"></div>
+          <div class="form-group">
+            <label>Text area</label>
+            <textarea class="form-control" rows="5"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Input Select</label>
+            <select class="form-control">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Helping text</label>
+            <input type="text" class="form-control form-control-line"> <span class="help-block text-muted"><small>A block of help text that breaks onto a new line and may extend beyond one line.</small></span>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Different Widths</h4>
+        <h6 class="card-subtitle">Just add <code>col*</code> class to form-group</h6>
+        <form class="form-material m-t-40 row">
+          <div class="form-group col-md-6 m-t-20">
+            <input type="text" class="form-control form-control-line" value="col-md-6"></div>
+          <div class="form-group col-md-6 m-t-20">
+            <input type="email" id="example-email3" name="example-email" class="form-control" placeholder="col-md-6">
+          </div>
+          <div class="form-group col-md-4 m-t-20">
+            <input type="text" class="form-control form-control-line" value="col-md-4"></div>
+          <div class="form-group col-md-4 m-t-20">
+            <input type="email" id="example-email4" name="example-email" class="form-control" placeholder="col-md-4">
+          </div>
+          <div class="form-group col-md-4 m-t-20">
+            <input type="text" class="form-control" value="col-md-4"></div>
+          <div class="form-group col-md-3 m-t-20">
+            <input type="text" class="form-control" placeholder="col-md-3"></div>
+          <div class="form-group col-md-3 m-t-20">
+            <select class="form-control">
+              <option>col-md-3</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3 m-t-20">
+            <input type="text" placeholder="col-md-3" class="form-control form-control-line"></div>
+          <div class="form-group col-md-12 m-t-20">
+            <label>Text area</label>
+            <textarea class="form-control" rows="5"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>-->
