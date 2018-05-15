@@ -6,6 +6,7 @@ declare var $: any;
 
 @Component({
   selector: 'ap-navigation',
+  styleUrls: ['./navigation.component.css'],
   templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements AfterViewInit {
