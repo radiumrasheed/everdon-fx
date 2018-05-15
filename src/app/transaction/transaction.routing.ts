@@ -1,5 +1,6 @@
 import {Routes} from '@angular/router';
 import {RequestTransactionComponent} from './request-transaction/request-transaction.component';
+import {TransactionDetailsComponent} from './transaction-details/transaction-details.component';
 
 export const TransactionRoutes: Routes = [
   {
@@ -11,6 +12,14 @@ export const TransactionRoutes: Routes = [
         data: {
           title: 'Request Transaction',
           urls: [{title: 'Transaction', url: '/transaction'}, {title: 'Request Transaction'}]
+        }
+      },
+      {
+        path: 'details',
+        component: TransactionDetailsComponent,
+        data: {
+          title: 'Transaction Details',
+          urls: [{title: 'Transaction', url: '/transaction'}, {title: 'Transaction Details'}]
         }
       }
     ]
