@@ -9,6 +9,8 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
+import {LoginComponent} from './authentication/login/login.component';
+import {SignupComponent} from './authentication/signup/signup.component';
 
 import {NavigationComponent} from './shared/header-navigation/navigation.component';
 import {SidebarComponent} from './shared/sidebar/sidebar.component';
@@ -35,6 +37,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FullComponent,
     BlankComponent,
     NavigationComponent,
+    LoginComponent,
+    SignupComponent,
     BreadcrumbComponent,
     SidebarComponent
   ],

@@ -71,9 +71,9 @@ export class NavigationComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
-    var set = function () {
-      var width = (window.innerWidth > 0) ? window.innerWidth : this.screen.width;
-      var topOffset = 0;
+    const set = function () {
+      const width = (window.innerWidth > 0) ? window.innerWidth : this.screen.width;
+      const topOffset = 0;
       if (width < 1170) {
         $('#main-wrapper').addClass('mini-sidebar');
       } else {

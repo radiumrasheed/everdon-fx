@@ -1,3 +1,9 @@
+<!-- ============================================================== -->
+<!-- Topbar header - style you can find in pages.scss -->
+<!-- ============================================================== -->
+
+<ap-navigation></ap-navigation>
+
 <div class="login-register" style="background-image:url(assets/images/background/login-register.jpg);">
   <div class="login-box card">
     <div class="card-body">
@@ -26,7 +32,7 @@
                [routerLink]="['/dashboard/dashboard1']" (click)="onLoggedin()">Log In</a>
           </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
           <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
             <div class="social">
               <a href="javascript:void(0)" class="btn btn-facebook" placement="top" ngbTooltip="Login with Facebook"> <i
@@ -35,7 +41,7 @@
                 aria-hidden="true" class="fa fa-google-plus"></i> </a>
             </div>
           </div>
-        </div>
+        </div>-->
         <div class="form-group m-b-0">
           <div class="col-sm-12 text-center">
             <div>Don't have an account? <a class="text-info m-l-5" [routerLink]="['/authentication/signup']"><b>Sign

@@ -4,6 +4,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
+import {LoginComponent} from './authentication/login/login.component';
+import {SignupComponent} from './authentication/signup/signup.component';
 
 export const Approutes: Routes = [
   {
@@ -33,6 +35,14 @@ export const Approutes: Routes = [
         loadChildren: './authentication/authentication.module#AuthenticationModule'
       }
     ]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'signup',
+    component: SignupComponent
   },
   {
     path: '**',
