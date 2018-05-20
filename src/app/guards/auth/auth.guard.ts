@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.tokenNotExpired()) {
+    if (this.authService.tokenNotExpired() && this.authService.isLoggedIn) {
       return true;
     }
 
