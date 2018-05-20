@@ -3,6 +3,7 @@ import {Http, Headers} from '@angular/http';
 
 import {AppConfig} from '../../app.config';
 import * as jwt_decode from 'jwt-decode';
+import * as _ from 'lodash';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/do';
@@ -16,6 +17,9 @@ import {catchError, map, tap} from 'rxjs/operators';
 
 
 export const TOKEN_NAME = 'jwt_token';
+export const ROLE_TOKEN_NAME = 'role_token';
+export const ADMIN_ROLES = ['systems-admin', 'fx-ops', 'fx-ops-lead', 'fx-ops-manager', 'treasury-ops'];
+
 
 @Injectable()
 export class AuthService {
@@ -32,21 +36,35 @@ export class AuthService {
   }
 
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  private _roles = new BehaviorSubject<any>([]);
 
   get isLoggedIn() {
     return this._isLoggedIn.asObservable();
+  }
+
+  get roles() {
+    return this._roles.asObservable();
   }
 
   static getToken(): string {
     return localStorage.getItem(TOKEN_NAME);
   }
 
+  static getRoleToken(): string {
+    return localStorage.getItem(ROLE_TOKEN_NAME);
+  }
+
   private static setToken(token: string): void {
     localStorage.setItem(TOKEN_NAME, 'Bearer ' + token);
   }
 
-  private static removeToken(): void {
+  private static setRoleToken(token: string): void {
+    localStorage.setItem(ROLE_TOKEN_NAME, 'Bearer ' + token);
+  }
+
+  private static removeTokens(): void {
     localStorage.removeItem(TOKEN_NAME);
+    localStorage.removeItem(ROLE_TOKEN_NAME);
   }
 
   private static getTokenExpirationDate(token: string): Date {
@@ -59,6 +77,16 @@ export class AuthService {
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp);
     return date;
+  }
+
+  private static getDecodedToken(token: string): any {
+    const decoded = jwt_decode(token);
+
+    if (decoded.exp === undefined) {
+      return null;
+    }
+
+    return decoded;
   }
 
   // Check if token is not expired...
@@ -77,6 +105,31 @@ export class AuthService {
 
     this._isLoggedIn.next(true);
     return token_date.valueOf() > new Date().valueOf();
+  }
+
+  // Check if role token is not expired...
+  roleTokenNotExpired(token?: string): boolean {
+    if (!token) {
+      token = AuthService.getRoleToken();
+    }
+    if (!token) {
+      return false;
+    }
+
+    const tokenPayload = AuthService.getDecodedToken(token);
+    if (tokenPayload === undefined) {
+      return false;
+    }
+
+    const roles = _.split(tokenPayload['roles'], '|');
+
+    this._roles.next(roles);
+
+    const allowed_roles = _.intersection(roles, ADMIN_ROLES);
+
+
+    this._isLoggedIn.next(true);
+    return allowed_roles.length >= 0;
   }
 
 
@@ -98,11 +151,13 @@ export class AuthService {
   // Login Admin User...
   adminLogin(user): Observable<any> {
     return this._http
-      .post(`${this.url}/admin-login`, user)
+      .post(`${this.url}/auth/admin-login`, user)
       .pipe(
-        map(response => response['data']['token']),
-        tap(token => {
-          AuthService.setToken(token);
+        map(response => response['data']),
+        tap(data => {
+          AuthService.setToken(data['token']);
+          AuthService.setRoleToken(data['_token']);
+
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Admin Login', null))
@@ -127,8 +182,9 @@ export class AuthService {
 
   // Logout User...
   logout(): void {
-    AuthService.removeToken();
+    AuthService.removeTokens();
     this._isLoggedIn.next(false);
+    this._roles.next([]);
   }
 
 }

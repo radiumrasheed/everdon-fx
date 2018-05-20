@@ -7,6 +7,7 @@ import {BlankComponent} from './layouts/blank/blank.component';
 import {LoginComponent} from './authentication/login/login.component';
 import {SignupComponent} from './authentication/signup/signup.component';
 import {AdminGuard} from './guards/admin.guard';
+import {Login2Component} from './authentication/login2/login2.component';
 
 export const AppRoutes: Routes = [
   {
@@ -15,7 +16,7 @@ export const AppRoutes: Routes = [
     children: [
       {path: '', redirectTo: '/me/dashboard', pathMatch: 'full'},
       {path: 'me', canActivate: [AuthGuard], loadChildren: './me/me.module#MeModule'},
-      // {path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule', data: {expectedRole: 'admin'}},
+      {path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule'},
       {path: 'dashboard', loadChildren: './dashboards/dashboard.module#DashboardModule'},
       {path: 'starter', loadChildren: './starter/starter.module#StarterModule'},
       {path: 'component', loadChildren: './component/component.module#ComponentsModule'},
@@ -35,6 +36,7 @@ export const AppRoutes: Routes = [
     children: [
       {path: 'authentication', loadChildren: './authentication/authentication.module#AuthenticationModule'},
       {path: 'login', component: LoginComponent},
+      {path: 'admin-login', component: Login2Component},
       {path: 'signup', component: SignupComponent},
     ]
   },

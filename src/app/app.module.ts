@@ -10,6 +10,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
 import {LoginComponent} from './authentication/login/login.component';
+import {Login2Component} from './authentication/login2/login2.component';
 import {SignupComponent} from './authentication/signup/signup.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -27,6 +28,7 @@ import {HttpInterceptorProviders} from './http-interceptors';
 import {AuthGuard} from './guards/auth/auth.guard';
 import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
+import {AdminGuard} from './guards/admin.guard';
 
 export class ToastConfig extends ToastOptions {
   showCloseButton = true;
@@ -39,6 +41,7 @@ export class ToastConfig extends ToastOptions {
     FullComponent,
     BlankComponent,
     LoginComponent,
+    Login2Component,
     SignupComponent,
   ],
   imports: [
@@ -56,6 +59,7 @@ export class ToastConfig extends ToastOptions {
   providers: [
     AuthService,
     AuthGuard,
+    AdminGuard,
     {
       provide: ToastOptions,
       useClass: ToastConfig
