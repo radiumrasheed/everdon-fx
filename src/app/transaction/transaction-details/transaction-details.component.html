@@ -1,279 +1,171 @@
 <div class="row">
+
   <!-- Column -->
-  <div class="col-lg-4 col-xlg-3 col-md-5">
-    <div class="card">
-      <div class="card-header">
-        <h6>Client Info</h6>
-      </div>
-      <div class="card-body">
-        <div class="m-t-30 text-center"><img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
-          <h4 class="card-title m-t-11">Chadwick Boyega</h4>
-          <h6 class="card-subtitle">Warrior Manager, DeathStar corp</h6>
-          <div class="row text-center justify-content-md-center">
-            <div class="col-4">
-              <a href="javascript:void(0)" class="link">
-                <i class="icon-people"></i>
-                <font
-                  class="font-medium">254</font></a>
-            </div>
-            <div class="col-4">
-              <a href="javascript:void(0)" class="link">
-                <i class="icon-picture"></i>
-                <font
-                  class="font-medium">54</font></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <hr>
-      </div>
-      <div class="card-body">
-        <small class="text-muted">Email address</small>
-        <h6>hannagover@gmail.com</h6>
-        <small class="text-muted p-t-30 db">Phone</small>
-        <h6>+91 654 784 547</h6>
-        <small class="text-muted p-t-30 db">Address</small>
-        <h6>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
-        <div class="map-box">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
-            width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
-        </div>
-        <small class="text-muted p-t-30 db">Social Profile</small>
-        <br/>
-        <button class="btn btn-circle btn-secondary">
-          <i class="fa fa-facebook"></i>
-        </button>
-        <button class="btn btn-circle btn-secondary">
-          <i class="fa fa-twitter"></i>
-        </button>
-        <button class="btn btn-circle btn-secondary">
-          <i class="fa fa-youtube"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <!-- Column -->
-  <!-- Column -->
-  <div class="col-lg-8 col-xlg-9 col-md-7">
-    <div class="card">
-      <!-- Nav tabs -->
-      <ul class="nav nav-tabs profile-tab" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab">Summary</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab">Transaction Timeline</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab">Comments</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="javascript:void(0)" role="tab">Advanced Options</a>
-        </li>
-      </ul>
-      <!-- Tab panes -->
-      <div class="tab-content">
-        <!--summary tab-->
-        <div class="tab-pane" id="summary" role="tabpanel">
-          <div class="card-body" *ngIf="selectedTransaction">
+  <div class="col-lg-9 col-xlg-10 col-md-7">
+    <ngb-tabset [justify]="'fill'">
+      <ngb-tab title="Summary">
+        <ng-template ngbTabContent>
+          <div class="card-body">
             <div class="w-100 row">
               <div class="card-body">
-                <button type="button" class="btn btn-secondary m-r-11 m-b-11">
-                  <i class="mdi mdi-reload font-19"></i>
+                <button type="button" class="btn btn-secondary m-r-11 m-b-11" (ngClick)="refreshTransaction()">
+                  <i class="mdi mdi-cached font-19"></i>
                 </button>
 
                 <div class="btn-group m-b-11 m-r-11" role="group" aria-label="Button group with nested dropdown">
-                  <button type="button" class="btn btn-secondary font-19">
+                  <button type="button" class="btn btn-secondary font-19" disabled>
                     <i class="mdi mdi-inbox-arrow-down"></i>
                   </button>
-                  <button type="button" class="btn btn-secondary font-19">
-                    <i class="mdi mdi-delete"></i>
+
+                  <button type="button" class="btn btn-secondary font-19" disabled>
+                    <i class="mdi mdi-close"></i>
                   </button>
-                  <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle"
-                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="mdi mdi-label font-19"></i>
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="#">Dropdown link</a>
-                    <a class="dropdown-item" href="#">Dropdown link</a>
-                  </div>
                 </div>
 
-                <label class="label label-warning">In Progress</label>
+                <label class="label label-warning" *ngIf="selectedTransaction">{{ selectedTransaction?.transaction_status_id | status }}</label>
 
                 <button class="btn btn-outline-primary waves-effect waves-light pull-right" type="button"><span
                   class="btn-label"><i
-                  class="fa fa-envelope-o"></i></span>Fulfill
+                  class="fa fa-envelope-o"></i></span>{{ nextActionText }}
                 </button>
               </div>
             </div>
 
 
             <div class="p-20">
-              <!--<div class="d-flex align-items-center m-b-30">
-                <div class="">
-                  <img alt="" class="avatar-lg rounded-circle" src="{{selectedTransaction.avatar}}"/>
-                </div>
-                <div class="pl-3">
-                  <div class="font-medium">
-                    {{ selectedTransaction.from}} - {{selectedTransaction.date | date: 'MMMM d' }}
-                  </div>
-                  <span class="font-14">Reply to: {{selectedTransaction.email}}</span>
-                  <br/>
-                  <label class="label label-{{selectedTransaction.type}}">{{selectedTransaction.tag}}</label>
-                </div>
-              </div>-->
 
-
-              <div class="col-md-10 offset-1">
-                <div class="card card-inverse card-info">
-                  <div class="card-header">
-                    <h4 class="m-b-0 text-white">
-                      <i class="mdi mdi-briefcase-check text-warning"></i>
-                      Product Purchase
-                    </h4>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-
-
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-
-
+              <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
+                <div class="col-12">
+                  <div class="card card-inverse card-info" *ngIf="selectedTransaction">
+                    <div class="card-header">
+                      <h4 class="m-b-0 text-white">
+                        <i class="mdi mdi-briefcase-check text-warning"></i>
+                        {{ selectedTransaction?.transaction_type_id | type }}
+                      </h4>
+                    </div>
                     <div class="card-body">
-                      <div class="row">
+                      <h5 *ngIf="!no_action" class="card-title">{{ nextActionText }}</h5>
 
-                        <div class="form-group row">
-                          <div class="col-11">
-                            <h2 class="m-b-0">
-                              <i class="mdi mdi-buffer text-warning"></i>
-                            </h2>
-                          </div>
-                        </div>
 
-                        <div class="form-group row">
-                          <div class="col-md-10">
-                            <select class="custom-select col-12" id="product">
-                              <option>Choose...</option>
-                              <option selected value="1">USD</option>
-                              <option value="2">EUR</option>
-                              <option value="3">GDP</option>
-                              <option value="4">NGN</option>
-                            </select>
-                          </div>
-                        </div>
+                      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-                        <div class="form-group row">
-                          <div class="col-md-10">
-                            <div class="input-group">
-                              <span class="input-group-addon">$</span>
-                              <input type="text" class="form-control" id="product-amount"
-                                     aria-label="Amount (to the nearest dollar)">
-                              <span class="input-group-addon">.00</span>
+
+                      <div class="card-body">
+                        <div class="row">
+
+                          <div class="form-group row">
+                            <div class="col-md-10">
+                              <label>
+                                <i class="mdi mdi-cash-100 text-warning"></i>
+                                Currency
+
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+
+                              <select class="form-control" [required]="selectedTransaction" [disabled]="selectedTransaction.buying_product_id"
+                                      [(ngModel)]="selectedTransaction.buying_product_id"
+                                      name="product" placeholder="Currency">
+                                <option *ngFor="let currency of currencyList" value="{{currency.id}}">{{currency.name}}</option>
+                              </select>
                             </div>
                           </div>
-                        </div>
 
-                        <div class="form-group row">
-                          <div class="col-10">
-                            <ngb-progressbar [showValue]="false" type="warning" [value]="50"></ngb-progressbar>
+                          <div class="form-group row">
+                            <div class="col-md-10">
+
+                              <label>
+                                <i class="mdi mdi-buffer text-warning"></i>
+                                Amount
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <input type="text" name="amount" [disabled]="selectedTransaction.amount" class="form-control" id="amount" [(ngModel)]="selectedTransaction.amount">
+                                <span class="input-group-addon">.00</span>
+                              </div>
+                            </div>
                           </div>
+
+                          <div class="form-group row">
+                            <div class="col-md-10">
+
+                              <label>
+                                <i class="mdi mdi-percent text-primary disabled"></i>
+                                Rate
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <input type="text" class="form-control" id="rate" [(ngModel)]="selectedTransaction.rate"
+                                       (keyup)="updateCalculatedAmount()"
+                                       [disabled]="!can_modify_rate"
+                                       name="rate"
+                                       aria-label="Amount (to the nearest dollar)">
+                                <span class="input-group-addon disabled">/ {{selectedTransaction.buying_product_id | currency }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-md-10">
+
+                              <label>
+                                <i class="mdi mdi-percent text-primary disabled"></i>
+                                Calculated Amount
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <input type="text" class="form-control" id="calculated_amount" disabled
+                                       [ngModel]="selectedTransaction.calculated_amount"
+                                       name="calculated_amount"
+                                       aria-label="Amount (to the nearest dollar)">
+                                <span class="input-group-addon disabled">.00</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-md-11">
+
+                              <label>
+                                <i class="mdi mdi-comment text-success disabled"></i>
+                                Comment
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <textarea *ngIf="can_comment" class="form-control" name="comment" [(ngModel)]="selectedTransaction.comment" rows="2"></textarea>
+                            </div>
+                          </div>
+
                         </div>
-
                       </div>
+
+                      <button type="submit" *ngIf="!no_action" class="btn btn-success btn-secondary">{{ nextSubmitText }}</button>
                     </div>
-
-                    <app-request-transaction></app-request-transaction>
-
-
-                    <a href="#" class="btn btn-inverse">Go somewhere</a>
-
-
                   </div>
                 </div>
-              </div>
-
+              </form>
             </div>
           </div>
-        </div>
-        <!--timeline tab-->
-        <div class="tab-pane" id="home" role="tabpanel">
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab>
+        <ng-template ngbTabTitle><b>Timeline</b></ng-template>
+        <ng-template ngbTabContent>
           <div class="card-body">
             <div class="profiletimeline">
-              <div class="sl-item">
-                <div class="sl-left"><img src="assets/images/users/1.jpg" alt="user" class="img-circle"/></div>
-                <div class="sl-right">
-                  <div>
-                    <a href="#" class="link">John Doe</a>
-                    <span class="sl-date">5 minutes ago</span>
-                    <p>assign a new task
-                      <a href="#"> Design weblayout</a>
-                    </p>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-6 m-b-20"><img src="assets/images/big/img1.jpg"
-                                                                 class="img-responsive radius"/></div>
-                      <div class="col-lg-3 col-md-6 m-b-20"><img src="assets/images/big/img2.jpg"
-                                                                 class="img-responsive radius"/></div>
-                      <div class="col-lg-3 col-md-6 m-b-20"><img src="assets/images/big/img3.jpg"
-                                                                 class="img-responsive radius"/></div>
-                      <div class="col-lg-3 col-md-6 m-b-20"><img src="assets/images/big/img4.jpg"
-                                                                 class="img-responsive radius"/></div>
-                    </div>
-                    <div class="like-comm">
-                      <a href="javascript:void(0)" class="link m-r-11">2 comment</a>
-                      <a
-                        href="javascript:void(0)" class="link m-r-11">
-                        <i class="fa fa-heart text-danger"></i>
-                        5 Love
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div class="sl-item">
-                <div class="sl-left"><img src="assets/images/users/2.jpg" alt="user" class="img-circle"/></div>
-                <div class="sl-right">
-                  <div>
-                    <a href="#" class="link">John Doe</a>
-                    <span class="sl-date">5 minutes ago</span>
-                    <div class="m-t-20 row">
-                      <div class="col-md-3 col-xs-11"><img src="assets/images/big/img1.jpg" alt="user"
-                                                           class="img-responsive radius"/></div>
-                      <div class="col-md-9 col-xs-11">
-                        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.
-                          Sed cursus ante dapibus diam. </p>
-                        <a href="#" class="btn btn-success"> Design weblayout</a>
-                      </div>
-                    </div>
-                    <div class="like-comm m-t-20">
-                      <a href="javascript:void(0)" class="link m-r-11">2 comment</a>
-                      <a
-                        href="javascript:void(0)" class="link m-r-11">
-                        <i class="fa fa-heart text-danger"></i>
-                        5 Love
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <div class="sl-item">
+              <div class="sl-item" *ngFor="let event of selectedTransaction.events">
                 <div class="sl-left"><img src="assets/images/users/3.jpg" alt="user" class="img-circle"/></div>
                 <div class="sl-right">
                   <div>
-                    <a href="#" class="link">John Doe</a>
-                    <span class="sl-date">5 minutes ago</span>
-                    <p class="m-t-11"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-                      Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
-                      imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper </p>
+                    <a class="link">{{ event.done_by }}</a>
+                    <span class="sl-date">{{ event.done_at | amCalendar:referenceTime:formats }}</span>
+                    <p class="m-t-11"> {{ event.action }} </p>
                   </div>
                   <div class="like-comm m-t-20">
                     <a href="javascript:void(0)" class="link m-r-11">2 comment</a>
-                    <a
-                      href="javascript:void(0)" class="link m-r-11">
+                    <a href="javascript:void(0)" class="link m-r-11">
                       <i class="fa fa-heart text-danger"></i>
                       5 Love
                     </a>
@@ -295,9 +187,11 @@
               </div>
             </div>
           </div>
-        </div>
-        <!--profile tab-->
-        <div class="tab-pane" id="client" role="tabpanel">
+        </ng-template>
+      </ngb-tab>
+
+      <ngb-tab title="Comments" [disabled]="true">
+        <ng-template ngbTabContent>
           <div class="card-body">
             <div class="row">
               <div class="col-md-3 col-xs-6 b-r"><strong>Full Name</strong>
@@ -350,15 +244,18 @@
                    aria-valuemax="100" style="width:70%; height:6px;"><span class="sr-only">50% Complete</span></div>
             </div>
           </div>
-        </div>
-        <!--settings tab-->
-        <div class="tab-pane active" id="advanced" role="tabpanel">
+        </ng-template>
+      </ngb-tab>
+
+
+      <ngb-tab title="Advanced Options">
+        <ng-template ngbTabContent>
           <div class="card-body">
             <form class="form-horizontal form-material">
               <div class="form-group">
                 <label class="col-md-11">Full Name</label>
                 <div class="col-md-11">
-                  <input type="text" placeholder="Johnathan Doe" class="form-control form-control-line">
+                  <input type="text" placeholder="Johnathan Doe" name class="form-control form-control-line">
                 </div>
               </div>
               <div class="form-group">
@@ -405,7 +302,49 @@
               </div>
             </form>
           </div>
+        </ng-template>
+      </ngb-tab>
+
+
+    </ngb-tabset>
+  </div>
+  <!-- Column -->
+
+
+  <!-- Column -->
+  <div class="col-lg-3 col-xlg-2 col-md-5">
+    <div class="card">
+      <div class="card-header">
+        <h6>Client Info</h6>
+      </div>
+      <div class="card-body">
+        <div class="m-t-30 text-center"><img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
+          <h4 class="card-title m-t-11">{{ selectedTransaction?.client?.full_name }}</h4>
+          <div class="row text-center justify-content-md-center">
+            <div class="col-4">
+              <a href="javascript:void(0)" class="link">
+                <i class="icon-wallet"></i>
+                <font
+                  class="font-medium">{{ selectedTransaction?.client?.accounts?.length }}</font></a>
+            </div>
+          </div>
         </div>
+      </div>
+      <div>
+        <hr>
+      </div>
+      <div class="card-body">
+        <small class="text-muted">Email address</small>
+        <h6>{{ selectedTransaction?.client?.email }}</h6>
+        <small class="text-muted p-t-30 db">Phone</small>
+        <h6>{{ selectedTransaction?.client?.phone }}</h6>
+        <small class="text-muted p-t-30 db">Address</small>
+        <h6>{{ selectedTransaction?.client?.office_address }}</h6>
+        <!--<div class="map-box">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470029.1604841957!2d72.29955005258641!3d23.019996818380896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e848aba5bd449%3A0x4fcedd11614f6516!2sAhmedabad%2C+Gujarat!5e0!3m2!1sen!2sin!4v1493204785508"
+            width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>-->
       </div>
     </div>
   </div>
