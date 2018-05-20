@@ -1,12 +1,11 @@
-import {Injectable, ViewContainerRef} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 
-import {MessageService} from './message.service';
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
-import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
+import {forEach} from '@angular/router/src/utils/collection';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -19,8 +18,7 @@ export class HttpErrorHandler {
   createHandleError = (serviceName = '') => <T>
   (operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result);
 
-  constructor(private messageService: MessageService, private toastr: ToastsManager, vcr: ViewContainerRef) {
-    this.toastr.setRootViewContainerRef(vcr);
+  constructor(private toastr: ToastsManager) {
   }
 
   /**
@@ -33,7 +31,16 @@ export class HttpErrorHandler {
   handleError<T>(serviceName = '', operation = 'operation', result = {} as T) {
 
     return (error: HttpErrorResponse): Observable<T> => {
-      const message = (error.error instanceof ErrorEvent || ProgressEvent) ? error.statusText : `${error.error.message}`;
+      let message: string;
+
+      // todo - Handle 422
+
+      if (error.error instanceof ErrorEvent || ProgressEvent) {
+        console.error(error);
+        message = error.statusText;
+      } else {
+        message = `${error.error.message}`;
+      }
 
       // TODO: better job of transforming error for user consumption
       // this.messageService.add(`${serviceName}: ${operation} failed: ${message}`);
