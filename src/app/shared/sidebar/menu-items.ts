@@ -1,7 +1,8 @@
 import {RouteInfo} from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
-  {
+
+  /*{
     path: '', title: 'Dashboards', icon: 'mdi mdi-gauge', class: 'has-arrow', label: '', labelClass: '', extralink: false,
     submenu: [
       {path: '/dashboard/dashboard1', title: 'Modern', icon: '', class: '', label: '', labelClass: '', extralink: false, submenu: []},
@@ -233,7 +234,40 @@ export const ROUTES: RouteInfo[] = [
         ]
       },
     ]
-  }
+  },*/
+
+  {
+    path: '/me/dashboard', title: 'Dashboard', icon: 'mdi mdi-gauge', class: '', label: '', labelClass: '', extralink: false,
+    submenu: []
+  },
+
+  {
+    path: '', title: 'Transactions', icon: 'mdi mdi-receipt', class: 'has-arrow', label: '', labelClass: '', extralink: false,
+    submenu: [
+      {path: '/me/transaction', title: 'My Transactions', icon: '', class: '', label: '', labelClass: '', extralink: false, submenu: []},
+      {
+        path: '/me/transaction/request',
+        title: 'Request Transaction',
+        icon: '',
+        class: '',
+        label: '',
+        labelClass: '',
+        extralink: false,
+        submenu: []
+      },
+    ]
+  },
+
+  {
+    path: '/me/profile',
+    title: 'Settings',
+    icon: 'mdi mdi-account-settings-variant',
+    class: '',
+    label: '',
+    labelClass: '',
+    extralink: false,
+    submenu: []
+  },
 
 ];
 

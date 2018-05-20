@@ -1,17 +1,20 @@
-import {Component, AfterViewInit} from '@angular/core';
+import {Component, AfterViewInit, OnInit} from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbPanelChangeEvent, NgbCarouselConfig} from '@ng-bootstrap/ng-bootstrap';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import {AuthService} from '../../services/auth/auth.service';
+import {Observable} from 'rxjs/Observable';
 
 declare var $: any;
 
 @Component({
-  selector: 'ap-navigation',
+  selector: 'app-navigation',
   styleUrls: ['./navigation.component.css'],
   templateUrl: './navigation.component.html'
 })
-export class NavigationComponent implements AfterViewInit {
+export class NavigationComponent implements AfterViewInit, OnInit {
   name: string;
   public config: PerfectScrollbarConfigInterface = {};
+
   // This is for Notifications
   notifications: Object[] = [{
     round: 'round-danger',
@@ -38,8 +41,9 @@ export class NavigationComponent implements AfterViewInit {
     subject: 'Just see the my admin!',
     time: '9:00 AM'
   }];
-  // This is for Mymessages
-  mymessages: Object[] = [{
+
+  // This is for My messages
+  myMessages: Object[] = [{
     useravatar: 'assets/images/users/1.jpg',
     status: 'online',
     from: 'Pavan kumar',
@@ -65,12 +69,13 @@ export class NavigationComponent implements AfterViewInit {
     time: '9:00 AM'
   }];
 
-  constructor(private modalService: NgbModal) {
+  isLoggedIn$: Observable<boolean>;
+
+  constructor(private modalService: NgbModal, private authService: AuthService) {
 
   }
 
   ngAfterViewInit() {
-
     const set = function () {
       const width = (window.innerWidth > 0) ? window.innerWidth : this.screen.width;
       const topOffset = 0;
@@ -90,5 +95,13 @@ export class NavigationComponent implements AfterViewInit {
 
 
     $('body').trigger('resize');
+  }
+
+  ngOnInit() {
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

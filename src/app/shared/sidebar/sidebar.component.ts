@@ -1,4 +1,4 @@
-import {Component, AfterViewInit, OnInit} from '@angular/core';
+import {Component, AfterViewInit, OnInit, Input} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ROUTES} from './menu-items';
 import {RouteInfo} from './sidebar.metadata';
@@ -7,23 +7,23 @@ import {Router, ActivatedRoute} from '@angular/router';
 declare var $: any;
 
 @Component({
-  selector: 'ap-sidebar',
+  selector: 'app-sidebar',
   templateUrl: './sidebar.component.html'
 
 })
 export class SidebarComponent implements OnInit {
 
 
-  showMenu: string = '';
-  showSubMenu: string = '';
-  public sidebarnavItems: any[];
+  showMenu: String = '';
+  showSubMenu: String = '';
+  @Input() public sidebarnavItems: any[];
 
   constructor(private modalService: NgbModal, private router: Router,
               private route: ActivatedRoute) {
 
   }
 
-  //this is for the open close
+  // this is for the open close
   addExpandClass(element: any) {
     if (element === this.showMenu) {
       this.showMenu = '0';

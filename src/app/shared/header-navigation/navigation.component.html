@@ -30,30 +30,41 @@
       <!-- toggle and nav items -->
       <!-- ============================================================== -->
       <ul class="navbar-nav mr-auto mt-md-0">
-        <li class="nav-item m-l-10"><a class="nav-link sidebartoggler hidden-lg-up text-muted waves-effect waves-dark"
-                                       href="javascript:void(0)"><i class="ti-menu"></i></a></li>
+        <li class="nav-item m-l-10">
+          <a class="nav-link sidebartoggler hidden-lg-up text-muted waves-effect waves-dark"
+             href="javascript:void(0)">
+            <i class="ti-menu"></i>
+          </a>
+        </li>
       </ul>
       <!-- ============================================================== -->
       <!-- User profile and search -->
       <!-- ============================================================== -->
       <ul class="navbar-nav my-lg-0">
+
         <!-- ============================================================== -->
         <!-- Search -->
         <!-- ============================================================== -->
-        <li class="nav-item hidden-sm-down search-box"><a
-          class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i
-          class="ti-search"></i></a>
+        <li class="nav-item hidden-sm-down search-box" *ngIf="isLoggedIn$ | async">
+          <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)">
+            <i class="ti-search"></i>
+          </a>
           <form class="app-search">
-            <input type="text" class="form-control" placeholder="Search & enter"> <a class="srh-btn"><i
-            class="ti-close"></i></a></form>
+            <input type="text" class="form-control" placeholder="Search & enter">
+            <a class="srh-btn">
+              <i class="ti-close"></i>
+            </a>
+          </form>
         </li>
         <!-- ============================================================== -->
         <!-- End Search -->
         <!-- ============================================================== -->
+
+
         <!-- ============================================================== -->
         <!-- Comment -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown>
+        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
           <a ngbDropdownToggle class="nav-link text-muted text-muted waves-effect waves-dark" href="javascript:void(0)">
             <i class="mdi mdi-message"></i>
             <div class="notify"><span class="heartbit"></span> <span class="point"></span></div>
@@ -67,7 +78,9 @@
                 <div class="message-center" [perfectScrollbar]="config">
                   <!-- Message -->
                   <a href="#" *ngFor="let notification of notifications">
-                    <div class="round {{notification.round}}"><i class="{{notification.icon}}"></i></div>
+                    <div class="round {{notification.round}}">
+                      <i class="{{notification.icon}}"></i>
+                    </div>
                     <div class="mail-contnet">
                       <h5>{{notification.title}}</h5> <span class="mail-desc">{{notification.subject}}</span> <span
                       class="time">{{notification.time}}</span>
@@ -76,8 +89,10 @@
                 </div>
               </li>
               <li>
-                <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i
-                  class="fa fa-angle-right"></i> </a>
+                <a class="nav-link text-center" href="javascript:void(0);"><strong>Check all notifications</strong>
+                  <i
+                    class="fa fa-angle-right"></i>
+                </a>
               </li>
             </ul>
           </div>
@@ -85,13 +100,18 @@
         <!-- ============================================================== -->
         <!-- End Comment -->
         <!-- ============================================================== -->
+
+
         <!-- ============================================================== -->
         <!-- Messages -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown>
-          <a ngbDropdownToggle class="nav-link text-muted waves-effect waves-dark" href="javascript:void(0)"> <i
-            class="mdi mdi-email"></i>
-            <div class="notify"><span class="heartbit"></span> <span class="point"></span></div>
+        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
+          <a ngbDropdownToggle class="nav-link text-muted waves-effect waves-dark" href="javascript:void(0)">
+            <i
+              class="mdi mdi-email"></i>
+            <div class="notify"><span class="heartbit"></span>
+              <span class="point"></span>
+            </div>
           </a>
           <div class="dropdown-menu dropdown-menu-right mailbox animated slideInDown" ngbDropdownMenu>
             <ul>
@@ -100,7 +120,7 @@
               </li>
               <li>
                 <div class="message-center" [perfectScrollbar]="config">
-                  <a href="#" *ngFor="let mymessage of mymessages">
+                  <a href="#" *ngFor="let mymessage of myMessages">
                     <div class="user-img"><img src="{{mymessage.useravatar}}" alt="user" class="img-circle" width="40">
                       <span class="profile-status {{mymessage.status}} pull-right"></span>
                     </div>
@@ -113,8 +133,10 @@
                 </div>
               </li>
               <li>
-                <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i
-                  class="fa fa-angle-right"></i> </a>
+                <a class="nav-link text-center" href="javascript:void(0);"><strong>See all e-Mails</strong>
+                  <i
+                    class="fa fa-angle-right"></i>
+                </a>
               </li>
             </ul>
           </div>
@@ -122,105 +144,36 @@
         <!-- ============================================================== -->
         <!-- End Messages -->
         <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Messages -->
-        <!-- ============================================================== -->
+
+
+        <li class="nav-item">
+          <a [routerLink]="'/login'" class="nav-link text-muted waves-effect waves-dark">
+            <i class="mdi mdi-login"></i>
+          </a>
+        </li>
+
+
+        <li class="nav-item">
+          <a [routerLink]="'/signup'" class="nav-link text-muted waves-effect waves-dark">
+            <i class="mdi mdi-account"></i>
+          </a>
+        </li>
+
+
         <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false"><a ngbDropdownToggle
                                                                                        class="nav-link text-muted waves-effect waves-dark"
                                                                                        href="javascript:void(0)"><i
           class="mdi mdi-view-grid"></i></a>
           <div class="dropdown-menu animated slideInDown" ngbDropdownMenu>
-            <ul class="mega-dropdown-menu row">
-              <li class="col-lg-3 col-xlg-2 m-b-30">
-                <h4 class="m-b-20">CAROUSEL</h4>
-                <!-- CAROUSEL -->
-                <ngb-carousel>
-                  <ng-template ngbSlide>
-                    <img src="assets/images/big/img1.jpg" class="img-responsive" alt="Random first slide">
-                    <div class="carousel-caption">
-                      <h3 class="text-white font-bold">First slide label</h3>
-
-                    </div>
-                  </ng-template>
-                  <ng-template ngbSlide>
-                    <img src="assets/images/big/img2.jpg" class="img-responsive" alt="Random second slide">
-                    <div class="carousel-caption">
-                      <h3 class="text-white font-bold">Second slide label</h3>
-
-                    </div>
-                  </ng-template>
-                  <ng-template ngbSlide>
-                    <img src="assets/images/big/img3.jpg" class="img-responsive" alt="Random third slide">
-                    <div class="carousel-caption">
-                      <h3 class="text-white font-bold">Third slide label</h3>
-
-                    </div>
-                  </ng-template>
-                </ngb-carousel>
-                <!-- End CAROUSEL -->
-
-              </li>
-              <li class="col-lg-3 m-b-30">
-                <h4 class="m-b-20">ACCORDION</h4>
-                <!-- Accordian -->
-                <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0" class="accordion nav-accordion">
-                  <ngb-panel title="Simple">
-                    <ng-template ngbPanelContent>
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                    </ng-template>
-                  </ngb-panel>
-                  <ngb-panel>
-                    <ng-template ngbPanelTitle>
-                      <span>&#9733; <b>Fancy</b> title &#9733;</span>
-                    </ng-template>
-                    <ng-template ngbPanelContent>
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                    </ng-template>
-                  </ngb-panel>
-                  <ngb-panel title="Disabled" [disabled]="true">
-                    <ng-template ngbPanelContent>
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                    </ng-template>
-                  </ngb-panel>
-                </ngb-accordion>
-              </li>
-
-
-              <li class="col-lg-3  m-b-30">
-                <h4 class="m-b-20">CONTACT US</h4>
-                <!-- Contact -->
-                <form>
-                  <div class="form-group">
-                    <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name"></div>
-                  <div class="form-group">
-                    <input type="email" class="form-control" placeholder="Enter email"></div>
-                  <div class="form-group">
-                    <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
-                  </div>
-                  <button type="submit" class="btn btn-info">Submit</button>
-                </form>
-              </li>
-              <li class="col-lg-3 col-xlg-4 m-b-30">
-                <h4 class="m-b-20">List style</h4>
-                <!-- List style -->
-                <ul class="list-style-none">
-                  <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> You can give link</a></li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Give link</a></li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another Give link</a></li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Forth link</a></li>
-                  <li><a href="javascript:void(0)"><i class="fa fa-check text-success"></i> Another fifth link</a></li>
-                </ul>
-              </li>
-            </ul>
+            <app-express-transaction></app-express-transaction>
           </div>
         </li>
-        <!-- ============================================================== -->
-        <!-- End Messages -->
-        <!-- ============================================================== -->
+
+
         <!-- ============================================================== -->
         <!-- Profile -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown placement="bottom-right">
+        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
           <a ngbDropdownToggle class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
              href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
             src="assets/images/users/1.jpg" alt="user" class="profile-pic"/></a>
@@ -243,7 +196,14 @@
               <li role="separator" class="divider"></li>
               <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="#"><i class="fa fa-power-off"></i> Logout</a></li>
+              <li>
+                <a href (ng-click)="logout()">
+                  <i class="fa fa-power-off">
+
+                  </i>
+                  Logout
+                </a>
+              </li>
             </ul>
           </div>
         </li>
