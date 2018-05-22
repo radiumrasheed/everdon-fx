@@ -4,7 +4,6 @@ import {CommonModule} from '@angular/common';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {NotFoundComponent} from './404/not-found.component';
 import {LockComponent} from './lock/lock.component';
 import {Signup2Component} from './signup2/signup2.component';
 
@@ -18,7 +17,6 @@ import {AuthenticationRoutes} from './authentication.routing';
     NgbModule
   ],
   declarations: [
-    NotFoundComponent,
     LockComponent,
     Signup2Component
   ]
