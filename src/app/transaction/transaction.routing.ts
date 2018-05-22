@@ -8,8 +8,9 @@ export const TransactionRoutes: Routes = [
   {
     path: '',
     children: [
+      {path: '', redirectTo: 'list', pathMatch: 'full'},
       {
-        path: '',
+        path: 'list',
         component: ListTransactionsComponent,
         data: {
           title: 'All Transactions',

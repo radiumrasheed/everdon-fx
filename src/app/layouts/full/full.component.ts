@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 @Component({
-  selector: 'full-layout',
+  selector: 'app-full-layout',
   templateUrl: './full.component.html',
   styleUrls: ['./full.component.scss']
 })
@@ -23,9 +23,10 @@ export class FullComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.router.url === '/') {
-      this.router.navigate(['/dashboard/dashboard1']);
-    }
+    // todo Add Signed In condition...
+    /*if (this.router.url === '/') {
+      this.router.navigate(['/me/dashboard']);
+    }*/
   }
 
 }

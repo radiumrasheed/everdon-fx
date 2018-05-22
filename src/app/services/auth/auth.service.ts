@@ -14,16 +14,18 @@ import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../http-error-handler.service';
 import {Product} from '../../transaction/transaction';
 import {catchError, map, tap} from 'rxjs/operators';
+import {User} from '../../authentication/login/user';
 
 
 export const TOKEN_NAME = 'jwt_token';
-export const ROLE_TOKEN_NAME = 'role_token';
+export const ROLE_TOKEN_NAME = 'o8gb!zx4';
 export const ADMIN_ROLES = ['systems-admin', 'fx-ops', 'fx-ops-lead', 'fx-ops-manager', 'treasury-ops'];
+export const CLIENT_ROLES = ['client'];
 
 
 @Injectable()
 export class AuthService {
-  redirectUrl: string;
+  public redirectUrl: string;
   private url = AppConfig.API_URL;
   private headers = new Headers({'Content-Type': 'application/json'});
   private readonly handleError: HandleError;
@@ -36,14 +38,21 @@ export class AuthService {
   }
 
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
-  private _roles = new BehaviorSubject<any>([]);
 
   get isLoggedIn() {
     return this._isLoggedIn.asObservable();
   }
 
+  private _roles = new BehaviorSubject<any>([]);
+
   get roles() {
     return this._roles.asObservable();
+  }
+
+  public _user = new BehaviorSubject<any>({});
+
+  get user() {
+    return this._user.asObservable();
   }
 
   static getToken(): string {
@@ -60,6 +69,10 @@ export class AuthService {
 
   private static setRoleToken(token: string): void {
     localStorage.setItem(ROLE_TOKEN_NAME, 'Bearer ' + token);
+  }
+
+  private static setUser(user: User): void {
+    localStorage.setItem('user$', user);
   }
 
   private static removeTokens(): void {
@@ -89,6 +102,7 @@ export class AuthService {
     return decoded;
   }
 
+
   // Check if token is not expired...
   tokenNotExpired(token?: string): boolean {
     if (!token) {
@@ -107,8 +121,9 @@ export class AuthService {
     return token_date.valueOf() > new Date().valueOf();
   }
 
-  // Check if role token is not expired...
-  roleTokenNotExpired(token?: string): boolean {
+
+  // Check if admin token is not expired...
+  adminTokenNotExpired(token?: string): boolean {
     if (!token) {
       token = AuthService.getRoleToken();
     }
@@ -122,25 +137,56 @@ export class AuthService {
     }
 
     const roles = _.split(tokenPayload['roles'], '|');
-
     this._roles.next(roles);
-
     const allowed_roles = _.intersection(roles, ADMIN_ROLES);
 
+    if (allowed_roles.length > 0) {
+      this._isLoggedIn.next(true);
+      return true;
+    }
 
-    this._isLoggedIn.next(true);
-    return allowed_roles.length >= 0;
+    return false;
+  }
+
+
+  // Check if client token is not expired...
+  clientTokenNotExpired(token?: string): boolean {
+    if (!token) {
+      token = AuthService.getRoleToken();
+    }
+    if (!token) {
+      return false;
+    }
+
+    const tokenPayload = AuthService.getDecodedToken(token);
+    if (tokenPayload === undefined) {
+      return false;
+    }
+
+    const roles = _.split(tokenPayload['roles'], '|');
+    this._roles.next(roles);
+    const allowed_roles = _.intersection(roles, CLIENT_ROLES);
+
+
+    if (allowed_roles.length > 0) {
+      this._isLoggedIn.next(true);
+      return true;
+    }
+
+    return false;
   }
 
 
   // Login User...
   login(user): Observable<any> {
     return this._http
-      .post(`${this.url}/login`, user)
+      .post(`${this.url}/auth/login`, user)
       .pipe(
-        map(response => response['data']['token']),
-        tap(token => {
-          AuthService.setToken(token);
+        map(response => response['data']),
+        tap(data => {
+          AuthService.setToken(data['token']);
+          AuthService.setRoleToken(data['_token']);
+          this._user.next({a: 'a'});
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Login', null))
@@ -157,7 +203,7 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-
+          this._user.next(true);
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Admin Login', null))
@@ -168,7 +214,7 @@ export class AuthService {
   // Sign Up User...
   signUp(user): Observable<any> {
     return this._http
-      .post(`${this.url}/signup/client`, user)
+      .post(`${this.url}/auth/signup`, user)
       .pipe(
         map(response => response['data']['token']),
         tap(token => {

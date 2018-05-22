@@ -1,9 +1,9 @@
 export class Client {
-  bvn: number;
-  client_type: number;
-  created_at: string;
+  bvn?: number;
+  client_type?: number;
+  created_at?: string;
   date_of_birth: string;
-  email: string;
+  email?: string;
   full_name: string;
   id: number;
   marital_status: string;
@@ -17,7 +17,13 @@ export class Client {
   referee_3: string;
   referee_4: string;
   residential_address: string;
-  updated_at: string;
+  updated_at?: string;
+}
+
+class User {
+  id?: string;
+  name?: string;
+  email?: string;
 }
 
 export class Event {
@@ -25,7 +31,7 @@ export class Event {
   amount: number;
   created_at: string;
   done_at: string;
-  done_by: number;
+  done_by: User;
   id: number;
   rate: number;
   transaction_id: number;
@@ -43,7 +49,6 @@ export class Account {
   bank?: string;
   bvn?: string;
 }
-
 
 export class Product {
   id?: number;
@@ -80,12 +85,30 @@ export class Transaction {
   transaction_status_id?: number;
   transaction_type_id?: number;
   updated_at?: string;
+  condition?: string;
+}
+
+export class Organization {
+  id?: number;
+  name?: string;
+  account_name?: string;
+  account_number?: string;
+  bank_name?: string;
+  created_at?: string;
+  updated_at?: string;
+
 }
 
 
-export const CURRENCY_LIST: Product[] = [
+export const CURRENCIES: Product[] = [
   {id: 1, name: 'USD', value: 'usd', description: 'US Dollar', sign: '$'},
   {id: 2, name: 'EUR', value: 'eur', description: 'Euro', sign: '€'},
   {id: 3, name: 'GBP', value: 'gbp', description: 'British pounds', sign: '£'},
   {id: 4, name: 'NGN', value: 'ngn', description: 'Nigerian Naira', sign: '₦'}
 ];
+
+export const ORGANIZATIONS: Organization[] = [
+  {id: 1, name: 'VFD Groups', account_name: 'Internals', account_number: '0101020102'},
+  {id: 2, name: 'Germaine Motors', account_name: 'Sister', account_number: '88283047203'}
+];
+

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
-import {CURRENCY_LIST, Transaction} from '../transaction';
+import {CURRENCIES, ORGANIZATIONS, Transaction} from '../transaction';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../../services/auth/auth.service';
@@ -16,7 +16,8 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class TransactionDetailsComponent implements OnInit {
   public selectedTransaction: Transaction;
-  public currencyList = CURRENCY_LIST;
+  public currencyList = CURRENCIES;
+  public organizationList = ORGANIZATIONS;
   id: string;
 
   roles$: Observable<any>;
@@ -84,18 +85,22 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   getTransactionLogic() {
+    if (!this.selectedTransaction) {
+      return;
+    }
+
     switch (this.selectedTransaction.transaction_status_id) {
       case 1:
         this.nextActionText = 'Treat Transaction';
-        this.nextSubmitText = 'Update Rate';
+        this.nextSubmitText = 'Update Rate & Treat';
         this.can_modify_rate = true;
         this.can_comment = true;
         this.can_be_treated = true;
         break;
 
       case 2:
-        this.nextActionText = '...';
-        this.nextSubmitText = '...';
+        this.nextActionText = 'Approve Transaction';
+        this.nextSubmitText = 'Update & Approve';
         this.can_comment = true;
         break;
 
@@ -115,6 +120,8 @@ export class TransactionDetailsComponent implements OnInit {
 
       case 5:
         this.no_action = true;
+        this.nextActionText = 'No Action';
+        this.nextSubmitText = 'No Action';
         break;
 
       default:

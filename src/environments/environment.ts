@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  // API_URL: 'http://localhost:8000/api'
-  API_URL: 'http://192.168.0.100:8000/api'
+  API_URL: 'http://localhost:8000/api'
+  // API_URL: 'http://192.168.0.101:8000/api'
 };

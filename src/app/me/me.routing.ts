@@ -31,7 +31,7 @@ export const MeRoutes: Routes = [
         loadChildren: '../transaction/transaction.module#TransactionModule',
         data: {
           title: 'Transactions',
-          urls: [{title: 'Me', url: '/me'}, {title: 'Transaction'}]
+          urls: [{title: 'Me', url: '/me'}, {title: 'Transactions'}]
         }
       },
     ]

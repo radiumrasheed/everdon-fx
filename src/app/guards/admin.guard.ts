@@ -12,7 +12,7 @@ export class AdminGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const url: string = state.url;
 
-    if (this.auth.roleTokenNotExpired() && this.auth.isLoggedIn) {
+    if (this.auth.adminTokenNotExpired()) {
       return true;
     }
 

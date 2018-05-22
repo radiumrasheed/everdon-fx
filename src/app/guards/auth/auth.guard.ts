@@ -23,16 +23,14 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.tokenNotExpired() && this.authService.isLoggedIn) {
+    if (this.authService.clientTokenNotExpired()) {
       return true;
     }
 
     // store the attempted URL for redirecting
     this.authService.redirectUrl = url;
 
-    this.router.navigate([
-      '/login'
-    ]);
+    this.router.navigate(['/login']);
 
     return false;
   }

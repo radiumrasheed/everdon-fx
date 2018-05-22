@@ -1,5 +1,7 @@
 import {Component, OnInit, AfterViewInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {AuthService} from '../../services/auth/auth.service';
+import {User} from '../login/user';
 
 @Component({
   selector: 'app-login',
@@ -8,7 +10,9 @@ import {Router} from '@angular/router';
 })
 export class Login2Component implements OnInit, AfterViewInit {
 
-  constructor(public router: Router) {
+  public user: User = new User();
+
+  constructor(public router: Router, public authService: AuthService) {
   }
 
   ngOnInit() {
@@ -25,4 +29,17 @@ export class Login2Component implements OnInit, AfterViewInit {
     });
   }
 
+  login() {
+    this.authService.adminLogin(this.user)
+      .subscribe(() => {
+        if (this.authService.tokenNotExpired()) {
+          // redirect the staff
+          this.router.navigate(['/admin', 'dashboard']);
+        }
+      });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }

@@ -45,7 +45,7 @@
         <!-- ============================================================== -->
         <!-- Search -->
         <!-- ============================================================== -->
-        <li class="nav-item hidden-sm-down search-box" *ngIf="isLoggedIn$ | async">
+        <!--<li class="nav-item hidden-sm-down search-box" *ngIf="isLoggedIn$ | async">
           <a class="nav-link hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)">
             <i class="ti-search"></i>
           </a>
@@ -55,7 +55,7 @@
               <i class="ti-close"></i>
             </a>
           </form>
-        </li>
+        </li>-->
         <!-- ============================================================== -->
         <!-- End Search -->
         <!-- ============================================================== -->
@@ -64,7 +64,7 @@
         <!-- ============================================================== -->
         <!-- Comment -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
+        <!--<li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
           <a ngbDropdownToggle class="nav-link text-muted text-muted waves-effect waves-dark" href="javascript:void(0)">
             <i class="mdi mdi-message"></i>
             <div class="notify"><span class="heartbit"></span> <span class="point"></span></div>
@@ -76,7 +76,7 @@
               </li>
               <li>
                 <div class="message-center" [perfectScrollbar]="config">
-                  <!-- Message -->
+                  &lt;!&ndash; Message &ndash;&gt;
                   <a href="#" *ngFor="let notification of notifications">
                     <div class="round {{notification.round}}">
                       <i class="{{notification.icon}}"></i>
@@ -96,7 +96,7 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li>-->
         <!-- ============================================================== -->
         <!-- End Comment -->
         <!-- ============================================================== -->
@@ -105,7 +105,7 @@
         <!-- ============================================================== -->
         <!-- Messages -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
+        <!--<li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
           <a ngbDropdownToggle class="nav-link text-muted waves-effect waves-dark" href="javascript:void(0)">
             <i
               class="mdi mdi-email"></i>
@@ -140,30 +140,33 @@
               </li>
             </ul>
           </div>
-        </li>
+        </li>-->
         <!-- ============================================================== -->
         <!-- End Messages -->
         <!-- ============================================================== -->
 
 
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
           <a [routerLink]="'/login'" class="nav-link text-muted waves-effect waves-dark">
-            <i class="mdi mdi-login"></i>
+            <!--<i class="mdi mdi-login"></i>-->
+            Login
           </a>
         </li>
 
 
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="!(isLoggedIn$ | async)">
           <a [routerLink]="'/signup'" class="nav-link text-muted waves-effect waves-dark">
-            <i class="mdi mdi-account"></i>
+            <!--<i class="mdi mdi-account"></i>-->
+            Signup
           </a>
         </li>
 
 
-        <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false"><a ngbDropdownToggle
-                                                                                       class="nav-link text-muted waves-effect waves-dark"
-                                                                                       href="javascript:void(0)"><i
-          class="mdi mdi-view-grid"></i></a>
+        <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false">
+          <a ngbDropdownToggle class="nav-link text-muted waves-effect" href="javascript:void(0)">
+            <!--<i class="mdi mdi-view-grid"></i>-->
+            Quick Transaction
+          </a>
           <div class="dropdown-menu animated slideInDown" ngbDropdownMenu>
             <app-express-transaction></app-express-transaction>
           </div>
@@ -173,34 +176,55 @@
         <!-- ============================================================== -->
         <!-- Profile -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async">
+        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async as isLoggedIn">
           <a ngbDropdownToggle class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
-             href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img
-            src="assets/images/users/1.jpg" alt="user" class="profile-pic"/></a>
+             href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"/>
+          </a>
           <div class="dropdown-menu dropdown-menu-right animated slideInDown" ngbDropdownMenu>
-            <ul class="dropdown-user">
+            <ul class="dropdown-user" *ngIf="roles$ | async as roles">
               <li>
                 <div class="dw-user-box">
                   <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
                   <div class="u-text">
-                    <h4>Steave Jobs</h4>
-                    <p class="text-muted">varun@gmail.com</p><a href="pages-profile.html"
-                                                                class="btn btn-rounded btn-danger btn-sm">View
-                    Profile</a></div>
+                    <h4>{{ user?.name }}</h4>
+                    <p class="text-muted">{{ roles | json }}</p>
+                    <a href="javascript:void(0)" [routerLink]="roles === '[client]' ? ['/me/profile'] : ['/admin/profile']"
+                       class="btn btn-rounded btn-danger btn-sm">View Profile
+                    </a>
+                  </div>
                 </div>
               </li>
               <li role="separator" class="divider"></li>
-              <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
-              <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
-              <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="ti-user"></i>
+                  My Profile
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="ti-wallet"></i>
+                  My Balance
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)">
+                  <i class="ti-email"></i>
+                  Inbox
+                </a>
+              </li>
               <li role="separator" class="divider"></li>
               <li>
-                <a href (ng-click)="logout()">
-                  <i class="fa fa-power-off">
-
-                  </i>
+                <a href="javascript:void(0)">
+                  <i class="ti-settings"></i>
+                  Account Setting
+                </a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li>
+                <a href="javascript:void(0)" (click)="logout()">
+                  <i class="ti-power-off"></i>
                   Logout
                 </a>
               </li>

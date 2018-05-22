@@ -56,6 +56,26 @@ import {ActivityComponent} from './dashboard-components/activity-timeline/activi
     FeedsComponent,
     EarningComponent,
     ActivityComponent
+  ],
+  exports: [
+    Dashboard1Component,
+    Dashboard2Component,
+    Dashboard3Component,
+    IncomeCounterComponent,
+    ProjectCounterComponent,
+    ProjectComponent,
+    RecentcommentComponent,
+    RecentmessageComponent,
+    SocialSliderComponent,
+    TodoComponent,
+    ProfileComponent,
+    PageAnalyzerComponent,
+    WidgetComponent,
+    CustomerSupportComponent,
+    TotalEarningComponent,
+    FeedsComponent,
+    EarningComponent,
+    ActivityComponent
   ]
 })
 export class DashboardModule {

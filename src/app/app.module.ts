@@ -29,6 +29,7 @@ import {AuthGuard} from './guards/auth/auth.guard';
 import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
 import {AdminGuard} from './guards/admin.guard';
+import {NotFoundComponent} from './authentication/404/not-found.component';
 
 export class ToastConfig extends ToastOptions {
   showCloseButton = true;
@@ -43,6 +44,7 @@ export class ToastConfig extends ToastOptions {
     LoginComponent,
     Login2Component,
     SignupComponent,
+    NotFoundComponent
   ],
   imports: [
     CommonModule,

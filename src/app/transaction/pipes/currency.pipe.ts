@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import * as _ from 'lodash';
-import {Product, CURRENCY_LIST} from '../transaction';
+import {Product, CURRENCIES} from '../transaction';
 
 @Pipe({
   name: 'currency'
@@ -10,7 +10,7 @@ export class CurrencyPipe implements PipeTransform {
   result: string;
 
   transform(value: any, args?: any): any {
-    this.selectedCurrency = _.find(CURRENCY_LIST, currency => {
+    this.selectedCurrency = _.find(CURRENCIES, currency => {
 
       return currency.id === value;
     });

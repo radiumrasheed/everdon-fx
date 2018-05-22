@@ -1,0 +1,41 @@
+<!-- column -->
+<div class="col-12">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Know Your Customers </h4>
+      <h6 class="card-subtitle">Create and view customers
+      </h6>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Date Updated</th>
+            <th>Phone</th>
+            <th>KYC Status</th>
+            <th>Email</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let client of clients">
+            <td>
+              <a href="javascript:void(0)" [routerLink]="['../client', client.id]">ID #{{ client?.id }}</a>
+            </td>
+            <td>{{ client?.full_name }}</td>
+            <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ client.updated_at | amCalendar }}</span></td>
+            <td>{{ client?.phone }}</td>
+            <td>
+              <div class="label label-table" [ngClass]="{'label-success': client?.client_kyc?.status, 'label-error': !client?.client_kyc?.status }">
+                {{ client?.client_kyc?.status ? 'valid' : 'invalid' }}
+              </div>
+            </td>
+            <td>{{ client.email }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- column -->

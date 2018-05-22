@@ -9,6 +9,7 @@ export const transactionTypes: GenericOption[] = [
   {id: 3, name: 'swap', desc: 'Swap'},
   {id: 4, name: 'refund', desc: 'Refund'},
   {id: 5, name: 'expenses', desc: 'Expenses'},
+  {id: 6, name: 'cross', desc: 'Cross'}
 ];
 
 @Pipe({

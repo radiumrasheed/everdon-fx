@@ -97,7 +97,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success" [disabled]="!expressForm.form.valid">Submit Request</button>
+      <button type="submit" class="btn btn-success" [disabled]="!expressForm.form.valid || submitting">Submit Request</button>
 
       <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
 

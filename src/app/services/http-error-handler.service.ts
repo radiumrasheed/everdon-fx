@@ -30,23 +30,53 @@ export class HttpErrorHandler {
    */
   handleError<T>(serviceName = '', operation = 'operation', result = {} as T) {
 
-    return (error: HttpErrorResponse): Observable<T> => {
+    return (e: HttpErrorResponse): Observable<T> => {
       let message: string;
 
-      // todo - Handle 422
 
-      if (error.error instanceof ErrorEvent || ProgressEvent) {
-        console.error(error);
-        message = error.statusText;
-      } else {
-        message = `${error.error.message}`;
+      // Error throw logic based on API structure
+      switch (true) {
+        case e.error instanceof ErrorEvent: {
+          message = 'instance of error event';
+          break;
+        }
+
+        case e.error instanceof ProgressEvent: {
+          message = 'Server Unavailable';
+          break;
+        }
+
+        case e.status === 422: {
+          for (const error of Object.keys(e.error.errors.message)) {
+            message = e.error.errors.message[error];
+          }
+          break;
+        }
+
+        case 'message' in e.error.errors: {
+          message = e.error.errors.message;
+          break;
+        }
+
+        case 'error' in e.error.errors: {
+          message = e.error.errors.error;
+          break;
+        }
+
+        case 'message' in e.error: {
+          message = e.error.message;
+          break;
+        }
+
+        default: {
+          message = e.message;
+        }
       }
 
-      // TODO: better job of transforming error for user consumption
-      // this.messageService.add(`${serviceName}: ${operation} failed: ${message}`);
 
       // Throw an Error Toast
-      this.toastr.error(message, operation);
+      this.toastr.error(message, operation).catch();
+
 
       // Let the app keep running by returning a safe result.
       return of(result);
