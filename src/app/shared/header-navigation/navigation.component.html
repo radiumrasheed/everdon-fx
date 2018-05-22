@@ -181,7 +181,7 @@
              href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"/>
           </a>
-          <div class="dropdown-menu dropdown-menu-right animated slideInDown" *ngIf="roles$ | async as role" ngbDropdownMenu>
+          <div class="dropdown-menu dropdown-menu-right animated slideInDown" *ngIf="role$ | async as role" ngbDropdownMenu>
             <ul class="dropdown-user">
               <li>
                 <div class="dw-user-box">
