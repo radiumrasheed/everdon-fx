@@ -19,7 +19,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 
   isLoggedIn$: Observable<boolean>;
   user$: Observable<any>;
-  roles$: Observable<any>;
+  role$: Observable<string>;
 
   constructor(private modalService: NgbModal, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
 
@@ -50,7 +50,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.user$ = this.authService.user;
-    this.roles$ = this.authService.roles;
+    this.role$ = this.authService.role;
   }
 
   logout() {

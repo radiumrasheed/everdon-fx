@@ -43,6 +43,12 @@ export class AuthService {
     return this._isLoggedIn.asObservable();
   }
 
+  private _role = new BehaviorSubject<string>('');
+
+  get role() {
+    return this._role.asObservable();
+  }
+
   private _roles = new BehaviorSubject<any>([]);
 
   get roles() {
@@ -135,6 +141,7 @@ export class AuthService {
     const roles = _.split(tokenPayload['roles'], '|');
     this._roles.next(roles);
     const allowed_roles = _.intersection(roles, ADMIN_ROLES);
+    this._role.next('admin');
 
     if (allowed_roles.length > 0) {
       this._isLoggedIn.next(true);
@@ -162,6 +169,7 @@ export class AuthService {
     const roles = _.split(tokenPayload['roles'], '|');
     this._roles.next(roles);
     const allowed_roles = _.intersection(roles, CLIENT_ROLES);
+    this._role.next(roles[0]);
 
 
     if (allowed_roles.length > 0) {

@@ -3,6 +3,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ROUTES} from './menu-items';
 import {RouteInfo} from './sidebar.metadata';
 import {Router, ActivatedRoute} from '@angular/router';
+import {AuthService} from '../../services/auth/auth.service';
+import {Observable} from 'rxjs/Observable';
 
 declare var $: any;
 
@@ -13,12 +15,14 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
 
-
+  role$: Observable<string>;
   showMenu: String = '';
   showSubMenu: String = '';
   @Input() public sidebarnavItems: any[];
 
-  constructor(private modalService: NgbModal, private router: Router,
+  constructor(private modalService: NgbModal,
+              private router: Router,
+              private auth: AuthService,
               private route: ActivatedRoute) {
 
   }
@@ -44,6 +48,8 @@ export class SidebarComponent implements OnInit {
 
   // End open close
   ngOnInit() {
+    this.role$ = this.auth.role;
+
     this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
 
     $(function () {

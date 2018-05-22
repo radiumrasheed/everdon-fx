@@ -13,6 +13,7 @@ export const AdminRoutes: Routes = [
     component: AdminComponent,
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+      {path: 'transactions', redirectTo: 'transaction', pathMatch: 'full'},
       {
         path: 'dashboard',
         component: AdminDashboardComponent,

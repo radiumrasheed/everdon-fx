@@ -165,7 +165,7 @@
         <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false">
           <a ngbDropdownToggle class="nav-link text-muted waves-effect" href="javascript:void(0)">
             <!--<i class="mdi mdi-view-grid"></i>-->
-            Quick Transaction
+            Quick Request
           </a>
           <div class="dropdown-menu animated slideInDown" ngbDropdownMenu>
             <app-express-transaction></app-express-transaction>
@@ -181,15 +181,14 @@
              href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"/>
           </a>
-          <div class="dropdown-menu dropdown-menu-right animated slideInDown" ngbDropdownMenu>
-            <ul class="dropdown-user" *ngIf="roles$ | async as roles">
+          <div class="dropdown-menu dropdown-menu-right animated slideInDown" *ngIf="roles$ | async as role" ngbDropdownMenu>
+            <ul class="dropdown-user">
               <li>
                 <div class="dw-user-box">
                   <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
                   <div class="u-text">
                     <h4>{{ user?.name }}</h4>
-                    <p class="text-muted">{{ roles | json }}</p>
-                    <a href="javascript:void(0)" [routerLink]="roles === '[client]' ? ['/me/profile'] : ['/admin/profile']"
+                    <a href="javascript:void(0)" [routerLink]="role==='admin'?['/admin/profile']:['/me/profile']"
                        class="btn btn-rounded btn-danger btn-sm">View Profile
                     </a>
                   </div>
@@ -197,12 +196,12 @@
               </li>
               <li role="separator" class="divider"></li>
               <li>
-                <a href="javascript:void(0)">
+                <a href="javascript:void(0)" [routerLink]="role==='admin'?['/admin/profile']:['/me/profile']">
                   <i class="ti-user"></i>
                   My Profile
                 </a>
               </li>
-              <li>
+              <!--<li>
                 <a href="javascript:void(0)">
                   <i class="ti-wallet"></i>
                   My Balance
@@ -213,7 +212,7 @@
                   <i class="ti-email"></i>
                   Inbox
                 </a>
-              </li>
+              </li>-->
               <li role="separator" class="divider"></li>
               <li>
                 <a href="javascript:void(0)">
