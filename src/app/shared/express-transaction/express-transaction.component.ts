@@ -25,7 +25,7 @@ export class ExpressTransactionComponent implements OnInit {
   ];
   currencyList = CURRENCIES;
   private _success = new Subject<string>();
-  private submitting: boolean;
+  public submitting: boolean;
 
   constructor(private transactionService: ExpressService,
               private router: Router,

@@ -3,11 +3,14 @@ export class Client {
   client_type?: number;
   created_at?: string;
   date_of_birth: string;
+  accounts?: Account[];
   email?: string;
   full_name: string;
   id: number;
+  is_individual?: boolean;
   marital_status: string;
   nok_full_name: string;
+  nok_phone: string;
   occupation: string;
   office_address: string;
   phone: string;

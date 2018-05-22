@@ -12,6 +12,8 @@ import {Client} from '../../transaction/transaction';
 })
 export class ViewClientComponent implements OnInit {
   public id: string;
+  public successMessage: boolean;
+  public is_individual: boolean;
   public client = new Client;
 
   constructor(
