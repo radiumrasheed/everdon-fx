@@ -71,10 +71,6 @@ export class AuthService {
     localStorage.setItem(ROLE_TOKEN_NAME, 'Bearer ' + token);
   }
 
-  private static setUser(user: User): void {
-    localStorage.setItem('user$', user);
-  }
-
   private static removeTokens(): void {
     localStorage.removeItem(TOKEN_NAME);
     localStorage.removeItem(ROLE_TOKEN_NAME);
