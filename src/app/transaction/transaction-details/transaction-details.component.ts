@@ -15,35 +15,41 @@ import {ToastsManager} from 'ng2-toastr';
   providers: [TransactionService]
 })
 export class TransactionDetailsComponent implements OnInit {
+
   public selectedTransaction: Transaction;
   public currencyList = CURRENCIES;
   public organizationList = ORGANIZATIONS;
+
   id: string;
 
-  roles$: Observable<any>;
+  public roles$: Observable<any>;
+  public role$: Observable<string>;
 
-  private nextActionText: string;
-  private nextSubmitText: string;
+  public nextActionText: string;
+  public nextSubmitText: string;
 
-  private can_treat = false;
-  private can_approve = false;
-  private can_be_treated = false;
-  private can_be_approved = false;
-  private can_modify_rate = false;
-  private can_fulfil = false;
-  private can_be_fulfilled = false;
-  private no_action = false;
-  private can_comment = false;
+  public can_treat = false;
+  public can_approve = false;
+  public can_be_treated = false;
+  public can_be_approved = false;
+  public can_modify_rate = false;
+  public can_fulfil = false;
+  public can_be_fulfilled = false;
+  public no_action = false;
+  public can_comment = false;
+  public can_take_action = false;
+  public is_client: boolean;
 
   constructor(private transactionService: TransactionService,
               private route: ActivatedRoute,
               private router: Router,
-              private authService: AuthService,
+              private auth: AuthService,
               private toastr: ToastsManager) {
   }
 
   ngOnInit() {
-    this.roles$ = this.authService.roles;
+    this.roles$ = this.auth.roles;
+    this.role$ = this.auth.role;
 
     // Get Transaction Id from route...
     this.route.paramMap
@@ -58,8 +64,12 @@ export class TransactionDetailsComponent implements OnInit {
       roles => {
 
         switch (roles[0]) {
-          case 'fx-ops-lead':
+          case 'fx-ops':
             this.can_treat = true;
+            break;
+
+          case 'fx-ops-lead':
+            this.can_approve = true;
             break;
 
           case 'fx-ops-manager':
@@ -71,67 +81,98 @@ export class TransactionDetailsComponent implements OnInit {
             break;
 
           case 'systems-admin':
-            this.can_treat = true;
-            this.can_approve = true;
-            this.can_fulfil = true;
+            // this.can_treat = true;
+            // this.can_approve = true;
+            // this.can_fulfil = true;
             break;
 
           default:
-            this.no_action = true;
+            this.is_client = true;
             break;
         }
       }
     );
   }
 
-  getTransactionLogic() {
+  computeTLogic() {
     if (!this.selectedTransaction) {
       return;
     }
 
     switch (this.selectedTransaction.transaction_status_id) {
-      case 1:
-        this.nextActionText = 'Treat Transaction';
-        this.nextSubmitText = 'Update Rate & Treat';
-        this.can_modify_rate = true;
-        this.can_comment = true;
+      case 1: {
+        this.nextActionText = 'Treat/Review Transaction';
+        this.nextSubmitText = 'Update & Treat';
         this.can_be_treated = true;
         break;
+      }
 
-      case 2:
-        this.nextActionText = 'Approve Transaction';
-        this.nextSubmitText = 'Update & Approve';
-        this.can_comment = true;
+      case 2: {
+        this.nextActionText = 'Treat/Review Transaction';
+        this.nextSubmitText = 'Update & Treat';
+        this.can_be_treated = true;
         break;
+      }
 
-      case 3:
+      case 3: {
         this.nextActionText = 'Approve Transaction';
         this.nextSubmitText = 'Comment & Approve';
         this.can_be_approved = true;
-        this.can_comment = true;
         break;
+      }
 
-      case 4:
+      case 4: {
         this.nextActionText = 'Fulfil Transaction';
         this.nextSubmitText = 'Comment & Fulfil';
         this.can_be_fulfilled = true;
-        this.can_comment = true;
         break;
+      }
 
-      case 5:
+      case 5: {
         this.no_action = true;
         this.nextActionText = 'No Action';
         this.nextSubmitText = 'No Action';
         break;
+      }
 
-      default:
+      case 6: {
+        this.no_action = true;
+        this.nextActionText = 'CLOSED';
+        this.nextSubmitText = 'CLOSED';
         break;
+      }
+
+      default: {
+        break;
+      }
+    }
+
+    switch (true) {
+      // FX-Ops...
+      case this.can_treat && this.can_be_treated:
+        this.can_take_action = true;
+        break;
+
+      // FX-Ops Manager
+      case this.can_approve && this.can_be_approved:
+        this.can_take_action = true;
+
+        break;
+
+      // Treasury-Ops
+      case this.can_fulfil && this.can_be_fulfilled:
+        this.can_take_action = true;
+
+        break;
+
+      // I don't know what to do
+      default:
+        this.can_take_action = false;
     }
   }
 
   refreshTransaction() {
     this.getTransaction(this.id);
-    console.log('refreshed');
   }
 
   getTransaction(id: string): void {
@@ -144,7 +185,7 @@ export class TransactionDetailsComponent implements OnInit {
 
           // Set all configs according to role and status...
           this.selectedTransaction = transaction;
-          this.getTransactionLogic();
+          this.computeTLogic();
         },
         error1 => {
         },
@@ -159,7 +200,7 @@ export class TransactionDetailsComponent implements OnInit {
 
   takeAction() {
     switch (true) {
-      // FX-Ops...
+      // FX-Ops && OPEN or IN_PROGRESS...
       case this.can_treat && this.can_be_treated:
         this.transactionService.treatTransaction(this.selectedTransaction, this.id)
           .subscribe(
@@ -170,13 +211,14 @@ export class TransactionDetailsComponent implements OnInit {
               }
             },
             err => {
-              console.error(err);
-              this.toastr.error(err.message || err).catch();
+            },
+            () => {
+              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;
 
-      // FX-Ops Manager
+      // FX-Ops Manager && PENDING_APPROVAL...
       case this.can_approve && this.can_be_approved:
         this.transactionService.approveTransaction(this.selectedTransaction, this.id)
           .subscribe(
@@ -189,11 +231,14 @@ export class TransactionDetailsComponent implements OnInit {
             err => {
               console.error(err);
               this.toastr.error(err.message || err).catch();
+            },
+            () => {
+              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;
 
-      // Treasury-Ops
+      // Treasury-Ops && PENDING_FULFILMENT
       case this.can_fulfil && this.can_be_fulfilled:
         this.transactionService.fulfilTransaction(this.selectedTransaction, this.id)
           .subscribe(
@@ -206,6 +251,9 @@ export class TransactionDetailsComponent implements OnInit {
             err => {
               console.error(err);
               this.toastr.error(err.message || err).catch();
+            },
+            () => {
+              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;

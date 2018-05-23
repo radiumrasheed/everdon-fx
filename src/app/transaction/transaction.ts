@@ -33,14 +33,14 @@ export class Event {
   action: string;
   amount: number;
   created_at: string;
+  comment?: string;
   done_at: string;
-  done_by: User;
+  doneBy: User;
   id: number;
   rate: number;
   transaction_id: number;
   transaction_status_id: number;
   updated_at: string;
-  wacc: number;
 }
 
 export class Account {
@@ -75,6 +75,8 @@ export class Transaction {
   closed_at?: string;
   closed_by?: number;
   created_at?: string;
+  comment?: string;
+  org_account_id?: number;
   events: Event[];
   id: number;
   initiated_at?: number;
@@ -89,6 +91,7 @@ export class Transaction {
   transaction_type_id?: number;
   updated_at?: string;
   condition?: string;
+  wacc?: number;
 }
 
 export class Organization {
@@ -111,7 +114,7 @@ export const CURRENCIES: Product[] = [
 ];
 
 export const ORGANIZATIONS: Organization[] = [
-  {id: 1, name: 'VFD Groups', account_name: 'Internals', account_number: '0101020102'},
-  {id: 2, name: 'Germaine Motors', account_name: 'Sister', account_number: '88283047203'}
+  {id: 1, name: 'VFD Groups', account_name: 'Internals', account_number: '0101020102', 'bank_name': 'VFD'},
+  {id: 2, name: 'Germaine Motors', account_name: 'Sister', account_number: '88283047203', 'bank_name': 'VFD'}
 ];
 

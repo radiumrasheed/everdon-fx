@@ -56,24 +56,24 @@ export class TransactionService {
   treatTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/treat', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 
   approveTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/approve', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 
   fulfilTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/fulfil', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 
@@ -81,8 +81,8 @@ export class TransactionService {
   cancelTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/cancel', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 
@@ -90,8 +90,8 @@ export class TransactionService {
   closeTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/close', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 
@@ -99,8 +99,8 @@ export class TransactionService {
   rejectTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/reject', transaction)
       .pipe(
-        map(response => response['data'])
-        // catchError(this.handleError<Transaction>('Get Transaction'))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
 

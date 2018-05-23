@@ -27,7 +27,7 @@
               <td>{{ transaction?.selling_product_id | currency }}</td>
               <td>{{ transaction?.amount }}</td>
               <td>{{ transaction?.rate }}</td>
-              <td><span class="label label-rounded" [ngClass]="">
+              <td><span class="label label-rounded" [ngClass]="transaction?.transaction_status_id | status:'class'">
                 {{ transaction?.transaction_status_id | status }}</span></td>
               <td>
                 <a [routerLink]="['..', 'details', transaction?.id]">

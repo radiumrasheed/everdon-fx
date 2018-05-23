@@ -5,7 +5,7 @@
     <ngb-tabset [justify]="'fill'">
       <ngb-tab title="Summary">
         <ng-template ngbTabContent>
-          <div class="card-body">
+          <div class="card-body" *ngIf="selectedTransaction">
             <div class="w-100 row">
               <div class="card-body">
                 <button type="button" class="btn btn-secondary m-r-11 m-b-11" (click)="refreshTransaction()">
@@ -22,11 +22,15 @@
                   </button>
                 </div>
 
-                <label class="label label-warning" *ngIf="selectedTransaction">{{ selectedTransaction?.transaction_status_id | status }}</label>
+                <label class="label label-rounded"
+                       [ngClass]="selectedTransaction?.transaction_status_id | status:'class'"
+                       *ngIf="selectedTransaction">
+                  {{ selectedTransaction?.transaction_status_id | status }}
+                </label>
 
-                <button class="btn btn-outline-primary waves-effect waves-light pull-right" type="button"><span
-                  class="btn-label"><i
-                  class="fa fa-envelope-o"></i></span>{{ nextActionText }}
+                <button class="btn btn-outline-primary waves-effect waves-light pull-right" *ngIf="!is_client" [disabled]="!can_take_action" type="button" (click)="takeAction()">
+                  <span class="btn-label"><i
+                    class="fa fa-envelope-o"></i></span>{{ nextActionText }}
                 </button>
               </div>
             </div>
@@ -36,11 +40,11 @@
 
               <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
                 <div class="col-12">
-                  <div class="card card-inverse card-info" *ngIf="selectedTransaction">
+                  <div class="card card-inverse card-info">
                     <div class="card-header">
                       <h4 class="m-b-0 text-white">
                         <i class="mdi mdi-briefcase-check text-warning"></i>
-                        {{ selectedTransaction?.transaction_type_id | type }}
+                        {{ selectedTransaction?.transaction_type_id | type }} Transaction
                       </h4>
                     </div>
                     <div class="card-body">
@@ -58,14 +62,13 @@
                               <label>
                                 <i class="mdi mdi-cash-100 text-warning"></i>
                                 Currency
-
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
                               <select class="form-control" [required]="selectedTransaction" [disabled]="selectedTransaction.buying_product_id"
                                       [(ngModel)]="selectedTransaction.buying_product_id"
-                                      name="product" placeholder="Currency">
-                                <option *ngFor="let currency of currencyList" value="{{currency.id}}">{{currency.name}}</option>
+                                      name="buying_product_id" placeholder="Currency">
+                                <option *ngFor="let currency of currencyList" [ngValue]="currency.id">{{currency.name}}</option>
                               </select>
                             </div>
                           </div>
@@ -79,9 +82,9 @@
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
-                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <span class="input-group-addon">{{ selectedTransaction?.buying_product_id | currency:'sign' }}</span>
                                 <input type="text" name="amount" [disabled]="selectedTransaction.amount" class="form-control" id="amount" [(ngModel)]="selectedTransaction.amount">
-                                <span class="input-group-addon">.00</span>
+
                               </div>
                             </div>
                           </div>
@@ -95,10 +98,10 @@
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
-                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
                                 <input type="text" class="form-control" id="rate" [(ngModel)]="selectedTransaction.rate"
                                        (keyup)="updateCalculatedAmount()"
-                                       [disabled]="!can_modify_rate"
+                                       [disabled]="!can_be_treated"
                                        name="rate"
                                        aria-label="Amount (to the nearest dollar)">
                                 <span class="input-group-addon disabled">/ {{selectedTransaction.buying_product_id | currency }}</span>
@@ -115,12 +118,29 @@
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
-                                <span class="input-group-addon">{{ selectedTransaction.buying_product_id | currency:sign }}</span>
+                                <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
                                 <input type="text" class="form-control" id="calculated_amount" disabled
                                        [ngModel]="selectedTransaction.calculated_amount"
                                        name="calculated_amount"
                                        aria-label="Amount (to the nearest dollar)">
-                                <span class="input-group-addon disabled">.00</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group row">
+                            <div class="col-md-10">
+
+                              <label>
+                                <i class="mdi mdi-wallet-giftcard text-warning"></i>
+                                WACC
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
+                                <input type="number" class="form-control" id="wacc"
+                                       [(ngModel)]="selectedTransaction.wacc"
+                                       name="wacc" [disabled]="!can_be_treated"
+                                       aria-label="Amount (to the nearest dollar)">
                               </div>
                             </div>
                           </div>
@@ -130,13 +150,12 @@
                               <label>
                                 <i class="mdi mdi-bank text-warning"></i>
                                 Paying Organization / Account
-
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="selectedTransaction" [disabled]="selectedTransaction.buying_product_id"
-                                      [(ngModel)]="selectedTransaction.organization"
-                                      name="product" placeholder="Currency">
+                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated"
+                                      [(ngModel)]="selectedTransaction.org_account_id"
+                                      name="org_account_id" placeholder="Currency">
                                 <option *ngFor="let organization of organizationList" value="{{organization.id}}">{{organization.name + ' ' + organization.account_number}}</option>
                               </select>
                             </div>
@@ -147,13 +166,12 @@
                               <label>
                                 <i class="mdi mdi-code-not-equal text-warning"></i>
                                 Condition
-
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="selectedTransaction" [disabled]="selectedTransaction.buying_product_id"
+                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated"
                                       [(ngModel)]="selectedTransaction.condition"
-                                      name="product" placeholder="Currency">
+                                      name="condition" placeholder="Condition">
                                 <option value="waiver">Waiver</option>
                                 <option value="advance">Advance</option>
                                 <option value="loan">Loan</option>
@@ -161,7 +179,7 @@
                             </div>
                           </div>
 
-                          <div class="form-group row">
+                          <div class="form-group row" *ngIf="!is_client">
                             <div class="col-md-11">
 
                               <label>
@@ -169,14 +187,14 @@
                                 Comment
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
-                              <textarea *ngIf="can_comment" class="form-control" name="comment" [(ngModel)]="selectedTransaction.comment" rows="2"></textarea>
+                              <textarea [disabled]="!can_take_action || can_comment" class="form-control" name="comment" [(ngModel)]="selectedTransaction.comment" rows="2"></textarea>
                             </div>
                           </div>
 
                         </div>
                       </div>
 
-                      <button type="submit" *ngIf="!no_action" class="btn btn-success btn-secondary">{{ nextSubmitText }}</button>
+                      <button type="submit" *ngIf="!is_client" [disabled]="!can_take_action" class="btn btn-success btn-secondary">{{ nextSubmitText }}</button>
                     </div>
                   </div>
                 </div>
@@ -195,7 +213,7 @@
                 <div class="sl-left"><img src="assets/images/users/3.jpg" alt="user" class="img-circle"/></div>
                 <div class="sl-right">
                   <div>
-                    <a class="link">{{ event?.done_by?.name }}</a>
+                    <a class="link">{{ event?.doneBy?.name }}</a>
                     <span class="sl-date">{{ event.done_at | amCalendar:referenceTime:formats }}</span>
                     <p class="m-t-9"> {{ event.action }} </p>
                   </div>
@@ -333,87 +351,106 @@
 
   <!-- Column -->
   <div class="col-lg-3 col-xlg-2 col-md-5">
-    <div class="card">
-      <div class="card-header">
-        <h6>Client Info</h6>
-      </div>
-      <div class="card-body">
-        <div class="m-t-30 text-center"><img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
-          <h4 class="card-title m-t-11">{{ selectedTransaction?.client?.full_name }}</h4>
-          <div class="row text-center justify-content-md-center">
-            <div class="col-6">
-              <a href="javascript:void(0)" class="link">
-                <i class="icon-wallet"></i>
-                <font class="font-medium">{{ selectedTransaction?.client?.accounts?.length }}</font>
-              </a>
+    <ng-container *ngIf="!is_client">
+      <div class="card">
+        <div class="card-header">
+          <h6>Customer Information</h6>
+        </div>
+        <div class="card-body">
+          <div class="m-t-30 text-center">
+            <img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
+            <hr>
+            <h4 class="card-title m-t-11">{{ selectedTransaction?.client?.full_name }}</h4>
+
+            <div class="row text-center justify-content-md-center">
+              <div class="col-6">
+                <a href="javascript:void(0)" class="link" title="{{ selectedTransaction?.client?.accounts?.length }} accounts">
+                  <i class="icon-wallet"></i>
+                  <font class="font-medium">{{ selectedTransaction?.client?.accounts?.length }}</font>
+                </a>
+              </div>
             </div>
+
+            <div class="bg-light-info">
+              <i [ngClass]="{'fa fa-user-o' : selectedTransaction?.client?.client_type === 1, 'fa fa-bank-o' :  selectedTransaction?.client?.client_type === 2}"></i>
+
+              <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 1">Individual</span>
+              <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 2">Cooperate</span>
+              <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === null"></span>
+            </div>
+
+          </div>
+        </div>
+        <div>
+          <hr>
+        </div>
+        <div class="card-body">
+          <small class="text-muted">Email address</small>
+          <h6>{{ selectedTransaction?.client?.email }}</h6>
+
+          <small class="text-muted p-t-30 db">Phone</small>
+          <h6>{{ selectedTransaction?.client?.phone }}</h6>
+
+          <small class="text-muted p-t-30 db">Office Address</small>
+          <h6>{{ selectedTransaction?.client?.office_address }}</h6>
+
+          <div *ngIf="selectedTransaction?.client?.client_type === 2">
+            <small class="text-muted p-t-30 db" *ngIf="client?.client_type == 2">RC Number</small>
+            <h6>{{ selectedTransaction?.client?.rc_number }}</h6>
           </div>
 
-          <div class="bg-light-info">
-            <i class="fa"
-               [ngClass]="{'fa-user-o' : selectedTransaction?.client?.client_type == 1, 'fa-bank-o' :  selectedTransaction?.client?.client_type == 2}"></i>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <small class="text-muted p-t-30 db">BVN</small>
+            <h6>{{ selectedTransaction?.client?.bvn }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
 
-            <span class="text-muted">{{ selectedTransaction?.client?.client_type == 1 ? 'Individual' : 'Cooperate' }}</span>
+            <small class="text-muted p-t-30 db">Occupation</small>
+            <h6>{{ selectedTransaction?.client?.occupation }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+
+            <small class="text-muted p-t-30 db">Next of Kin</small>
+            <h6>{{ selectedTransaction?.client?.nok_full_name }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+
+            <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
+            <h6>{{ selectedTransaction?.client?.nok_phone }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+
+            <small class="text-muted p-t-30 db">Date of birth</small>
+            <h6>{{ selectedTransaction?.client?.date_of_birth | amCalendar }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+
+            <small class="text-muted p-t-30 db">Referee 1</small>
+            <h6>{{ selectedTransaction?.client?.referee_1 }}</h6>
           </div>
 
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <small class="text-muted p-t-30 db">Referee 2</small>
+            <h6>{{ selectedTransaction?.client?.referee_2 }}</h6>
+          </div>
+
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <small class="text-muted p-t-30 db">Referee 3</small>
+            <h6>{{ selectedTransaction?.client?.referee_3 }}</h6>
+          </div>
+
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <small class="text-muted p-t-30 db">Referee 4</small>
+            <h6>{{ selectedTransaction?.client?.referee_4 }}</h6>
+          </div>
+          <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <small class="text-muted p-t-30 db">Residential Address</small>
+            <h6>{{ selectedTransaction?.client?.residential_address }}</h6>
+          </div>
         </div>
       </div>
-      <div>
-        <hr>
-      </div>
-      <div class="card-body">
-        <small class="text-muted">Email address</small>
-        <h6>{{ selectedTransaction?.client?.email }}</h6>
+    </ng-container>
 
-        <small class="text-muted p-t-30 db">Phone</small>
-        <h6>{{ selectedTransaction?.client?.phone }}</h6>
-
-        <small class="text-muted p-t-30 db">Office Address</small>
-        <h6>{{ selectedTransaction?.client?.office_address }}</h6>
-
-        <small class="text-muted p-t-30 db" *ngIf="selectedTransaction?.client?.client_type == 2">RC Number</small>
-        <h6>{{ selectedTransaction?.client?.rc_number }}</h6>
-
-        <small class="text-muted p-t-30 db">BVN</small>
-        <h6>{{ selectedTransaction?.client?.bvn }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Occupation</small>
-        <h6>{{ selectedTransaction?.client?.occupation }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Next of Kin</small>
-        <h6>{{ selectedTransaction?.client?.nok_full_name }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
-        <h6>{{ selectedTransaction?.client?.nok_phone }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Date of birth</small>
-        <h6>{{ selectedTransaction?.client?.date_of_birth | amCalendar }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Referee 1</small>
-        <h6>{{ selectedTransaction?.client?.referee_1 }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Referee 2</small>
-        <h6>{{ selectedTransaction?.client?.referee_2 }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Referee 3</small>
-        <h6>{{ selectedTransaction?.client?.referee_3 }}</h6>
-
-
-        <small class="text-muted p-t-30 db">Referee 4</small>
-        <h6>{{ selectedTransaction?.client?.referee_4 }}</h6>
-
-        <small class="text-muted p-t-30 db">Residential Address</small>
-        <h6>{{ selectedTransaction?.client?.residential_address }}</h6>
-
-      </div>
-    </div>
   </div>
   <!-- Column -->
 </div>
