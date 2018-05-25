@@ -8,7 +8,6 @@
 
         <form class="form" #requestForm="ngForm" (ngSubmit)="requestTransaction()">
 
-          <p>{{ role$ | async | json }}</p>
           <ng-container *ngIf="(role$ | async) === 'admin'">
             <div class="form-group row">
               <label for="client_id" class="col-md-2 col-form-label">Client</label>
