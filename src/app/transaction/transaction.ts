@@ -6,7 +6,7 @@ export class Client {
   accounts?: Account[];
   email?: string;
   full_name: string;
-  id: number;
+  id?: number;
   is_individual?: boolean;
   marital_status: string;
   nok_full_name: string;
@@ -23,7 +23,7 @@ export class Client {
   updated_at?: string;
 }
 
-class User {
+export class User {
   id?: string;
   name?: string;
   email?: string;
@@ -35,7 +35,7 @@ export class Event {
   created_at: string;
   comment?: string;
   done_at: string;
-  doneBy: User;
+  done_by: User;
   id: number;
   rate: number;
   transaction_id: number;
@@ -92,6 +92,10 @@ export class Transaction {
   updated_at?: string;
   condition?: string;
   wacc?: number;
+  bank_name?: string;
+  account_name?: string;
+  account_number?: string;
+  bvn?: string;
 }
 
 export class Organization {
@@ -112,6 +116,7 @@ export const CURRENCIES: Product[] = [
   {id: 3, name: 'GBP', value: 'gbp', description: 'British pounds', sign: '£'},
   {id: 4, name: 'NGN', value: 'ngn', description: 'Nigerian Naira', sign: '₦'}
 ];
+
 
 export const ORGANIZATIONS: Organization[] = [
   {id: 1, name: 'VFD Groups', account_name: 'Internals', account_number: '0101020102', 'bank_name': 'VFD'},

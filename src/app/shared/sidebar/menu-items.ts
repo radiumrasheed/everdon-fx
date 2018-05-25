@@ -66,9 +66,9 @@ export const ROUTES: RouteInfo[] = [
     extralink: false,
     role: 'admin',
     submenu: [
-      {path: '/admin/clients', title: 'All Customers', icon: 'mdi mdi-account-network', class: '', label: '', labelClass: '', extralink: false, submenu: []},
+      {path: '/admin/customers', title: 'All Customers', icon: 'mdi mdi-account-network', class: '', label: '', labelClass: '', extralink: false, submenu: []},
       {
-        path: '/admin/create_client',
+        path: '/admin/create_customer',
         title: 'Create Customer',
         icon: 'mdi mdi-account-plus',
         class: '',

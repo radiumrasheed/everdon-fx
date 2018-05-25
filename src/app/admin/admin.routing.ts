@@ -23,27 +23,27 @@ export const AdminRoutes: Routes = [
         }
       },
       {
-        path: 'clients',
+        path: 'customers',
         component: ClientsComponent,
         data: {
-          title: 'View Clients',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Clients'}]
+          title: 'View Customers',
+          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customers'}]
         }
       },
       {
-        path: 'create_client',
+        path: 'create_customer',
         component: CreateClientComponent,
         data: {
-          title: 'Dashboard',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'Create Client'}]
+          title: 'Create Customer',
+          urls: [{title: 'Admin', url: '/admin'}, {title: 'Create Customer'}]
         }
       },
       {
-        path: 'client/:id',
+        path: 'customer/:id',
         component: ViewClientComponent,
         data: {
-          title: 'Dashboard',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Client'}]
+          title: 'View Customer',
+          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customer'}]
         }
       },
       {

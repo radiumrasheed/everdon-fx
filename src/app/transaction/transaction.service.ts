@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 
-import {Product, Transaction, Account} from './transaction';
+import {Product, Transaction, Account, Client} from './transaction';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {AppConfig} from '../app.config';
 import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable()
@@ -12,6 +13,7 @@ export class TransactionService {
   private readonly transactionUrl = AppConfig.API_URL + '/transactions';
   private readonly productUrl = AppConfig.API_URL + '/products';
   private readonly accountUrl = AppConfig.API_URL + '/accounts';
+  private readonly clientUrl = AppConfig.API_URL + '/clients';
   private readonly handleError: HandleError;
 
   constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
@@ -48,8 +50,8 @@ export class TransactionService {
   requestTransaction(transaction: Transaction): Observable<Transaction> {
     return this.http.post<Transaction>(this.transactionUrl, transaction)
       .pipe(
-        map(response => response['data']),
-        catchError(this.handleError<Transaction>('Get Transaction', null))
+        map(response => response['data']['transaction']),
+        catchError(this.handleError<Transaction>('Request Transaction', null))
       );
   }
 
@@ -106,6 +108,24 @@ export class TransactionService {
 
   getAccounts(): Observable<Account[]> {
     return this.http.get<any>(this.accountUrl)
+      .pipe(
+        map(response => response['data']['accounts']),
+        catchError(err => Observable.of([]))
+      );
+  }
+
+  searchClients(term: string): Observable<Client[]> {
+    if (term === '' || term.length < 3) {
+      return of([]);
+    }
+    return this.http.get<any>(this.clientUrl + '/search/' + term)
+      .pipe(
+        map(response => response['data']['clients'])
+      );
+  }
+
+  getClientAccounts(client_id: any): Observable<Account[]> {
+    return this.http.get<any>(`${this.clientUrl}/${client_id}/accounts`)
       .pipe(
         map(response => response['data']['accounts']),
         catchError(err => Observable.of([]))

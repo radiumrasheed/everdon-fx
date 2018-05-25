@@ -61,43 +61,45 @@
       </div>
 
 
-      <div class="form-check">
+      <!--<div class="form-check">
         <label class="custom-control custom-checkbox">
           <input type="checkbox" [(ngModel)]="transaction.is_ngn_transfer" name="transfer_to_bank" class="custom-control-input"> <span class="custom-control-indicator"></span>
           <span class="custom-control-description">I want to transfer funds to a Nigerian Bank</span>
         </label>
-      </div>
+      </div>-->
 
 
       <div class="row">
         <div class="form-group col-3">
-          <label>Bank <span *ngIf="transaction.is_ngn_transfer === true" class="text-danger">*</span></label>
-          <select class="form-control" [required]="transaction.is_ngn_transfer" [(ngModel)]="transaction.bank_name" name="bank_name" placeholder="Bank">
+          <label>Bank <span class="text-danger">*</span></label>
+          <select class="form-control" [required]=true [(ngModel)]="transaction.bank_name" name="bank_name" placeholder="Bank">
             <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
           </select>
         </div>
 
 
         <div class="form-group col-3">
-          <label>Account Name <span *ngIf="transaction.is_ngn_transfer === true" class="text-danger">*</span></label>
-          <input type="text" class="form-control" [required]="transaction.is_ngn_transfer" [(ngModel)]="transaction.account_name" name="account_name" placeholder="Account Name">
+          <label>Account Name <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [required]=true [(ngModel)]="transaction.account_name" name="account_name" placeholder="Account Name">
         </div>
 
 
         <div class="form-group col-3">
-          <label>Account Number <span *ngIf="transaction.is_ngn_transfer === true" class="text-danger">*</span></label>
-          <input type="text" class="form-control" [required]="transaction.is_ngn_transfer" [(ngModel)]="transaction.account_number" name="account_number"
+          <label>Account Number <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [required]=true minlength="10" maxlength="10" [(ngModel)]="transaction.account_number" name="account_number"
                  placeholder="Account Number">
         </div>
 
 
         <div class="form-group col-3">
-          <label>BVN <span *ngIf="transaction.is_ngn_transfer === true" class="text-danger">*</span></label>
-          <input type="text" class="form-control" [required]="transaction.is_ngn_transfer" [(ngModel)]="transaction.bvn" name="bvn" placeholder="Enter BVN...">
+          <label>BVN <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" [required]=true minlength="10" maxlength="10" [(ngModel)]="transaction.bvn" name="bvn" placeholder="Enter BVN...">
         </div>
       </div>
 
       <button type="submit" class="btn btn-success" [disabled]="!expressForm.form.valid || submitting">Submit Request</button>
+
+      <hr>
 
       <ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
 

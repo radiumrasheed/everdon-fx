@@ -3,12 +3,12 @@ import * as _ from 'lodash';
 import {GenericOption} from './generic-option';
 
 export const transactionStatuses: GenericOption[] = [
-  {id: 1, name: 'open', desc: 'Open', class: 'label-primary'},
-  {id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-warning'},
-  {id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-info'},
-  {id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-success'},
-  {id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-danger'},
-  {id: 6, name: 'closed', desc: 'Closed', class: 'label-danger'},
+  {id: 1, name: 'open', desc: 'Open', class: 'label-light-info'},
+  {id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning'},
+  {id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary'},
+  {id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary'},
+  {id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger'},
+  {id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success'},
   {id: 7, name: 'raised', desc: 'Raised', class: ''},
 ];
 

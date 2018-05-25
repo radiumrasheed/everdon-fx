@@ -8,44 +8,56 @@
 
         <form class="form" #requestForm="ngForm" (ngSubmit)="requestTransaction()">
 
-
-          <!--<div class="form-group row">
-            <label for="search-client" class="col-md-2 col-form-label">Client</label>
-            <div class="col-md-10">
-              <div class="input-group">
-                <input id="search-client" type="text" class="form-control" placeholder="Search Client...">
-                <span class="input-group-btn">
-                  <button class="btn btn-info" type="button">Go!</button>
-                </span>
+          <p>{{ role$ | async | json }}</p>
+          <ng-container *ngIf="(role$ | async) === 'admin'">
+            <div class="form-group row">
+              <label for="client_id" class="col-md-2 col-form-label">Client</label>
+              <div class="col-md-10">
+                <div class="input-group">
+                  <input hidden name="client_id" [ngModel]="transaction.client_id">
+                  <input id="client_id" type="text" class="form-control" placeholder="Search Client..." [class.is-invalid]="searchFailed" [(ngModel)]="model" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                         [ngbTypeahead]="search" [placement]="'bottom'" name="model" (selectItem)="updateModel($event)">
+                  <span class="input-group-addon" *ngIf="!searching">Search!</span>
+                  <span class="input-group-addon" *ngIf="searching">Searching</span>
+                  <span class="input-group-addon label label-danger" *ngIf="searchFailed">Search Failed</span>
+                </div>
               </div>
             </div>
-          </div>-->
 
+            <div class="form-group row">
+              <label for="transaction-type" class="col-md-2 col-form-label">Transaction Type</label>
+              <div class="col-md-10">
+                <select class="custom-select col-12" [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id">
+                  <option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">{{ transactionType.desc }}</option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="form-group row">
+              <label for="transaction-mode" class="col-md-2 col-form-label">Transaction Mode</label>
+              <div class="col-md-10">
+                <select class="custom-select col-12" [(ngModel)]="transaction.transaction_mode_id" id="transaction-mode" name="transaction_mode_id">
+                  <option *ngFor="let transactionMode of transactionModes" [value]="transactionMode.id">{{ transactionMode.desc }}</option>
+                </select>
+              </div>
+            </div>
+          </ng-container>
 
           <div class="form-group row">
-            <label for="transaction-type" class="col-md-2 col-form-label">Transaction Type</label>
+            <label for="buying_product_id" class="col-md-2 col-form-label">Buying Product</label>
             <div class="col-md-10">
-              <select class="custom-select col-12" required [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction-type">
-                <option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">{{ transactionType.desc }}</option>
+              <select id="buying_product_id" class="custom-select col-12" required [(ngModel)]="transaction.buying_product_id" id="buying_product_id" name="buying_product_id">
+                <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">{{ availableProduct.description }}</option>
               </select>
             </div>
           </div>
 
 
           <div class="form-group row">
-            <label for="transaction-mode" class="col-md-2 col-form-label">Transaction Mode</label>
+            <label for="selling_product_id" class="col-md-2 col-form-label">Selling Product</label>
             <div class="col-md-10">
-              <select class="custom-select col-12" required [(ngModel)]="transaction.transaction_mode_id" id="transaction-mode" name="transaction-mode">
-                <option *ngFor="let transactionMode of transactionModes" [value]="transactionMode.id">{{ transactionMode.desc }}</option>
-              </select>
-            </div>
-          </div>
-
-
-          <div class="form-group row">
-            <label for="product" class="col-md-2 col-form-label">Product</label>
-            <div class="col-md-10">
-              <select class="custom-select col-12" required [(ngModel)]="transaction.buying_product_id" id="product" name="product">
+              <select id="selling_product_id" class="custom-select col-12" required [(ngModel)]="transaction.selling_product_id" id="selling_product_id" name="selling_product_id">
                 <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">{{ availableProduct.description }}</option>
               </select>
             </div>
@@ -56,74 +68,68 @@
             <label for="product-amount" class="col-md-2 col-form-label">Product Amount</label>
             <div class="col-md-10">
               <div class="input-group">
-                <span class="input-group-addon">{{ transaction.buying_product_id }}</span>
+                <!--<span class="input-group-addon" *ngIf="transaction.buying_product_id === '1'">{{ transaction.buying_product_id | currency }}</span>-->
                 <!--todo form a PIPE for the above...-->
-                <input type="text" class="form-control" [(ngModel)]="transaction.amount" name="amount" id="product-amount" aria-label="Amount (to the nearest)">
+                <input type="text" class="form-control" required [(ngModel)]="transaction.amount" name="amount" id="product-amount" aria-label="Amount (to the nearest)">
 
               </div>
             </div>
           </div>
 
+          <div class="form-check">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()" class="custom-control-input"> <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Create a new account</span>
+            </label>
+          </div>
 
 
-          <div class="form-group row">
-            <label for="account" class="col-md-2 col-form-label">Account</label>
+          <div class="form-group row" *ngIf="!newAccount">
+            <label for="account_id" class="col-md-2 col-form-label">Account <span class="text-danger" *ngIf="!newAccount">*</span></label>
             <div class="col-md-10">
-              <select class="custom-select col-12" required [(ngModel)]="transaction.account_id" id="account" name="account">
-                <option *ngFor="let myAccount of myAccounts" [value]="myAccount.id">{{ myAccount?.bank + ' : ' + myAccount?.number }}</option>
+              <select class="custom-select col-12" [required]="!newAccount" [(ngModel)]="transaction.account_id" id="account_id" name="account_id">
+                <option disabled selected="selected" value>- select an account -</option>
+                <option *ngFor="let account of accounts" [value]="account.id">{{ account?.bank + ' : ' + account?.number }}</option>
               </select>
             </div>
           </div>
 
-          <!--<div class="form-group row">
-            <label for="rate" class="col-md-2 col-form-label">Rate</label>
-            <div class="col-md-10">
-              <div class="input-group">
-                <span class="input-group-addon">₦</span>
-                <input type="text" class="form-control" id="rate" aria-label="Amount (to the nearest naira)">
-                <span class="input-group-addon"> / USD</span>
+
+          <ng-container *ngIf="newAccount">
+            <div class="form-group row">
+              <div class="form-group col-3">
+                <label>Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
+                <select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" placeholder="Bank">
+                  <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
+                </select>
+              </div>
+
+
+              <div class="form-group col-3">
+                <label>Account Name <span class="text-danger" *ngIf="newAccount">*</span></label>
+                <input type="text" class="form-control" [required]="newAccount" [(ngModel)]="transaction.account_name" name="account_name" placeholder="Account Name">
+              </div>
+
+
+              <div class="form-group col-3">
+                <label>Account Number <span class="text-danger" *ngIf="newAccount">*</span></label>
+                <input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10" [(ngModel)]="transaction.account_number" name="account_number"
+                       placeholder="Account Number">
+              </div>
+
+
+              <div class="form-group col-3">
+                <label>BVN <span class="text-danger" *ngIf="newAccount">*</span></label>
+                <input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10" [(ngModel)]="transaction.bvn" name="bvn" placeholder="Enter BVN...">
               </div>
             </div>
-          </div>
-
-
-          <div class="form-group row">
-            <label for="wacc" class="col-md-2 col-form-label">WACC</label>
-            <div class="col-md-10">
-              <div class="input-group">
-                <span class="input-group-addon">₦</span>
-                <input type="text" class="form-control" id="wacc" aria-label="Amount (to the nearest naira)">
-                <span class="input-group-addon"> / USD</span>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="form-group row">
-            <label for="actual-amount" class="col-md-2 col-form-label">Actual Amount</label>
-            <div class="col-md-10">
-              <div class="input-group">
-                <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" id="actual-amount" aria-label="Amount (to the nearest dollar)">
-
-              </div>
-            </div>
-          </div>
-
-
-          <div class="form-group row">
-            <div class="col-md-2"></div>
-            <div class="checkbox checkbox-success col-md-10">
-              <input id="mail-client" type="checkbox">
-              <label for="mail-client"> Mail Client </label>
-            </div>
-          </div>-->
+          </ng-container>
 
 
           <div class="form-group row">
             <div class="col-md-2"></div>
             <div class="col-md-10">
-              <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Submit</button>
+              <button type="submit" [disabled]="!requestForm.form.valid || submitting" class="btn btn-success waves-effect waves-light m-r-10">{{submitting ? 'Sending Request' : 'Request'}}</button>
             </div>
           </div>
 

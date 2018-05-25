@@ -20,7 +20,7 @@
           <tbody>
           <tr *ngFor="let client of clients">
             <td>
-              <a href="javascript:void(0)" [routerLink]="['../client', client.id]">ID #{{ client?.id }}</a>
+              <a href="javascript:void(0)" [routerLink]="['../customer', client.id]">ID #{{ client?.id }}</a>
             </td>
             <td>{{ client?.full_name }}</td>
             <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ client.updated_at | amCalendar }}</span></td>

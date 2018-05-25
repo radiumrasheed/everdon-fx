@@ -19,6 +19,7 @@ import {User} from '../../authentication/login/user';
 
 export const TOKEN_NAME = 'jwt_token';
 export const ROLE_TOKEN_NAME = 'o8gb!zx4';
+export const USER_ = 'user';
 export const ADMIN_ROLES = ['systems-admin', 'fx-ops', 'fx-ops-lead', 'fx-ops-manager', 'treasury-ops'];
 export const CLIENT_ROLES = ['client'];
 
@@ -69,6 +70,10 @@ export class AuthService {
     return localStorage.getItem(ROLE_TOKEN_NAME);
   }
 
+  static getUser(): any {
+    return localStorage.getItem(USER_);
+  }
+
   private static setToken(token: string): void {
     localStorage.setItem(TOKEN_NAME, 'Bearer ' + token);
   }
@@ -77,9 +82,12 @@ export class AuthService {
     localStorage.setItem(ROLE_TOKEN_NAME, 'Bearer ' + token);
   }
 
+  private static setUser(user: any): void {
+    localStorage.setItem(USER_, user);
+  }
+
   private static removeTokens(): void {
-    localStorage.removeItem(TOKEN_NAME);
-    localStorage.removeItem(ROLE_TOKEN_NAME);
+    localStorage.clear();
   }
 
   private static getTokenExpirationDate(token: string): Date {
@@ -139,16 +147,18 @@ export class AuthService {
     }
 
     const roles = _.split(tokenPayload['roles'], '|');
-    this._roles.next(roles);
     const allowed_roles = _.intersection(roles, ADMIN_ROLES);
-    this._role.next('admin');
 
-    if (allowed_roles.length > 0) {
-      this._isLoggedIn.next(true);
-      return true;
+    if (allowed_roles.length <= 0) {
+      return false;
     }
 
-    return false;
+    this._user.next(JSON.parse(AuthService.getUser()));
+    this._role.next('admin');
+    this._roles.next(roles);
+    this._isLoggedIn.next(true);
+
+    return true;
   }
 
 
@@ -167,17 +177,18 @@ export class AuthService {
     }
 
     const roles = _.split(tokenPayload['roles'], '|');
-    this._roles.next(roles);
     const allowed_roles = _.intersection(roles, CLIENT_ROLES);
-    this._role.next(roles[0]);
 
-
-    if (allowed_roles.length > 0) {
-      this._isLoggedIn.next(true);
-      return true;
+    if (allowed_roles.length <= 0) {
+      return false;
     }
 
-    return false;
+    this._user.next(JSON.parse(AuthService.getUser()));
+    this._role.next(roles[0]);
+    this._roles.next(roles);
+    this._isLoggedIn.next(true);
+
+    return true;
   }
 
 
@@ -190,7 +201,8 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-          this._user.next({a: 'a'});
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Login', null))
@@ -207,7 +219,8 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-          this._user.next(true);
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Admin Login', null))

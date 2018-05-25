@@ -101,7 +101,7 @@
                                 <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
                                 <input type="text" class="form-control" id="rate" [(ngModel)]="selectedTransaction.rate"
                                        (keyup)="updateCalculatedAmount()"
-                                       [disabled]="!can_be_treated"
+                                       [disabled]="!can_be_treated || is_client"
                                        name="rate"
                                        aria-label="Amount (to the nearest dollar)">
                                 <span class="input-group-addon disabled">/ {{selectedTransaction.buying_product_id | currency }}</span>
@@ -139,7 +139,7 @@
                                 <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
                                 <input type="number" class="form-control" id="wacc"
                                        [(ngModel)]="selectedTransaction.wacc"
-                                       name="wacc" [disabled]="!can_be_treated"
+                                       name="wacc" [disabled]="!can_be_treated || is_client"
                                        aria-label="Amount (to the nearest dollar)">
                               </div>
                             </div>
@@ -153,7 +153,7 @@
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated"
+                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated || is_client"
                                       [(ngModel)]="selectedTransaction.org_account_id"
                                       name="org_account_id" placeholder="Currency">
                                 <option *ngFor="let organization of organizationList" value="{{organization.id}}">{{organization.name + ' ' + organization.account_number}}</option>
@@ -169,7 +169,7 @@
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated"
+                              <select class="form-control" [required]="selectedTransaction" [disabled]="!can_be_treated || is_client"
                                       [(ngModel)]="selectedTransaction.condition"
                                       name="condition" placeholder="Condition">
                                 <option value="waiver">Waiver</option>
@@ -204,8 +204,7 @@
         </ng-template>
       </ngb-tab>
 
-      <ngb-tab>
-        <ng-template ngbTabTitle><b>Timeline</b></ng-template>
+      <ngb-tab title="Comments & Timeline">
         <ng-template ngbTabContent>
           <div class="card-body">
             <div class="profiletimeline">
@@ -213,12 +212,15 @@
                 <div class="sl-left"><img src="assets/images/users/3.jpg" alt="user" class="img-circle"/></div>
                 <div class="sl-right">
                   <div>
-                    <a class="link">{{ event?.doneBy?.name }}</a>
-                    <span class="sl-date">{{ event.done_at | amCalendar:referenceTime:formats }}</span>
+                    <a class="link">{{ event?.done_by?.name }}</a>
+                    <span class="text-muted font-14 m-l-10">|    {{ event.done_at | amCalendar:referenceTime:formats }}</span>
                     <p class="m-t-9"> {{ event.action }} </p>
                   </div>
-                  <blockquote class="m-t-11">
+                  <blockquote class="m-t-11" *ngIf="event?.comment">
                     {{ event?.comment }}
+                  </blockquote>
+                  <blockquote class="m-t-11" *ngIf="!event?.comment" #no_comment>
+                    - no comment -
                   </blockquote>
                 </div>
               </div>
@@ -228,7 +230,7 @@
         </ng-template>
       </ngb-tab>
 
-      <ngb-tab title="Comments" [disabled]="true">
+      <!--<ngb-tab title="Comments" [disabled]="true">
         <ng-template ngbTabContent>
           <div class="card-body">
             <div class="row">
@@ -283,8 +285,7 @@
             </div>
           </div>
         </ng-template>
-      </ngb-tab>
-
+      </ngb-tab>-->
 
       <ngb-tab title="Advanced Options" [disabled]="selectedTransaction">
         <ng-template ngbTabContent>
@@ -342,7 +343,6 @@
           </div>
         </ng-template>
       </ngb-tab>
-
 
     </ngb-tabset>
   </div>

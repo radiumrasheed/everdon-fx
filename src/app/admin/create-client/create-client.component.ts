@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Client} from '../../transaction/transaction';
 import {ClientService} from '../clients/client.service';
 import {ToastsManager} from 'ng2-toastr';
@@ -15,7 +15,8 @@ export class CreateClientComponent implements OnInit {
   client = new Client;
   successMessage: string;
   staticAlertClosed = false;
-  public is_individual: boolean;
+  submitting = false;
+  public is_cooperate = false;
   private _success = new Subject<string>();
 
   constructor(private clientService: ClientService,
@@ -32,24 +33,37 @@ export class CreateClientComponent implements OnInit {
   }
 
   createClient() {
-    if (this.is_individual === true) {
+    this.submitting = true;
+    if (this.is_cooperate === false) {
       this.clientService.createIndividualClient(this.client)
         .subscribe(
           client => {
-            this.toastr.success('Individual Client created successfully').catch();
+            if (client) {
+              this.toastr.success('Individual Client created successfully').catch();
+              this.client = new Client();
+            }
           },
           err => {
             this.toastr.error(err.message || err).catch();
+          },
+          () => {
+            this.submitting = false;
           }
         );
     } else {
       this.clientService.createCooperateClient(this.client)
         .subscribe(
           client => {
-            this.toastr.success('Cooperate Client created successfully').catch();
+            if (client) {
+              this.toastr.success('Cooperate Client created successfully').catch();
+              this.client = new Client();
+            }
           },
           err => {
             this.toastr.error(err.message || err).catch();
+          },
+          () => {
+            this.submitting = false;
           }
         );
     }

@@ -12,7 +12,6 @@ import {ToastsManager} from 'ng2-toastr';
   selector: 'app-transaction-details',
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.scss'],
-  providers: [TransactionService]
 })
 export class TransactionDetailsComponent implements OnInit {
 
