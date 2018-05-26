@@ -99,10 +99,10 @@ export class TransactionService {
 
 
   rejectTransaction(transaction: Transaction, id: string): Observable<Transaction> {
-    return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/reject', transaction)
+    return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/reject', transaction)
       .pipe(
         map(response => response['data']['transaction']),
-        catchError(this.handleError<Transaction>('Get Transaction', null))
+        catchError(this.handleError<Transaction>('Reject Transaction', null))
       );
   }
 

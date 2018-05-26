@@ -20,7 +20,7 @@ export class ProductPipe implements PipeTransform {
 
     switch (args) {
       case 'desc':
-        this.result = this.selectedCurrency.desc;
+        this.result = this.selectedCurrency.description;
         break;
       case 'sign':
         this.result = this.selectedCurrency.sign;

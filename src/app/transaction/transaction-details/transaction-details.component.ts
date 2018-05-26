@@ -35,9 +35,10 @@ export class TransactionDetailsComponent implements OnInit {
   public can_fulfil = false;
   public can_be_fulfilled = false;
   public no_action = false;
-  public can_comment = false;
+  // public can_comment = false;
   public can_take_action = false;
   public is_client: boolean;
+  public can_be_rejected = true;
 
   constructor(private transactionService: TransactionService,
               private route: ActivatedRoute,
@@ -110,6 +111,7 @@ export class TransactionDetailsComponent implements OnInit {
         this.nextActionText = 'Treat/Review Transaction';
         this.nextSubmitText = 'Update & Treat';
         this.can_be_treated = true;
+        this.can_be_rejected = false;
         break;
       }
 
@@ -261,5 +263,22 @@ export class TransactionDetailsComponent implements OnInit {
       default:
         this.toastr.info('Undecided').catch();
     }
+  }
+
+  rejectTransaction() {
+    this.transactionService.rejectTransaction(this.selectedTransaction, this.id)
+      .subscribe(
+        treated_transaction => {
+          if (treated_transaction) {
+            this.selectedTransaction = treated_transaction;
+            this.toastr.success('Rejected Successfully').catch();
+            this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+          }
+        },
+        err => {
+        },
+        () => {
+        }
+      );
   }
 }

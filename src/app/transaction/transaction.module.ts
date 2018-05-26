@@ -7,6 +7,7 @@ import {MomentModule} from 'angular2-moment';
 
 import {TransactionService} from './transaction.service';
 import {ManageTransactionComponent} from './manage-transaction/manage-transaction.component';
+import {SharedModule} from '../shared/shared.module';
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import {ManageTransactionComponent} from './manage-transaction/manage-transactio
     FormsModule,
     MomentModule,
     NgbModule,
-
+    SharedModule,
     TransactionRoutingModule
   ],
   declarations: [transactionComponents, ManageTransactionComponent],

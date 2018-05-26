@@ -188,7 +188,7 @@
                 <div class="dw-user-box">
                   <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
                   <div class="u-text" *ngIf="user$ | async as user">
-                    <h4>{{ user?.name }} {{ role }}</h4>
+                    <h4>{{ user?.name }}</h4>
                     <h6>{{ user?.email }}</h6>
                     <a href="javascript:void(0)" [routerLink]="role==='admin'?['/admin/profile']:['/me/profile']"
                        class="btn btn-rounded btn-danger btn-sm">View Profile

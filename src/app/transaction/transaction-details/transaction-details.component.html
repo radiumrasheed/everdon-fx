@@ -10,14 +10,16 @@
               <div class="card-body">
                 <button type="button" class="btn btn-secondary m-r-11 m-b-11" (click)="refreshTransaction()">
                   <i class="mdi mdi-cached font-19"></i>
+                  Refresh
                 </button>
 
-                <div class="btn-group m-b-11 m-r-11" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group m-b-11 m-r-11" role="group" aria-label="Button group with nested dropdown" *ngIf="!is_client">
                   <button type="button" class="btn btn-secondary font-19" disabled>
                     <i class="mdi mdi-inbox-arrow-down"></i>
                   </button>
 
-                  <button type="button" class="btn btn-secondary font-19" disabled>
+                  <button type="button" class="btn btn-danger font-19" (click)="rejectTransaction()" [disabled]="!can_take_action && !can_be_rejected">
+                    Reject
                     <i class="mdi mdi-close"></i>
                   </button>
                 </div>
@@ -187,7 +189,7 @@
                                 Comment
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
-                              <textarea [disabled]="!can_take_action || can_comment" class="form-control" name="comment" [(ngModel)]="selectedTransaction.comment" rows="2"></textarea>
+                              <textarea [disabled]="!can_take_action && !can_be_rejected" class="form-control" name="comment" [(ngModel)]="selectedTransaction.comment" rows="2"></textarea>
                             </div>
                           </div>
 

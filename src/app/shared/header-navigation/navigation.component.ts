@@ -20,6 +20,7 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   isLoggedIn$: Observable<boolean>;
   user$: Observable<any>;
   role$: Observable<string>;
+  private next_url: string[];
 
   constructor(private modalService: NgbModal, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
 
@@ -54,7 +55,17 @@ export class NavigationComponent implements AfterViewInit, OnInit {
   }
 
   logout() {
+    this.role$.subscribe(
+      value => {
+        if (value === 'admin') {
+          this.next_url = ['/admin-login'];
+        } else {
+          this.next_url = ['/login'];
+        }
+      }
+    );
+
     this.authService.logout();
-    this.router.navigate(['/login']).catch();
+    this.router.navigate(this.next_url).catch();
   }
 }

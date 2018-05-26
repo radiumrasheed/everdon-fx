@@ -9,12 +9,12 @@
         <div class="row p-t-10 p-b-10">
           <!-- Column -->
           <div class="col p-r-0">
-            <h1 class="font-light">86</h1>
-            <h6 class="text-muted">New Clients</h6></div>
+            <h1 class="font-light">{{ figures?.transactions }}</h1>
+            <h6 class="text-muted">Transactions</h6></div>
           <!-- Column -->
           <div class="col text-right align-self-center">
             <div class="display-4">
-              <i class="mdi mdi-account-circle text-info"></i>
+              <i class="mdi mdi-receipt text-success"></i>
             </div>
           </div>
         </div>
@@ -29,13 +29,13 @@
         <div class="row p-t-10 p-b-10">
           <!-- Column -->
           <div class="col p-r-0">
-            <h1 class="font-light">248</h1>
-            <h6 class="text-muted">All Projects</h6></div>
+            <h1 class="font-light">{{ figures?.accounts }}</h1>
+            <h6 class="text-muted">Accounts</h6></div>
           <!-- Column -->
           <div class="col text-right align-self-center">
 
             <div class="display-4">
-              <i class="mdi mdi-briefcase-check text-warning"></i>
+              <i class="mdi mdi-briefcase-check text-info"></i>
             </div>
           </div>
         </div>
@@ -44,44 +44,44 @@
   </div>
   <!-- Column -->
   <!-- Column -->
-  <div class="col-lg-3 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="row p-t-10 p-b-10">
-          <!-- Column -->
-          <div class="col p-r-0">
-            <h1 class="font-light">352</h1>
-            <h6 class="text-muted">New Items</h6></div>
-          <!-- Column -->
-          <div class="col text-right align-self-center">
-            <div class="display-4">
-              <i class="mdi mdi-star-circle text-success"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="col-lg-3 col-md-6">-->
+  <!--<div class="card">-->
+  <!--<div class="card-body">-->
+  <!--<div class="row p-t-10 p-b-10">-->
+  <!--&lt;!&ndash; Column &ndash;&gt;-->
+  <!--<div class="col p-r-0">-->
+  <!--<h1 class="font-light">352</h1>-->
+  <!--<h6 class="text-muted">New Items</h6></div>-->
+  <!--&lt;!&ndash; Column &ndash;&gt;-->
+  <!--<div class="col text-right align-self-center">-->
+  <!--<div class="display-4">-->
+  <!--<i class="mdi mdi-star-circle text-success"></i>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
   <!-- Column -->
   <!-- Column -->
-  <div class="col-lg-3 col-md-6">
-    <div class="card">
-      <div class="card-body">
-        <div class="row p-t-10 p-b-10">
-          <!-- Column -->
-          <div class="col p-r-0">
-            <h1 class="font-light">159</h1>
-            <h6 class="text-muted">Invoices</h6></div>
-          <!-- Column -->
-          <div class="col text-right align-self-center">
-            <div class="display-4">
-              <i class="mdi mdi-receipt text-danger"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="col-lg-3 col-md-6">-->
+  <!--<div class="card">-->
+  <!--<div class="card-body">-->
+  <!--<div class="row p-t-10 p-b-10">-->
+  <!--&lt;!&ndash; Column &ndash;&gt;-->
+  <!--<div class="col p-r-0">-->
+  <!--<h1 class="font-light">159</h1>-->
+  <!--<h6 class="text-muted">Invoices</h6></div>-->
+  <!--&lt;!&ndash; Column &ndash;&gt;-->
+  <!--<div class="col text-right align-self-center">-->
+  <!--<div class="display-4">-->
+  <!--<i class="mdi mdi-receipt text-danger"></i>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</div>-->
   <!-- Column -->
 </div>
 <!-- ============================================================== -->
@@ -89,55 +89,19 @@
 <!-- ============================================================== -->
 <div class="row">
   <!-- Column -->
-  <div class="col-lg-4">
+  <div class="col-lg-4" *ngFor="let transaction of transactions">
     <div class="card">
       <img class="card-img-top img-responsive" src="assets/images/big/img1.jpg" alt="Card image cap">
       <div class="card-body">
         <ul class="list-inline font-14">
-          <li class="p-l-0">20 May 2016</li>
+          <li class="p-l-0">Last action - {{ transaction?.updated_at | amTimeAgo }}</li>
           <li>
-            <a href="javascript:void(0)" class="link">3 Comment</a>
+            <a href="javascript:void(0)" class="link">{{ transaction?.events?.length}} Reviews</a>
           </li>
         </ul>
-        <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
-        <p class="m-b-0 m-t-10">Titudin venenatis ipsum ac feugiat. Vestibulum ullamcorper quam.</p>
-        <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Read more</button>
-      </div>
-    </div>
-  </div>
-  <!-- Column -->
-  <!-- Column -->
-  <div class="col-lg-4">
-    <div class="card">
-      <img class="card-img-top img-responsive" src="assets/images/big/img2.jpg" alt="Card image cap">
-      <div class="card-body">
-        <ul class="list-inline font-14">
-          <li class="p-l-0">20 May 2016</li>
-          <li>
-            <a href="javascript:void(0)" class="link">3 Comment</a>
-          </li>
-        </ul>
-        <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
-        <p class="m-b-0 m-t-10">Titudin venenatis ipsum ac feugiat. Vestibulum ullamcorper quam.</p>
-        <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Read more</button>
-      </div>
-    </div>
-  </div>
-  <!-- Column -->
-  <!-- Column -->
-  <div class="col-lg-4">
-    <div class="card">
-      <img class="card-img-top img-responsive" src="assets/images/big/img4.jpg" alt="Card image cap">
-      <div class="card-body">
-        <ul class="list-inline font-14">
-          <li class="p-l-0">20 May 2016</li>
-          <li>
-            <a href="javascript:void(0)" class="link">3 Comment</a>
-          </li>
-        </ul>
-        <h3 class="font-normal">Featured Hydroflora Pots Garden &amp; Outdoors</h3>
-        <p class="m-b-0 m-t-10">Titudin venenatis ipsum ac feugiat. Vestibulum ullamcorper quam.</p>
-        <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20">Read more</button>
+        <h3 class="font-normal">Buy {{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }} with {{ transaction?.selling_product_id | currency:'desc' }}</h3>
+        <p class="m-b-0 m-t-10">This transaction is {{ transaction?.transaction_status_id | status:'desc' }}</p>
+        <button class="btn btn-success btn-rounded waves-effect waves-light m-t-20" [routerLink]="['../transaction/details', transaction.id]">View Details</button>
       </div>
     </div>
   </div>
