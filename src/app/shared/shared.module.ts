@@ -9,6 +9,10 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface, PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {ExpressTransactionComponent} from './express-transaction/express-transaction.component';
 import {FormsModule} from '@angular/forms';
+import {StatusPipe} from './pipes/status.pipe';
+import {TypePipe} from './pipes/type.pipe';
+import {ModePipe} from './pipes/mode.pipe';
+import {ProductPipe} from './pipes/product.pipe';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -30,14 +34,22 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     NavigationComponent,
     SidebarComponent,
     SpinnerComponent,
-    ExpressTransactionComponent
+    ExpressTransactionComponent,
+    StatusPipe,
+    TypePipe,
+    ModePipe,
+    ProductPipe
   ],
   exports: [
     BreadcrumbComponent,
     NavigationComponent,
     SidebarComponent,
     SpinnerComponent,
-    ExpressTransactionComponent
+    ExpressTransactionComponent,
+    StatusPipe,
+    TypePipe,
+    ModePipe,
+    ProductPipe
   ],
   providers: [
     {

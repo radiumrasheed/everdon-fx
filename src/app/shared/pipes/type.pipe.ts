@@ -3,7 +3,7 @@ import {GenericOption} from './generic-option';
 import * as _ from 'lodash';
 
 
-export const transactionTypes: GenericOption[] = [
+export const TRANSACTION_TYPES: GenericOption[] = [
   {id: 1, name: 'purchase', desc: 'Purchase'},
   {id: 2, name: 'sales', desc: 'In Sales'},
   {id: 3, name: 'swap', desc: 'Swap'},
@@ -20,7 +20,7 @@ export class TypePipe implements PipeTransform {
 
 
   transform(value: any, args?: any): any {
-    this.selectedType = _.find(transactionTypes, type => {
+    this.selectedType = _.find(TRANSACTION_TYPES, type => {
       return type.id === value;
     });
 

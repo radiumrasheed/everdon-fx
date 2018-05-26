@@ -1,10 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {Product, Transaction, Account} from '../transaction';
-import {transactionStatuses} from '../pipes/status.pipe';
-import {transactionModes} from '../pipes/mode.pipe';
-import {transactionTypes} from '../pipes/type.pipe';
-import {GenericOption} from '../pipes/generic-option';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +8,9 @@ import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} f
 import {of} from 'rxjs/observable/of';
 import {User} from '../../authentication/login/user';
 import {AuthService} from '../../services/auth/auth.service';
+import {GenericOption} from '../../shared/pipes/generic-option';
+import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
+import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
 
 @Component({
   selector: 'app-request-transaction',
@@ -39,8 +38,8 @@ export class RequestTransactionComponent implements OnInit {
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   // transactionStatuses: GenericOption[] = transactionStatuses;
-  transactionModes: GenericOption[] = transactionModes;
-  transactionTypes: GenericOption[] = transactionTypes;
+  transactionModes: GenericOption[] = TRANSACTION_MODES;
+  transactionTypes: GenericOption[] = TRANSACTION_TYPES;
   // products
   search = (text$: Observable<string>) =>
     text$.pipe(

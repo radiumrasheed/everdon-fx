@@ -1,8 +1,8 @@
-import {CurrencyPipe} from './currency.pipe';
+import {ProductPipe} from './product.pipe';
 
 describe('CurrencyPipe', () => {
   it('create an instance', () => {
-    const pipe = new CurrencyPipe();
+    const pipe = new ProductPipe();
     expect(pipe).toBeTruthy();
   });
 });

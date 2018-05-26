@@ -1,11 +1,11 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import * as _ from 'lodash';
-import {Product, CURRENCIES} from '../transaction';
+import {Product, CURRENCIES} from '../../transaction/transaction';
 
 @Pipe({
   name: 'currency'
 })
-export class CurrencyPipe implements PipeTransform {
+export class ProductPipe implements PipeTransform {
   selectedCurrency: Product;
   result: string;
 
