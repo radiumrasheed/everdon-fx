@@ -209,12 +209,8 @@ export class TransactionDetailsComponent implements OnInit {
               if (treated_transaction) {
                 this.selectedTransaction = treated_transaction;
                 this.toastr.success('Successfully treated').catch();
+                this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
-            },
-            err => {
-            },
-            () => {
-              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;
@@ -227,14 +223,8 @@ export class TransactionDetailsComponent implements OnInit {
               if (treated_transaction) {
                 this.selectedTransaction = treated_transaction;
                 this.toastr.success('Successfully approved').catch();
+                this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
-            },
-            err => {
-              console.error(err);
-              this.toastr.error(err.message || err).catch();
-            },
-            () => {
-              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;
@@ -247,14 +237,8 @@ export class TransactionDetailsComponent implements OnInit {
               if (treated_transaction) {
                 this.selectedTransaction = treated_transaction;
                 this.toastr.success('Fulfilled Successfully').catch();
+                this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
-            },
-            err => {
-              console.error(err);
-              this.toastr.error(err.message || err).catch();
-            },
-            () => {
-              this.router.navigate(['../../'], {relativeTo: this.route}).catch();
             }
           );
         break;
