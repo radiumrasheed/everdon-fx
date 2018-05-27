@@ -15,8 +15,6 @@ export class ProductPipe implements PipeTransform {
       return currency.id === value;
     });
 
-    console.log(this.selectedCurrency);
-
 
     switch (args) {
       case 'desc':
