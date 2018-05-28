@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AdminDashboardService} from './admin-dashboard.service';
 import {Transaction} from '../../transaction/transaction';
+import * as _ from 'lodash';
 
 declare var require: any;
 
@@ -17,11 +18,12 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   subtitle: string;
   // lineChart
   public lineChartData: Array<any> = [
-    {data: [0, 50, 30, 60, 180, 120, 180, 80], label: 'Sales '},
-    {data: [0, 100, 70, 100, 240, 180, 220, 140], label: 'Expense '},
-    {data: [0, 150, 110, 240, 200, 200, 300, 200], label: 'Earning '}
+    {data: [327.2, 346.0, 366.1, 363.5, 362.9, 350.1, 362.8, 360.7], label: 'USD/NGN'},
+    {data: [421.5, 441.5, 421.5, 421.5, 461.5, 481.5, 421.5, 415.5], label: 'EUR/NGN '},
+    {data: [467.3, 476.2, 490.3, 420.0, 411.0, 420.5, 330.9, 470.2], label: 'GBP/NGN '}
   ];
-  // This is for the dashboar line chart
+
+  // This is for the WACC dashboard line chart
   public lineChartLabels: Array<any> = [
     'January',
     'February',
@@ -36,7 +38,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero: true
+          beginAtZero: false
         },
         gridLines: {
           color: 'rgba(0, 0, 0, 0.1)'
@@ -50,38 +52,23 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     },
     lineTension: 10,
     responsive: true,
-    maintainAspectRatio: false,
-
-
+    maintainAspectRatio: false
   };
   public lineChartColors: Array<any> = [
     {
-      // dark grey
-      backgroundColor: 'rgba(234,237,242,1)',
-      borderColor: 'rgba(234,237,242,1)',
-      pointBackgroundColor: 'rgba(234,237,242,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(234,237,242,1)'
+      // info
+      borderColor: 'rgba(57,139,247,1)',
+      pointHoverBorderColor: 'rgba(57,139,247,1)'
     },
     {
-      // grey
-      backgroundColor: 'rgba(76,139,236,1)',
-      borderColor: 'rgba(76,139,236,1)',
-      pointBackgroundColor: 'rgba(76,139,236,1)',
-      pointBorderColor: '#fff',
-
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(76,139,236,1)'
-    }, {
-      // grey
-      backgroundColor: 'rgba(117,91,241,1)',
-      borderColor: 'rgba(117,91,241,1)',
-      pointBackgroundColor: 'rgba(117,91,241,1)',
-      pointBorderColor: '#fff',
-
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(117,91,241,1)'
+      // success
+      borderColor: 'rgba(6,215,156,1)',
+      pointHoverBorderColor: 'rgba(6,215,156,1)'
+    },
+    {
+      // warning
+      borderColor: 'rgba(255,178,43,1)',
+      pointHoverBorderColor: 'rgba(255,178,43,1)'
     }
 
 
@@ -93,6 +80,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public figures: any;
   public buckets: any;
   public transactions: Transaction[];
+  public waccs: any;
 
 
   // Doughnut...
@@ -149,6 +137,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       .subscribe(
         buckets => {
           this.buckets = buckets;
+          this.waccs = _.dropRight(this.buckets);
         }
       );
   }
