@@ -2,7 +2,7 @@ import {AfterViewInit, Component} from '@angular/core';
 
 declare var require: any;
 
-const data: any = require('../../dashboards/dashboard1/data.json');
+// const data: any = require('../../dashboards/dashboard1/data.json');
 
 @Component({
   selector: 'app-admin-dashboard',

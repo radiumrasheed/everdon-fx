@@ -6,7 +6,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MomentModule} from 'angular2-moment';
 
 import {TransactionService} from './transaction.service';
-import {ManageTransactionComponent} from './manage-transaction/manage-transaction.component';
 import {SharedModule} from '../shared/shared.module';
 
 
@@ -19,7 +18,7 @@ import {SharedModule} from '../shared/shared.module';
     SharedModule,
     TransactionRoutingModule
   ],
-  declarations: [transactionComponents, ManageTransactionComponent],
+  declarations: [transactionComponents],
   providers: [TransactionService]
 })
 export class TransactionModule {
