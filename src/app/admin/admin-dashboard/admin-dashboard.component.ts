@@ -1,4 +1,6 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AdminDashboardService} from './admin-dashboard.service';
+import {Transaction} from '../../transaction/transaction';
 
 declare var require: any;
 
@@ -7,9 +9,10 @@ declare var require: any;
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  styleUrls: ['./admin-dashboard.component.css']
+  styleUrls: ['./admin-dashboard.component.css'],
+  providers: [AdminDashboardService]
 })
-export class AdminDashboardComponent implements AfterViewInit {
+export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
   subtitle: string;
   // lineChart
@@ -85,26 +88,69 @@ export class AdminDashboardComponent implements AfterViewInit {
   ];
   public lineChartLegend = false;
   public lineChartType = 'line';
-  // Doughnut
+
+  // API Stats...
+  public figures: any;
+  public buckets: any;
+  public transactions: Transaction[];
+
+
+  // Doughnut...
   public doughnutChartLabels: string[] = [
-    'Tablet',
-    'Desktop',
-    'Mobile',
-    'Other'
+    'Open',
+    'In Progress',
+    'Awaiting Approval',
+    'Awaiting Fulfilment',
+    'Closed'
   ];
   public doughnutChartOptions: any = {
     borderWidth: 2,
     maintainAspectRatio: false,
   };
-  public doughnutChartData: number[] = [150, 450, 200, 20];
+  public doughnutChartData: number[] = [150, 450, 200, 20, 5];
   public doughnutChartType = 'doughnut';
   public doughnutChartLegend = false;
 
-  constructor() {
+  constructor(private dashboardService: AdminDashboardService) {
     this.subtitle = 'This is some text within a card block.';
   }
 
   ngAfterViewInit() {
+  }
+
+  ngOnInit() {
+    this.getBucketBalance();
+  }
+
+  public getFigures() {
+    this.dashboardService.figures()
+      .subscribe(
+        figures => this.figures = figures,
+        err => {
+        },
+        () => {
+        }
+      );
+  }
+
+  public getRecentTransactions() {
+    this.dashboardService.recentTransactions()
+      .subscribe(
+        transactions => this.transactions = transactions,
+        err => {
+        },
+        () => {
+        }
+      );
+  }
+
+  public getBucketBalance() {
+    this.dashboardService.buckets()
+      .subscribe(
+        buckets => {
+          this.buckets = buckets;
+        }
+      );
   }
 
 }
