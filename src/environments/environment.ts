@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   API_URL: 'http://localhost:8000/api',
-  PUSHER_KEY: '4cf14d87b9e0479cdd88',
+  PUSHER_KEY: 'e4064c606d37d415e34b',
   PUSHER_CLUSTER: 'eu',
   // API_URL: 'http://192.168.0.101:8000/api'
 };
