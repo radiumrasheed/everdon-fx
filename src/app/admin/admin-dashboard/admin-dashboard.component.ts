@@ -3,10 +3,6 @@ import {AdminDashboardService} from './admin-dashboard.service';
 import {Transaction} from '../../transaction/transaction';
 import * as _ from 'lodash';
 
-declare var require: any;
-
-// const data: any = require('../../dashboards/dashboard1/data.json');
-
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
@@ -18,39 +14,22 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   subtitle: string;
   // lineChart
   public lineChartData: Array<any> = [
-    {data: [327.2, 346.0, 366.1, 363.5, 362.9, 350.1, 362.8, 360.7], label: 'USD/NGN'},
-    {data: [421.5, 441.5, 421.5, 421.5, 461.5, 481.5, 421.5, 415.5], label: 'EUR/NGN '},
-    {data: [467.3, 476.2, 490.3, 420.0, 411.0, 420.5, 330.9, 470.2], label: 'GBP/NGN '}
+    {label: 'usd', data: []},
+    {label: 'gbp', data: []},
+    {label: 'eur', data: []},
   ];
 
   // This is for the WACC dashboard line chart
-  public lineChartLabels: Array<any> = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'Aug'
-  ];
+  public lineChartLabels: Array<any> = [];
   public lineChartOptions: any = {
     scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: false
-        },
-        gridLines: {
-          color: 'rgba(0, 0, 0, 0.1)'
-        }
-      }],
       xAxes: [{
-        gridLines: {
-          color: 'rgba(0, 0, 0, 0.1)'
-        },
+        type: 'time',
+        distribution: 'linear',
+        ticks: {source: 'data'},
       }]
     },
-    lineTension: 10,
+    lineTension: 5,
     responsive: true,
     maintainAspectRatio: false
   };
@@ -70,11 +49,10 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       borderColor: 'rgba(255,178,43,1)',
       pointHoverBorderColor: 'rgba(255,178,43,1)'
     }
-
-
   ];
-  public lineChartLegend = false;
+  public lineChartLegend = true;
   public lineChartType = 'line';
+
 
   // API Stats...
   public figures: any;
@@ -99,6 +77,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public doughnutChartType = 'doughnut';
   public doughnutChartLegend = false;
 
+
   constructor(private dashboardService: AdminDashboardService) {
     this.subtitle = 'This is some text within a card block.';
   }
@@ -108,27 +87,25 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.getBucketBalance();
+    this.getTimeline();
+
+    const channel = this.dashboardService.init();
+    channel.bind('App\\Events\\NewRates', (rates: any) => {
+      this.getTimeline();
+    });
   }
 
   public getFigures() {
     this.dashboardService.figures()
       .subscribe(
-        figures => this.figures = figures,
-        err => {
-        },
-        () => {
-        }
+        figures => this.figures = figures
       );
   }
 
   public getRecentTransactions() {
     this.dashboardService.recentTransactions()
       .subscribe(
-        transactions => this.transactions = transactions,
-        err => {
-        },
-        () => {
-        }
+        transactions => this.transactions = transactions
       );
   }
 
@@ -137,7 +114,22 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       .subscribe(
         buckets => {
           this.buckets = buckets;
+
+          // !drop ngn...
           this.waccs = _.dropRight(this.buckets);
+        }
+      );
+  }
+
+  public getTimeline() {
+    this.dashboardService.timeline()
+      .subscribe(
+        rates => {
+          this.lineChartData = [
+            {label: 'USD', data: rates['usd']},
+            {label: 'EUR', data: rates['eur']},
+            {label: 'GBP', data: rates['gbp']}
+          ];
         }
       );
   }

@@ -33,31 +33,31 @@
           <div>
             <h4 class="card-title"><span class="lstick"></span>WACC Timeline</h4>
           </div>
-          <div class="ml-auto">
-            <ul class="list-inline">
-              <li>
-                <h6 class="text-muted text-success">
-                  <i class="fa fa-circle font-10 m-r-10 "></i>
-                  Euro €
-                </h6>
-              </li>
-              <li>
-                <h6 class="text-muted  text-info">
-                  <i class="fa fa-circle font-10 m-r-10"></i>
-                  Dollars $
-                </h6>
-              </li>
-              <li>
-                <h6 class="text-muted  text-warning">
-                  <i class="fa fa-circle font-10 m-r-10"></i>
-                  Pounds £
-                </h6>
-              </li>
-            </ul>
-          </div>
+          <!--<div class="ml-auto">-->
+          <!--<ul class="list-inline">-->
+          <!--<li>-->
+          <!--<h6 class="text-muted text-success">-->
+          <!--<i class="fa fa-circle font-10 m-r-10 "></i>-->
+          <!--Euro €-->
+          <!--</h6>-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<h6 class="text-muted  text-info">-->
+          <!--<i class="fa fa-circle font-10 m-r-10"></i>-->
+          <!--Dollars $-->
+          <!--</h6>-->
+          <!--</li>-->
+          <!--<li>-->
+          <!--<h6 class="text-muted  text-warning">-->
+          <!--<i class="fa fa-circle font-10 m-r-10"></i>-->
+          <!--Pounds £-->
+          <!--</h6>-->
+          <!--</li>-->
+          <!--</ul>-->
+          <!--</div>-->
         </div>
-        <div style="height:370px;">
-          <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions"
+        <div style="height:370px;" *ngIf="lineChartData">
+          <canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
                   [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
         </div>
       </div>

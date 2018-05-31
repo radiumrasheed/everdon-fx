@@ -34,7 +34,7 @@ export class Login2Component implements OnInit, AfterViewInit {
       .subscribe(() => {
         if (this.authService.tokenNotExpired()) {
           // redirect the staff
-          this.router.navigate(['/admin', 'dashboard']);
+          this.router.navigate(['/admin', 'dashboard']).catch();
         }
       });
   }
