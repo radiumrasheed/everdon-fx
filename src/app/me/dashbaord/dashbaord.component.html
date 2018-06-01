@@ -3,43 +3,47 @@
 <!-- ============================================================== -->
 <div class="row">
   <!-- Column -->
-  <div class="col-lg-3 col-md-6">
+  <div class="col-lg-6 col-md-6">
     <div class="card">
-      <div class="card-body">
-        <div class="row p-t-10 p-b-10">
-          <!-- Column -->
-          <div class="col p-r-0">
-            <h1 class="font-light">{{ figures?.transactions }}</h1>
-            <h6 class="text-muted">Transactions</h6></div>
-          <!-- Column -->
-          <div class="col text-right align-self-center">
-            <div class="display-4">
-              <i class="mdi mdi-receipt text-success"></i>
+      <a [routerLink]="'/me/transaction'">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.transactions }}</h1>
+              <h6 class="text-muted">Transactions</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
+              <div class="display-4">
+                <i class="mdi mdi-receipt text-success"></i>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
   <!-- Column -->
   <!-- Column -->
-  <div class="col-lg-3 col-md-6">
+  <div class="col-lg-6 col-md-6">
     <div class="card">
-      <div class="card-body">
-        <div class="row p-t-10 p-b-10">
-          <!-- Column -->
-          <div class="col p-r-0">
-            <h1 class="font-light">{{ figures?.accounts }}</h1>
-            <h6 class="text-muted">Accounts</h6></div>
-          <!-- Column -->
-          <div class="col text-right align-self-center">
+      <a [routerLink]="'/me/profile'" fragment="accounts">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.accounts }}</h1>
+              <h6 class="text-muted">Accounts</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
 
-            <div class="display-4">
-              <i class="mdi mdi-briefcase-check text-info"></i>
+              <div class="display-4">
+                <i class="mdi mdi-briefcase-check text-info"></i>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </a>
     </div>
   </div>
   <!-- Column -->
@@ -96,7 +100,7 @@
         <ul class="list-inline font-14">
           <li class="p-l-0">Last action - {{ transaction?.updated_at | amTimeAgo }}</li>
           <li>
-            <a href="javascript:void(0)" class="link">{{ transaction?.events?.length}} Reviews</a>
+            <a href="javascript:void(0)" [routerLink]="['../transaction/details', transaction.id]" fragment="comments" class="link">{{ transaction?.events?.length}} Reviews</a>
           </li>
         </ul>
         <h3 class="font-normal">Buy {{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }} with {{ transaction?.selling_product_id | currency:'desc' }}</h3>

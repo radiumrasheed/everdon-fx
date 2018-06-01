@@ -26,6 +26,7 @@ export const MeRoutes: Routes = [
           urls: [{title: 'Me', url: '/me'}, {title: 'Profile'}]
         }
       },
+      {path: 'transactions', redirectTo: 'transaction', pathMatch: 'full'},
       {
         path: 'transaction',
         loadChildren: '../transaction/transaction.module#TransactionModule',

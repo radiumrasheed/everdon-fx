@@ -1,9 +1,9 @@
 export class User {
   email?: string;
   password?: string;
-  confirm_password?: string;
+  password_confirmation?: string;
   phone?: string;
   is_cooperate?: string;
-  is_individual?: string;
+  rc_number?: string;
   full_name?: string;
 }

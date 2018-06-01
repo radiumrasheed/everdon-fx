@@ -14,22 +14,21 @@ export class ListTransactionsComponent implements OnInit {
   public transactionPage = 1;
 
   roles$: Observable<any>;
+  role$: Observable<any>;
 
   constructor(private transactionService: TransactionService, private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.getTransactions();
     this.roles$ = this.authService.roles;
+    this.role$ = this.authService.role;
+    this.getTransactions();
   }
 
   getTransactions(): void {
     this.transactionService.getTransactions()
       .subscribe(
         transactions => {
-          if (transactions === []) {
-            //
-          }
           this.transactions = transactions;
         }
       );

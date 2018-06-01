@@ -1,9 +1,10 @@
 <div class="row">
 
   <!-- Column -->
-  <div class="col-lg-9 col-xlg-10 col-md-7">
-    <ngb-tabset [justify]="'fill'">
-      <ngb-tab title="Summary">
+  <div [ngClass]="{ 'col-lg-9 col-xlg-10 col-md-7': !is_client, 'col-12': is_client }">
+    <ngb-tabset #t="ngbTabset" [justify]="'fill'">
+
+      <ngb-tab id="summary" title="Summary">
         <ng-template ngbTabContent>
           <div class="card-body" *ngIf="selectedTransaction">
             <div class="w-100 row">
@@ -42,7 +43,7 @@
 
               <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
                 <div class="col-12">
-                  <div class="card card-inverse card-info">
+                  <div class="card card-megna">
                     <div class="card-header">
                       <h4 class="m-b-0 text-white">
                         <i class="mdi mdi-briefcase-check text-warning"></i>
@@ -206,7 +207,7 @@
         </ng-template>
       </ngb-tab>
 
-      <ngb-tab title="Comments & Timeline">
+      <ngb-tab id="comments" title="Comments & Timeline">
         <ng-template ngbTabContent>
           <div class="card-body">
             <div class="profiletimeline">
@@ -289,7 +290,7 @@
         </ng-template>
       </ngb-tab>-->
 
-      <ngb-tab title="Advanced Options" [disabled]="selectedTransaction">
+      <ngb-tab *ngIf="!is_client" id="advance" title="Advanced Options" [disabled]="selectedTransaction">
         <ng-template ngbTabContent>
           <div class="card-body">
             <form class="form-horizontal form-material">
@@ -366,7 +367,8 @@
 
             <div class="row text-center justify-content-md-center">
               <div class="col-6">
-                <a href="javascript:void(0)" class="link" title="{{ selectedTransaction?.client?.accounts?.length }} accounts">
+                <a href="javascript:void(0)" (click)="t.select('accounts')" class="link"
+                   popoverTitle="Popover on bottom" ngbPopover="{{ selectedTransaction?.client?.accounts?.length }} accounts">
                   <i class="icon-wallet"></i>
                   <font class="font-medium">{{ selectedTransaction?.client?.accounts?.length }}</font>
                 </a>

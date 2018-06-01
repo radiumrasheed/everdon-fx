@@ -8,7 +8,7 @@
           <h6 class="card-subtitle">{{ client?.occupation }}</h6>
           <div class="row text-center justify-content-md-center">
             <div class="col-4">
-              <a href="javascript:void(0)" class="link" title="{{ client?.accounts?.length }} accounts">
+              <a href="javascript:void(0)" (click)="t.select('accounts')" class="link" title="{{ client?.accounts?.length }} accounts">
                 <i class="icon-wallet"></i>
                 <font
                   class="font-medium">{{ client?.accounts?.length }}</font></a>
@@ -93,9 +93,9 @@
     <div class="card">
 
 
-      <ngb-tabset>
+      <ngb-tabset #t="ngbTabset">
 
-        <ngb-tab title="Update Profile">
+        <ngb-tab id="profile" title="Update Profile">
           <ng-template ngbTabContent>
             <div class="card-body">
               <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
@@ -217,10 +217,27 @@
           </ng-template>
         </ngb-tab>
 
-        <ngb-tab title="Accounts" [disabled]="true">
+        <ngb-tab id="accounts" title="Accounts">
           <ng-template ngbTabContent>
             <div class="card-body">
-
+              <div class="row">
+                <div class="col-lg-4 col-md-6" *ngFor="let account of client.accounts">
+                  <div class="card">
+                    <div class="d-flex flex-row">
+                      <div class="p-10 bg-info">
+                        <h3 class="text-white box m-b-0">
+                          <i class="ti-wallet"></i>
+                        </h3>
+                      </div>
+                      <div class="align-self-center m-l-20">
+                        <h4 class="m-b-0 text-info">{{ account.name}} </h4>
+                        <i class="mdi mdi-credit-card"></i>
+                        <code>{{ account.number }}</code>
+                        <h6 class="text-muted m-b-0">{{ account.bank }}</h6></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </ng-template>
         </ngb-tab>

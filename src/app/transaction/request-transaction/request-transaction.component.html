@@ -44,9 +44,9 @@
           </ng-container>
 
           <div class="form-group row">
-            <label for="buying_product_id" class="col-md-2 col-form-label">Buying Product</label>
+            <label for="buying_product_id" class="col-md-2 col-form-label">{{ (role$ | async) === 'client' ? 'I want' : 'Buying Product' }}<span class="text-danger">*</span></label>
             <div class="col-md-10">
-              <select id="buying_product_id" class="custom-select col-12" required [(ngModel)]="transaction.buying_product_id" id="buying_product_id" name="buying_product_id">
+              <select id="buying_product_id" class="custom-select col-12" required [(ngModel)]="transaction.buying_product_id" name="buying_product_id">
                 <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">{{ availableProduct.description }}</option>
               </select>
             </div>
@@ -54,9 +54,9 @@
 
 
           <div class="form-group row">
-            <label for="selling_product_id" class="col-md-2 col-form-label">Selling Product</label>
+            <label for="selling_product_id" class="col-md-2 col-form-label">{{ (role$ | async) === 'client' ? 'I have' : 'Selling Product' }}<span class="text-danger">*</span></label>
             <div class="col-md-10">
-              <select id="selling_product_id" class="custom-select col-12" required [(ngModel)]="transaction.selling_product_id" id="selling_product_id" name="selling_product_id">
+              <select id="selling_product_id" class="custom-select col-12" required [(ngModel)]="transaction.selling_product_id" name="selling_product_id">
                 <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">{{ availableProduct.description }}</option>
               </select>
             </div>
@@ -64,7 +64,7 @@
 
 
           <div class="form-group row">
-            <label for="product-amount" class="col-md-2 col-form-label">Product Amount</label>
+            <label for="product-amount" class="col-md-2 col-form-label">Product Amount<span class="text-danger" *ngIf="newAccount">*</span></label>
             <div class="col-md-10">
               <div class="input-group">
                 <!--<span class="input-group-addon" *ngIf="transaction.buying_product_id === '1'">{{ transaction.buying_product_id | currency }}</span>-->
@@ -98,7 +98,7 @@
             <div class="form-group row">
               <div class="form-group col-3">
                 <label>Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
-                <select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" placeholder="Bank">
+                <select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" id="bank_name">
                   <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
                 </select>
               </div>
