@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from './dashboard.service';
 import {Transaction} from '../../transaction/transaction';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dashbaord',
@@ -23,7 +24,9 @@ export class DashbaordComponent implements OnInit {
   public getFigures() {
     this.dashboardService.figures()
       .subscribe(
-        figures => this.figures = figures,
+        figures => {
+          this.figures = figures;
+        },
         err => {
         },
         () => {

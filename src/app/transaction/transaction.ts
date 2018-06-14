@@ -12,6 +12,9 @@ export class Client {
   nok_full_name: string;
   nok_phone: string;
   occupation: string;
+  identification: string;
+  identification_number: string;
+  // identification_image: any;
   office_address: string;
   phone: string;
   rc_number: string;
@@ -81,11 +84,13 @@ export class Transaction {
   id: number;
   initiated_at?: number;
   initiated_by?: number;
+  link?: string;
   buying_product_id?: number;
   selling_product_id?: number;
   rate?: number;
   reviewed_at?: string;
   reviewed_by?: number;
+  transaction_ref?: string;
   transaction_mode_id?: number;
   transaction_status_id?: number;
   transaction_type_id?: number;
@@ -110,7 +115,7 @@ export class Organization {
 }
 
 
-export const CURRENCIES: Product[] = [
+export const PRODUCTS: Product[] = [
   {id: 1, name: 'USD', value: 'usd', description: 'US Dollar', sign: '$'},
   {id: 2, name: 'EUR', value: 'eur', description: 'Euro', sign: '€'},
   {id: 3, name: 'GBP', value: 'gbp', description: 'British pounds', sign: '£'},

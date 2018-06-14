@@ -55,7 +55,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
 
   // API Stats...
-  public figures: any;
+  public counts: any;
   public buckets: any;
   public transactions: Transaction[];
   public waccs: any;
@@ -67,13 +67,17 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     'In Progress',
     'Awaiting Approval',
     'Awaiting Fulfilment',
+    'Canceled',
     'Closed'
   ];
+  public doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
+  public totalTransactions = 0;
+
   public doughnutChartOptions: any = {
     borderWidth: 2,
     maintainAspectRatio: false,
+    total: this.totalTransactions
   };
-  public doughnutChartData: number[] = [150, 450, 200, 20, 5];
   public doughnutChartType = 'doughnut';
   public doughnutChartLegend = false;
 
@@ -88,6 +92,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     this.getBucketBalance();
     this.getTimeline();
+    this.getTransactionCounts();
 
     const channel = this.dashboardService.init();
     channel.bind('App\\Events\\NewRates', (rates: any) => {
@@ -95,10 +100,16 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     });
   }
 
-  public getFigures() {
-    this.dashboardService.figures()
+  public getTransactionCounts() {
+    this.dashboardService.counts()
       .subscribe(
-        figures => this.figures = figures
+        counts => {
+          this.counts = counts;
+          this.doughnutChartData = _.values(counts);
+          this.doughnutChartLabels = _.keys(counts);
+          console.log(this.doughnutChartLabels, this.doughnutChartData);
+          this.totalTransactions = _.sum(this.doughnutChartData);
+        }
       );
   }
 
@@ -115,7 +126,44 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
         buckets => {
           this.buckets = buckets;
 
-          // !drop ngn...
+          let sum = 0;
+          _.forEach(this.buckets, bucket => {
+            sum += parseFloat(bucket.bucket_local);
+          });
+          _.forEach(this.buckets, bucket => {
+            bucket.percentage = (parseFloat(bucket.bucket_local) / sum) * 100;
+            switch (true) {
+              case (parseFloat(bucket.prev_bucket) === null):
+                bucket.direction = 'middle';
+                break;
+              case (parseFloat(bucket.prev_bucket) > parseFloat(bucket.bucket)):
+                bucket.direction = 'down';
+                break;
+              case (parseFloat(bucket.prev_bucket) < parseFloat(bucket.bucket)):
+                bucket.direction = 'up';
+                break;
+              case (parseFloat(bucket.prev_bucket) === parseFloat(bucket.bucket)):
+                bucket.direction = 'middle';
+                break;
+              default:
+                bucket.direction = 'middle';
+            }
+            switch (true) {
+              case 0 <= bucket.percentage && bucket.percentage < 20:
+                bucket.type = 'danger';
+                break;
+              case 20 <= bucket.percentage && bucket.percentage <= 40:
+                bucket.type = 'info';
+                break;
+              case bucket.percentage > 40:
+                bucket.type = 'success';
+                break;
+              default:
+                bucket.type = '';
+            }
+          });
+
+          // !drop local...
           this.waccs = _.dropRight(this.buckets);
         }
       );

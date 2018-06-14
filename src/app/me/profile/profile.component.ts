@@ -12,12 +12,25 @@ import {ToastsManager} from 'ng2-toastr';
 export class ProfileComponent implements OnInit {
   client: Client;
   public is_individual: boolean;
+  formData = new FormData();
 
   constructor(private profileService: ProfileService, private toastr: ToastsManager) {
   }
 
   ngOnInit() {
     this.getProfile();
+  }
+
+  fileChangeEvent(fileInput: any) {
+    this.formData.append('identification_image', fileInput.target.files[0]);
+  }
+
+  constructFormData() {
+    Object.keys(this.client).forEach(key => {
+      if (this.client[key]) {
+        this.formData.append(key, this.client[key]);
+      }
+    });
   }
 
   getProfile() {
@@ -42,14 +55,18 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this.profileService.updateProfile(this.client, this.client.id)
+    this.constructFormData();
+    this.profileService.updateProfile(this.formData, this.client.id)
       .subscribe(
         client => {
-          this.toastr.success('Profile updated successfully').catch();
+          if (client) {
+            this.toastr.success('Profile updated successfully').catch();
+          }
         },
         () => {
         },
         () => {
+          this.formData = new FormData();
           this.getProfile();
         }
       );

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
-import {CURRENCIES, ORGANIZATIONS, Transaction} from '../transaction';
+import {PRODUCTS, ORGANIZATIONS, Transaction} from '../transaction';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../../services/auth/auth.service';
@@ -16,7 +16,7 @@ import {ToastsManager} from 'ng2-toastr';
 export class TransactionDetailsComponent implements OnInit {
 
   public selectedTransaction: Transaction;
-  public currencyList = CURRENCIES;
+  public currencyList = PRODUCTS;
   public organizationList = ORGANIZATIONS;
 
   id: string;

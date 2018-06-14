@@ -47,7 +47,7 @@
                     <div class="card-header">
                       <h4 class="m-b-0 text-white">
                         <i class="mdi mdi-briefcase-check text-warning"></i>
-                        {{ selectedTransaction?.transaction_type_id | type }} Transaction
+                        Transaction #{{ selectedTransaction.transaction_ref }}
                       </h4>
                     </div>
                     <div class="card-body">
@@ -375,8 +375,8 @@
               </div>
             </div>
 
-            <div class="bg-light-info">
-              <i [ngClass]="{'fa fa-user-o' : selectedTransaction?.client?.client_type === 1, 'fa fa-bank-o' :  selectedTransaction?.client?.client_type === 2}"></i>
+            <div class="bg-light-info fa">
+              <i [ngClass]="{'fa-user-o' : selectedTransaction?.client?.client_type === 1, 'fa-bank-o' :  selectedTransaction?.client?.client_type === 2}"></i>
 
               <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 1">Individual</span>
               <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 2">Cooperate</span>

@@ -4,18 +4,19 @@
       <div class="card-body">
         <h4 class="card-title"><span class="lstick"></span>Transactions</h4>
         <div class="table-responsive m-t-20">
-          <!--<p>{{ roles$ | async }}</p>-->
           <table class="table vm no-th-brd pro-of-month">
             <thead>
             <tr class="text-dark">
               <th *ngIf="(role$ | async) === 'admin'">Requester</th>
+              <th>Transaction Ref</th>
               <th *ngIf="(role$ | async) === 'admin'">Transaction Type</th>
-              <th>Transaction Mode</th>
+              <th *ngIf="(role$ | async) === 'admin'">Transaction Mode</th>
               <th>Buying</th>
               <th>Selling</th>
               <th>Amount</th>
               <th>Rate</th>
               <th>Status</th>
+              <th>Time Requested</th>
             </tr>
             </thead>
             <tbody>
@@ -24,8 +25,13 @@
                 <h4>{{ transaction?.client?.full_name }}</h4>
                 <small class="text-muted">{{ transaction?.client?.occupation }}</small>
               </td>
+              <td>
+                <a [routerLink]="['..', 'details', transaction?.id]">
+                  {{ '#' + transaction?.transaction_ref }}
+                </a>
+              </td>
               <td *ngIf="(role$ | async) === 'admin'">{{ transaction?.transaction_type_id | type }}</td>
-              <td>{{ transaction?.transaction_mode_id | mode }}</td>
+              <td *ngIf="(role$ | async) === 'admin'">{{ transaction?.transaction_mode_id | mode }}</td>
               <td>{{ transaction?.buying_product_id | currency }}</td>
               <td>{{ transaction?.selling_product_id | currency }}</td>
               <td class="text-right">{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }}</td>
@@ -39,17 +45,20 @@
               </td>
               <td><span class="label label-rounded" [ngClass]="transaction?.transaction_status_id | status:'class'">
                 {{ transaction?.transaction_status_id | status }}</span></td>
-              <td>
-                <a [routerLink]="['..', 'details', transaction?.id]">
-                  <span class="badge"></span>Details
-                </a>
-              </td>
+              <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ transaction.created_at | amCalendar }}</span></td>
             </tr>
             <p #no_event *ngIf="!transactions"> No transactions </p>
             </tbody>
           </table>
-          <ngb-pagination class="d-flex justify-content-center" [collectionSize]="transactions?.length" [(page)]="transactionPage" [directionLinks]="true"></ngb-pagination>
         </div>
+
+        <!--<div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'admin'">-->
+        <!--<ng2-smart-table [settings]="admin_table_settings" [source]="transactions" class=""></ng2-smart-table>-->
+        <!--</div>-->
+
+        <!--<div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'client'">-->
+        <!--<ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>-->
+        <!--</div>-->
       </div>
     </div>
   </div>

@@ -4,7 +4,7 @@ import {ToastsManager} from 'ng2-toastr';
 import {ExpressService, ExpressTransaction} from './express.service';
 import {Subject} from 'rxjs/Subject';
 import {debounceTime} from 'rxjs/operators';
-import {CURRENCIES, Transaction} from '../../transaction/transaction';
+import {PRODUCTS, Transaction} from '../../transaction/transaction';
 
 @Component({
   selector: 'app-express-transaction',
@@ -23,7 +23,7 @@ export class ExpressTransactionComponent implements OnInit {
     {name: 'Zenith', value: 'zenith'},
     {name: 'Access', value: 'access'}
   ];
-  currencyList = CURRENCIES;
+  currencyList = PRODUCTS;
   private _success = new Subject<string>();
   public submitting: boolean;
 

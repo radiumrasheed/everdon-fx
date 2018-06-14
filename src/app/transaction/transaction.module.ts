@@ -1,10 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {transactionComponents, TransactionRoutingModule} from './transaction.routing';
 import {FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MomentModule} from 'angular2-moment';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
 
+
+import {transactionComponents, TransactionRoutingModule} from './transaction.routing';
 import {TransactionService} from './transaction.service';
 import {SharedModule} from '../shared/shared.module';
 
@@ -16,6 +18,8 @@ import {SharedModule} from '../shared/shared.module';
     MomentModule,
     NgbModule,
     SharedModule,
+    Ng2SmartTableModule,
+
     TransactionRoutingModule
   ],
   declarations: [transactionComponents],

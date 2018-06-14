@@ -32,6 +32,15 @@ export class AdminDashboardService {
       );
   }
 
+  /** GET: get a transaction */
+  counts(): Observable<any> {
+    return this.http.get<any>(this.dashboardUrl + '/counts')
+      .pipe(
+        map(response => response['data']),
+        catchError(this.handleError<any>('Transaction Counts', null))
+      );
+  }
+
   recentTransactions(): Observable<any> {
     return this.http.get<any>(this.dashboardUrl + '/recent_transactions')
       .pipe(

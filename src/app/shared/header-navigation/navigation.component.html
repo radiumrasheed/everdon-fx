@@ -163,7 +163,7 @@
         </li>
 
 
-        <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false">
+        <li class="nav-item dropdown mega-dropdown" ngbDropdown [autoClose]="false" *ngIf="!(isLoggedIn$ | async)">
           <a ngbDropdownToggle class="nav-link text-muted waves-effect" href="javascript:void(0)">
             <!--<i class="mdi mdi-view-grid"></i>-->
             QUICK REQUEST

@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 import {AppConfig} from '../../app.config';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs/Observable';
 import {Client} from '../../transaction/transaction';
+import {RequestOptions} from '@angular/http';
 
 @Injectable()
 export class ProfileService {
@@ -24,8 +25,8 @@ export class ProfileService {
       );
   }
 
-  updateProfile(client: Client, id: number): Observable<Client> {
-    return this.http.put<Client>(this.clientUrl + '/' + id, client)
+  updateProfile(client: FormData, id: number): Observable<Client> {
+    return this.http.post<Client>(this.clientUrl + '/' + id, client, {headers: {'Content-Type': 'ignore'}})
       .pipe(
         map(response => response['data']['client']),
         catchError(this.handleError<Client>('Get Profile', null))

@@ -29,6 +29,12 @@ export class AuthInterceptor implements HttpInterceptor {
     // default --> json
     if (!req.headers.has('Content-Type')) {
       req = req.clone({headers: req.headers.set('Content-Type', 'application/json')});
+
+    }
+
+    // Hack for ignoring content-type
+    if (req.headers.get('Content-Type') === 'ignore') {
+      req = req.clone({headers: req.headers.delete('Content-Type')});
     }
 
     // setting the accept header

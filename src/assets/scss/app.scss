@@ -24,7 +24,6 @@ Global Styles
 
 * {
   outline: none;
-
 }
 
 body {
@@ -34,6 +33,7 @@ body {
   overflow-x: hidden;
   color: $bodytext;
   font-weight: 300;
+  font-display: fallback;
 }
 
 html {

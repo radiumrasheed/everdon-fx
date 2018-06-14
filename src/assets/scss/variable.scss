@@ -5,7 +5,13 @@ Email: niravjoshi87@gmail.com
 File: scss
 */
 // Variables
-@import url('https://fonts.googleapis.com/css?family=Product%20Sans:500,600,700');
+//@import url('https://fonts.googleapis.com/css?family=Product%20Sans:500,600,700');
+
+@font-face {
+  font-family: 'Product Sans';
+  font-display: fallback;
+  src: local('Product Sans'), url('https://fonts.googleapis.com/css?family=Product%20Sans:500,600,700');
+}
 
 $bodyfont: 'Product Sans', sans-serif;
 $headingfont: 'Product Sans', sans-serif;
