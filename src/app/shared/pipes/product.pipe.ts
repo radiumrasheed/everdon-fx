@@ -11,7 +11,9 @@ export class ProductPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
     this.selectedCurrency = _.find(PRODUCTS, currency => {
-
+      if (typeof value === 'string') {
+        return currency.value === value;
+      }
       return currency.id === value;
     });
 

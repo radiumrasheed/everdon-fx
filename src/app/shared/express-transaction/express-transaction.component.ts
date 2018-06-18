@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
-import {ExpressService, ExpressTransaction} from './express.service';
 import {Subject} from 'rxjs/Subject';
 import {debounceTime} from 'rxjs/operators';
+
+import {ExpressService, ExpressTransaction} from './express.service';
 import {PRODUCTS, Transaction} from '../../transaction/transaction';
 
 @Component({
@@ -15,6 +16,8 @@ import {PRODUCTS, Transaction} from '../../transaction/transaction';
 export class ExpressTransactionComponent implements OnInit {
 
   transaction = new ExpressTransaction;
+  form1 = true;
+  form2 = false;
   successMessage: string;
   staticAlertClosed = false;
   bankList = [
@@ -43,7 +46,7 @@ export class ExpressTransactionComponent implements OnInit {
   }
 
   // Submit an express transaction Request...
-  requestTransaction(): void {
+  requestTransaction(form): void {
     this.submitting = true;
     this.transactionService.requestTransaction(this.transaction)
       .subscribe(
@@ -60,7 +63,18 @@ export class ExpressTransactionComponent implements OnInit {
         },
         () => {
           this.submitting = false;
+          form.reset();
         });
+  }
+
+  goToForm2() {
+    this.form1 = false;
+    this.form2 = true;
+  }
+
+  goToForm1() {
+    this.form1 = true;
+    this.form2 = false;
   }
 
 }
