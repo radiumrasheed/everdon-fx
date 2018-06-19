@@ -96,11 +96,12 @@ export class Transaction {
   transaction_type_id?: number;
   updated_at?: string;
   condition?: string;
-  // wacc?: number;
   bank_name?: string;
   account_name?: string;
   account_number?: string;
   bvn?: string;
+
+  full_name: string;
 }
 
 export class Organization {

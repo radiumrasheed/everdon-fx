@@ -107,7 +107,6 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
           this.counts = counts;
           this.doughnutChartData = _.values(counts);
           this.doughnutChartLabels = _.keys(counts);
-          console.log(this.doughnutChartLabels, this.doughnutChartData);
           this.totalTransactions = _.sum(this.doughnutChartData);
         }
       );

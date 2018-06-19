@@ -1,42 +1,57 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
-import {TransactionService} from '../transaction.service';
-import {Transaction} from '../transaction';
-import {Observable} from 'rxjs/Observable';
-import {AuthService} from '../../services/auth/auth.service';
-import {CurrencyPipe} from '@angular/common';
-import {ProductPipe} from '../../shared/pipes/product.pipe';
-import {CalendarPipe} from 'angular2-moment';
-import {StatusPipe} from '../../shared/pipes/status.pipe';
+import * as _ from 'lodash';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {CalendarPipe} from 'angular2-moment';
+import {Observable} from 'rxjs/Observable';
+
+import {TransactionService} from '../transaction.service';
+import {AuthService} from '../../services/auth/auth.service';
+import {ProductPipe} from '../../shared/pipes/product.pipe';
+import {TRANSACTION_TYPES, TypePipe} from '../../shared/pipes/type.pipe';
+import {StatusPipe, TRANSACTION_STATUSES} from '../../shared/pipes/status.pipe';
+import {PRODUCTS, Transaction} from '../transaction';
 
 @Component({
   selector: 'app-list-transactions',
   templateUrl: './list-transactions.component.html',
   styleUrls: ['./list-transactions.component.css'],
-  providers: [ProductPipe, CalendarPipe, StatusPipe]
+  providers: [ProductPipe, CalendarPipe, StatusPipe, TypePipe]
 })
 export class ListTransactionsComponent implements OnInit {
   public transactions: Transaction[];
 
-  // Smart table...
+  /* Smart table... */
+
+  // Filter Settings...
   filterProductSettings = {
     type: 'list',
     config: {
       selectText: 'select..',
-      // todo - map from PRODUCTS
-      list: [
-        {value: 1, title: 'USD'},
-        {value: 2, title: 'EUR'},
-        {value: 3, title: 'GBP'},
-        {value: 4, title: 'NGN'}
-      ],
+      list: _.map(PRODUCTS, _.partial(_.pick, _, ['id', 'name'])).map(({id, name}) => ({value: id, title: name}))
     },
   };
+  filterStatusSettings = {
+    type: 'list',
+    config: {
+      selectText: 'select..',
+      list: _.map(TRANSACTION_STATUSES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
+    }
+  };
+  filterTypeSettings = {
+    type: 'list',
+    config: {
+      selectText: 'select..',
+      list: _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
+    }
+  };
+
+  // Client Settings...
   client_table_settings = {
     columns: {
-      transaction_ref: {
+      link: {
         title: 'Transaction Reference',
         filter: true,
+        type: 'html'
       },
       buying_product_id: {
         title: 'Buying',
@@ -52,16 +67,77 @@ export class ListTransactionsComponent implements OnInit {
           return this.productPipe.transform(val);
         }
       },
-      transaction_status_id: {
+      /*transaction_status_id: {
         title: 'Status',
         valuePrepareFunction: (val) => {
           return this.statusPipe.transform(val);
         },
         filter: true,
+      },*/
+      amount: {
+        title: 'Amount',
+        filter: true,
+      },
+      created_at: {
+        title: 'Time Requested',
+        filter: true,
+        valuePrepareFunction: (val) => {
+          return this.calendarPipe.transform(val);
+        }
+      }
+    },
+    noDataMessage: 'No transactions',
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+      columnTitle: '',
+    }
+  };
+
+  // Admin Settings...
+  admin_table_settings = {
+    columns: {
+      full_name: {
+        title: 'Requester',
+        filter: true,
+      },
+      link: {
+        title: 'Transaction Reference',
+        filter: true,
+        type: 'html'
+      },
+      selling_product_id: {
+        title: 'Selling',
+        filter: this.filterProductSettings,
+        valuePrepareFunction: (val) => {
+          return this.productPipe.transform(val);
+        }
+      },
+      buying_product_id: {
+        title: 'Buying',
+        filter: this.filterProductSettings,
+        valuePrepareFunction: (val) => {
+          return this.productPipe.transform(val);
+        }
       },
       amount: {
         title: 'Amount',
         filter: true,
+      },
+      transaction_type_id: {
+        title: 'Type',
+        valuePrepareFunction: (val) => {
+          return this.typePipe.transform(val);
+        },
+        filter: this.filterTypeSettings,
+      },
+      transaction_status_id: {
+        title: 'Status',
+        valuePrepareFunction: (val) => {
+          return this.statusPipe.transform(val);
+        },
+        filter: this.filterStatusSettings,
       },
       created_at: {
         title: 'Time Requested',
@@ -84,28 +160,38 @@ export class ListTransactionsComponent implements OnInit {
   role$: Observable<any>;
 
 
+  // Class Constructor...
   constructor(private transactionService: TransactionService,
               private authService: AuthService,
               private calendarPipe: CalendarPipe,
               private statusPipe: StatusPipe,
               private productPipe: ProductPipe,
+              private typePipe: TypePipe,
               private route: ActivatedRoute) {
   }
 
+  // OnInit Method...
   ngOnInit() {
     this.roles$ = this.authService.roles;
     this.role$ = this.authService.role;
     this.getTransactions();
   }
 
+  // Get the transactions and format them for viewing...
   getTransactions(): void {
     this.transactionService.getTransactions()
       .subscribe(
         transactions => {
-          this.transactions = transactions.map<Transaction>(transaction => {
-            // transaction.link = `<a [routerLink]="['..', 'details', ${transaction.id}]">#${transaction.transaction_ref}</a>`;
-            return transaction;
-          });
+          this.role$.subscribe(
+            value => {
+              const module = value === 'admin' ? 'admin' : 'me';
+              this.transactions = transactions.map<Transaction>(transaction => {
+                transaction.link = `<a href="/#/${module}/transaction/details/${transaction.id}">#${transaction.transaction_ref}</a>`;
+                transaction.full_name = transaction.client.full_name;
+                return transaction;
+              });
+            }
+          );
         }
       );
   }

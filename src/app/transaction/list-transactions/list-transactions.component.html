@@ -3,7 +3,8 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title"><span class="lstick"></span>Transactions</h4>
-        <div class="table-responsive m-t-20">
+
+        <!--<div class="table-responsive m-t-20">
           <table class="table vm no-th-brd pro-of-month">
             <thead>
             <tr class="text-dark">
@@ -34,10 +35,12 @@
               <td *ngIf="(role$ | async) === 'admin'">{{ transaction?.transaction_mode_id | mode }}</td>
               <td>{{ transaction?.buying_product_id | currency }}</td>
               <td>{{ transaction?.selling_product_id | currency }}</td>
-              <td class="text-right">{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }}</td>
+              <td class="text-right">{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }}
+              </td>
               <td class="text-right">
                 <ng-container *ngIf="transaction?.rate">
-                  {{ transaction?.selling_product_id | currency:'sign' }}{{ transaction?.rate }} / {{ transaction?.buying_product_id | currency:'name' }}
+                  {{ transaction?.selling_product_id | currency:'sign' }}{{ transaction?.rate }} / {{
+                  transaction?.buying_product_id | currency:'name' }}
                 </ng-container>
                 <ng-container *ngIf="!transaction?.rate">
                   -
@@ -45,20 +48,21 @@
               </td>
               <td><span class="label label-rounded" [ngClass]="transaction?.transaction_status_id | status:'class'">
                 {{ transaction?.transaction_status_id | status }}</span></td>
-              <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ transaction.created_at | amCalendar }}</span></td>
+              <td><span class="text-muted"><i
+                class="fa fa-clock-o"></i> {{ transaction.created_at | amCalendar }}</span></td>
             </tr>
             <p #no_event *ngIf="!transactions"> No transactions </p>
             </tbody>
           </table>
+        </div>-->
+
+        <div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'admin'">
+          <ng2-smart-table [settings]="admin_table_settings" [source]="transactions" class=""></ng2-smart-table>
         </div>
 
-        <!--<div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'admin'">-->
-        <!--<ng2-smart-table [settings]="admin_table_settings" [source]="transactions" class=""></ng2-smart-table>-->
-        <!--</div>-->
-
-        <!--<div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'client'">-->
-        <!--<ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>-->
-        <!--</div>-->
+        <div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'client'">
+          <ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>
+        </div>
       </div>
     </div>
   </div>

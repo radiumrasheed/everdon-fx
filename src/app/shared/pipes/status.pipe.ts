@@ -2,7 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import * as _ from 'lodash';
 import {GenericOption} from './generic-option';
 
-export const transactionStatuses: GenericOption[] = [
+export const TRANSACTION_STATUSES: GenericOption[] = [
   {id: 1, name: 'open', desc: 'Open', class: 'label-light-info'},
   {id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning'},
   {id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary'},
@@ -20,7 +20,7 @@ export class StatusPipe implements PipeTransform {
   result: string;
 
   transform(value: any, args?: any): any {
-    this.selectedStatus = _.find(transactionStatuses, status => {
+    this.selectedStatus = _.find(TRANSACTION_STATUSES, status => {
       return status.id === value;
     });
 

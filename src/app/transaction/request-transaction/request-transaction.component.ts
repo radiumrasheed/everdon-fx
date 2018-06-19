@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
-import {Product, Transaction, Account} from '../transaction';
+import {Account, Product, Transaction} from '../transaction';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
 import {Observable} from 'rxjs/Observable';
@@ -37,7 +37,7 @@ export class RequestTransactionComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  // transactionStatuses: GenericOption[] = transactionStatuses;
+  // TRANSACTION_STATUSES: GenericOption[] = TRANSACTION_STATUSES;
   transactionModes: GenericOption[] = TRANSACTION_MODES;
   transactionTypes: GenericOption[] = TRANSACTION_TYPES;
   // products
@@ -123,11 +123,14 @@ export class RequestTransactionComponent implements OnInit {
       .subscribe(
         accounts => {
           this.accounts = accounts;
+          if (accounts.length > 0) {
+            this.newAccount = false;
+          }
         }
       );
   }
 
-
+  // Get CLients Accounts...
   private getAccounts(client_id: any) {
     this.transactionService.getClientAccounts(client_id)
       .subscribe(
