@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AdminDashboardService} from './admin-dashboard.service';
-import {Transaction} from '../../transaction/transaction';
+import {Event, Transaction} from '../../transaction/transaction';
 import * as _ from 'lodash';
 
 @Component({
@@ -20,7 +20,6 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   ];
 
   // This is for the WACC dashboard line chart
-  public lineChartLabels: Array<any> = [];
   public lineChartOptions: any = {
     scales: {
       xAxes: [{
@@ -58,6 +57,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public counts: any;
   public buckets: any;
   public transactions: Transaction[];
+  public events: Event[];
   public waccs: any;
 
 
@@ -90,9 +90,11 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.getBucketBalance();
     this.getTimeline();
+    this.getBucketBalance();
     this.getTransactionCounts();
+    this.getRecentTransactions();
+    this.getRecentEvents();
 
     const channel = this.dashboardService.init();
     channel.bind('App\\Events\\NewRates', (rates: any) => {
@@ -116,6 +118,13 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     this.dashboardService.recentTransactions()
       .subscribe(
         transactions => this.transactions = transactions
+      );
+  }
+
+  public getRecentEvents() {
+    this.dashboardService.recentEvents()
+      .subscribe(
+        events => this.events = events
       );
   }
 

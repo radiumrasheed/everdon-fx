@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 import {Observable} from 'rxjs/Observable';
 import {catchError, map} from 'rxjs/operators';
-import {Client} from '../../transaction/transaction';
+
 import {AppConfig} from '../../app.config';
+import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 
 @Injectable()
 export class DashboardService {
