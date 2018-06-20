@@ -1,4 +1,5 @@
 export class Client {
+  link: string;
   bvn?: number;
   client_type?: number;
   created_at?: string;

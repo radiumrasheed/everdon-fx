@@ -5,8 +5,8 @@
       <h4 class="card-title">Know Your Customers </h4>
       <h6 class="card-subtitle">Create and view customers
       </h6>
-      <div class="table-responsive">
-        <table class="table">
+      <div class="table table-responsive smart-table">
+        <!--<table class="table">
           <thead>
           <tr>
             <th>ID</th>
@@ -38,7 +38,9 @@
             <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ client.updated_at | amCalendar }}</span></td>
           </tr>
           </tbody>
-        </table>
+        </table>-->
+
+        <ng2-smart-table [settings]="table_settings" [source]="clients" class=""></ng2-smart-table>
       </div>
     </div>
   </div>

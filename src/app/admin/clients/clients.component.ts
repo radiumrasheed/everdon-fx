@@ -1,28 +1,70 @@
 import {Component, OnInit} from '@angular/core';
-import {ClientService} from './client.service';
+import {CalendarPipe} from 'angular2-moment';
+
 import {Client} from '../../transaction/transaction';
-import {ToastsManager} from 'ng2-toastr';
+import {ClientService} from './client.service';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
-  providers: [ClientService]
+  providers: [ClientService, CalendarPipe]
 })
 export class ClientsComponent implements OnInit {
   clients: Client[];
 
+  table_settings = {
+    columns: {
+      link: {
+        title: 'Customer ID',
+        filter: true,
+        type: 'html'
+      },
+      full_name: {
+        title: 'Full Name',
+        filter: true
+      },
+      phone: {
+        title: 'Phone',
+        filter: true
+      },
+      email: {
+        title: 'Email',
+        filter: true,
+      },
+      updated_at: {
+        title: 'Last Updated',
+        filter: true,
+        valuePrepareFunction: (val) => {
+          return this.calendarPipe.transform(val);
+        }
+      }
+    },
+    noDataMessage: 'No Customers Yet',
+    actions: {
+      add: false,
+      edit: false,
+      delete: false,
+      columnTitle: '',
+    }
+  };
+
   constructor(private clientService: ClientService,
-              private toastr: ToastsManager) {
+              private calendarPipe: CalendarPipe) {
   }
 
   ngOnInit() {
+    this.getClients();
+  }
+
+  getClients() {
     this.clientService.getClients()
       .subscribe(
         clients => {
-          this.clients = clients;
-        },
-        err => {
+          this.clients = clients.map<Client>(client => {
+            client.link = `<a href="/#/admin/customer/${client.id}">#${client.id}</a>`;
+            return client;
+          });
         }
       );
   }
