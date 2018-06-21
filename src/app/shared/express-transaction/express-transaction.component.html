@@ -32,7 +32,8 @@
 
           <div class="form-group col-lg-4 col-md-6 col-sm-6">
             <label>Phone <span class="text-danger">*</span></label>
-            <input type="tel" class="form-control" required [(ngModel)]="transaction.phone" name="phone"
+            <input type="tel" pattern="[0-9]{11}" class="form-control" required [(ngModel)]="transaction.phone"
+                   name="phone"
                    placeholder="Enter phone">
           </div>
         </div>

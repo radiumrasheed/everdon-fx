@@ -91,7 +91,8 @@
                 <div class="form-group">
                   <label for="phone" class="col-md-11">Phone Number</label>
                   <div class="col-md-11">
-                    <input type="tel" [(ngModel)]="client.phone" placeholder="Phone..." class="form-control form-control-line"
+                    <input type="tel" pattern="[0-9]{11}" [(ngModel)]="client.phone" placeholder="Phone..."
+                           class="form-control form-control-line"
                            name="phone" id="phone">
                   </div>
                 </div>
@@ -155,6 +156,16 @@
                   <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
                   <div class="col-sm-9">
                     <input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
+                </div>
+
+                <div class="form-group row">
+                  <label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential
+                    Address</label>
+                  <div class="col-sm-9">
+                    <textarea rows="5" [(ngModel)]="client.residential_address" placeholder="Residential Address..."
+                              name="residential_address" id="residential_address"
+                              class="form-control form-control-line"></textarea>
+                  </div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
