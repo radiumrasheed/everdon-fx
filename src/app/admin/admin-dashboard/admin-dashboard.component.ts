@@ -11,26 +11,45 @@ import * as _ from 'lodash';
 })
 export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
-  subtitle: string;
-  // lineChart
+  // This is for the WACC dashboard line chart...
   public lineChartData: Array<any> = [
-    {label: 'usd', data: []},
-    {label: 'gbp', data: []},
-    {label: 'eur', data: []},
+    {
+      label: 'usd', data: [],
+      fill: false,
+      pointRadius: 0,
+      pointHitRadius: 10
+    },
+    {
+      label: 'gbp', data: [],
+      fill: false,
+      pointRadius: 0,
+      pointHitRadius: 10
+    },
+    {
+      label: 'eur', data: [],
+      fill: false,
+      pointRadius: 0,
+      pointHitRadius: 10
+    },
   ];
-
-  // This is for the WACC dashboard line chart
   public lineChartOptions: any = {
     scales: {
       xAxes: [{
         type: 'time',
+        display: true,
         distribution: 'linear',
-        ticks: {source: 'data'},
+        ticks: {source: 'data'}
+      }],
+      yAxes: [{
+        display: true
       }]
     },
     lineTension: 5,
     responsive: true,
-    maintainAspectRatio: false
+    maintainAspectRatio: false,
+    tooltips: {
+      mode: 'index'  // or 'x-axis'
+    }
   };
   public lineChartColors: Array<any> = [
     {
@@ -83,7 +102,6 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
 
   constructor(private dashboardService: AdminDashboardService) {
-    this.subtitle = 'This is some text within a card block.';
   }
 
   ngAfterViewInit() {
@@ -182,9 +200,24 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       .subscribe(
         rates => {
           this.lineChartData = [
-            {label: 'USD', data: rates['usd']},
-            {label: 'EUR', data: rates['eur']},
-            {label: 'GBP', data: rates['gbp']}
+            {
+              label: 'USD', data: rates['usd'],
+              fill: false,
+              pointRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'EUR', data: rates['eur'],
+              fill: false,
+              pointRadius: 0,
+              pointHitRadius: 10
+            },
+            {
+              label: 'GBP', data: rates['gbp'],
+              fill: false,
+              pointRadius: 0,
+              pointHitRadius: 10
+            }
           ];
         }
       );
