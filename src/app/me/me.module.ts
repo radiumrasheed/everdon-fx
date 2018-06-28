@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {DashbaordComponent} from './dashbaord/dashbaord.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 import {MeRoutingModule} from './me.routing';
 
 import {ChartistModule} from 'ng-chartist';
@@ -26,7 +26,7 @@ import {MomentModule,} from 'angular2-moment';
     MomentModule
   ],
   declarations: [
-    DashbaordComponent,
+    DashboardComponent,
     ProfileComponent,
     MeComponent,
   ]

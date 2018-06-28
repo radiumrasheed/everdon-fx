@@ -180,13 +180,13 @@
         <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async as isLoggedIn">
           <a ngbDropdownToggle class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
              href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"/>
+            <img src="assets/images/users/avi.png" alt="user" class="profile-pic"/>
           </a>
           <div class="dropdown-menu dropdown-menu-right animated slideInDown" *ngIf="role$ | async as role" ngbDropdownMenu>
             <ul class="dropdown-user">
               <li>
                 <div class="dw-user-box">
-                  <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
+                  <div class="u-img"><img src="assets/images/users/avi.png" alt="user"></div>
                   <div class="u-text" *ngIf="user$ | async as user">
                     <h4>{{ user?.name }}</h4>
                     <h6>{{ user?.email }}</h6>

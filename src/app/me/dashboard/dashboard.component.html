@@ -1,0 +1,157 @@
+<!-- ============================================================== -->
+<!-- First Widget -->
+<!-- ============================================================== -->
+<div class="row">
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <a [routerLink]="'/me/transaction'">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.transactions }}</h1>
+              <h6 class="text-muted">All Transactions</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
+              <div class="display-4">
+                <i class="mdi mdi-receipt text-primary"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <a [routerLink]="'/me/transaction'">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.transactions - (figures?.open_transactions + figures?.closed_transactions) }}</h1>
+              <h6 class="text-muted">Transactions in Process</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
+              <div class="display-4">
+                <i class="mdi mdi-transfer text-warning"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <a [routerLink]="'/me/transaction'">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.transactions - (figures?.open_transactions + figures?.closed_transactions) }}</h1>
+              <h6 class="text-muted">Closed Transactions</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
+              <div class="display-4">
+                <i class="mdi mdi-closed-caption text-success"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <!-- Column -->
+  <!-- Column -->
+  <div class="col-lg-3 col-md-6">
+    <div class="card">
+      <a [routerLink]="'/me/profile'" fragment="accounts">
+        <div class="card-body">
+          <div class="row p-t-10 p-b-10">
+            <!-- Column -->
+            <div class="col p-r-0">
+              <h1 class="font-light">{{ figures?.accounts }}</h1>
+              <h6 class="text-muted">Accounts</h6></div>
+            <!-- Column -->
+            <div class="col text-right align-self-center">
+
+              <div class="display-4">
+                <i class="mdi mdi-briefcase-check text-info"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Column -->
+  <div class="col-lg-4" *ngFor="let transaction of transactions">
+    <div class="card">
+      <!--<img class="card-img-top img-responsive" src="assets/images/big/img1.jpg" alt="Card image cap">-->
+      <div class="card-body">
+        <ul class="list-inline font-14">
+          <li class="p-l-0">Last action - {{ transaction?.updated_at | amTimeAgo }}</li>
+          <li>
+            <a href="javascript:void(0)" [routerLink]="['../transaction/details', transaction.id]" fragment="comments"
+               class="link">{{ transaction?.events?.length}} Reviews</a>
+          </li>
+        </ul>
+        <h3 class="font-normal">Buy {{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }} with
+          {{ transaction?.selling_product_id | currency:'desc' }}</h3>
+        <p class="m-b-0 m-t-10">This transaction is {{ transaction?.transaction_status_id | status:'desc' }}</p>
+        <button class="btn btn-outline-secondary btn-rounded waves-effect waves-light m-t-20"
+                [routerLink]="['../transaction/details', transaction.id]">View Details
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Column -->
+
+  <div class="col-lg-6" hidden>
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title"><span class="lstick"></span>Recent Transactions</h3>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover earning-box">
+            <thead>
+            <tr>
+              <th class="text-active text-capitalize">Action</th>
+              <th class="text-active text-capitalize">Requester</th>
+              <th class="text-active text-capitalize">Status</th>
+              <th class="text-active text-capitalize">Amount</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let transaction of transactions" class="active">
+              <td>
+                <a href="javascript:void(0)" [routerLink]="['../transaction/details', transaction.id]" class="link">View Details</a>
+              </td>
+              <td>
+                <h6>
+                  <li class="p-l-0">{{ transaction?.created_at | amTimeAgo }}</li>
+                </h6>
+                <!--<small class="text-muted">{{transaction?.client?.occupation}}</small>-->
+              </td>
+              <td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>
+              </td>
+              <td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">see more...</a>
+      </div>
+    </div>
+  </div>
+</div>

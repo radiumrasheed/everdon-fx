@@ -14,7 +14,7 @@ import {ToastsManager} from 'ng2-toastr';
 })
 export class TransactionDetailsComponent implements OnInit {
 
-  public selectedTransaction: Transaction;
+  public transaction: Transaction;
   public currencyList = PRODUCTS;
   public organizationList = ORGANIZATIONS;
 
@@ -28,16 +28,15 @@ export class TransactionDetailsComponent implements OnInit {
 
   public can_treat = false;
   public can_approve = false;
+  public can_fulfil = false;
+  public can_be_rejected = true;
   public can_be_treated = false;
   public can_be_approved = false;
-  public can_modify_rate = false;
-  public can_fulfil = false;
   public can_be_fulfilled = false;
-  public no_action = false;
-  // public can_comment = false;
+  public can_be_cancelled = true;
+  public can_modify_rate = false;
   public can_take_action = false;
   public is_client: boolean;
-  public can_be_rejected = true;
 
   constructor(private transactionService: TransactionService,
               private route: ActivatedRoute,
@@ -79,12 +78,6 @@ export class TransactionDetailsComponent implements OnInit {
             this.can_fulfil = true;
             break;
 
-          case 'systems-admin':
-            // this.can_treat = true;
-            // this.can_approve = true;
-            // this.can_fulfil = true;
-            break;
-
           default:
             this.is_client = true;
             break;
@@ -94,11 +87,11 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   computeTLogic() {
-    if (!this.selectedTransaction) {
+    if (!this.transaction) {
       return;
     }
 
-    switch (this.selectedTransaction.transaction_status_id) {
+    switch (this.transaction.transaction_status_id) {
       case 1: {
         this.nextActionText = 'Treat/Review Transaction';
         this.nextSubmitText = 'Update & Treat';
@@ -129,16 +122,18 @@ export class TransactionDetailsComponent implements OnInit {
       }
 
       case 5: {
-        this.no_action = true;
-        this.nextActionText = 'No Action';
-        this.nextSubmitText = 'No Action';
+        this.nextActionText = 'CANCELLED';
+        this.nextSubmitText = 'CANCELLED';
+        this.can_be_rejected = false;
+        this.can_be_cancelled = false;
         break;
       }
 
       case 6: {
-        this.no_action = true;
         this.nextActionText = 'CLOSED';
         this.nextSubmitText = 'CLOSED';
+        this.can_be_rejected = false;
+        this.can_be_cancelled = false;
         break;
       }
 
@@ -153,7 +148,7 @@ export class TransactionDetailsComponent implements OnInit {
         this.can_take_action = true;
         break;
 
-      // FX-Ops Manager
+      // FX-Ops Manager...
       case this.can_approve && this.can_be_approved:
         this.can_take_action = true;
 
@@ -172,6 +167,7 @@ export class TransactionDetailsComponent implements OnInit {
   }
 
   refreshTransaction() {
+    delete this.transaction;
     this.getTransaction(this.id);
   }
 
@@ -184,29 +180,25 @@ export class TransactionDetailsComponent implements OnInit {
           }
 
           // Set all configs according to role and status...
-          this.selectedTransaction = transaction;
+          this.transaction = transaction;
           this.computeTLogic();
-        },
-        error1 => {
-        },
-        () => {
         }
       );
   }
 
   updateCalculatedAmount() {
-    this.selectedTransaction.calculated_amount = this.selectedTransaction.rate * this.selectedTransaction.amount;
+    this.transaction.calculated_amount = this.transaction.rate * this.transaction.amount;
   }
 
   takeAction() {
     switch (true) {
       // FX-Ops && OPEN or IN_PROGRESS...
       case this.can_treat && this.can_be_treated:
-        this.transactionService.treatTransaction(this.selectedTransaction, this.id)
+        this.transactionService.treatTransaction(this.transaction, this.id)
           .subscribe(
             treated_transaction => {
               if (treated_transaction) {
-                this.selectedTransaction = treated_transaction;
+                this.transaction = treated_transaction;
                 this.toastr.success('Successfully treated').catch();
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
@@ -216,11 +208,11 @@ export class TransactionDetailsComponent implements OnInit {
 
       // FX-Ops Manager && PENDING_APPROVAL...
       case this.can_approve && this.can_be_approved:
-        this.transactionService.approveTransaction(this.selectedTransaction, this.id)
+        this.transactionService.approveTransaction(this.transaction, this.id)
           .subscribe(
             treated_transaction => {
               if (treated_transaction) {
-                this.selectedTransaction = treated_transaction;
+                this.transaction = treated_transaction;
                 this.toastr.success('Successfully approved').catch();
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
@@ -230,11 +222,11 @@ export class TransactionDetailsComponent implements OnInit {
 
       // Treasury-Ops && PENDING_FULFILMENT
       case this.can_fulfil && this.can_be_fulfilled:
-        this.transactionService.fulfilTransaction(this.selectedTransaction, this.id)
+        this.transactionService.fulfilTransaction(this.transaction, this.id)
           .subscribe(
             treated_transaction => {
               if (treated_transaction) {
-                this.selectedTransaction = treated_transaction;
+                this.transaction = treated_transaction;
                 this.toastr.success('Fulfilled Successfully').catch();
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
@@ -244,16 +236,16 @@ export class TransactionDetailsComponent implements OnInit {
 
       // I don't know what to do
       default:
-        this.toastr.info('Undecided').catch();
+        this.toastr.info('Something is not right!').catch();
     }
   }
 
   rejectTransaction() {
-    this.transactionService.rejectTransaction(this.selectedTransaction, this.id)
+    this.transactionService.rejectTransaction(this.transaction, this.id)
       .subscribe(
         treated_transaction => {
           if (treated_transaction) {
-            this.selectedTransaction = treated_transaction;
+            this.transaction = treated_transaction;
             this.toastr.success('Rejected Successfully').catch();
             this.router.navigate(['../../'], {relativeTo: this.route}).catch();
           }
@@ -261,6 +253,19 @@ export class TransactionDetailsComponent implements OnInit {
         err => {
         },
         () => {
+        }
+      );
+  }
+
+  cancelTransaction() {
+    this.transactionService.cancelTransaction(this.transaction, this.id)
+      .subscribe(
+        treated_transaction => {
+          if (treated_transaction) {
+            this.transaction = treated_transaction;
+            this.toastr.success('Cancelled Successfully').catch();
+            this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+          }
         }
       );
   }

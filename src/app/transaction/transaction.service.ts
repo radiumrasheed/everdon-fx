@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {Product, Transaction, Account, Client} from './transaction';
+import {Account, Client, Product, Transaction} from './transaction';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {AppConfig} from '../app.config';
@@ -79,24 +79,13 @@ export class TransactionService {
       );
   }
 
-
   cancelTransaction(transaction: Transaction, id: string): Observable<Transaction> {
-    return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/cancel', transaction)
+    return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/cancel', transaction)
       .pipe(
         map(response => response['data']['transaction']),
         catchError(this.handleError<Transaction>('Get Transaction', null))
       );
   }
-
-
-  closeTransaction(transaction: Transaction, id: string): Observable<Transaction> {
-    return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/close', transaction)
-      .pipe(
-        map(response => response['data']['transaction']),
-        catchError(this.handleError<Transaction>('Get Transaction', null))
-      );
-  }
-
 
   rejectTransaction(transaction: Transaction, id: string): Observable<Transaction> {
     return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/reject', transaction)

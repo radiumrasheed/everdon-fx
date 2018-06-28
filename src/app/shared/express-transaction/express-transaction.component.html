@@ -46,7 +46,8 @@
           <div class="form-group col-lg-4 col-md-6 col-sm-6">
             <label>I have <span class="text-danger">*</span></label>
             <select class="form-control" required [(ngModel)]="transaction.i_have" name="i_have" placeholder="I have">
-              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.name}}</option>
+              <option selected disabled>Select a Currency...</option>
+              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.description}} ({{currency.name}})</option>
             </select>
           </div>
 
@@ -54,8 +55,8 @@
           <div class="form-group col-lg-4 col-md-6 col-sm-6">
             <label>I want <span class="text-danger">*</span></label>
             <select class="form-control" required [(ngModel)]="transaction.i_want" name="i_want" placeholder="I want">
-              <option value="">Select a Currency...</option>
-              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.name}}</option>
+              <option selected disabled>Select a Currency...</option>
+              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.description}} ({{currency.name}})</option>
             </select>
           </div>
 

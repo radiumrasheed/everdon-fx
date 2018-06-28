@@ -20,7 +20,15 @@ export class ClientService {
     return this.http.get<Client>(this.clientUrl + '/' + id)
       .pipe(
         map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Get Transaction', null))
+        catchError(this.handleError<Client>('Get Customer', null))
+      );
+  }
+
+  updateClient(id: number, client: Client): Observable<Client> {
+    return this.http.post<Client>(this.clientUrl + '/' + id, client)
+      .pipe(
+        map(response => response['data']['client']),
+        catchError(this.handleError<Client>('Update Customer', null))
       );
   }
 

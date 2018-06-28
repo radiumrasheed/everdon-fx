@@ -25,24 +25,20 @@
     </div>
   </div>
 </div>
-<!-- Column -->
 
 <!-- ============================================================== -->
 <!-- chart and stats -->
 <!-- ============================================================== -->
 <div class="row">
-  <!-- chart component -->
+  <!-- line chart component -->
   <div class="col-lg-9 col-md-6">
     <div class="card">
+
+      <div class="card-header">
+        <h4 class="card-title"><span class="lstick"></span>WACC Timeline</h4>
+      </div>
+
       <div class="card-body">
-        <div class="d-flex flex-wrap m-b-30">
-          <div>
-            <h4 class="card-title"><span class="lstick"></span>
-              WACC Timeline
-            </h4>
-            <button class="mdi mdi-refresh" (click)="getTimeline()"></button>
-          </div>
-        </div>
         <div style="height:460px;" *ngIf="lineChartData">
           <canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
                   [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
@@ -50,17 +46,22 @@
       </div>
     </div>
   </div>
-  <!-- other chart component -->
+
+  <!-- pie chart component -->
   <div class="col-lg-3 col-md-6">
     <div class="card">
-      <div class="card-body">
+      <div class="card-header">
         <h4 class="card-title"><span class="lstick"></span>Transaction Status</h4>
+      </div>
+
+      <div class="card-body">
         <div style="height: 220px">
           <canvas baseChart height="100px" [data]="doughnutChartData" [labels]="doughnutChartLabels"
                   [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType"
                   [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 141, 241)', '#02379f', 'rgb(16, 40, 242)']}]">
           </canvas>
         </div>
+
         <table class="table vm font-14 m-b-0">
           <tr>
             <a [routerLink]="'../transaction/list'">
@@ -109,14 +110,14 @@
   </div>
 </div>
 
-
-<!-- Row -->
+<!-- ============================================================== -->
+<!-- Recent Transactions & Comments -->
+<!-- ============================================================== -->
 <div class="row">
   <div class="col-lg-6">
     <div class="card">
-      <div class="card-body">
+      <div class="card-header">
         <h4 class="card-title"><span class="lstick"></span>Recent Transactions</h4>
-        <h6 class="card-subtitle">Transactions pending approval</h6>
       </div>
       <!--<div class="bg-light p-20">
         <div class="d-flex">
@@ -157,17 +158,16 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="card-footer">
-        <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">see more...</a>
+
+        <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">View All</a>
       </div>
     </div>
   </div>
 
   <div class="col-lg-6">
     <div class="card">
-      <div class="card-body">
-        <h4 class="card-title"><span class="lstick"></span>Recent Comments</h4>
+      <div class="card-header">
+        <h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
       </div>
       <!-- ============================================================== -->
       <!-- Comment widgets -->

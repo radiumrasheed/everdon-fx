@@ -1,48 +1,17 @@
 <!-- column -->
 <div class="col-12">
   <div class="card">
-    <div class="card-body">
-      <h4 class="card-title">Know Your Customers </h4>
-      <h6 class="card-subtitle">Create and view customers
-      </h6>
-      <div class="table table-responsive smart-table">
-        <!--<table class="table">
-          <thead>
-          <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>KYC Status</th>
-            <th>Last Updated</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let client of clients">
-            <td>
-              <a href="javascript:void(0)" [routerLink]="['../customer', client.id]">ID #{{ client?.id }}</a>
-            </td>
-            <td>
-              <i *ngIf="client.client_type === 1" class="mdi mdi-account-key"></i>
-              <i *ngIf="client.client_type === 2" class="mdi mdi-bank"></i>
-              <i *ngIf="client.client_type === 3" class="mdi mdi-account"></i>
-              {{ client?.full_name }}
-            </td>
-            <td>{{ client?.phone }}</td>
-            <td>{{ client.email }}</td>
-            <td>
-              <div class="label label-table" [ngClass]="{'label-success': client?.client_kyc?.status, 'label-error': !client?.client_kyc?.status }">
-                {{ client?.client_kyc?.status ? 'valid' : 'invalid' }}
-              </div>
-            </td>
-            <td><span class="text-muted"><i class="fa fa-clock-o"></i> {{ client.updated_at | amCalendar }}</span></td>
-          </tr>
-          </tbody>
-        </table>-->
+    <div class="card-header">
+      <h4 class="card-title">
+        <span class="lstick"></span>
+        All Customers
+      </h4>
+    </div>
 
+    <div class="card-body">
+      <div class="table table-responsive smart-table">
         <ng2-smart-table [settings]="table_settings" [source]="clients" class=""></ng2-smart-table>
       </div>
     </div>
   </div>
 </div>
-<!-- column -->

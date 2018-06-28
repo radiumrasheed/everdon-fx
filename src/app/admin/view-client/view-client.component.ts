@@ -45,6 +45,14 @@ export class ViewClientComponent implements OnInit {
   }
 
   updateClient() {
-    //
+    this.clientService.updateClient(this.client.id, this.client)
+      .subscribe(
+        client => {
+          if (client) {
+            this.client = client;
+            this.toastr.success('Customer details updated successfully').catch();
+          }
+        }
+      );
   }
 }

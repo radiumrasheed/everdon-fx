@@ -16,8 +16,8 @@ export class ClientsComponent implements OnInit {
   table_settings = {
     columns: {
       link: {
-        title: 'Customer ID',
-        filter: true,
+        title: 'Action',
+        filter: false,
         type: 'html'
       },
       full_name: {
@@ -62,7 +62,7 @@ export class ClientsComponent implements OnInit {
       .subscribe(
         clients => {
           this.clients = clients.map<Client>(client => {
-            client.link = `<a href="/#/admin/customer/${client.id}">#${client.id}</a>`;
+            client.link = `<a href="/#/admin/customer/${client.id}">View Details</a>`;
             return client;
           });
         }

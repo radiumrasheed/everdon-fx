@@ -1,411 +1,401 @@
 <div class="row">
-  <div class="col-md-12" *ngIf="selectedTransaction">
-    <ng-container *ngIf="!is_client">
-      <!-- Column -->
-      <div [ngClass]="{ 'col-lg-9 col-xlg-10 col-md-7': !is_client, 'col-12': is_client }">
-        <ngb-tabset #t="ngbTabset" [justify]="'fill'">
+  <div class="col-12" *ngIf="transaction">
+    <ng-container class="col-12" *ngIf="!is_client">
 
-          <ngb-tab id="summary" title="Summary">
-            <ng-template ngbTabContent>
-              <div class="card-body" *ngIf="selectedTransaction">
-                <div class="w-100 row">
-                  <div class="card-body">
-                    <button type="button" class="btn btn-secondary m-r-11 m-b-11" (click)="refreshTransaction()">
-                      <i class="mdi mdi-cached font-19"></i>
-                      Refresh
-                    </button>
+      <ngb-alert *ngIf="!can_take_action" [type]="'warning'">
+        <b>NOTE: </b>You're not eligible to perform any update to this transaction'
+      </ngb-alert>
 
-                    <div class="btn-group m-b-11 m-r-11" role="group" aria-label="Button group with nested dropdown"
-                         *ngIf="!is_client">
-                      <button type="button" class="btn btn-secondary font-19" disabled>
-                        <i class="mdi mdi-inbox-arrow-down"></i>
-                      </button>
+      <!-- Transaction -->
+      <div class="col-lg-12 col-xlg-9 col-md-12 col-sm-12">
 
-                      <button type="button" class="btn btn-danger font-19" (click)="rejectTransaction()"
-                              [disabled]="!can_take_action && !can_be_rejected">
-                        Reject
-                        <i class="mdi mdi-close"></i>
-                      </button>
-                    </div>
+        <div class="card card-inverse">
+          <div class="card-header">
+            <h3>
+              <span class="lstick"></span>
+              Transaction Information</h3>
+          </div>
+          <div class="card-body">
+            <ngb-tabset #t="ngbTabset" [justify]="'fill'">
 
-                    <label class="label label-rounded"
-                           [ngClass]="selectedTransaction?.transaction_status_id | status:'class'"
-                           *ngIf="selectedTransaction">
-                      {{ selectedTransaction?.transaction_status_id | status }}
-                    </label>
+              <ngb-tab id="summary" title="Summary">
+                <ng-template ngbTabContent>
+                  <div class="card-body" *ngIf="transaction">
+                    <div class="w-100 row">
+                      <div class="card-body">
+                        <!--<button type="button" class="btn btn-secondary m-r-11 m-b-11" (click)="refreshTransaction()">
+                          <i class="mdi mdi-cached font-19"></i>
+                          Refresh
+                        </button>-->
+                        <label><h2>{{ transaction.transaction_ref }}</h2></label>
+                        <label class="label label-rounded btn-lg"
+                               [ngClass]="transaction?.transaction_status_id | status:'class'"
+                               *ngIf="transaction">
+                          {{ transaction?.transaction_status_id | status }}
+                        </label>
 
-                    <button class="btn btn-outline-primary waves-effect waves-light pull-right" *ngIf="!is_client"
-                            [disabled]="!can_take_action" type="button" (click)="takeAction()">
-                  <span class="btn-label"><i
-                    class="fa fa-envelope-o"></i></span>{{ nextActionText }}
-                    </button>
-                  </div>
-                </div>
-
-
-                <div class="p-20">
-
-                  <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
-                    <div class="col-12">
-                      <div class="card card-megna">
-                        <div class="card-header">
-                          <h4 class="m-b-0 text-white">
-                            <i class="mdi mdi-briefcase-check text-warning"></i>
-                            Transaction #{{ selectedTransaction.transaction_ref }}
-                          </h4>
-                        </div>
-                        <div class="card-body">
-                          <h5 *ngIf="!no_action" class="card-title">{{ nextActionText }}</h5>
-
-
-                          <p class="card-text">With supporting text below as a natural lead-in to additional
-                            content.</p>
-
-
-                          <div class="card-body">
-                            <div class="row">
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-                                  <label>
-                                    <i class="mdi mdi-cash-100 text-warning"></i>
-                                    Currency
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-
-                                  <select class="form-control" [required]="selectedTransaction"
-                                          [disabled]="selectedTransaction.buying_product_id"
-                                          [(ngModel)]="selectedTransaction.buying_product_id"
-                                          name="buying_product_id" placeholder="Currency">
-                                    <option *ngFor="let currency of currencyList" [ngValue]="currency.id">
-                                      {{currency.name}}
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-
-                                  <label>
-                                    <i class="mdi mdi-buffer text-warning"></i>
-                                    Amount
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-                                  <div class="input-group">
-                                    <span class="input-group-addon">{{ selectedTransaction?.buying_product_id | currency:'sign' }}</span>
-                                    <input type="text" name="amount" [disabled]="selectedTransaction.amount"
-                                           class="form-control" id="amount" [(ngModel)]="selectedTransaction.amount">
-
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-
-                                  <label>
-                                    <i class="mdi mdi-percent text-warning disabled"></i>
-                                    Rate
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-                                  <div class="input-group">
-                                    <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
-                                    <input type="text" class="form-control" id="rate"
-                                           [(ngModel)]="selectedTransaction.rate"
-                                           (keyup)="updateCalculatedAmount()"
-                                           [disabled]="!can_be_treated || is_client"
-                                           name="rate"
-                                           aria-label="Amount (to the nearest dollar)">
-                                    <span class="input-group-addon disabled">/ {{selectedTransaction.buying_product_id | currency }}</span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-
-                                  <label>
-                                    <i class="mdi mdi-cash-multiple text-warning disabled"></i>
-                                    Calculated Amount
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-                                  <div class="input-group">
-                                    <span class="input-group-addon">{{ selectedTransaction.selling_product_id | currency:'sign' }}</span>
-                                    <input type="text" class="form-control" id="calculated_amount" disabled
-                                           [ngModel]="selectedTransaction.calculated_amount"
-                                           name="calculated_amount"
-                                           aria-label="Amount (to the nearest dollar)">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-                                  <label>
-                                    <i class="mdi mdi-bank text-warning"></i>
-                                    Paying Organization / Account
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-
-                                  <select class="form-control" [required]="selectedTransaction"
-                                          [disabled]="!can_be_treated || is_client"
-                                          [(ngModel)]="selectedTransaction.org_account_id"
-                                          name="org_account_id" placeholder="Currency">
-                                    <option *ngFor="let organization of organizationList" value="{{organization.id}}">
-                                      {{organization.name + ' ' + organization.account_number}}
-                                    </option>
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div class="form-group row">
-                                <div class="col-md-10">
-                                  <label>
-                                    <i class="mdi mdi-code-not-equal text-warning"></i>
-                                    Condition
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-
-                                  <select class="form-control" [required]="selectedTransaction"
-                                          [disabled]="!can_be_treated || is_client"
-                                          [(ngModel)]="selectedTransaction.condition"
-                                          name="condition" placeholder="Condition">
-                                    <option value="waiver">Waiver</option>
-                                    <option value="advance">Advance</option>
-                                    <option value="loan">Loan</option>
-                                  </select>
-                                </div>
-                              </div>
-
-                              <div class="form-group row" *ngIf="!is_client">
-                                <div class="col-md-11">
-
-                                  <label>
-                                    <i class="mdi mdi-comment text-success disabled"></i>
-                                    Comment
-                                    <span *ngIf="transaction" class="text-danger">*</span>
-                                  </label>
-                                  <textarea [disabled]="!can_take_action && !can_be_rejected" class="form-control"
-                                            name="comment" [(ngModel)]="selectedTransaction.comment"
-                                            rows="2"></textarea>
-                                </div>
-                              </div>
-
-                            </div>
-                          </div>
-
-                          <button type="submit" *ngIf="!is_client" [disabled]="!can_take_action"
-                                  class="btn btn-success btn-secondary">{{ nextSubmitText }}
+                        <div class="btn-group m-b-11 pull-right" role="group" aria-label="Treat Transaction">
+                          <button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
+                            Cancel
+                            <i class="mdi mdi-block-helper"></i>
+                          </button>
+                          <button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
+                            Reject
+                            <i class="mdi mdi-close"></i>
+                          </button>
+                          <button class="btn btn-outline-primary waves-effect waves-light" [disabled]="!can_take_action" type="button" (click)="takeAction()">
+                            <span class="btn-label">
+                              <i class="fa fa-envelope-o"></i>
+                            </span>{{ nextActionText }}
                           </button>
                         </div>
                       </div>
                     </div>
-                  </form>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
 
-          <ngb-tab id="comments" title="Comments & Timeline">
-            <ng-template ngbTabContent>
-              <div class="card-body">
-                <div class="profiletimeline">
-                  <div class="sl-item" *ngFor="let event of selectedTransaction.events">
-                    <div class="sl-left"><img src="assets/images/users/3.jpg" alt="user" class="img-circle"/></div>
-                    <div class="sl-right">
-                      <div>
-                        <a class="link">{{ event?.done_by?.name }}</a>
-                        <span
-                          class="text-muted font-14 m-l-10">|    {{ event.done_at | amCalendar:referenceTime:formats }}</span>
-                        <p class="m-t-9"> {{ event.action }} </p>
+                    <hr>
+
+                    <div class="">
+
+                      <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
+                        <div class="col-12">
+                          <!--<div class="card card-megna">-->
+                          <!--<div class="card-header">
+                            <h4 class="m-b-0 text-white">
+                              <i class="mdi mdi-briefcase-check text-warning"></i>
+                              Transaction #{{ transaction.transaction_ref }}
+                            </h4>
+                          </div>-->
+
+                          <!--<div class="card-body">-->
+                          <h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>
+
+
+                          <!--<div class="card-body">-->
+                          <div class="row">
+
+                            <div class="form-group col-lg-4 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-cash-100 text-warning"></i>
+                                Currency
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+
+                              <select class="form-control" [required]="transaction"
+                                      [disabled]="transaction.buying_product_id"
+                                      [(ngModel)]="transaction.buying_product_id"
+                                      name="buying_product_id" placeholder="Currency">
+                                <option *ngFor="let currency of currencyList" [ngValue]="currency.id">
+                                  {{currency.name}}
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-buffer text-warning"></i>
+                                Amount
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ transaction?.buying_product_id | currency:'sign' }}</span>
+                                <input type="text" name="amount" [disabled]="transaction.amount"
+                                       class="form-control" id="amount" [(ngModel)]="transaction.amount">
+
+                              </div>
+                            </div>
+
+                            <div class="form-group col-lg-4 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-percent text-warning disabled"></i>
+                                Rate
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
+                                <input type="text" class="form-control" id="rate"
+                                       [(ngModel)]="transaction.rate"
+                                       (keyup)="updateCalculatedAmount()"
+                                       [disabled]="!can_be_treated"
+                                       name="rate"
+                                       aria-label="Amount (to the nearest dollar)">
+                                <span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
+                              </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-cash-multiple text-warning disabled"></i>
+                                Calculated Amount
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <div class="input-group">
+                                <span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
+                                <input type="text" class="form-control" id="calculated_amount" disabled
+                                       [ngModel]="transaction.calculated_amount"
+                                       name="calculated_amount"
+                                       aria-label="Amount (to the nearest dollar)">
+                              </div>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-bank text-warning"></i>
+                                Paying Organization / Account
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+
+                              <select class="form-control" [required]="transaction"
+                                      [disabled]="!can_be_treated"
+                                      [(ngModel)]="transaction.org_account_id"
+                                      name="org_account_id" placeholder="Currency">
+                                <option *ngFor="let organization of organizationList" value="{{organization.id}}">
+                                  {{organization.name + ' ' + organization.account_number}}
+                                </option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-code-not-equal text-warning"></i>
+                                Condition
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+
+                              <select class="form-control" [required]="transaction"
+                                      [disabled]="!can_be_treated"
+                                      [(ngModel)]="transaction.condition"
+                                      name="condition" placeholder="Condition">
+                                <option value="waiver">Waiver</option>
+                                <option value="advance">Advance</option>
+                                <option value="loan">Loan</option>
+                              </select>
+                            </div>
+
+                            <div class="form-group col-lg-6 col-sm-12">
+                              <label>
+                                <i class="mdi mdi-comment text-success disabled"></i>
+                                Comment
+                                <span *ngIf="transaction" class="text-danger">*</span>
+                              </label>
+                              <textarea [disabled]="!can_take_action" class="form-control" name="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
+                            </div>
+
+                          </div>
+                          <!--</div>-->
+
+                          <button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">{{ nextSubmitText }}</button>
+                          <!--</div>-->
+                          <!--</div>-->
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+
+              <ngb-tab id="comments" title="Comments & Timeline">
+                <ng-template ngbTabContent>
+                  <div class="card-body">
+                    <div class="profiletimeline">
+                      <div class="sl-item" *ngFor="let event of transaction.events">
+                        <div class="sl-left"><img src="assets/images/users/avi.png" alt="user" class="img-circle"/></div>
+                        <div class="sl-right">
+                          <div>
+                            <a class="link">{{ event?.done_by?.name }}</a>
+                            <span
+                              class="text-muted font-14 m-l-10">|    {{ event.done_at | amCalendar:referenceTime:formats }}</span>
+                            <p class="m-t-9"> {{ event.action }} </p>
+                          </div>
+                          <blockquote class="m-t-11" *ngIf="event?.comment">
+                            {{ event?.comment }}
+                          </blockquote>
+                          <blockquote class="m-t-11" *ngIf="!event?.comment" #no_comment>
+                            - no comment -
+                          </blockquote>
+                        </div>
                       </div>
-                      <blockquote class="m-t-11" *ngIf="event?.comment">
-                        {{ event?.comment }}
-                      </blockquote>
-                      <blockquote class="m-t-11" *ngIf="!event?.comment" #no_comment>
-                        - no comment -
-                      </blockquote>
+                      <hr>
                     </div>
                   </div>
-                  <hr>
-                </div>
-              </div>
-            </ng-template>
-          </ngb-tab>
+                </ng-template>
+              </ngb-tab>
 
-          <ngb-tab *ngIf="!is_client" id="advance" title="Advanced Options" [disabled]="selectedTransaction">
-            <ng-template ngbTabContent>
-              <div class="card-body">
-                <form class="form-horizontal form-material">
-                  <div class="form-group">
-                    <label class="col-md-11">Full Name</label>
-                    <div class="col-md-11">
-                      <input type="text" placeholder="Johnathan Doe" name class="form-control form-control-line">
-                    </div>
+              <ngb-tab id="advance" title="Advanced Options" [disabled]="transaction">
+                <ng-template ngbTabContent>
+                  <div class="card-body">
+                    <form class="form-horizontal form-material">
+                      <div class="form-group">
+                        <label class="col-md-11">Full Name</label>
+                        <div class="col-md-11">
+                          <input type="text" placeholder="Johnathan Doe" name class="form-control form-control-line">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="example-email" class="col-md-11">Email</label>
+                        <div class="col-md-11">
+                          <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line"
+                                 name="example-email" id="example-email">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-11">Password</label>
+                        <div class="col-md-11">
+                          <input type="password" value="password" class="form-control form-control-line">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-11">Phone No</label>
+                        <div class="col-md-11">
+                          <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-md-11">Message</label>
+                        <div class="col-md-11">
+                          <textarea rows="5" class="form-control form-control-line"></textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="col-sm-11">Select Country</label>
+                        <div class="col-sm-11">
+                          <select class="form-control form-control-line">
+                            <option>London</option>
+                            <option>India</option>
+                            <option>Usa</option>
+                            <option>Canada</option>
+                            <option>Thailand</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-sm-11">
+                          <button class="btn btn-success">Update Profile</button>
+                        </div>
+                      </div>
+                    </form>
                   </div>
-                  <div class="form-group">
-                    <label for="example-email" class="col-md-11">Email</label>
-                    <div class="col-md-11">
-                      <input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line"
-                             name="example-email" id="example-email">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-11">Password</label>
-                    <div class="col-md-11">
-                      <input type="password" value="password" class="form-control form-control-line">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-11">Phone No</label>
-                    <div class="col-md-11">
-                      <input type="text" placeholder="123 456 7890" class="form-control form-control-line">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-11">Message</label>
-                    <div class="col-md-11">
-                      <textarea rows="5" class="form-control form-control-line"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-sm-11">Select Country</label>
-                    <div class="col-sm-11">
-                      <select class="form-control form-control-line">
-                        <option>London</option>
-                        <option>India</option>
-                        <option>Usa</option>
-                        <option>Canada</option>
-                        <option>Thailand</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-11">
-                      <button class="btn btn-success">Update Profile</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </ng-template>
-          </ngb-tab>
+                </ng-template>
+              </ngb-tab>
 
-        </ngb-tabset>
+            </ngb-tabset>
+
+          </div>
+        </div>
+
       </div>
-      <!-- Column -->
-      <!-- Column -->
-      <div class="col-lg-3 col-xlg-2 col-md-5">
-        <ng-container *ngIf="!is_client">
-          <div class="card">
-            <div class="card-header">
-              <h6>Customer Information</h6>
-            </div>
-            <div class="card-body">
-              <div class="m-t-30 text-center">
-                <img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
-                <hr>
-                <h4 class="card-title m-t-11">{{ selectedTransaction?.client?.full_name }}</h4>
 
-                <div class="row text-center justify-content-md-center">
-                  <div class="col-6">
-                    <a href="javascript:void(0)" (click)="t.select('accounts')" class="link"
-                       popoverTitle="Popover on bottom"
-                       ngbPopover="{{ selectedTransaction?.client?.accounts?.length }} accounts">
-                      <i class="icon-wallet"></i>
-                      <font class="font-medium">{{ selectedTransaction?.client?.accounts?.length }}</font>
-                    </a>
-                  </div>
-                </div>
-
-                <div class="bg-light-info fa">
-                  <i
-                    [ngClass]="{'fa-user-o' : selectedTransaction?.client?.client_type === 1, 'fa-bank-o' :  selectedTransaction?.client?.client_type === 2}"></i>
-
-                  <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 1">Individual</span>
-                  <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === 2">Cooperate</span>
-                  <span class="text-muted" *ngIf="selectedTransaction?.client?.client_type === null"></span>
-                </div>
-
-              </div>
-            </div>
-            <div>
+      <!-- Customer -->
+      <div class="col-lg-12 col-xlg-3 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <span class="lstick"></span>
+              Customer Information</h3>
+          </div>
+          <div class="card-body">
+            <div class="m-t-30 text-center">
+              <img src="assets/images/users/avi.png" class="img-circle" width="150"/>
               <hr>
+              <h4 class="card-title m-t-11">{{ transaction?.client?.full_name }}</h4>
+
+              <div class="row text-center justify-content-md-center">
+                <div class="col-6">
+                  <a href="javascript:void(0)" class="link"
+                     popoverTitle="Account Details" ngbPopover="
+                     {{ transaction?.account?.name + ' | ' + transaction?.account?.bank.toLocaleUpperCase() + ' : ' + transaction?.account?.number }}">
+                    <i class="icon-wallet"></i>
+                  </a>
+                </div>
+              </div>
+
+              <div>
+                <i class="fa" [ngClass]="{'fa-user-o' : transaction?.client?.client_type === 1, 'fa-bank-o' :  transaction?.client?.client_type === 2}"></i>
+
+                <span class="text-muted" *ngIf="transaction?.client?.client_type === 1">Individual</span>
+                <span class="text-muted" *ngIf="transaction?.client?.client_type === 2">Cooperate</span>
+                <span class="text-muted" *ngIf="transaction?.client?.client_type === null"></span>
+              </div>
             </div>
-            <div class="card-body">
+
+            <hr>
+
+            <div *ngIf="transaction?.client?.email">
               <small class="text-muted">Email address</small>
-              <h6>{{ selectedTransaction?.client?.email }}</h6>
+              <h6>{{ transaction?.client?.email }}</h6>
+            </div>
 
+            <div *ngIf="transaction?.client?.phone">
               <small class="text-muted p-t-30 db">Phone</small>
-              <h6>{{ selectedTransaction?.client?.phone }}</h6>
+              <h6>{{ transaction?.client?.phone }}</h6>
+            </div>
 
+            <div *ngIf="transaction?.client?.office_address">
               <small class="text-muted p-t-30 db">Office Address</small>
-              <h6>{{ selectedTransaction?.client?.office_address }}</h6>
+              <h6>{{ transaction?.client?.office_address }}</h6>
+            </div>
+            <div *ngIf="transaction?.client?.rc_number && transaction?.client?.client_type == 2">
+              <small class="text-muted p-t-30 db">RC Number</small>
+              <h6>{{ transaction?.client?.rc_number }}</h6>
+            </div>
 
-              <div *ngIf="selectedTransaction?.client?.client_type === 2">
-                <small class="text-muted p-t-30 db" *ngIf="client?.client_type == 2">RC Number</small>
-                <h6>{{ selectedTransaction?.client?.rc_number }}</h6>
-              </div>
+            <div *ngIf="transaction?.client?.bvn">
+              <small class="text-muted p-t-30 db">BVN</small>
+              <h6>{{ transaction?.client?.bvn }}</h6>
+            </div>
 
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
-                <small class="text-muted p-t-30 db">BVN</small>
-                <h6>{{ selectedTransaction?.client?.bvn }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <div *ngIf="transaction?.client?.occupation">
+              <small class="text-muted p-t-30 db">Occupation</small>
+              <h6>{{ transaction?.client?.occupation }}</h6>
+            </div>
 
-                <small class="text-muted p-t-30 db">Occupation</small>
-                <h6>{{ selectedTransaction?.client?.occupation }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <div *ngIf="transaction?.client?.nok_full_name">
+              <small class="text-muted p-t-30 db">Next of Kin</small>
+              <h6>{{ transaction?.client?.nok_full_name }}</h6>
+            </div>
 
-                <small class="text-muted p-t-30 db">Next of Kin</small>
-                <h6>{{ selectedTransaction?.client?.nok_full_name }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <div *ngIf="transaction?.client?.nok_phone">
+              <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
+              <h6>{{ transaction?.client?.nok_phone }}</h6>
+            </div>
 
-                <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
-                <h6>{{ selectedTransaction?.client?.nok_phone }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <div *ngIf="transaction?.client?.date_of_birth">
+              <small class="text-muted p-t-30 db">Date of birth</small>
+              <h6>{{ transaction?.client?.date_of_birth | amCalendar }}</h6>
+            </div>
 
-                <small class="text-muted p-t-30 db">Date of birth</small>
-                <h6>{{ selectedTransaction?.client?.date_of_birth | amCalendar }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
+            <div *ngIf="transaction?.client?.referee_1">
+              <small class="text-muted p-t-30 db">Referee 1</small>
+              <h6>{{ transaction?.client?.referee_1 }}</h6>
+            </div>
 
-                <small class="text-muted p-t-30 db">Referee 1</small>
-                <h6>{{ selectedTransaction?.client?.referee_1 }}</h6>
-              </div>
+            <div *ngIf="transaction?.client?.referee_2">
+              <small class="text-muted p-t-30 db">Referee 2</small>
+              <h6>{{ transaction?.client?.referee_2 }}</h6>
+            </div>
 
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
-                <small class="text-muted p-t-30 db">Referee 2</small>
-                <h6>{{ selectedTransaction?.client?.referee_2 }}</h6>
-              </div>
+            <div *ngIf="transaction?.client?.referee_3">
+              <small class="text-muted p-t-30 db">Referee 3</small>
+              <h6>{{ transaction?.client?.referee_3 }}</h6>
+            </div>
 
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
-                <small class="text-muted p-t-30 db">Referee 3</small>
-                <h6>{{ selectedTransaction?.client?.referee_3 }}</h6>
-              </div>
+            <div *ngIf="transaction?.client?.referee_4">
+              <small class="text-muted p-t-30 db">Referee 4</small>
+              <h6>{{ transaction?.client?.referee_4 }}</h6>
+            </div>
 
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
-                <small class="text-muted p-t-30 db">Referee 4</small>
-                <h6>{{ selectedTransaction?.client?.referee_4 }}</h6>
-              </div>
-              <div *ngIf="selectedTransaction?.client?.client_type === 1">
-                <small class="text-muted p-t-30 db">Residential Address</small>
-                <h6>{{ selectedTransaction?.client?.residential_address }}</h6>
-              </div>
+            <div *ngIf="transaction?.client?.residential_address">
+              <small class="text-muted p-t-30 db">Residential Address</small>
+              <h6>{{ transaction?.client?.residential_address }}</h6>
             </div>
           </div>
-        </ng-container>
-
+        </div>
       </div>
-      <!-- Column -->
+
     </ng-container>
 
-    <ng-container *ngIf="is_client">
+    <ng-container class="col-12" *ngIf="is_client">
       <div class="card card-body" id="printableArea">
-        <h3><b>{{ selectedTransaction.transaction_status_id | status:'desc':'client'}}</b> <span
+        <h3><b>{{ transaction.transaction_status_id | status:'desc':'client'}}</b> <span
           class="pull-right"></span></h3>
         <hr>
         <div class="row">
@@ -427,14 +417,14 @@
               <div class="pull-right text-right">
                 <address>
                   <!--<h3>To,</h3>
-                  <h4 class="font-bold">{{ selectedTransaction?.client?.full_name }}</h4>
-                  <p class="text-muted m-l-30">{{ selectedTransaction?.client?.office_address }},
+                  <h4 class="font-bold">{{ transaction?.client?.full_name }}</h4>
+                  <p class="text-muted m-l-30">{{ transaction?.client?.office_address }},
                     <br/> Nr' Viswakarma Temple,
                     <br/> Talaja Road,
                     <br/> Bhavnagar - 100242</p>-->
-                  <p class="m-t-30"><i class="fa fa-calendar"></i> {{ selectedTransaction?.created_at| amCalendar }}</p>
-                  <p *ngIf="selectedTransaction?.closed_at"><b>Due Date :</b> <i class="fa fa-calendar"></i>
-                    {{ selectedTransaction?.closed_at | amDateFormat }}</p>
+                  <p class="m-t-30"><i class="fa fa-calendar"></i> {{ transaction?.created_at| amCalendar }}</p>
+                  <p *ngIf="transaction?.closed_at"><b>Due Date :</b> <i class="fa fa-calendar"></i>
+                    {{ transaction?.closed_at | amDateFormat }}</p>
                 </address>
               </div>
             </div>
@@ -443,22 +433,22 @@
               <div class="row">
                 <div class="col-md-3 col-xs-6"><strong>Order ID</strong>
                   <br>
-                  <p class="text-muted">{{ selectedTransaction.transaction_ref }}</p>
+                  <p class="text-muted">{{ transaction.transaction_ref }}</p>
                 </div>
                 <div class="col-md-3 col-xs-6 b-r"><strong>Currency</strong>
                   <br>
-                  <p class="text-muted">{{ selectedTransaction.buying_product_id | currency:'desc' }}</p>
+                  <p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
                 </div>
                 <div class="col-md-3 col-xs-6 b-r"><strong>Exchange Rate</strong>
                   <br>
-                  <p class="text-muted"> 1 {{selectedTransaction.buying_product_id | currency }} = {{
-                    selectedTransaction.rate | number:'1.1-2' }} {{ selectedTransaction.selling_product_id | currency
+                  <p class="text-muted"> 1 {{transaction.buying_product_id | currency }} = {{
+                    transaction.rate | number:'1.1-2' }} {{ transaction.selling_product_id | currency
                     }}</p>
                 </div>
                 <div class="col-md-3 col-xs-6 b-r"><strong>Amount</strong>
                   <br>
-                  <p class="text-muted">{{selectedTransaction.buying_product_id | currency:'sign' }}{{
-                    selectedTransaction.amount | number:'1.1-2' }}</p>
+                  <p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
+                    transaction.amount | number:'1.1-2' }}</p>
                 </div>
 
               </div>
@@ -470,10 +460,10 @@
           <div class="col-md-12">
             <div class="pull-right m-t-30 text-right">
               <!--<p>Sub - Total amount: $13,848</p>-->
-              <p>vat (0%) : {{selectedTransaction.selling_product_id | currency:'sign' }}{{ 0 | number:'1.1-2' }} </p>
+              <p>vat (0%) : {{transaction.selling_product_id | currency:'sign' }}{{ 0 | number:'1.1-2' }} </p>
               <hr>
-              <h3><b>Total :</b> {{selectedTransaction.selling_product_id | currency:'sign' }}{{
-                selectedTransaction.calculated_amount | number:'1.1-2' }} </h3>
+              <h3><b>Total :</b> {{transaction.selling_product_id | currency:'sign' }}{{
+                transaction.calculated_amount | number:'1.1-2' }} </h3>
             </div>
             <div class="clearfix"></div>
             <hr>
@@ -487,7 +477,7 @@
     </ng-container>
   </div>
 
-  <div class="col-md-12 timeline-wrapper" *ngIf="!selectedTransaction">
+  <div class="col-12 timeline-wrapper" *ngIf="!transaction">
     <div class="timeline-item">
       <div class="animated-background">
         <div class="background-masker header-top"></div>

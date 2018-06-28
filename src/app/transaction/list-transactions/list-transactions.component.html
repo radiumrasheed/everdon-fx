@@ -1,66 +1,16 @@
 <div class="row">
-  <div class="col-lg-12 col-md-12">
+  <div class="col-12">
     <div class="card">
-      <div class="card-body">
-        <h4 class="card-title"><span class="lstick"></span>Transactions</h4>
+      <div class="card-header">
+        <h4 class="card-title"><span class="lstick"></span>All Transactions</h4>
+      </div>
 
-        <!--<div class="table-responsive m-t-20">
-          <table class="table vm no-th-brd pro-of-month">
-            <thead>
-            <tr class="text-dark">
-              <th *ngIf="(role$ | async) === 'admin'">Requester</th>
-              <th>Transaction Ref</th>
-              <th *ngIf="(role$ | async) === 'admin'">Transaction Type</th>
-              <th *ngIf="(role$ | async) === 'admin'">Transaction Mode</th>
-              <th>Buying</th>
-              <th>Selling</th>
-              <th>Amount</th>
-              <th>Rate</th>
-              <th>Status</th>
-              <th>Time Requested</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="" *ngFor="let transaction of transactions">
-              <td *ngIf="(role$ | async) === 'admin'">
-                <h4>{{ transaction?.client?.full_name }}</h4>
-                <small class="text-muted">{{ transaction?.client?.occupation }}</small>
-              </td>
-              <td>
-                <a [routerLink]="['..', 'details', transaction?.id]">
-                  {{ '#' + transaction?.transaction_ref }}
-                </a>
-              </td>
-              <td *ngIf="(role$ | async) === 'admin'">{{ transaction?.transaction_type_id | type }}</td>
-              <td *ngIf="(role$ | async) === 'admin'">{{ transaction?.transaction_mode_id | mode }}</td>
-              <td>{{ transaction?.buying_product_id | currency }}</td>
-              <td>{{ transaction?.selling_product_id | currency }}</td>
-              <td class="text-right">{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount }}
-              </td>
-              <td class="text-right">
-                <ng-container *ngIf="transaction?.rate">
-                  {{ transaction?.selling_product_id | currency:'sign' }}{{ transaction?.rate }} / {{
-                  transaction?.buying_product_id | currency:'name' }}
-                </ng-container>
-                <ng-container *ngIf="!transaction?.rate">
-                  -
-                </ng-container>
-              </td>
-              <td><span class="label label-rounded" [ngClass]="transaction?.transaction_status_id | status:'class'">
-                {{ transaction?.transaction_status_id | status }}</span></td>
-              <td><span class="text-muted"><i
-                class="fa fa-clock-o"></i> {{ transaction.created_at | amCalendar }}</span></td>
-            </tr>
-            <p #no_event *ngIf="!transactions"> No transactions </p>
-            </tbody>
-          </table>
-        </div>-->
-
-        <div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'admin'">
+      <div class="card-body" *ngIf="role$ | async as role">
+        <div class="table table-responsive smart-table" *ngIf="role === 'admin'">
           <ng2-smart-table [settings]="admin_table_settings" [source]="transactions" class=""></ng2-smart-table>
         </div>
 
-        <div class="table table-responsive smart-table" *ngIf="(role$ | async) === 'client'">
+        <div class="table table-responsive smart-table" *ngIf="role === 'client'">
           <ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>
         </div>
       </div>

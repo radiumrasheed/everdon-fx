@@ -88,6 +88,13 @@ export class RequestTransactionComponent implements OnInit {
 
   // Submit a transaction Request...
   requestTransaction(): void {
+    this.role$.subscribe(value => {
+      console.log(value);
+      if (value !== 'client' && value !== 'fx-ops') {
+        this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member');
+      }
+    });
+
     this.submitting = true;
     this.transactionService.requestTransaction(this.transaction)
       .subscribe(

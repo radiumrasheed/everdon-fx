@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {DashboardService} from './dashboard.service';
 import {Transaction} from '../../transaction/transaction';
-import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-dashbaord',
-  templateUrl: './dashbaord.component.html',
-  styleUrls: ['./dashbaord.component.css'],
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css'],
   providers: [DashboardService]
 })
-export class DashbaordComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   public figures: any;
   public transactions: Transaction[];
 

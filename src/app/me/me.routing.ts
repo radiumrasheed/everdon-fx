@@ -1,5 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
-import {DashbaordComponent} from './dashbaord/dashbaord.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 import {ProfileComponent} from './profile/profile.component';
 import {MeComponent} from './me.component';
 import {NgModule} from '@angular/core';
@@ -12,7 +12,7 @@ export const MeRoutes: Routes = [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {
         path: 'dashboard',
-        component: DashbaordComponent,
+        component: DashboardComponent,
         data: {
           title: 'Dashboard',
           urls: [{title: 'Me', url: '/me'}, {title: 'Dashboard'}]
