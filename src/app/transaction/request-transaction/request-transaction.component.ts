@@ -18,7 +18,7 @@ import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
   styleUrls: ['./request-transaction.component.css']
 })
 export class RequestTransactionComponent implements OnInit {
-  role$: Observable<string>;
+  roles$: Observable<string>;
 
   transaction = new Transaction;
   newAccount = true;
@@ -81,39 +81,41 @@ export class RequestTransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.role$ = this.auth.role;
+    this.roles$ = this.auth.roles;
     this.getAvailableProducts();
     this.getMyAccounts();
   }
 
   // Submit a transaction Request...
   requestTransaction(): void {
-    this.role$.subscribe(value => {
-      console.log(value);
-      if (value !== 'client' && value !== 'fx-ops') {
-        this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member');
+    this.roles$.subscribe(roles => {
+      const role = roles[0];
+      if (role !== 'client' && role !== 'fx-ops') {
+        return this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member').catch();
       }
+
+      this.submitting = true;
+      this.transactionService.requestTransaction(this.transaction)
+        .subscribe(
+          _transaction => {
+            if (_transaction) {
+              const id = _transaction.id;
+
+              // Navigate to the newly requested transaction...
+              this.router.navigate(['..', 'details', id], {relativeTo: this.route})
+                .then(status => this.toastr.success('Transaction Request sent successfully'))
+                .catch(err => console.error(err, id));
+            }
+          },
+          () => {
+
+          }, () => {
+            this.submitting = false;
+          }
+        );
     });
 
-    this.submitting = true;
-    this.transactionService.requestTransaction(this.transaction)
-      .subscribe(
-        _transaction => {
-          if (_transaction) {
-            const id = _transaction.id;
 
-            // Navigate to the newly requested transaction...
-            this.router.navigate(['..', 'details', id], {relativeTo: this.route})
-              .then(status => this.toastr.success('Transaction Request sent successfully'))
-              .catch(err => console.error(err, id));
-          }
-        },
-        () => {
-
-        }, () => {
-          this.submitting = false;
-        }
-      );
   }
 
   getAvailableProducts(): void {
@@ -129,15 +131,17 @@ export class RequestTransactionComponent implements OnInit {
     this.transactionService.getAccounts()
       .subscribe(
         accounts => {
-          this.accounts = accounts;
-          if (accounts.length > 0) {
-            this.newAccount = false;
+          if (accounts) {
+            this.accounts = accounts;
+            if (accounts.length > 0) {
+              this.newAccount = false;
+            }
           }
         }
       );
   }
 
-  // Get CLients Accounts...
+  // Get Clients Accounts...
   private getAccounts(client_id: any) {
     this.transactionService.getClientAccounts(client_id)
       .subscribe(

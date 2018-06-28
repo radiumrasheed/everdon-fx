@@ -1,4 +1,4 @@
-<div class="row" *ngIf="role$ | async as role">
+<div class="row" *ngIf="roles$ | async as roles">
   <div class="col-sm-12">
     <div class="card">
       <div class="card-header">
@@ -8,12 +8,11 @@
         </h4>
       </div>
       <div class="card-body">
-
-        <ngb-alert *ngIf="role !== 'client' && role !== 'fx-ops'" [type]="'warning'"><b>NOTE: </b>You're not eligible to make this request! Please refer to FX-Ops Member</ngb-alert>
+        <ngb-alert *ngIf="(roles[0] !== 'client') && (roles[0] !== 'fx-ops')" [type]="'warning'"><b>NOTE: </b>You're not eligible to make this request! Please refer to FX-Ops Member</ngb-alert>
 
         <form class="form" #requestForm="ngForm" (ngSubmit)="requestTransaction()">
 
-          <ng-container *ngIf="role === 'admin'">
+          <ng-container *ngIf="roles[0] === 'fx-ops'">
             <div class="form-group row">
               <label for="client_id" class="col-md-2 col-form-label">Client</label>
               <div class="col-md-10">
