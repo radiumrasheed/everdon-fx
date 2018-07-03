@@ -47,7 +47,7 @@
             <label>I have <span class="text-danger">*</span></label>
             <select class="form-control" required [(ngModel)]="transaction.i_have" name="i_have" placeholder="I have">
               <option selected disabled>Select a Currency...</option>
-              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.description}} ({{currency.name}})</option>
+              <option *ngFor="let currency of currencyList" value="{{currency.id}}">{{currency.description}} ({{currency.name}})</option>
             </select>
           </div>
 
@@ -56,19 +56,16 @@
             <label>I want <span class="text-danger">*</span></label>
             <select class="form-control" required [(ngModel)]="transaction.i_want" name="i_want" placeholder="I want">
               <option selected disabled>Select a Currency...</option>
-              <option *ngFor="let currency of currencyList" value="{{currency.value}}">{{currency.description}} ({{currency.name}})</option>
+              <option *ngFor="let currency of currencyList" value="{{currency.id}}">{{currency.description}} ({{currency.name}})</option>
             </select>
           </div>
 
 
           <div class="form-group col-lg-4 col-md-6 col-sm-6">
-            <label>Amount <span class="text-danger">*</span></label>
+            <label for="amount">Amount <span class="text-danger">*</span></label>
             <div class="input-group">
-              <span class="input-group-addon"
-                    *ngIf="transaction.i_want">{{ transaction?.i_want | currency:'sign' }}</span>
-              <!--todo form a PIPE for the above...-->
-              <input type="text" class="form-control" required [(ngModel)]="transaction.amount" name="amount"
-                     id="amount">
+              <span class="input-group-addon" *ngIf="transaction.i_want">{{ transaction.i_want | currency:'sign' }}</span>
+              <input type="text" class="form-control" required [(ngModel)]="transaction.amount" name="amount" id="amount">
             </div>
           </div>
         </div>

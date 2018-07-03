@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {TransactionService} from '../transaction.service';
-import {Account, Product, Transaction} from '../transaction';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastsManager} from 'ng2-toastr';
 import {Observable} from 'rxjs/Observable';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs/observable/of';
+
 import {User} from '../../authentication/login/user';
+import {TransactionService} from '../transaction.service';
+import {Account, Product, Transaction} from '../transaction';
 import {AuthService} from '../../services/auth/auth.service';
-import {GenericOption} from '../../shared/pipes/generic-option';
 import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
 import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
+import {GenericOption} from '../../shared/pipes/generic-option';
 
 @Component({
   selector: 'app-request-transaction',
@@ -19,6 +20,7 @@ import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
 })
 export class RequestTransactionComponent implements OnInit {
   roles$: Observable<string>;
+  role: string;
 
   transaction = new Transaction;
   newAccount = true;
@@ -82,40 +84,37 @@ export class RequestTransactionComponent implements OnInit {
 
   ngOnInit() {
     this.roles$ = this.auth.roles;
+    this.roles$.subscribe(roles => this.role = roles[0]);
     this.getAvailableProducts();
     this.getMyAccounts();
   }
 
   // Submit a transaction Request...
   requestTransaction(): void {
-    this.roles$.subscribe(roles => {
-      const role = roles[0];
-      if (role !== 'client' && role !== 'fx-ops') {
-        return this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member').catch();
-      }
+    if (this.role !== 'client' && this.role !== 'fx-ops') {
+      this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member').catch();
+      return;
+    }
 
-      this.submitting = true;
-      this.transactionService.requestTransaction(this.transaction)
-        .subscribe(
-          _transaction => {
-            if (_transaction) {
-              const id = _transaction.id;
+    this.submitting = true;
+    this.transactionService.requestTransaction(this.transaction)
+      .subscribe(
+        _transaction => {
+          if (_transaction) {
+            const id = _transaction.id;
 
-              // Navigate to the newly requested transaction...
-              this.router.navigate(['..', 'details', id], {relativeTo: this.route})
-                .then(status => this.toastr.success('Transaction Request sent successfully'))
-                .catch(err => console.error(err, id));
-            }
-          },
-          () => {
-
-          }, () => {
-            this.submitting = false;
+            // Navigate to the newly requested transaction...
+            this.router.navigate(['..', 'details', id], {relativeTo: this.route})
+              .then(status => this.toastr.success('Transaction Request sent successfully'))
+              .catch(err => console.error(err, id));
           }
-        );
-    });
+        },
+        () => {
 
-
+        }, () => {
+          this.submitting = false;
+        }
+      );
   }
 
   getAvailableProducts(): void {

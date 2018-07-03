@@ -23,11 +23,9 @@
                   <div class="card-body" *ngIf="transaction">
                     <div class="w-100 row">
                       <div class="card-body">
-                        <!--<button type="button" class="btn btn-secondary m-r-11 m-b-11" (click)="refreshTransaction()">
-                          <i class="mdi mdi-cached font-19"></i>
-                          Refresh
-                        </button>-->
+
                         <label><h2>{{ transaction.transaction_ref }}</h2></label>
+
                         <label class="label label-rounded btn-lg"
                                [ngClass]="transaction?.transaction_status_id | status:'class'"
                                *ngIf="transaction">
@@ -58,23 +56,13 @@
 
                       <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
                         <div class="col-12">
-                          <!--<div class="card card-megna">-->
-                          <!--<div class="card-header">
-                            <h4 class="m-b-0 text-white">
-                              <i class="mdi mdi-briefcase-check text-warning"></i>
-                              Transaction #{{ transaction.transaction_ref }}
-                            </h4>
-                          </div>-->
 
-                          <!--<div class="card-body">-->
                           <h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>
 
-
-                          <!--<div class="card-body">-->
                           <div class="row">
 
                             <div class="form-group col-lg-4 col-sm-12">
-                              <label>
+                              <label for="buying_product_id">
                                 <i class="mdi mdi-cash-100 text-warning"></i>
                                 Currency
                                 <span *ngIf="transaction" class="text-danger">*</span>
@@ -83,15 +71,15 @@
                               <select class="form-control" [required]="transaction"
                                       [disabled]="transaction.buying_product_id"
                                       [(ngModel)]="transaction.buying_product_id"
-                                      name="buying_product_id" placeholder="Currency">
+                                      name="buying_product_id" id="buying_product_id">
                                 <option *ngFor="let currency of currencyList" [ngValue]="currency.id">
-                                  {{currency.name}}
+                                  {{currency.description}} ({{currency.name}})
                                 </option>
                               </select>
                             </div>
 
                             <div class="form-group col-lg-4 col-sm-12">
-                              <label>
+                              <label for="amount">
                                 <i class="mdi mdi-buffer text-warning"></i>
                                 Amount
                                 <span *ngIf="transaction" class="text-danger">*</span>
@@ -105,49 +93,44 @@
                             </div>
 
                             <div class="form-group col-lg-4 col-sm-12">
-                              <label>
+                              <label for="rate">
                                 <i class="mdi mdi-percent text-warning disabled"></i>
                                 Rate
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
                                 <span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
-                                <input type="text" class="form-control" id="rate"
-                                       [(ngModel)]="transaction.rate"
-                                       (keyup)="updateCalculatedAmount()"
-                                       [disabled]="!can_be_treated"
-                                       name="rate"
-                                       aria-label="Amount (to the nearest dollar)">
+                                <input type="text" class="form-control" [(ngModel)]="transaction.rate"
+                                       (keyup)="updateCalculatedAmount()" [disabled]="!can_be_treated"
+                                       name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
                                 <span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
                               </div>
                             </div>
 
                             <div class="form-group col-lg-6 col-sm-12">
-                              <label>
+                              <label for="calculated_amount">
                                 <i class="mdi mdi-cash-multiple text-warning disabled"></i>
                                 Calculated Amount
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
                                 <span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
-                                <input type="text" class="form-control" id="calculated_amount" disabled
+                                <input type="text" class="form-control" disabled
                                        [ngModel]="transaction.calculated_amount"
-                                       name="calculated_amount"
+                                       name="calculated_amount" id="calculated_amount"
                                        aria-label="Amount (to the nearest dollar)">
                               </div>
                             </div>
 
                             <div class="form-group col-lg-6 col-sm-12">
-                              <label>
+                              <label for="org_account_id">
                                 <i class="mdi mdi-bank text-warning"></i>
                                 Paying Organization / Account
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="transaction"
-                                      [disabled]="!can_be_treated"
-                                      [(ngModel)]="transaction.org_account_id"
-                                      name="org_account_id" placeholder="Currency">
+                              <select class="form-control" [required]="transaction" [disabled]="!can_be_treated"
+                                      [(ngModel)]="transaction.org_account_id" name="org_account_id" id="org_account_id">
                                 <option *ngFor="let organization of organizationList" value="{{organization.id}}">
                                   {{organization.name + ' ' + organization.account_number}}
                                 </option>
@@ -155,29 +138,29 @@
                             </div>
 
                             <div class="form-group col-lg-6 col-sm-12">
-                              <label>
+                              <label for="condition">
                                 <i class="mdi mdi-code-not-equal text-warning"></i>
                                 Condition
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="transaction"
-                                      [disabled]="!can_be_treated"
-                                      [(ngModel)]="transaction.condition"
-                                      name="condition" placeholder="Condition">
-                                <option value="waiver">Waiver</option>
+                              <select class="form-control" [required]="transaction" [disabled]="!can_be_treated"
+                                      [(ngModel)]="transaction.condition" name="condition" id="condition" placeholder="Condition">
                                 <option value="advance">Advance</option>
                                 <option value="loan">Loan</option>
+                                <option value="pay first">Pay First</option>
+                                <option value="rate concession">Rate Concession</option>
+                                <option value="waiver">Waiver</option>
                               </select>
                             </div>
 
                             <div class="form-group col-lg-6 col-sm-12">
-                              <label>
+                              <label for="comment">
                                 <i class="mdi mdi-comment text-success disabled"></i>
                                 Comment
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
-                              <textarea [disabled]="!can_take_action" class="form-control" name="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
+                              <textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
                             </div>
 
                           </div>

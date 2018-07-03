@@ -11,8 +11,8 @@ export class ExpressTransaction {
   phone?: string;
   is_exchange?: boolean;
   amount?: number;
-  i_have?: string;
-  i_want?: string;
+  i_have?: number;
+  i_want?: number;
   is_ngn_transfer?: boolean;
   not_ngn_transfer?: boolean;
   bank_name?: string;

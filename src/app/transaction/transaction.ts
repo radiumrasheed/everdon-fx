@@ -70,6 +70,7 @@ export class Product {
 
 export class Transaction {
   amount: number;
+  account: Account;
   calculated_amount: number;
   account_id: number;
   approved_at?: string;
@@ -119,8 +120,8 @@ export class Organization {
 
 export const PRODUCTS: Product[] = [
   {id: 1, name: 'USD', value: 'usd', description: 'US Dollar', sign: '$'},
-  {id: 2, name: 'EUR', value: 'eur', description: 'Euro', sign: '€'},
-  {id: 3, name: 'GBP', value: 'gbp', description: 'British pounds', sign: '£'},
+  {id: 2, name: 'EUR', value: 'eur', description: 'European Euro', sign: '€'},
+  {id: 3, name: 'GBP', value: 'gbp', description: 'British Pound', sign: '£'},
   {id: 4, name: 'NGN', value: 'ngn', description: 'Nigerian Naira', sign: '₦'}
 ];
 
