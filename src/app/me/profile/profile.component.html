@@ -10,8 +10,8 @@
             <div class="col-4">
               <a href="javascript:void(0)" (click)="t.select('accounts')" class="link" title="{{ client?.accounts?.length }} accounts">
                 <i class="icon-wallet"></i>
-                <font
-                  class="font-medium">{{ client?.accounts?.length }}</font></a>
+                <font class="font-medium">{{ client?.accounts?.length }}</font>
+              </a>
             </div>
           </div>
         </div>
@@ -69,9 +69,18 @@
 
       <ngb-tabset #t="ngbTabset">
 
-        <ngb-tab id="profile" title="Update Profile">
+        <ngb-tab id="profile" title="Personal Details">
           <ng-template ngbTabContent>
             <div class="card-body">
+
+              <ngb-alert *ngIf="client?.kyc.status === 0 && client?.kyc.awaiting_review !== 1" [type]="'warning'">
+                <b>NOTE: </b>Please update your profile so transactions can be treated.
+              </ngb-alert>
+
+              <ngb-alert *ngIf="client?.kyc.awaiting_review === 1" [type]="'info'">
+                <b>NOTE: </b>Your profile is awaiting review
+              </ngb-alert>
+
               <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
                 <div class="form-group">
                   <label class="col-md-11">Full Name</label>
@@ -112,19 +121,6 @@
                   </div>
                 </div>
 
-                <!--<div class="form-group">
-                  <label class="col-sm-11">Select Country</label>
-                  <div class="col-sm-11">
-                    <select class="form-control form-control-line">
-                      <option>London</option>
-                      <option>India</option>
-                      <option>Usa</option>
-                      <option>Canada</option>
-                      <option>Thailand</option>
-                    </select>
-                  </div>
-                </div>-->
-
                 <div class="form-group row" *ngIf="!is_individual">
                   <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
                   <div class="col-sm-9">
@@ -139,24 +135,6 @@
                       <option value="married">Married</option>
                     </select>
                   </div>
-                </div>
-
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification</label>
-                  <div class="col-sm-9">
-                    <input [(ngModel)]="client.identification" type="text" name="identification" class="form-control" id="identification" placeholder="Means of Identification..."></div>
-                </div>
-
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
-                  <div class="col-sm-9">
-                    <input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number" placeholder="Identification Number..."></div>
-                </div>
-
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
-                  <div class="col-sm-9">
-                    <input (change)="fileChangeEvent($event)" type="file" name="identification_image" class="form-control" id="identification_image" placeholder="Means of Identification..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
@@ -203,7 +181,55 @@
           </ng-template>
         </ngb-tab>
 
-        <ngb-tab id="accounts" title="Accounts">
+        <ngb-tab id="identity" title="My Identity">
+          <ng-template ngbTabContent>
+            <div class="card-body">
+              <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
+
+                <div class="form-group row" *ngIf="is_individual">
+                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification</label>
+                  <div class="col-sm-9">
+                    <input [(ngModel)]="client.identification" type="text" name="identification" class="form-control" id="identification" placeholder="Means of Identification..."></div>
+                </div>
+
+                <div class="form-group row" *ngIf="is_individual">
+                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
+                  <div class="col-sm-9">
+                    <input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number" placeholder="Identification Number...">
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group row" *ngIf="is_individual">
+                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
+                  <div class="col-sm-9">
+                    <p *ngIf="client.identification_document">You have 1 document uploaded already</p>
+                    <input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document" class="form-control" id="identification_document"
+                           placeholder="Means of Identification...">
+                  </div>
+                </div>
+
+                <div class="form-group row" *ngIf="!is_individual">
+                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
+                  <div class="col-sm-9">
+                    <p *ngIf="client.cac_document">You have 1 document uploaded already</p>
+                    <input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control" id="cac_document" placeholder="CAC Document...">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="col-sm-11">
+                    <button class="btn btn-success" type="submit">Update Identity Profile</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </ng-template>
+        </ngb-tab>
+
+        <ngb-tab id="accounts" title="My Accounts">
           <ng-template ngbTabContent>
             <div class="card-body">
               <div class="row">
@@ -222,6 +248,11 @@
                         <h6 class="text-muted m-b-0">{{ account.bank }}</h6></div>
                     </div>
                   </div>
+                </div>
+
+                <div class="col-12 text-center" *ngIf="client?.accounts?.length === 0">
+                  <p class="text-center text-warning">You don't have any accounts yet.</p>
+                  <button class="btn btn-outline-primary">Create a New Account</button>
                 </div>
               </div>
             </div>

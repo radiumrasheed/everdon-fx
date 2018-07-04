@@ -15,7 +15,7 @@ export class Client {
   occupation: string;
   identification: string;
   identification_number: string;
-  // identification_image: any;
+  // identification_document: any;
   office_address: string;
   phone: string;
   rc_number: string;

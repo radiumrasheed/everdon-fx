@@ -21,8 +21,8 @@ export class ProfileComponent implements OnInit {
     this.getProfile();
   }
 
-  fileChangeEvent(fileInput: any) {
-    this.formData.append('identification_image', fileInput.target.files[0]);
+  fileChangeEvent(fileInput: any, name: string) {
+    this.formData.append(name, fileInput.target.files[0]);
   }
 
   constructFormData() {

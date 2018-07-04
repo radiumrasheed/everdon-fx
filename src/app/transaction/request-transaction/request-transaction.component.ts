@@ -7,7 +7,7 @@ import {of} from 'rxjs/observable/of';
 
 import {User} from '../../authentication/login/user';
 import {TransactionService} from '../transaction.service';
-import {Account, Product, Transaction} from '../transaction';
+import {Account, PRODUCTS, Transaction} from '../transaction';
 import {AuthService} from '../../services/auth/auth.service';
 import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
 import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
@@ -25,7 +25,7 @@ export class RequestTransactionComponent implements OnInit {
   transaction = new Transaction;
   newAccount = true;
   submitting = false;
-  availableProducts: Product[];
+  availableProducts = PRODUCTS;
   accounts: Account[];
   bankList = [
     {name: 'GTB', value: 'gtb'},
@@ -85,7 +85,7 @@ export class RequestTransactionComponent implements OnInit {
   ngOnInit() {
     this.roles$ = this.auth.roles;
     this.roles$.subscribe(roles => this.role = roles[0]);
-    this.getAvailableProducts();
+    // this.getAvailableProducts();
     this.getMyAccounts();
   }
 
