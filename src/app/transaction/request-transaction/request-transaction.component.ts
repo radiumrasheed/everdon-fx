@@ -7,7 +7,7 @@ import {of} from 'rxjs/observable/of';
 
 import {User} from '../../authentication/login/user';
 import {TransactionService} from '../transaction.service';
-import {Account, PRODUCTS, Transaction} from '../transaction';
+import {Account, COUNTRIES, PRODUCTS, Transaction} from '../transaction';
 import {AuthService} from '../../services/auth/auth.service';
 import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
 import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
@@ -24,6 +24,7 @@ export class RequestTransactionComponent implements OnInit {
 
   transaction = new Transaction;
   newAccount = true;
+  countries = COUNTRIES;
   submitting = false;
   availableProducts = PRODUCTS;
   accounts: Account[];
@@ -35,6 +36,8 @@ export class RequestTransactionComponent implements OnInit {
   ];
 
   model: any;
+  form1 = true;
+  form2 = false;
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -138,6 +141,18 @@ export class RequestTransactionComponent implements OnInit {
           }
         }
       );
+  }
+
+
+  goToForm2() {
+    console.log({transaction: this.transaction});
+    this.form1 = false;
+    this.form2 = true;
+  }
+
+  goToForm1() {
+    this.form1 = true;
+    this.form2 = false;
   }
 
   // Get Clients Accounts...

@@ -119,18 +119,8 @@
       <div class="card-header">
         <h4 class="card-title"><span class="lstick"></span>Recent Transactions</h4>
       </div>
-      <!--<div class="bg-light p-20">
-        <div class="d-flex">
-          <div class="align-self-center">
-            <h3 class="m-b-0">July 2017</h3>
-            <small>Total This Week</small>
-          </div>
-          <div class="ml-auto align-self-center">
-            <h2 class="text-success">3</h2></div>
-        </div>
-      </div>-->
       <div class="card-body">
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="transactions?.length > 0">
           <table class="table table-hover earning-box">
             <thead>
             <tr>
@@ -157,9 +147,13 @@
             </tr>
             </tbody>
           </table>
+          <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">View All</a>
         </div>
 
-        <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">View All</a>
+        <div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
+          <p class="text-center text-warning">There are no recent transactions yet.</p>
+          <a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Request Transaction</a>
+        </div>
       </div>
     </div>
   </div>
@@ -169,29 +163,34 @@
       <div class="card-header">
         <h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
       </div>
-      <!-- ============================================================== -->
-      <!-- Comment widgets -->
-      <!-- ============================================================== -->
-      <div class="comment-widgets">
-        <!-- Comment Row -->
-        <div class="d-flex flex-row comment-row" *ngFor="let event of events">
-          <div class="p-2"><span class="round"><img src="{{ event.image || 'assets/images/users/avi.png' }}" alt="user"
-                                                    width="50"></span></div>
-          <div class="comment-text w-100">
-            <h5>{{event?.done_by.name}} - {{ event.action }}</h5>
-            <p class="m-b-5">{{ event.comment }}</p>
-            <div class="comment-footer">
-              <span class="text-muted pull-right">{{ event.done_at | amTimeAgo }}</span>
-              <span class="label" [ngClass]="event?.transaction_status_id | status:'class'">{{event.transaction_status_id | status}}</span>
-              <span class="action-icons">
+      <div class="card-body">
+        <!-- ============================================================== -->
+        <!-- Comment widgets -->
+        <!-- ============================================================== -->
+        <div class="comment-widgets">
+          <!-- Comment Row -->
+          <div class="d-flex flex-row comment-row" *ngFor="let event of events">
+            <div class="p-2"><span class="round"><img src="{{ event.image || 'assets/images/users/avi.png' }}" alt="user" width="50"></span></div>
+            <div class="comment-text w-100">
+              <h5>{{event?.done_by.name}} - {{ event.action }}</h5>
+              <p class="m-b-5">{{ event.comment }}</p>
+              <div class="comment-footer">
+                <span class="text-muted pull-right">{{ event.done_at | amTimeAgo }}</span>
+                <span class="label" [ngClass]="event?.transaction_status_id | status:'class'">{{event.transaction_status_id | status}}</span>
+                <span class="action-icons">
                   <a href="javascript:void(0)" [routerLink]="['..', 'transaction', 'details', event.transaction_id]"><i
                     class="ti-pencil-alt"></i></a>
               </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
+        <div class="col-12 text-center comment-widgets" *ngIf="events?.length === 0 || !events">
+          <p class="text-center text-warning">There are no recent events yet.</p>
+          <a [routerLink]="['..', 'transaction', 'list']" class="btn btn-outline-primary">Go to Transactions</a>
+        </div>
+      </div>
     </div>
   </div>
 </div>
