@@ -119,7 +119,7 @@
             <div class="form-group row" *ngIf="transaction.country !== 'Nigeria'">
               <label for="sort_code" class="col-md-2 col-form-label">Sort Code <span class="text-danger" *ngIf="transaction.country !== 'Nigeria'">*</span></label>
               <div class="col-md-10">
-                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'" minlength="10" maxlength="10"
+                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'"
                        [(ngModel)]="transaction.sort_code" name="sort_code" id="sort_code"
                        placeholder="Sort Code">
               </div>
@@ -128,7 +128,7 @@
             <div class="form-group row" *ngIf="transaction.country !== 'Nigeria'">
               <label for="swift_code" class="col-md-2 col-form-label">Swift Code <span class="text-danger" *ngIf="transaction.country !== 'Nigeria'">*</span></label>
               <div class="col-md-10">
-                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'" minlength="10" maxlength="10"
+                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'"
                        [(ngModel)]="transaction.swift_code" name="swift_code" id="swift_code"
                        placeholder="Swift Code">
               </div>
@@ -137,7 +137,7 @@
             <div class="form-group row" *ngIf="transaction.country !== 'Nigeria'">
               <label for="routing_no" class="col-md-2 col-form-label">Routing Number <span class="text-danger" *ngIf="transaction.country !== 'Nigeria'">*</span></label>
               <div class="col-md-10">
-                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'" minlength="10" maxlength="10"
+                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'"
                        [(ngModel)]="transaction.routing_no" name="routing_no" id="routing_no"
                        placeholder="Routing Number">
               </div>
@@ -146,7 +146,7 @@
             <div class="form-group row" *ngIf="transaction.country !== 'Nigeria'">
               <label for="iban" class="col-md-2 col-form-label">IBAN <span class="text-danger" *ngIf="transaction.country !== 'Nigeria'">*</span></label>
               <div class="col-md-10">
-                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'" minlength="10" maxlength="10"
+                <input type="text" class="form-control" [required]="transaction.country !== 'Nigeria'"
                        [(ngModel)]="transaction.iban" name="iban" id="iban"
                        placeholder="IBAN">
               </div>
