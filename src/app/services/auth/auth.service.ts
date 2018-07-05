@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http, Headers} from '@angular/http';
+import {Headers, Http} from '@angular/http';
 
 import {AppConfig} from '../../app.config';
 import * as jwt_decode from 'jwt-decode';
@@ -12,9 +12,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../http-error-handler.service';
-import {Product} from '../../transaction/transaction';
 import {catchError, map, tap} from 'rxjs/operators';
-import {User} from '../../authentication/login/user';
 
 
 export const TOKEN_NAME = 'jwt_token';
@@ -233,9 +231,12 @@ export class AuthService {
     return this._http
       .post(`${this.url}/auth/signup`, user)
       .pipe(
-        map(response => response['data']['token']),
-        tap(token => {
-          AuthService.setToken(token);
+        map(response => response['data']),
+        tap(data => {
+          AuthService.setToken(data['token']);
+          AuthService.setRoleToken(data['_token']);
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+
           this._isLoggedIn.next(true);
         }),
         catchError(this.handleError<any>('Sign Up', null))

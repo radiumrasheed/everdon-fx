@@ -30,7 +30,7 @@ export class SignupComponent implements OnInit {
         user => {
           if (user) {
             // get the redirect url from our auth service, else use default
-            const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'me';
+            const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'me/profile';
 
             // redirect the user
             this.router.navigate([redirect])
