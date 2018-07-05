@@ -41,7 +41,7 @@
         <div class="form-group" *ngIf="user.is_cooperate">
           <div class="col-xs-12">
             <input class="form-control" [(ngModel)]="user.rc_number" [required]="user.is_cooperate" type="text"
-                   pattern="[0-9]{5,}" placeholder="RC Number*" name="rc_number">
+                   pattern="[0-9,A-Z,a-z]{5,10}" placeholder="RC Number*" name="rc_number">
           </div>
         </div>
 

@@ -124,7 +124,7 @@
                 <div class="form-group row" *ngIf="!is_individual">
                   <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.rc_number" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
+                    <input [(ngModel)]="client.rc_number" pattern="[0-9,A-Z,a-z]{5,10}" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
