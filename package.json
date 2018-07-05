@@ -6,7 +6,7 @@
     "ng": "ng",
     "serve": "ng serve",
     "heroku-prebuild": "npm install -g http-server",
-    "heroku-postbuild": "ng build --prod",
+    "heroku-postbuild": "ng build --environment=prod",
     "start": "http-server dist/",
     "dev": "ng serve --host 192.168.0.101",
     "build": "ng build --environment=prod",
