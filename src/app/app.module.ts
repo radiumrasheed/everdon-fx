@@ -1,11 +1,11 @@
 import * as $ from 'jquery';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CommonModule, LocationStrategy, HashLocationStrategy} from '@angular/common';
+import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpModule, Http, RequestOptions} from '@angular/http';
-import {Routes, RouterModule} from '@angular/router';
+import {HttpModule, RequestOptions} from '@angular/http';
+import {RouterModule} from '@angular/router';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
@@ -33,7 +33,9 @@ import {NotFoundComponent} from './authentication/404/not-found.component';
 
 export class ToastConfig extends ToastOptions {
   showCloseButton = true;
-  animate = 'flyRight';
+  animate = 'flyLeft';
+  positionClass = 'toast-top-center';
+  maxShown = 3;
 }
 
 @NgModule({

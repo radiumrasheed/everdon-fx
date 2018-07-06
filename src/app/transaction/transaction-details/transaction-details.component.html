@@ -7,8 +7,7 @@
       </ngb-alert>
 
       <!-- Transaction -->
-      <div class="col-lg-12 col-xlg-9 col-md-12 col-sm-12">
-
+      <div class="col-12">
         <div class="card card-inverse">
           <div class="card-header">
             <h3>
@@ -18,7 +17,7 @@
           <div class="card-body">
             <ngb-tabset #t="ngbTabset" [justify]="'fill'">
 
-              <ngb-tab id="summary" title="Summary">
+              <ngb-tab id="summary" title="Transaction Details">
                 <ng-template ngbTabContent>
                   <div class="card-body" *ngIf="transaction">
                     <div class="w-100 row">
@@ -50,7 +49,55 @@
                       </div>
                     </div>
 
-                    <hr>
+                    <ng-container>
+                      <div class="m-t-40" style="clear: both;">
+                        <hr>
+                        <div class="row">
+                          <div class="col-md-3 col-xs-6 b-r"><strong>Buying Currency</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r"><strong>Amount In</strong>
+                            <br>
+                            <p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
+                              transaction.amount | number:'1.1-2' }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Transaction Type</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction.transaction_type_id | type:'desc' }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Country</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction?.country }}</p>
+                          </div>
+
+                          <div class="col-md-3 col-xs-6 b-r"><strong>Selling Currency</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction.selling_product_id | currency:'desc' }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r"><strong>Amount Out</strong>
+                            <br>
+                            <p class="text-muted" *ngIf="transaction.calculated_amount">
+                              {{ transaction.selling_product_id | currency:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
+                            </p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Transaction Mode</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction?.transaction_mode_id | mode:'desc' }}</p>
+                          </div>
+                          <div class="col-md-3 col-xs-6 b-r">
+                            <strong>Date Requested</strong>
+                            <br>
+                            <p class="text-muted">{{ transaction?.created_at | amCalendar }}</p>
+                          </div>
+
+                        </div>
+                        <hr>
+                      </div>
+                    </ng-container>
 
                     <div class="">
 
@@ -61,38 +108,7 @@
 
                           <div class="row">
 
-                            <div class="form-group col-lg-4 col-sm-12">
-                              <label for="buying_product_id">
-                                <i class="mdi mdi-cash-100 text-warning"></i>
-                                Currency
-                                <span *ngIf="transaction" class="text-danger">*</span>
-                              </label>
-
-                              <select class="form-control" [required]="transaction"
-                                      [disabled]="transaction.buying_product_id"
-                                      [(ngModel)]="transaction.buying_product_id"
-                                      name="buying_product_id" id="buying_product_id">
-                                <option *ngFor="let currency of currencyList" [ngValue]="currency.id">
-                                  {{currency.description}} ({{currency.name}})
-                                </option>
-                              </select>
-                            </div>
-
-                            <div class="form-group col-lg-4 col-sm-12">
-                              <label for="amount">
-                                <i class="mdi mdi-buffer text-warning"></i>
-                                Amount
-                                <span *ngIf="transaction" class="text-danger">*</span>
-                              </label>
-                              <div class="input-group">
-                                <span class="input-group-addon">{{ transaction?.buying_product_id | currency:'sign' }}</span>
-                                <input type="text" name="amount" [disabled]="transaction.amount"
-                                       class="form-control" id="amount" [(ngModel)]="transaction.amount">
-
-                              </div>
-                            </div>
-
-                            <div class="form-group col-lg-4 col-sm-12">
+                            <div class="form-group col-lg-6 col-sm-12">
                               <label for="rate">
                                 <i class="mdi mdi-percent text-warning disabled"></i>
                                 Rate
@@ -105,12 +121,13 @@
                                        name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
                                 <span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
                               </div>
+
                             </div>
 
-                            <div class="form-group col-lg-6 col-sm-12">
+                            <div class="form-group col-lg-6 col-sm-12" hidden>
                               <label for="calculated_amount">
                                 <i class="mdi mdi-cash-multiple text-warning disabled"></i>
-                                Calculated Amount
+                                Amount to be paid by Customer
                                 <span *ngIf="transaction" class="text-danger">*</span>
                               </label>
                               <div class="input-group">
@@ -121,6 +138,7 @@
                                        aria-label="Amount (to the nearest dollar)">
                               </div>
                             </div>
+
 
                             <div class="form-group col-lg-6 col-sm-12">
                               <label for="org_account_id">
@@ -171,6 +189,138 @@
                           <!--</div>-->
                         </div>
                       </form>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+
+              <ngb-tab id="customer" title="KYC Details">
+                <ng-template ngbTabContent>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-6">
+                        <div class="m-t-30 text-center">
+                          <img src="assets/images/users/avi.png" class="img-circle" width="150"/>
+                          <hr>
+                          <h4 class="card-title m-t-11">{{ transaction?.client?.full_name }}</h4>
+
+                          <div class="row text-center justify-content-md-center">
+                            <div class="col-6">
+                              <a href="javascript:void(0)" class="link"
+                                 popoverTitle="Account Details" ngbPopover="
+                     {{ transaction?.account?.name + ' | ' + transaction?.account?.bank.toLocaleUpperCase() + ' : ' + transaction?.account?.number }}">
+                                <i class="icon-wallet"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                          <div>
+                            <i class="fa" [ngClass]="{'fa-user-o' : transaction?.client?.client_type === 1, 'fa-bank-o' :  transaction?.client?.client_type === 2}"></i>
+
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 1">Individual</span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 2">Cooperate</span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === null"></span>
+                          </div>
+                        </div>
+
+                        <hr>
+
+                        <div *ngIf="transaction?.client?.email">
+                          <small class="text-muted">Email address</small>
+                          <h6>{{ transaction?.client?.email }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.phone">
+                          <small class="text-muted p-t-30 db">Phone</small>
+                          <h6>{{ transaction?.client?.phone }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.office_address">
+                          <small class="text-muted p-t-30 db">Office Address</small>
+                          <h6>{{ transaction?.client?.office_address }}</h6>
+                        </div>
+                        <div *ngIf="transaction?.client?.rc_number && transaction?.client?.client_type == 2">
+                          <small class="text-muted p-t-30 db">RC Number</small>
+                          <h6>{{ transaction?.client?.rc_number }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.bvn">
+                          <small class="text-muted p-t-30 db">BVN</small>
+                          <h6>{{ transaction?.client?.bvn }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.occupation">
+                          <small class="text-muted p-t-30 db">Occupation</small>
+                          <h6>{{ transaction?.client?.occupation }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.nok_full_name">
+                          <small class="text-muted p-t-30 db">Next of Kin</small>
+                          <h6>{{ transaction?.client?.nok_full_name }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.nok_phone">
+                          <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
+                          <h6>{{ transaction?.client?.nok_phone }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.date_of_birth">
+                          <small class="text-muted p-t-30 db">Date of birth</small>
+                          <h6>{{ transaction?.client?.date_of_birth | amCalendar }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.referee_1">
+                          <small class="text-muted p-t-30 db">Referee 1</small>
+                          <h6>{{ transaction?.client?.referee_1 }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.referee_2">
+                          <small class="text-muted p-t-30 db">Referee 2</small>
+                          <h6>{{ transaction?.client?.referee_2 }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.referee_3">
+                          <small class="text-muted p-t-30 db">Referee 3</small>
+                          <h6>{{ transaction?.client?.referee_3 }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.referee_4">
+                          <small class="text-muted p-t-30 db">Referee 4</small>
+                          <h6>{{ transaction?.client?.referee_4 }}</h6>
+                        </div>
+
+                        <div *ngIf="transaction?.client?.residential_address">
+                          <small class="text-muted p-t-30 db">Residential Address</small>
+                          <h6>{{ transaction?.client?.residential_address }}</h6>
+                        </div>
+                      </div>
+
+                      <div class="col-4 offset-1">
+                        <div class="pricing-box featured-plan">
+                          <div class="pricing-body">
+                            <div class="pricing-header">
+                              <h4 class="price-lable text-white bg-warning"> KYC</h4>
+                              <!--<h4 class="text-center"></h4>-->
+                              <h2 class="text-center">
+                                {{ transaction?.client?.kyc?.status === 1 ? 'Valid' : 'Invalid' }}
+                              </h2>
+                              <!--<p class="uppercase">per month</p>-->
+                            </div>
+                            <div class="price-table-content">
+                              <div class="price-row"><i class="icon-calender"></i>{{ transaction?.client?.kyc?.updated_at | amCalendar }}</div>
+                              <!--<div class="price-row"><i class="icon-screen-smartphone"></i> Single Device</div>-->
+                              <!--<div class="price-row"><i class="icon-drawar"></i> 120GB Storage</div>-->
+                              <!--<div class="price-row"><i class="icon-refresh"></i> Monthly Backups</div>-->
+                              <div class="price-row" *ngIf="transaction?.client?.kyc?.status !== 1">
+                                <button class="btn btn-lg btn-info waves-effect waves-light m-t-20">
+                                  Validate
+                                  <i class="mdi mdi-send"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </ng-template>
@@ -267,123 +417,15 @@
 
       </div>
 
-      <!-- Customer -->
-      <div class="col-lg-12 col-xlg-3 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="card-header">
-            <h3>
-              <span class="lstick"></span>
-              Customer Information</h3>
-          </div>
-          <div class="card-body">
-            <div class="m-t-30 text-center">
-              <img src="assets/images/users/avi.png" class="img-circle" width="150"/>
-              <hr>
-              <h4 class="card-title m-t-11">{{ transaction?.client?.full_name }}</h4>
-
-              <div class="row text-center justify-content-md-center">
-                <div class="col-6">
-                  <a href="javascript:void(0)" class="link"
-                     popoverTitle="Account Details" ngbPopover="
-                     {{ transaction?.account?.name + ' | ' + transaction?.account?.bank.toLocaleUpperCase() + ' : ' + transaction?.account?.number }}">
-                    <i class="icon-wallet"></i>
-                  </a>
-                </div>
-              </div>
-
-              <div>
-                <i class="fa" [ngClass]="{'fa-user-o' : transaction?.client?.client_type === 1, 'fa-bank-o' :  transaction?.client?.client_type === 2}"></i>
-
-                <span class="text-muted" *ngIf="transaction?.client?.client_type === 1">Individual</span>
-                <span class="text-muted" *ngIf="transaction?.client?.client_type === 2">Cooperate</span>
-                <span class="text-muted" *ngIf="transaction?.client?.client_type === null"></span>
-              </div>
-            </div>
-
-            <hr>
-
-            <div *ngIf="transaction?.client?.email">
-              <small class="text-muted">Email address</small>
-              <h6>{{ transaction?.client?.email }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.phone">
-              <small class="text-muted p-t-30 db">Phone</small>
-              <h6>{{ transaction?.client?.phone }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.office_address">
-              <small class="text-muted p-t-30 db">Office Address</small>
-              <h6>{{ transaction?.client?.office_address }}</h6>
-            </div>
-            <div *ngIf="transaction?.client?.rc_number && transaction?.client?.client_type == 2">
-              <small class="text-muted p-t-30 db">RC Number</small>
-              <h6>{{ transaction?.client?.rc_number }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.bvn">
-              <small class="text-muted p-t-30 db">BVN</small>
-              <h6>{{ transaction?.client?.bvn }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.occupation">
-              <small class="text-muted p-t-30 db">Occupation</small>
-              <h6>{{ transaction?.client?.occupation }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.nok_full_name">
-              <small class="text-muted p-t-30 db">Next of Kin</small>
-              <h6>{{ transaction?.client?.nok_full_name }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.nok_phone">
-              <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
-              <h6>{{ transaction?.client?.nok_phone }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.date_of_birth">
-              <small class="text-muted p-t-30 db">Date of birth</small>
-              <h6>{{ transaction?.client?.date_of_birth | amCalendar }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.referee_1">
-              <small class="text-muted p-t-30 db">Referee 1</small>
-              <h6>{{ transaction?.client?.referee_1 }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.referee_2">
-              <small class="text-muted p-t-30 db">Referee 2</small>
-              <h6>{{ transaction?.client?.referee_2 }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.referee_3">
-              <small class="text-muted p-t-30 db">Referee 3</small>
-              <h6>{{ transaction?.client?.referee_3 }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.referee_4">
-              <small class="text-muted p-t-30 db">Referee 4</small>
-              <h6>{{ transaction?.client?.referee_4 }}</h6>
-            </div>
-
-            <div *ngIf="transaction?.client?.residential_address">
-              <small class="text-muted p-t-30 db">Residential Address</small>
-              <h6>{{ transaction?.client?.residential_address }}</h6>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </ng-container>
 
     <ng-container class="col-12" *ngIf="is_client">
       <div class="card card-body" id="printableArea">
         <h3><b>{{ transaction.transaction_status_id | status:'desc':'client'}}</b> <span
           class="pull-right"></span></h3>
-        <hr>
-        <div class="row">
 
-        </div>
+        <hr>
+
         <div class="row">
           <div class="col-md-12">
             <h3>Order Summary</h3>
