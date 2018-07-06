@@ -31,4 +31,12 @@ export class DashboardService {
         catchError(this.handleError<any>('Recent Transactions', null))
       );
   }
+
+  timeline(): Observable<any> {
+    return this.http.get<any>(this.dashboardUrl + '/timeline/rate')
+      .pipe(
+        map(response => response['data']),
+        catchError(this.handleError<any>('Get Rates Timeline', null))
+      );
+  }
 }

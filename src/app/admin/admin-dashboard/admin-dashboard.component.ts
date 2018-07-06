@@ -91,7 +91,6 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   ];
   public doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
   public totalTransactions = 0;
-
   public doughnutChartOptions: any = {
     borderWidth: 2,
     maintainAspectRatio: false,
@@ -198,22 +197,22 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public getTimeline() {
     this.dashboardService.timeline()
       .subscribe(
-        rates => {
+        wacc => {
           this.lineChartData = [
             {
-              label: 'USD', data: rates['usd'],
+              label: 'USD', data: wacc['usd'],
               fill: false,
               pointRadius: 0,
               pointHitRadius: 10
             },
             {
-              label: 'EUR', data: rates['eur'],
+              label: 'EUR', data: wacc['eur'],
               fill: false,
               pointRadius: 0,
               pointHitRadius: 10
             },
             {
-              label: 'GBP', data: rates['gbp'],
+              label: 'GBP', data: wacc['gbp'],
               fill: false,
               pointRadius: 0,
               pointHitRadius: 10

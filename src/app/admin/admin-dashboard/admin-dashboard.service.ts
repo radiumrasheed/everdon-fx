@@ -67,10 +67,10 @@ export class AdminDashboardService {
   }
 
   timeline(): Observable<any> {
-    return this.http.get<any>(this.dashboardUrl + '/timeline')
+    return this.http.get<any>(this.dashboardUrl + '/timeline/wacc')
       .pipe(
         map(response => response['data']),
-        catchError(this.handleError<any>('Get Rates Timeline', null))
+        catchError(this.handleError<any>('Get WACC Timeline', null))
       );
   }
 }
