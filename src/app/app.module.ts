@@ -33,7 +33,7 @@ import {NotFoundComponent} from './authentication/404/not-found.component';
 
 export class ToastConfig extends ToastOptions {
   showCloseButton = true;
-  animate = 'flyLeft';
+  animate = 'fade';
   positionClass = 'toast-top-center';
   maxShown = 3;
 }

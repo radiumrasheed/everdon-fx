@@ -5,7 +5,6 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
-import {forEach} from '@angular/router/src/utils/collection';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -41,7 +40,7 @@ export class HttpErrorHandler {
           break;
         }
 
-        case e.error instanceof ProgressEvent: {
+        case e.error instanceof ProgressEvent && e.status !== 400: {
           message = 'Server Unavailable';
           break;
         }
@@ -59,7 +58,7 @@ export class HttpErrorHandler {
         }
 
         case 'error' in e.error.errors: {
-          message = e.error.errors.error;
+          message = e.error.errors.error === '' ? e.error.errors.error : 'Oops! An Error Occurred.';
           break;
         }
 

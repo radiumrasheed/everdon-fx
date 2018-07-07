@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/auth/auth.service';
 import {User} from './user';
+import {Subject} from 'rxjs/Subject';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +15,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   public user: User = new User();
   submitting = false;
+  successMessage: string;
+  errorMessage: string;
+  _success = new Subject<string>();
+  _error = new Subject<string>();
 
   constructor(public router: Router, public authService: AuthService) {
   }
 
   ngOnInit() {
+    this._error.subscribe((message) => this.errorMessage = message);
+    this._error.pipe(
+      debounceTime(10000)
+    ).subscribe(() => this.errorMessage = null);
+
+    this._success.subscribe((message) => this.successMessage = message);
+    this._success.pipe(
+      debounceTime(10000)
+    ).subscribe(() => this.successMessage = null);
   }
 
   ngAfterViewInit() {
@@ -28,6 +43,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     $('#to-recover').on('click', function () {
       $('#loginform').slideUp();
       $('#recoverform').fadeIn();
+    });
+
+    $('#to-login').on('click', function () {
+      $('#loginform').fadeIn();
+      $('#recoverform').slideUp();
     });
   }
 
@@ -46,6 +66,23 @@ export class LoginComponent implements OnInit, AfterViewInit {
           }
         },
         () => {
+        },
+        () => {
+          this.submitting = false;
+        }
+      );
+  }
+
+  recover() {
+    this.submitting = true;
+    this.authService.recover(this.user)
+      .subscribe(
+        response => {
+          this._success.next(response);
+        },
+        error => {
+          this._error.next(error.message);
+          this.submitting = false;
         },
         () => {
           this.submitting = false;

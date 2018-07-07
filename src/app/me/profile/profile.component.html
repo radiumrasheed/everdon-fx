@@ -20,39 +20,47 @@
         <hr>
       </div>
       <div class="card-body">
-        <small class="text-muted">Email address</small>
-        <h6>{{ client?.email }}</h6>
 
-        <small class="text-muted p-t-30 db">Phone</small>
-        <h6>{{ client?.phone }}</h6>
+        <div *ngIf="client?.email">
+          <small class="text-muted">Email address</small>
+          <h6>{{ client?.email }}</h6>
+        </div>
 
-        <small class="text-muted p-t-30 db">Office Address</small>
-        <h6>{{ client?.office_address }}</h6>
-        <div *ngIf="!is_individual">
+        <div *ngIf="client?.phone">
+          <small class="text-muted p-t-30 db">Phone</small>
+          <h6>{{ client?.phone }}</h6>
+        </div>
+
+        <div *ngIf="client?.office_address">
+          <small class="text-muted p-t-30 db">Office Address</small>
+          <h6>{{ client?.office_address }}</h6>
+        </div>
+
+        <div *ngIf="client?.rc_number">
           <small class="text-muted p-t-30 db" *ngIf="client?.client_type == 2">RC Number</small>
           <h6>{{ client?.rc_number }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.bvn">
           <small class="text-muted p-t-30 db">BVN</small>
           <h6>{{ client?.bvn }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.occupation">
           <small class="text-muted p-t-30 db">Occupation</small>
           <h6>{{ client?.occupation }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.nok_full_name">
           <small class="text-muted p-t-30 db">Next of Kin</small>
           <h6>{{ client?.nok_full_name }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.nok_phone">
           <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
           <h6>{{ client?.nok_phone }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.date_of_birth">
           <small class="text-muted p-t-30 db">Date of birth</small>
           <h6>{{ client?.date_of_birth | amCalendar }}</h6>
         </div>
-        <div *ngIf="is_individual">
+        <div *ngIf="client?.residential_address">
           <small class="text-muted p-t-30 db">Residential Address</small>
           <h6>{{ client?.residential_address }}</h6>
         </div>
@@ -85,14 +93,14 @@
                 <div class="form-group">
                   <label class="col-md-11">Full Name</label>
                   <div class="col-md-11">
-                    <input type="text" [(ngModel)]="client.full_name" placeholder="Full Name..." name="full_name" class="form-control form-control-line">
+                    <input type="text" [(ngModel)]="client.full_name" required placeholder="Full Name..." name="full_name" class="form-control form-control-line">
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="email" class="col-md-11">Email</label>
                   <div class="col-md-11">
-                    <input type="email" [(ngModel)]="client.email" placeholder="Email..." class="form-control form-control-line"
+                    <input type="email" [(ngModel)]="client.email" required placeholder="Email..." class="form-control form-control-line"
                            name="email" id="email">
                   </div>
                 </div>
@@ -143,13 +151,11 @@
                     <input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
                 </div>
 
-                <div class="form-group row">
-                  <label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential
-                    Address</label>
+                <div class="form-group row" *ngIf="is_individual">
+                  <label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential Address</label>
                   <div class="col-sm-9">
                     <textarea rows="5" [(ngModel)]="client.residential_address" placeholder="Residential Address..."
-                              name="residential_address" id="residential_address"
-                              class="form-control form-control-line"></textarea>
+                              name="residential_address" id="residential_address" class="form-control form-control-line"></textarea>
                   </div>
                 </div>
 

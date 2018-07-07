@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Headers, Http} from '@angular/http';
 
 import {AppConfig} from '../../app.config';
 import * as jwt_decode from 'jwt-decode';
@@ -26,11 +25,9 @@ export const CLIENT_ROLES = ['client'];
 export class AuthService {
   public redirectUrl: string;
   private url = AppConfig.API_URL;
-  private headers = new Headers({'Content-Type': 'application/json'});
   private readonly handleError: HandleError;
 
-  constructor(private http: Http,
-              private _http: HttpClient,
+  constructor(private http: HttpClient,
               private httpErrorHandler: HttpErrorHandler) {
     this.handleError = httpErrorHandler.createHandleError('TransactionService');
 
@@ -192,7 +189,7 @@ export class AuthService {
 
   // Login User...
   login(user): Observable<any> {
-    return this._http
+    return this.http
       .post(`${this.url}/auth/login`, user)
       .pipe(
         map(response => response['data']),
@@ -210,7 +207,7 @@ export class AuthService {
 
   // Login Admin User...
   adminLogin(user): Observable<any> {
-    return this._http
+    return this.http
       .post(`${this.url}/auth/admin-login`, user)
       .pipe(
         map(response => response['data']),
@@ -228,7 +225,7 @@ export class AuthService {
 
   // Sign Up User...
   signUp(user): Observable<any> {
-    return this._http
+    return this.http
       .post(`${this.url}/auth/signup`, user)
       .pipe(
         map(response => response['data']),
@@ -251,4 +248,11 @@ export class AuthService {
     this._roles.next([]);
   }
 
+  recover(user): Observable<any> {
+    return this.http
+      .post(`${this.url}/auth/reset-password`, user)
+      .pipe(
+        map(response => response['data'])
+      );
+  }
 }
