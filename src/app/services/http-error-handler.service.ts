@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
+import {Observable, of} from 'rxjs';
 
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -17,7 +16,7 @@ export class HttpErrorHandler {
   createHandleError = (serviceName = '') => <T>
   (operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result);
 
-  constructor(private toastr: ToastsManager) {
+  constructor(private toastr: ToastrService) {
   }
 
   /**
@@ -74,7 +73,7 @@ export class HttpErrorHandler {
 
 
       // Throw an Error Toast
-      this.toastr.error(message, operation).catch();
+      this.toastr.error(message, operation);
 
 
       // Let the app keep running by returning a safe result.

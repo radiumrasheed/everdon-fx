@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
-import {Subject} from 'rxjs/Subject';
+import {ToastrService} from 'ngx-toastr';
+import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 import {ExpressService, ExpressTransaction} from './express.service';
@@ -33,7 +33,7 @@ export class ExpressTransactionComponent implements OnInit {
   constructor(private transactionService: ExpressService,
               private router: Router,
               private route: ActivatedRoute,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {

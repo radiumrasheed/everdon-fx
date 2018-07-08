@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Client} from '../../transaction/transaction';
 import {ClientService} from '../clients/client.service';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 import {debounceTime} from 'rxjs/operators';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-create-client',
@@ -20,7 +20,7 @@ export class CreateClientComponent implements OnInit {
   private _success = new Subject<string>();
 
   constructor(private clientService: ClientService,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -39,12 +39,12 @@ export class CreateClientComponent implements OnInit {
         .subscribe(
           client => {
             if (client) {
-              this.toastr.success('Individual Client created successfully').catch();
+              this.toastr.success('Individual Client created successfully');
               this.client = new Client();
             }
           },
           err => {
-            this.toastr.error(err.message || err).catch();
+            this.toastr.error(err.message || err);
           },
           () => {
             this.submitting = false;
@@ -55,12 +55,12 @@ export class CreateClientComponent implements OnInit {
         .subscribe(
           client => {
             if (client) {
-              this.toastr.success('Cooperate Client created successfully').catch();
+              this.toastr.success('Cooperate Client created successfully');
               this.client = new Client();
             }
           },
           err => {
-            this.toastr.error(err.message || err).catch();
+            this.toastr.error(err.message || err);
           },
           () => {
             this.submitting = false;

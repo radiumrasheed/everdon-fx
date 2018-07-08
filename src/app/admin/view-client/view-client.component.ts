@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 import {ClientService} from '../clients/client.service';
 import {Client} from '../../transaction/transaction';
 
@@ -20,7 +20,7 @@ export class ViewClientComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private clientService: ClientService,
-    private toastr: ToastsManager) {
+    private toastr: ToastrService) {
 
   }
 
@@ -50,7 +50,7 @@ export class ViewClientComponent implements OnInit {
         client => {
           if (client) {
             this.client = client;
-            this.toastr.success('Customer details updated successfully').catch();
+            this.toastr.success('Customer details updated successfully');
           }
         }
       );

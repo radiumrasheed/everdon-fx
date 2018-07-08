@@ -1,15 +1,20 @@
-import {Component, ViewContainerRef} from '@angular/core';
-import {ToastsManager} from 'ng2-toastr';
+import {Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'app';
 
-  constructor(public toastr: ToastsManager, vRef: ViewContainerRef) {
-    this.toastr.setRootViewContainerRef(vRef);
+  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
+
+  constructor(private toastrService: ToastrService) {
+  }
+
+  ngOnInit() {
+    this.toastrService.overlayContainer = this.toastContainer;
   }
 }

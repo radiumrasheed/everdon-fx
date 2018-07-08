@@ -4,7 +4,7 @@ import {AppConfig} from '../../app.config';
 import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 import {Client} from '../../transaction/transaction';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class ClientService {

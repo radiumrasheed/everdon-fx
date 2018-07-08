@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
 import {User} from '../login/user';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +14,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -22,7 +22,7 @@ export class SignupComponent implements OnInit {
 
   signUp() {
     if (this.user.password !== this.user.password_confirmation) {
-      return this.toastr.error('Provided Passwords do not match!').catch();
+      return this.toastr.error('Provided Passwords do not match!');
     }
 
     this.authService.signUp(this.user)

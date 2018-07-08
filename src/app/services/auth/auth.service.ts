@@ -4,11 +4,8 @@ import {AppConfig} from '../../app.config';
 import * as jwt_decode from 'jwt-decode';
 import * as _ from 'lodash';
 
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../http-error-handler.service';
 import {catchError, map, tap} from 'rxjs/operators';

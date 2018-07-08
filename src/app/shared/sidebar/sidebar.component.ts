@@ -4,7 +4,7 @@ import {ROUTES} from './menu-items';
 import {RouteInfo} from './sidebar.metadata';
 import {Router, ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../services/auth/auth.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 declare var $: any;
 

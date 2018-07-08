@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {ORGANIZATIONS, PRODUCTS, Transaction} from '../transaction';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {AuthService} from '../../services/auth/auth.service';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class TransactionDetailsComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private auth: AuthService,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -199,7 +199,7 @@ export class TransactionDetailsComponent implements OnInit {
             treated_transaction => {
               if (treated_transaction) {
                 this.transaction = treated_transaction;
-                this.toastr.success('Successfully treated').catch();
+                this.toastr.success('Successfully treated');
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
             }
@@ -213,7 +213,7 @@ export class TransactionDetailsComponent implements OnInit {
             treated_transaction => {
               if (treated_transaction) {
                 this.transaction = treated_transaction;
-                this.toastr.success('Successfully approved').catch();
+                this.toastr.success('Successfully approved');
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
             }
@@ -227,7 +227,7 @@ export class TransactionDetailsComponent implements OnInit {
             treated_transaction => {
               if (treated_transaction) {
                 this.transaction = treated_transaction;
-                this.toastr.success('Fulfilled Successfully').catch();
+                this.toastr.success('Fulfilled Successfully');
                 this.router.navigate(['../../'], {relativeTo: this.route}).catch();
               }
             }
@@ -236,7 +236,7 @@ export class TransactionDetailsComponent implements OnInit {
 
       // I don't know what to do
       default:
-        this.toastr.info('Something is not right!').catch();
+        this.toastr.info('Something is not right!');
     }
   }
 
@@ -246,7 +246,7 @@ export class TransactionDetailsComponent implements OnInit {
         treated_transaction => {
           if (treated_transaction) {
             this.transaction = treated_transaction;
-            this.toastr.success('Rejected Successfully').catch();
+            this.toastr.success('Rejected Successfully');
             this.router.navigate(['../../'], {relativeTo: this.route}).catch();
           }
         },
@@ -263,7 +263,7 @@ export class TransactionDetailsComponent implements OnInit {
         treated_transaction => {
           if (treated_transaction) {
             this.transaction = treated_transaction;
-            this.toastr.success('Cancelled Successfully').catch();
+            this.toastr.success('Cancelled Successfully');
             this.router.navigate(['../../'], {relativeTo: this.route}).catch();
           }
         }

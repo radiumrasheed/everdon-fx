@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProfileService} from './profile.service';
 import {Client} from '../../transaction/transaction';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +14,7 @@ export class ProfileComponent implements OnInit {
   public is_individual: boolean;
   formData = new FormData();
 
-  constructor(private profileService: ProfileService, private toastr: ToastsManager) {
+  constructor(private profileService: ProfileService, private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         client => {
           if (client) {
-            this.toastr.success('Profile updated successfully').catch();
+            this.toastr.success('Profile updated successfully');
           }
         },
         () => {

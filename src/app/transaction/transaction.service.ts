@@ -4,8 +4,7 @@ import {Account, Client, Product, Transaction} from './transaction';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {AppConfig} from '../app.config';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
+import {Observable, of} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
 @Injectable()
@@ -98,8 +97,8 @@ export class TransactionService {
   getAccounts(): Observable<Account[]> {
     return this.http.get<any>(this.accountUrl)
       .pipe(
-        map(response => response['data']['accounts']),
-        catchError(err => Observable.of([]))
+        map(response => response['data']['accounts'])
+        // catchError(err => Observable.of([]))
       );
   }
 
@@ -117,7 +116,7 @@ export class TransactionService {
     return this.http.get<any>(`${this.clientUrl}/${client_id}/accounts`)
       .pipe(
         map(response => response['data']['accounts']),
-        catchError(err => Observable.of([]))
+        // catchError(err => Observable.of([]))
       );
   }
 }

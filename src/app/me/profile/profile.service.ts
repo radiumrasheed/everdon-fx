@@ -3,7 +3,7 @@ import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.s
 import {AppConfig} from '../../app.config';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {Client} from '../../transaction/transaction';
 import {RequestOptions} from '@angular/http';
 

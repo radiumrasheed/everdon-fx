@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CalendarPipe} from 'angular2-moment';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {TransactionService} from '../transaction.service';
 import {AuthService} from '../../services/auth/auth.service';

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 import {HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../app.config';

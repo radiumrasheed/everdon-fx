@@ -4,7 +4,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpModule, RequestOptions} from '@angular/http';
 import {RouterModule} from '@angular/router';
 
 import {FullComponent} from './layouts/full/full.component';
@@ -14,7 +13,6 @@ import {Login2Component} from './authentication/login2/login2.component';
 import {SignupComponent} from './authentication/signup/signup.component';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {ToastModule, ToastOptions} from 'ng2-toastr';
 
 import {AppRoutes} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -30,13 +28,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
 import {AdminGuard} from './guards/admin.guard';
 import {NotFoundComponent} from './authentication/404/not-found.component';
-
-export class ToastConfig extends ToastOptions {
-  showCloseButton = true;
-  animate = 'fade';
-  positionClass = 'toast-top-center';
-  maxShown = 3;
-}
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -54,27 +46,20 @@ export class ToastConfig extends ToastOptions {
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
-    HttpModule,
     HttpClientModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(AppRoutes, {useHash: false}),
-    ToastModule.forRoot(),
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-center'
+    }),
   ],
   providers: [
     AuthService,
     AuthGuard,
     AdminGuard,
     {
-      provide: ToastOptions,
-      useClass: ToastConfig
-    },
-    {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    },
-    {
-      provide: RequestOptions,
-      useClass: AuthRequestOptions
     },
     {
       provide: ErrorHandler,

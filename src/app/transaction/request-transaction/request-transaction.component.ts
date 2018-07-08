@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastsManager} from 'ng2-toastr';
-import {Observable} from 'rxjs/Observable';
+import {ToastrService} from 'ngx-toastr';
+import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
-import {of} from 'rxjs/observable/of';
 
 import {User} from '../../authentication/login/user';
 import {TransactionService} from '../transaction.service';
@@ -73,7 +72,7 @@ export class RequestTransactionComponent implements OnInit {
               private router: Router,
               private route: ActivatedRoute,
               private auth: AuthService,
-              private toastr: ToastsManager) {
+              private toastr: ToastrService) {
   }
 
   // reset account
@@ -95,7 +94,7 @@ export class RequestTransactionComponent implements OnInit {
   // Submit a transaction Request...
   requestTransaction(): void {
     if (this.role !== 'client' && this.role !== 'fx-ops') {
-      this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member').catch();
+      this.toastr.error('You\'re not eligible to make this request! Please refer to FX-Ops Member');
       return;
     }
 
