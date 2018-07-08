@@ -6,10 +6,10 @@
     "ng": "ng",
     "serve": "ng serve",
     "heroku-prebuild": "npm install -g http-server",
-    "heroku-postbuild": "ng build --environment=prod",
+    "heroku-postbuild": "ng build --environment=prod --aot=false --prod --build-optimizer",
     "start": "http-server dist/",
     "dev": "ng serve --host 192.168.0.101",
-    "build": "ng build --environment=prod",
+    "build": "ng build --environment=prod --aot=false --prod --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
