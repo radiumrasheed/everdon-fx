@@ -4,6 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {ErrorHandler, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {RequestOptions} from '@angular/http';
 import {RouterModule} from '@angular/router';
 
 import {FullComponent} from './layouts/full/full.component';
@@ -48,7 +49,9 @@ import {ToastrModule} from 'ngx-toastr';
     SharedModule,
     HttpClientModule,
     NgbModule.forRoot(),
-    RouterModule.forRoot(AppRoutes, {useHash: false}),
+    RouterModule.forRoot(AppRoutes, {
+      useHash: false
+    }),
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
     }),
@@ -60,10 +63,6 @@ import {ToastrModule} from 'ngx-toastr';
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    },
-    {
-      provide: ErrorHandler,
-      useClass: AuthErrorHandler
     },
     {
       provide: RequestCache,

@@ -6,15 +6,18 @@ import {MomentModule} from 'angular2-moment';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 
 
-import {transactionComponents, TransactionRoutingModule} from './transaction.routing';
+import {TransactionComponents, TransactionRoutingModule} from './transaction.routing';
 import {TransactionService} from './transaction.service';
 import {SharedModule} from '../shared/shared.module';
+import {HttpInterceptorProviders} from '../http-interceptors';
+import {HttpClientModule} from '@angular/common/http';
 
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    HttpClientModule,
     MomentModule,
     NgbModule,
     SharedModule,
@@ -22,8 +25,13 @@ import {SharedModule} from '../shared/shared.module';
 
     TransactionRoutingModule
   ],
-  declarations: [transactionComponents],
-  providers: [TransactionService]
+  declarations: [
+    TransactionComponents
+  ],
+  providers: [
+    TransactionService,
+    HttpInterceptorProviders
+  ]
 })
 export class TransactionModule {
 }

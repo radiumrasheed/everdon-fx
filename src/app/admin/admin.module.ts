@@ -13,9 +13,13 @@ import {ClientsComponent} from './clients/clients.component';
 import {CreateClientComponent} from './create-client/create-client.component';
 import {ViewClientComponent} from './view-client/view-client.component';
 import {MomentModule} from 'angular2-moment';
+import {HttpInterceptorProviders} from '../http-interceptors';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   imports: [
+    CommonModule,
+    HttpClientModule,
     FormsModule,
     CommonModule,
     NgbModule,
@@ -32,6 +36,9 @@ import {MomentModule} from 'angular2-moment';
     ClientsComponent,
     CreateClientComponent,
     ViewClientComponent
+  ],
+  providers: [
+    HttpInterceptorProviders
   ]
 })
 export class AdminModule {

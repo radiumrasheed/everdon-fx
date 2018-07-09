@@ -44,5 +44,5 @@ export const TransactionRoutes: Routes = [
 export class TransactionRoutingModule {
 }
 
-export const transactionComponents = [TransactionDetailsComponent, RequestTransactionComponent, ListTransactionsComponent];
+export const TransactionComponents = [TransactionDetailsComponent, RequestTransactionComponent, ListTransactionsComponent];
 

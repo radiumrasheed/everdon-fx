@@ -5,13 +5,12 @@ import {MeRoutingModule} from './me.routing';
 
 import {ChartistModule} from 'ng-chartist';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {ChartsModule} from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
 import {ProfileComponent} from './profile/profile.component';
 import {MeComponent} from './me.component';
 import {SharedModule} from '../shared/shared.module';
-import {MomentModule,} from 'angular2-moment';
+import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   imports: [
@@ -21,7 +20,6 @@ import {MomentModule,} from 'angular2-moment';
     SharedModule,
     ChartsModule,
     ChartistModule,
-    Ng2SmartTableModule,
     MeRoutingModule,
     MomentModule
   ],
