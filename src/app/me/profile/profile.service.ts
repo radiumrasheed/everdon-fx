@@ -5,7 +5,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Client} from '../../transaction/transaction';
-import {RequestOptions} from '@angular/http';
+import {Account} from '../../transaction/transaction';
 
 @Injectable()
 export class ProfileService {
@@ -30,6 +30,15 @@ export class ProfileService {
       .pipe(
         map(response => response['data']['client']),
         catchError(this.handleError<Client>('Get Profile', null))
+      );
+  }
+
+  // Create a new Account for the Customer
+  createAccount(account: Account, id: number): Observable<Account[]> {
+    return this.http.post<Account>(this.clientUrl + `/${id}/account`, account)
+      .pipe(
+        map(response => response['data']['accounts']),
+        catchError(this.handleError<Account[]>('Create Account', null))
       );
   }
 }

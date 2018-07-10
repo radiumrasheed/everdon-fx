@@ -54,7 +54,6 @@ export class Account {
   number?: number;
   name?: string;
   bank?: string;
-  bvn?: string;
 }
 
 export class Product {
@@ -376,4 +375,12 @@ export const COUNTRIES: any[] = [
   {name: 'Yemen', code: 'YE'},
   {name: 'Zambia', code: 'ZM'},
   {name: 'Zimbabwe', code: 'ZW'}
+];
+
+
+export const BANKS: any[] = [
+  {name: 'GTB', value: 'gtb'},
+  {name: 'UBA', value: 'uba'},
+  {name: 'Zenith', value: 'zenith'},
+  {name: 'Access', value: 'access'}
 ];

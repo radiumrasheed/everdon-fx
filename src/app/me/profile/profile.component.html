@@ -108,8 +108,8 @@
                 <div class="form-group">
                   <label for="phone" class="col-md-11">Phone Number</label>
                   <div class="col-md-11">
-                    <input type="tel" pattern="[0-9]{11}" [(ngModel)]="client.phone" placeholder="Phone..."
-                           class="form-control form-control-line"
+                    <input type="tel" pattern="[0]\d{10}" [(ngModel)]="client.phone" placeholder="Phone..."
+                           class="form-control form-control-line" minlength="11" maxlength="11" required
                            name="phone" id="phone">
                   </div>
                 </div>
@@ -118,27 +118,30 @@
                   <label class="col-md-11">Office Address</label>
                   <div class="col-md-11">
                     <textarea rows="5" [(ngModel)]="client.office_address" placeholder="Office Address..." name="office_address"
-                              class="form-control form-control-line"></textarea>
+                              required class="form-control form-control-line"></textarea>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label class="col-md-11">BVN</label>
                   <div class="col-md-11">
-                    <input [(ngModel)]="client.bvn" placeholder="BVN..." name="bvn" class="form-control form-control-line">
+                    <input [(ngModel)]="client.bvn" required placeholder="BVN..." name="bvn" class="form-control form-control-line"
+                           minlength="10" maxlength="10">
                   </div>
                 </div>
 
                 <div class="form-group row" *ngIf="!is_individual">
                   <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.rc_number" pattern="[0-9,A-Z,a-z]{5,10}" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
+                    <input [(ngModel)]="client.rc_number" pattern="[0-9,A-Z,a-z]{5,10}" type="text" name="rc_number"
+                           required class="form-control" id="rc_number" placeholder="RC Number..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
                   <div class="col-sm-9">
-                    <select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status" placeholder="Marital Status...">
+                    <select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status" required>
+                      <option> - select Marital Status -</option>
                       <option value="single">Single</option>
                       <option value="married">Married</option>
                     </select>
@@ -148,13 +151,13 @@
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
+                    <input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" required placeholder="Occupation..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential Address</label>
                   <div class="col-sm-9">
-                    <textarea rows="5" [(ngModel)]="client.residential_address" placeholder="Residential Address..."
+                    <textarea rows="5" [(ngModel)]="client.residential_address" placeholder="Residential Address..." required
                               name="residential_address" id="residential_address" class="form-control form-control-line"></textarea>
                   </div>
                 </div>
@@ -162,24 +165,27 @@
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Date of birth..."></div>
+                    <input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control"
+                           required id="date_of_birth" placeholder="Date of birth..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name" placeholder="Next of Kin..."></div>
+                    <input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name"
+                           required placeholder="Next of Kin..."></div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone" placeholder="Next of Kin's Phone Number..."></div>
+                    <input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone"
+                           required placeholder="Next of Kin's Phone Number..."></div>
                 </div>
 
                 <div class="form-group">
                   <div class="col-sm-11">
-                    <button class="btn btn-success" type="submit">Update Profile</button>
+                    <button class="btn btn-success" [disabled]="!profileForm.form.valid" type="submit">Update Profile</button>
                   </div>
                 </div>
               </form>
@@ -256,9 +262,59 @@
                   </div>
                 </div>
 
-                <div class="col-12 text-center" *ngIf="client?.accounts?.length === 0">
-                  <p class="text-center text-warning">You don't have any accounts yet.</p>
-                  <button class="btn btn-outline-primary">Create a New Account</button>
+                <div class="col-12 text-center">
+                  <p class="text-center text-warning" *ngIf="client?.accounts?.length === 0">You don't have any accounts yet.</p>
+
+
+                  <swal #newAccountSwal title="Create Account" [showConfirmButton]="false">
+
+                    <form *swalPartial class="form col-md-10 offset-md-1" #createAccountForm="ngForm" (submit)="createAccount()">
+
+                      <div class="form-group">
+                        <label for="bank" class="col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
+                        <div class="input-group">
+                          <select class="form-control" [required]="newAccount" [(ngModel)]="newAccount.bank" name="bank" id="bank">
+                            <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="name" class="col-form-label">Account Name <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" required
+                                 [(ngModel)]="newAccount.name" name="name" id="name"
+                                 placeholder="Account Name">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="number" class="col-form-label">Account Number <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                          <input type="number" class="form-control" required minlength="10" maxlength="10" [(ngModel)]="newAccount.number"
+                                 name="number" id="number" pattern="\d{10}" placeholder="Account Number">
+                        </div>
+                      </div>
+
+                      <hr>
+
+                      <button type="submit" class="btn btn-success" [title]="!createAccountForm.form.valid ? 'Form is not valid' : 'Create Account'"
+                              [disabled]="!createAccountForm.form.valid">
+                        {{ submitting ? 'Creating Account... ' : 'Create Account ' }}
+                        <i class="mdi mdi-wallet"></i>
+                      </button>
+
+                    </form>
+
+                    <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+                    <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
+
+                  </swal>
+                  <button [swal]="newAccountSwal" type="button" rel="tooltip" title="Create Account" class="btn btn-outline-primary">
+                    Create a New Account
+                    <i class="mdi mdi-wallet"></i>
+                  </button>
+
                 </div>
               </div>
             </div>

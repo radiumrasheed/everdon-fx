@@ -6,7 +6,7 @@ import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} f
 
 import {User} from '../../authentication/login/user';
 import {TransactionService} from '../transaction.service';
-import {Account, COUNTRIES, PRODUCTS, Transaction} from '../transaction';
+import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction} from '../transaction';
 import {AuthService} from '../../services/auth/auth.service';
 import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
 import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
@@ -27,12 +27,7 @@ export class RequestTransactionComponent implements OnInit {
   countries = COUNTRIES;
   availableProducts = PRODUCTS;
   accounts: Account[];
-  bankList = [
-    {name: 'GTB', value: 'gtb'},
-    {name: 'UBA', value: 'uba'},
-    {name: 'Zenith', value: 'zenith'},
-    {name: 'Access', value: 'access'}
-  ];
+  bankList = BANKS;
   // TRANSACTION_STATUSES: GenericOption[] = TRANSACTION_STATUSES;
   transactionModes: GenericOption[] = TRANSACTION_MODES;
   transactionTypes: GenericOption[] = TRANSACTION_TYPES;

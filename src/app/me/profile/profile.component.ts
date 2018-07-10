@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProfileService} from './profile.service';
-import {Client} from '../../transaction/transaction';
+import {BANKS, Client} from '../../transaction/transaction';
 import {ToastrService} from 'ngx-toastr';
+import {Account} from '../../transaction/transaction';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -11,10 +13,16 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class ProfileComponent implements OnInit {
   client: Client;
-  public is_individual: boolean;
-  formData = new FormData();
+  newAccount = new Account();
+  bankList = BANKS;
+  submitting = false;
+  is_individual: boolean;
 
-  constructor(private profileService: ProfileService, private toastr: ToastrService) {
+  formData = new FormData();
+  @ViewChild(`newAccountSwal`) private swalComponent: SwalComponent;
+
+  constructor(private profileService: ProfileService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit() {
@@ -68,6 +76,26 @@ export class ProfileComponent implements OnInit {
         () => {
           this.formData = new FormData();
           this.getProfile();
+        }
+      );
+  }
+
+  createAccount() {
+    this.submitting = true;
+    this.profileService.createAccount(this.newAccount, this.client.id)
+      .subscribe(
+        accounts => {
+          if (accounts) {
+            this.toastr.success('New Account details successfully saved to profile');
+            this.swalComponent.nativeSwal.close();
+            this.client.accounts = accounts;
+            this.newAccount = new Account();
+          }
+        },
+        () => {
+        },
+        () => {
+          this.submitting = false;
         }
       );
   }

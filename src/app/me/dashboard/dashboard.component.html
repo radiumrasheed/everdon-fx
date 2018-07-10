@@ -341,7 +341,7 @@
                 </button>
 
                 <button type="submit" class="btn btn-success pull-right" *ngIf="form2 || (transaction.transaction_mode_id !== '2' && transaction.country === 'Nigeria')"
-                        [title]="!requestForm.form.valid ? 'Form is not valid' : 'Send Request'">
+                        [title]="!requestForm.form.valid ? 'Form is not valid' : 'Send Request'" [disabled]="!requestForm.form.valid">
                   {{ submitting ? 'Sending Request... ' : 'Request ' }}
                 </button>
 

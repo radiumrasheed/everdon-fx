@@ -198,18 +198,9 @@
               <div class="form-group row">
                 <label for="account_number" class="col-md-2 col-form-label">Account Number <span class="text-danger" *ngIf="newAccount">*</span></label>
                 <div class="col-md-10">
-                  <input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
+                  <input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10" pattern="\d{10}"
                          [(ngModel)]="transaction.account_number" name="account_number" id="account_number"
                          placeholder="Account Number">
-                </div>
-              </div>
-
-
-              <div class="form-group row" *ngIf="false">
-                <label for="bvn" class="col-md-2 col-form-label">BVN <span class="text-danger" *ngIf="newAccount">*</span></label>
-                <div class="col-md-10">
-                  <input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
-                         [(ngModel)]="transaction.bvn" name="bvn" id="bvn" placeholder="Enter BVN">
                 </div>
               </div>
             </ng-container>

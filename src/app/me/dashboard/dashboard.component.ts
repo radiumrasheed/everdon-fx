@@ -3,7 +3,7 @@ import {SwalComponent, SwalPartialTargets} from '@toverux/ngx-sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 
 import {DashboardService} from './dashboard.service';
-import {Account, COUNTRIES, PRODUCTS, Transaction} from '../../transaction/transaction';
+import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction} from '../../transaction/transaction';
 import {TransactionService} from '../../transaction/transaction.service';
 import {GenericOption} from '../../shared/pipes/generic-option';
 import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   submitting = false;
   newAccount = true;
   countries = COUNTRIES;
+  bankList = BANKS;
   availableProducts = PRODUCTS;
   accounts: Account[];
   transactionModes: GenericOption[] = TRANSACTION_MODES;
