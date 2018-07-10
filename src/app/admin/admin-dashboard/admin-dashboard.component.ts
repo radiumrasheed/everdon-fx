@@ -198,26 +198,28 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
     this.dashboardService.timeline()
       .subscribe(
         wacc => {
-          this.lineChartData = [
-            {
-              label: 'USD', data: wacc['usd'],
-              fill: false,
-              pointRadius: 0,
-              pointHitRadius: 10
-            },
-            {
-              label: 'EUR', data: wacc['eur'],
-              fill: false,
-              pointRadius: 0,
-              pointHitRadius: 10
-            },
-            {
-              label: 'GBP', data: wacc['gbp'],
-              fill: false,
-              pointRadius: 0,
-              pointHitRadius: 10
-            }
-          ];
+          if (wacc) {
+            this.lineChartData = [
+              {
+                label: 'USD', data: wacc['usd'],
+                fill: false,
+                pointRadius: 0,
+                pointHitRadius: 10
+              },
+              {
+                label: 'EUR', data: wacc['eur'],
+                fill: false,
+                pointRadius: 0,
+                pointHitRadius: 10
+              },
+              {
+                label: 'GBP', data: wacc['gbp'],
+                fill: false,
+                pointRadius: 0,
+                pointHitRadius: 10
+              }
+            ];
+          }
         }
       );
   }

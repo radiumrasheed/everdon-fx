@@ -23,8 +23,8 @@ export class RequestTransactionComponent implements OnInit {
 
   transaction = new Transaction;
   newAccount = true;
-  countries = COUNTRIES;
   submitting = false;
+  countries = COUNTRIES;
   availableProducts = PRODUCTS;
   accounts: Account[];
   bankList = [
@@ -33,6 +33,9 @@ export class RequestTransactionComponent implements OnInit {
     {name: 'Zenith', value: 'zenith'},
     {name: 'Access', value: 'access'}
   ];
+  // TRANSACTION_STATUSES: GenericOption[] = TRANSACTION_STATUSES;
+  transactionModes: GenericOption[] = TRANSACTION_MODES;
+  transactionTypes: GenericOption[] = TRANSACTION_TYPES;
 
   model: any;
   form1 = true;
@@ -41,9 +44,7 @@ export class RequestTransactionComponent implements OnInit {
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
-  // TRANSACTION_STATUSES: GenericOption[] = TRANSACTION_STATUSES;
-  transactionModes: GenericOption[] = TRANSACTION_MODES;
-  transactionTypes: GenericOption[] = TRANSACTION_TYPES;
+
   // products
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -144,7 +145,6 @@ export class RequestTransactionComponent implements OnInit {
 
 
   goToForm2() {
-    console.log({transaction: this.transaction});
     this.form1 = false;
     this.form2 = true;
   }

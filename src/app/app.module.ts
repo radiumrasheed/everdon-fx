@@ -30,6 +30,7 @@ import {SharedModule} from './shared/shared.module';
 import {AdminGuard} from './guards/admin.guard';
 import {NotFoundComponent} from './authentication/404/not-found.component';
 import {ToastrModule} from 'ngx-toastr';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,12 @@ import {ToastrModule} from 'ngx-toastr';
     ToastrModule.forRoot({
       positionClass: 'toast-top-center'
     }),
+    SweetAlert2Module.forRoot({
+      buttonsStyling: false,
+      customClass: 'modal-content',
+      confirmButtonClass: 'btn btn-primary',
+      cancelButtonClass: 'btn btn-warning'
+    })
   ],
   providers: [
     AuthService,

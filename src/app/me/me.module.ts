@@ -11,6 +11,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {MeComponent} from './me.component';
 import {SharedModule} from '../shared/shared.module';
 import {MomentModule} from 'angular2-moment';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {MomentModule} from 'angular2-moment';
     ChartsModule,
     ChartistModule,
     MeRoutingModule,
-    MomentModule
+    MomentModule,
+    SweetAlert2Module
   ],
   declarations: [
     DashboardComponent,
