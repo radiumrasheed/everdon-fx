@@ -57,7 +57,7 @@ export class HttpErrorHandler {
         }
 
         case (typeof e.error.errors === 'object') && ('error' in e.error.errors): {
-          message = e.error.errors.error === '' ? e.error.errors.error : 'Oops! An Error Occurred.';
+          message = e.error.errors.error !== '' ? e.error.errors.error : 'Oops! An Error Occurred.';
           break;
         }
 
