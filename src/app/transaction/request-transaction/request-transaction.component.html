@@ -156,7 +156,7 @@
               </div>
             </div>
 
-            <div class="form-check" *ngIf="transaction.transaction_mode_id === '2'">
+            <div class="form-check" *ngIf="transaction.transaction_mode_id == '2' && transaction.country === 'Nigeria'">
               <label class="custom-control custom-checkbox">
                 <input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
                        class="custom-control-input"> <span class="custom-control-indicator"></span>
@@ -164,7 +164,7 @@
               </label>
             </div>
 
-            <div class="form-group row" *ngIf="!newAccount && (transaction.transaction_mode_id === '2')">
+            <div class="form-group row" *ngIf="!newAccount && (transaction.transaction_mode_id == '2' && transaction.country === 'Nigeria')">
               <label for="account_id" class="col-md-2 col-form-label">Account <span class="text-danger" *ngIf="!newAccount">*</span></label>
               <div class="col-md-10">
                 <select class="custom-select col-12" [required]="!newAccount" [(ngModel)]="transaction.account_id"
@@ -176,7 +176,7 @@
               </div>
             </div>
 
-            <ng-container *ngIf="newAccount && (transaction.transaction_mode_id === '2')">
+            <ng-container *ngIf="newAccount && (transaction.transaction_mode_id === '2' && transaction.country === 'Nigeria')">
               <div class="form-group row">
                 <label for="bank_name" class="col-md-2 col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
                 <div class="col-md-10">
@@ -209,7 +209,7 @@
 
           <hr>
 
-          <button type="button" class="btn btn-info pull-right" *ngIf="(form1 && !((transaction.transaction_mode_id !== '2') && (transaction.country === 'Nigeria')))" (click)="goToForm2()">
+          <button type="button" class="btn btn-info pull-right" *ngIf="(form1 && !((transaction.transaction_mode_id != '2') && (transaction.country === 'Nigeria')))" (click)="goToForm2()">
             Next
             <i class="mdi mdi-arrow-right-bold-circle"> </i>
           </button>
@@ -219,7 +219,7 @@
             Back
           </button>
 
-          <button type="submit" class="btn btn-success pull-right" *ngIf="form2 || (transaction.transaction_mode_id !== '2' && transaction.country === 'Nigeria')"
+          <button type="submit" class="btn btn-success pull-right" *ngIf="form2 || (transaction.transaction_mode_id != '2' && transaction.country === 'Nigeria')"
                   [disabled]="!requestForm.form.valid || submitting" [title]="!requestForm.form.valid ? 'Form is not valid' : 'Send Request'">
             {{ submitting ? 'Sending Request ' : 'Request ' }}
             <i class="mdi mdi-send"></i>
