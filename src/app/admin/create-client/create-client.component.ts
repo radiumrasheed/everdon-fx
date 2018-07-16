@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Client} from '../../transaction/transaction';
+import {Client} from '../../shared/meta-data';
 import {ClientService} from '../clients/client.service';
 import {ToastrService} from 'ngx-toastr';
 import {debounceTime} from 'rxjs/operators';

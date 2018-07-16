@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import * as _ from 'lodash';
-import {Product, PRODUCTS} from '../../transaction/transaction';
+import {Product, PRODUCTS} from '../meta-data';
 
 @Pipe({
   name: 'currency'

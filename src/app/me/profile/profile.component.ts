@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProfileService} from './profile.service';
-import {BANKS, Client} from '../../transaction/transaction';
+import {Account, BANKS, Client} from '../../shared/meta-data';
 import {ToastrService} from 'ngx-toastr';
-import {Account} from '../../transaction/transaction';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 @Component({

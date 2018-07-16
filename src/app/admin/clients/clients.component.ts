@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CalendarPipe} from 'angular2-moment';
 
-import {Client} from '../../transaction/transaction';
+import {Client} from '../../shared/meta-data';
 import {ClientService} from './client.service';
 
 @Component({

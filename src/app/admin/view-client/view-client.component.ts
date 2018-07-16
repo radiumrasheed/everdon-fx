@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {ClientService} from '../clients/client.service';
-import {Client} from '../../transaction/transaction';
+import {Client} from '../../shared/meta-data';
 
 @Component({
   selector: 'app-view-client',

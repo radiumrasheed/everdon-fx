@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
 import {AppConfig} from '../../app.config';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {Client} from '../../transaction/transaction';
-import {Account} from '../../transaction/transaction';
+import {Account, Client} from '../../shared/meta-data';
 
 @Injectable()
 export class ProfileService {

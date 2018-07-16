@@ -6,11 +6,8 @@ import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} f
 
 import {User} from '../../authentication/login/user';
 import {TransactionService} from '../transaction.service';
-import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction} from '../transaction';
+import {Account, BANKS, COUNTRIES, GenericOption, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../../shared/meta-data';
 import {AuthService} from '../../services/auth/auth.service';
-import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
-import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
-import {GenericOption} from '../../shared/pipes/generic-option';
 
 @Component({
   selector: 'app-request-transaction',

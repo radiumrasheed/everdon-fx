@@ -1,16 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {GenericOption} from './generic-option';
+import {GenericOption} from '../meta-data/genericOption';
 import * as _ from 'lodash';
-
-
-export const TRANSACTION_TYPES: GenericOption[] = [
-  {id: 1, name: 'purchase', desc: 'Purchase'},
-  {id: 2, name: 'sales', desc: 'Sales'},
-  {id: 3, name: 'swap', desc: 'Swap'},
-  {id: 6, name: 'cross', desc: 'Cross'},
-  {id: 4, name: 'refund', desc: 'Refund'},
-  {id: 5, name: 'expenses', desc: 'Expenses'}
-];
+import {TRANSACTION_TYPES} from '../meta-data';
 
 @Pipe({
   name: 'type'

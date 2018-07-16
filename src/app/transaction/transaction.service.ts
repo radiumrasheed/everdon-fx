@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 
-import {Account, Client, Product, Transaction} from './transaction';
+import {Account, Client, Product, Transaction} from '../shared/meta-data';
 import {HttpClient} from '@angular/common/http';
 import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
 import {AppConfig} from '../app.config';

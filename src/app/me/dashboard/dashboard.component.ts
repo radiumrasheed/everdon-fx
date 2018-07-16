@@ -3,11 +3,8 @@ import {SwalComponent, SwalPartialTargets} from '@toverux/ngx-sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 
 import {DashboardService} from './dashboard.service';
-import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction} from '../../transaction/transaction';
+import {Account, BANKS, COUNTRIES, GenericOption, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../../shared/meta-data';
 import {TransactionService} from '../../transaction/transaction.service';
-import {GenericOption} from '../../shared/pipes/generic-option';
-import {TRANSACTION_MODES} from '../../shared/pipes/mode.pipe';
-import {TRANSACTION_TYPES} from '../../shared/pipes/type.pipe';
 
 @Component({
   selector: 'app-dashboard',

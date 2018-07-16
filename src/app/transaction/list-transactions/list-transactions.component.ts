@@ -7,9 +7,9 @@ import {Observable} from 'rxjs';
 import {TransactionService} from '../transaction.service';
 import {AuthService} from '../../services/auth/auth.service';
 import {ProductPipe} from '../../shared/pipes/product.pipe';
-import {TRANSACTION_TYPES, TypePipe} from '../../shared/pipes/type.pipe';
-import {StatusPipe, TRANSACTION_STATUSES} from '../../shared/pipes/status.pipe';
-import {PRODUCTS, Transaction} from '../transaction';
+import {TypePipe} from '../../shared/pipes/type.pipe';
+import {StatusPipe} from '../../shared/pipes/status.pipe';
+import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '../../shared/meta-data';
 
 @Component({
   selector: 'app-list-transactions',

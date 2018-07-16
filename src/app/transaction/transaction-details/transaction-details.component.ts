@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TransactionService} from '../transaction.service';
-import {ORGANIZATIONS, PRODUCTS, Transaction} from '../transaction';
+import {ORGANIZATIONS, PRODUCTS, Transaction} from '../../shared/meta-data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../services/auth/auth.service';

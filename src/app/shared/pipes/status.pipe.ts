@@ -1,18 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import * as _ from 'lodash';
-import {GenericOption} from './generic-option';
-
-export const TRANSACTION_STATUSES: GenericOption[] = [
-  {id: 1, name: 'open', desc: 'Open', class: 'label-light-info'},
-  {id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning'},
-  {id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary'},
-  {id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary'},
-  {id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger'},
-  {id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success'},
-  {id: 7, name: 'raised', desc: 'Raised', class: ''},
-  {id: 8, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning'},
-  {id: 9, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green'}
-];
+import {GenericOption, TRANSACTION_STATUSES} from '../meta-data';
 
 @Pipe({
   name: 'status'

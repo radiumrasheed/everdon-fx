@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {AdminDashboardService} from './admin-dashboard.service';
-import {Event, Transaction} from '../../transaction/transaction';
+import {Event, Transaction} from '../../shared/meta-data';
 import * as _ from 'lodash';
 
 @Component({

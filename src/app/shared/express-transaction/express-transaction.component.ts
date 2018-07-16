@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 
 import {ExpressService, ExpressTransaction} from './express.service';
-import {PRODUCTS, Transaction} from '../../transaction/transaction';
+import {PRODUCTS, Transaction} from '../meta-data';
 
 @Component({
   selector: 'app-express-transaction',
