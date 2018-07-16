@@ -8,7 +8,9 @@ export class Client {
   date_of_birth: string;
   accounts?: Account[];
   email?: string;
-  full_name: string;
+  first_name: string;
+  last_name: string;
+  middle_name: string;
   id?: number;
   is_individual?: boolean;
   marital_status: string;

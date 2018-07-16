@@ -6,7 +6,9 @@ import {HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../app.config';
 
 export class ExpressTransaction {
-  full_name?: string;
+  first_name?: string;
+  last_name?: string;
+  middle_name?: string;
   email?: string;
   phone?: string;
   is_exchange?: boolean;

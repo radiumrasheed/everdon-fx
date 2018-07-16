@@ -187,7 +187,7 @@ export class ListTransactionsComponent implements OnInit {
               const module = value === 'admin' ? 'admin' : 'me';
               this.transactions = transactions.map<Transaction>(transaction => {
                 transaction.link = `<a href="/#/${module}/transaction/details/${transaction.id}">#${transaction.transaction_ref}</a>`;
-                transaction.full_name = transaction.client.full_name;
+                transaction.full_name = transaction.client.first_name + ' ' + transaction.client.last_name;
                 return transaction;
               });
             }

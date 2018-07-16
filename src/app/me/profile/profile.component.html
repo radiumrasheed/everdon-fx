@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-body">
         <div class="m-t-30 text-center"><img src="assets/images/users/5.jpg" class="img-circle" width="150"/>
-          <h4 class="card-title m-t-10">{{ client?.full_name }}</h4>
+          <h4 class="card-title m-t-10">{{ client?.first_name}} {{client?.last_name}}</h4>
           <h6 class="card-subtitle">{{ client?.occupation }}</h6>
           <div class="row text-center justify-content-md-center">
             <div class="col-4">
@@ -91,9 +91,23 @@
 
               <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
                 <div class="form-group">
-                  <label class="col-md-11">Full Name</label>
+                  <label class="col-md-11">First Name</label>
                   <div class="col-md-11">
-                    <input type="text" [(ngModel)]="client.full_name" required placeholder="Full Name..." name="full_name" class="form-control form-control-line">
+                    <input type="text" [(ngModel)]="client.first_name" required placeholder="First Name..." name="first_name" class="form-control form-control-line">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-11">Middle Name</label>
+                  <div class="col-md-11">
+                    <input type="text" [(ngModel)]="client.middle_name" required placeholder="Middle Name..." name="middle_name" class="form-control form-control-line">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-md-11">Last Name</label>
+                  <div class="col-md-11">
+                    <input type="text" [(ngModel)]="client.last_name" required placeholder="Last Name..." name="last_name" class="form-control form-control-line">
                   </div>
                 </div>
 

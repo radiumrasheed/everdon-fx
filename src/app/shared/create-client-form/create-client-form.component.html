@@ -6,11 +6,27 @@
   </div>
 
   <div class="form-group row">
-    <label for="full_name" class="col-sm-3 text-right control-label col-form-label">Full Name<span
+    <label for="first_name" class="col-sm-3 text-right control-label col-form-label">First Name<span
       class="text-danger">*</span></label>
     <div class="col-sm-9">
-      <input [(ngModel)]="client.full_name" name="full_name" type="text" required class="form-control"
-             id="full_name" placeholder="Full Name..."></div>
+      <input [(ngModel)]="client.first_name" name="first_name" type="text" required class="form-control"
+             id="first_name" placeholder="First Name..."></div>
+  </div>
+
+  <div class="form-group row">
+    <label for="middle_name" class="col-sm-3 text-right control-label col-form-label">Middle Name<span
+      class="text-danger">*</span></label>
+    <div class="col-sm-9">
+      <input [(ngModel)]="client.middle_name" name="middle_name" type="text" required class="form-control"
+             id="middle_name" placeholder="Middle Name..."></div>
+  </div>
+
+  <div class="form-group row">
+    <label for="last_name" class="col-sm-3 text-right control-label col-form-label">Last Name<span
+      class="text-danger">*</span></label>
+    <div class="col-sm-9">
+      <input [(ngModel)]="client.last_name" name="last_name" type="text" required class="form-control"
+             id="last_name" placeholder="Last Name..."></div>
   </div>
 
   <div class="form-group row">

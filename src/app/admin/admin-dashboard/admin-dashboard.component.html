@@ -202,7 +202,7 @@
                 </a>
               </td>
               <td>
-                <h6>{{transaction?.client?.full_name}}</h6>
+                <h6>{{ transaction?.client?.first_name + ' ' + transaction?.client?.last_name }}</h6>
                 <small class="text-muted">{{transaction?.client?.occupation}}</small>
               </td>
               <td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>

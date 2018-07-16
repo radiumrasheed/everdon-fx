@@ -55,7 +55,7 @@ export class RequestTransactionFormComponent implements OnInit {
       tap(() => this.searching = false),
       merge(this.hideSearchingWhenUnsubscribed)
     );
-  formatter = (user: User) => user.full_name + ' -- ' + user.email;
+  formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
   updateModel = (event: any) => {
     this.transaction.client_id = event.item.id;
 

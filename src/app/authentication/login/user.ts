@@ -5,5 +5,7 @@ export class User {
   phone?: string;
   is_cooperate?: string;
   rc_number?: string;
-  full_name?: string;
+  first_name?: string;
+  middle_name?: string;
+  last_name?: string;
 }
