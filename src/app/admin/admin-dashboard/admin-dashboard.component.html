@@ -1,3 +1,67 @@
+<!-- ============================================================== -->
+<!-- Quick Start -->
+<!-- ============================================================== -->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><span class="lstick"></span>Request Transaction</h2>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <h3 class="card-title">Quickly Request an exchange</h3>
+          <form class="form-material">
+
+            <swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
+
+              <app-request-transaction-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"></app-request-transaction-form>
+
+              <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+              <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
+
+            </swal>
+            <button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
+              Make Request
+              <i class="mdi mdi-cookie"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h2 class="card-title"><span class="lstick"></span>Create Customer</h2>
+      </div>
+      <div class="card-body">
+        <div class="text-center">
+          <h3 class="card-title">Quickly Create a Customer</h3>
+          <form class="form-material">
+
+            <swal #createSwal title="Create a Customer" [showConfirmButton]="false">
+
+              <app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'create')"></app-create-client-form>
+
+              <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+              <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
+
+            </swal>
+            <button [swal]="createSwal" type="button" rel="tooltip" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
+              Create Customer
+              <i class="mdi mdi-account"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================== -->
+<!-- Buckets -->
+<!-- ============================================================== -->
 <div class="row">
   <!-- Column -->
   <div class="col-lg-3 col-md-6" *ngFor="let bucket of buckets">
@@ -27,7 +91,7 @@
 </div>
 
 <!-- ============================================================== -->
-<!-- chart and stats -->
+<!-- Charts and Stats -->
 <!-- ============================================================== -->
 <div class="row">
   <!-- line chart component -->

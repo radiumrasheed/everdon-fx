@@ -13,6 +13,9 @@ import {StatusPipe} from './pipes/status.pipe';
 import {TypePipe} from './pipes/type.pipe';
 import {ModePipe} from './pipes/mode.pipe';
 import {ProductPipe} from './pipes/product.pipe';
+import {RequestTransactionFormService} from './request-transaction-form/request-transaction-form.service';
+import {RequestTransactionFormComponent} from './request-transaction-form/request-transaction-form.component';
+import {CreateClientFormComponent} from './create-client-form/create-client-form.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -35,10 +38,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SidebarComponent,
     SpinnerComponent,
     ExpressTransactionComponent,
+    RequestTransactionFormComponent,
+    CreateClientFormComponent,
     StatusPipe,
     TypePipe,
     ModePipe,
-    ProductPipe
+    ProductPipe,
   ],
   exports: [
     BreadcrumbComponent,
@@ -46,6 +51,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SidebarComponent,
     SpinnerComponent,
     ExpressTransactionComponent,
+    RequestTransactionFormComponent,
+    CreateClientFormComponent,
     StatusPipe,
     TypePipe,
     ModePipe,

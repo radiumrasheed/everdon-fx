@@ -1,7 +1,13 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import * as _ from 'lodash';
+
 import {AdminDashboardService} from './admin-dashboard.service';
 import {Event, Transaction} from '../../shared/meta-data';
-import * as _ from 'lodash';
+import {Observable} from 'rxjs/index';
+import {AuthService} from '../../services/auth/auth.service';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {ActivatedRoute, Router} from '@angular/router';
+import {log} from 'util';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -10,6 +16,11 @@ import * as _ from 'lodash';
   providers: [AdminDashboardService]
 })
 export class AdminDashboardComponent implements AfterViewInit, OnInit {
+  // Authentication Properties...
+  roles$: Observable<string>;
+  role: string;
+  @ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
+  @ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
 
   // This is for the WACC dashboard line chart...
   public lineChartData: Array<any> = [
@@ -71,14 +82,12 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public lineChartLegend = true;
   public lineChartType = 'line';
 
-
   // API Stats...
   public counts: any;
   public buckets: any;
   public transactions: Transaction[];
   public events: Event[];
   public waccs: any;
-
 
   // Doughnut...
   public doughnutChartLabels: string[] = [
@@ -99,14 +108,21 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   public doughnutChartType = 'doughnut';
   public doughnutChartLegend = false;
 
-
-  constructor(private dashboardService: AdminDashboardService) {
+  constructor(
+    private dashboardService: AdminDashboardService,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
   }
 
   ngAfterViewInit() {
   }
 
   ngOnInit() {
+    this.roles$ = this.auth.roles;
+    this.roles$.subscribe(roles => this.role = roles[0]);
+
     this.getTimeline();
     this.getBucketBalance();
     this.getTransactionCounts();
@@ -224,4 +240,22 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       );
   }
 
+  onSubmittedSuccessfully($event: any, type: string) {
+    switch (type) {
+      case 'create':
+        this.createSwalComponent.nativeSwal.close();
+        break;
+
+      case 'request':
+        this.requestSwalComponent.nativeSwal.close();
+
+        // Navigate to the newly requested transaction...
+        this.router.navigate(['..', 'transaction', 'details', $event], {relativeTo: this.route})
+          .catch(err => console.error(err, $event));
+        break;
+
+      default:
+      // Do Nothing...
+    }
+  }
 }

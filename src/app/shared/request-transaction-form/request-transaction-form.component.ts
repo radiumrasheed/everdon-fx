@@ -1,31 +1,32 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
 
 import {User} from '../../authentication/login/user';
-import {TransactionService} from '../transaction.service';
-import {Account, BANKS, COUNTRIES, GenericOption, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../../shared/meta-data';
+import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES, GenericOption} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
+import {RequestTransactionFormService} from './request-transaction-form.service';
 
 @Component({
-  selector: 'app-request-transaction',
-  templateUrl: './request-transaction.component.html',
-  styleUrls: ['./request-transaction.component.css']
+  selector: 'app-request-transaction-form',
+  templateUrl: './request-transaction-form.component.html',
+  styleUrls: ['./request-transaction-form.component.css'],
+  providers: [RequestTransactionFormService]
 })
-export class RequestTransactionComponent implements OnInit {
+export class RequestTransactionFormComponent implements OnInit {
   roles$: Observable<string>;
-  role: string;
+  @Input() role: string;
+  @Output() submittedSuccessfully = new EventEmitter<string>();
 
-  transaction = new Transaction;
+  transaction = new Transaction();
   newAccount = true;
   submitting = false;
   countries = COUNTRIES;
   availableProducts = PRODUCTS;
   accounts: Account[];
   bankList = BANKS;
-  // TRANSACTION_STATUSES: GenericOption[] = TRANSACTION_STATUSES;
   transactionModes: GenericOption[] = TRANSACTION_MODES;
   transactionTypes: GenericOption[] = TRANSACTION_TYPES;
 
@@ -61,7 +62,7 @@ export class RequestTransactionComponent implements OnInit {
     this.getAccounts(event.item.id);
   };
 
-  constructor(private transactionService: TransactionService,
+  constructor(private transactionService: RequestTransactionFormService,
               private router: Router,
               private route: ActivatedRoute,
               private auth: AuthService,
@@ -78,8 +79,14 @@ export class RequestTransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roles$ = this.auth.roles;
-    this.roles$.subscribe(roles => this.role = roles[0]);
+    if (!this.role) {
+      try {
+        this.roles$ = this.auth.roles;
+        this.roles$.subscribe(roles => this.role = roles[0]);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
     this.getMyAccounts();
   }
@@ -96,27 +103,17 @@ export class RequestTransactionComponent implements OnInit {
       .subscribe(
         _transaction => {
           if (_transaction) {
-            const id = _transaction.id;
+            const id = _transaction.id + '';
 
-            // Navigate to the newly requested transaction...
-            this.router.navigate(['..', 'details', id], {relativeTo: this.route})
-              .then(status => this.toastr.success('Transaction Request sent successfully'))
-              .catch(err => console.error(err, id));
+            this.submittedSuccessfully.emit(id);
+            this.toastr.success('Transaction Request sent successfully');
+
           }
         },
         () => {
 
         }, () => {
           this.submitting = false;
-        }
-      );
-  }
-
-  getAvailableProducts(): void {
-    this.transactionService.getProducts()
-      .subscribe(
-        products => {
-          this.availableProducts = products;
         }
       );
   }

@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {ClientService} from '../clients/client.service';
+import {CreateClientFormService} from '../../shared/create-client-form/create-client-form.service';
 import {Client} from '../../shared/meta-data';
 
 @Component({
   selector: 'app-view-client',
   templateUrl: './view-client.component.html',
   styleUrls: ['./view-client.component.css'],
-  providers: [ClientService]
+  providers: [CreateClientFormService]
 })
 export class ViewClientComponent implements OnInit {
   public id: string;
@@ -19,7 +19,7 @@ export class ViewClientComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private clientService: ClientService,
+    private clientService: CreateClientFormService,
     private toastr: ToastrService) {
 
   }

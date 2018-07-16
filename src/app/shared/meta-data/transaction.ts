@@ -14,6 +14,7 @@ export class Transaction {
   closed_at?: string;
   closed_by?: number;
   created_at?: string;
+  country?: string;
   comment?: string;
   org_account_id?: number;
   events: Event[];
@@ -27,9 +28,9 @@ export class Transaction {
   reviewed_at?: string;
   reviewed_by?: number;
   transaction_ref?: string;
-  transaction_mode_id?: number;
-  transaction_status_id?: number;
-  transaction_type_id?: number;
+  transaction_mode_id?: number | string;
+  transaction_status_id?: number | string;
+  transaction_type_id?: number | string;
   updated_at?: string;
   condition?: string;
   bank_name?: string;

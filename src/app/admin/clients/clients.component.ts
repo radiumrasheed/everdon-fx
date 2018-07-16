@@ -2,13 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {CalendarPipe} from 'angular2-moment';
 
 import {Client} from '../../shared/meta-data';
-import {ClientService} from './client.service';
+import {CreateClientFormService} from '../../shared/create-client-form/create-client-form.service';
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
-  providers: [ClientService, CalendarPipe]
+  providers: [CreateClientFormService, CalendarPipe]
 })
 export class ClientsComponent implements OnInit {
   clients: Client[];
@@ -49,7 +49,7 @@ export class ClientsComponent implements OnInit {
     }
   };
 
-  constructor(private clientService: ClientService,
+  constructor(private clientService: CreateClientFormService,
               private calendarPipe: CalendarPipe) {
   }
 

@@ -15,6 +15,7 @@ import {ViewClientComponent} from './view-client/view-client.component';
 import {MomentModule} from 'angular2-moment';
 import {HttpInterceptorProviders} from '../http-interceptors';
 import {HttpClientModule} from '@angular/common/http';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {HttpClientModule} from '@angular/common/http';
     Ng2SmartTableModule,
     SharedModule,
     MomentModule,
-    AdminRoutingModule
+    AdminRoutingModule,
+    SweetAlert2Module
   ],
   declarations: [
     AdminDashboardComponent,
