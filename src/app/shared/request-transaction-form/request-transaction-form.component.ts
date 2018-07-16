@@ -105,8 +105,9 @@ export class RequestTransactionFormComponent implements OnInit {
           if (_transaction) {
             const id = _transaction.id + '';
 
-            this.submittedSuccessfully.emit(id);
+            this.transaction = new Transaction();
             this.toastr.success('Transaction Request sent successfully');
+            this.submittedSuccessfully.emit(id);
 
           }
         },

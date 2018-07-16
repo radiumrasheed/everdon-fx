@@ -7,7 +7,6 @@ import {Observable} from 'rxjs/index';
 import {AuthService} from '../../services/auth/auth.service';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {ActivatedRoute, Router} from '@angular/router';
-import {log} from 'util';
 
 @Component({
   selector: 'app-admin-dashboard',
