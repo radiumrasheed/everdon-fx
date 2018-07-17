@@ -239,7 +239,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
       );
   }
 
-  onSubmittedSuccessfully($event: any, type: string) {
+  public onSubmittedSuccessfully($event: any, type: string) {
     switch (type) {
       case 'create':
         this.createSwalComponent.nativeSwal.close();

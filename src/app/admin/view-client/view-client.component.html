@@ -12,13 +12,27 @@
           <div class="form-group row">
             <label for="email" class="col-sm-3 text-right control-label col-form-label">Email Address<span class="text-danger">*</span></label>
             <div class="col-sm-9">
-              <input [(ngModel)]="client.email" name="email" type="email" class="form-control" id="email" placeholder="Email..."></div>
+              <input [(ngModel)]="client.email" name="email" disabled type="email" class="form-control" id="email" placeholder="Email..."></div>
           </div>
+
           <div class="form-group row">
             <label for="first_name" class="col-sm-3 text-right control-label col-form-label">First Name<span class="text-danger">*</span></label>
             <div class="col-sm-9">
               <input [(ngModel)]="client.first_name" name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name..."></div>
           </div>
+
+          <div class="form-group row">
+            <label for="last_name" class="col-sm-3 text-right control-label col-form-label">Last Name<span class="text-danger">*</span></label>
+            <div class="col-sm-9">
+              <input [(ngModel)]="client.last_name" name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name..."></div>
+          </div>
+
+          <div class="form-group row">
+            <label for="middle_name" class="col-sm-3 text-right control-label col-form-label">Middle Name<span class="text-danger">*</span></label>
+            <div class="col-sm-9">
+              <input [(ngModel)]="client.middle_name" name="middle_name" type="text" class="form-control" id="middle_name" placeholder="Middle Name..."></div>
+          </div>
+
           <div class="form-group row">
             <label for="phone" class="col-sm-3 text-right control-label col-form-label">Phone<span class="text-danger">*</span></label>
             <div class="col-sm-9">
@@ -43,7 +57,7 @@
           <div class="form-group row" *ngIf="client.is_individual">
             <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
             <div class="col-sm-9">
-              <input [(ngModel)]="client.rc_number" pattern="[0-9,A-Z,a-z]{5,10}" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
+              <input [(ngModel)]="client.rc_number" pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
           </div>
 
           <div class="form-group row" *ngIf="!client.is_individual">

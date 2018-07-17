@@ -16,19 +16,14 @@ export class DashboardComponent implements OnInit {
 
   // Dashboard Properties
   public figures: any;
-  // Form properties
-  form1 = true;
+
   public transactions: Transaction[];
-  form2 = false;
   submitting = false;
   newAccount = true;
-  countries = COUNTRIES;
-  bankList = BANKS;
   availableProducts = PRODUCTS;
   accounts: Account[];
-  transactionModes: GenericOption[] = TRANSACTION_MODES;
-  transactionTypes: GenericOption[] = TRANSACTION_TYPES;
   transaction = new Transaction();
+
   // Bar chart properties...
   public lineChartData: Array<any> = [
     {
@@ -50,7 +45,7 @@ export class DashboardComponent implements OnInit {
       pointHitRadius: 10
     },
   ];
-  @ViewChild(`requestSwal`) private swalComponent: SwalComponent;
+  @ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
   public lineChartOptions: any = {
     scales: {
       xAxes: [{
@@ -91,9 +86,7 @@ export class DashboardComponent implements OnInit {
   public lineChartType = 'line';
 
   constructor(private dashboardService: DashboardService,
-              private transactionService: TransactionService,
-              private toastr: ToastrService,
-              public readonly swalTargets: SwalPartialTargets) {
+              private transactionService: TransactionService) {
   }
 
   ngOnInit() {
@@ -115,15 +108,6 @@ export class DashboardComponent implements OnInit {
           }
         }
       );
-  }
-
-  // Reset account presets
-  public resetAccounts() {
-    delete this.transaction.account_id;
-    delete this.transaction.account_name;
-    delete this.transaction.account_number;
-    delete this.transaction.bank_name;
-    delete this.transaction.bvn;
   }
 
   // Get Transaction & Account Figures
@@ -183,35 +167,8 @@ export class DashboardComponent implements OnInit {
       );
   }
 
-  // Submit a transaction Request...
-  public requestTransaction(): void {
-    this.submitting = true;
-    this.transactionService.requestTransaction(this.transaction)
-      .subscribe(
-        _transaction => {
-          if (_transaction) {
-            this.transaction = new Transaction();
-            this.toastr.success('Transaction Request sent successfully');
-            this.swalComponent.nativeSwal.close();
-          }
-        },
-        () => {
 
-        }, () => {
-          this.submitting = false;
-        }
-      );
-  }
-
-  // Navigate to second stage in form
-  public goToForm2() {
-    this.form1 = false;
-    this.form2 = true;
-  }
-
-  // Navigate back to first stage in form
-  public goToForm1() {
-    this.form1 = true;
-    this.form2 = false;
+  public onSubmittedSuccessfully($event: any) {
+    this.requestSwalComponent.nativeSwal.close();
   }
 }

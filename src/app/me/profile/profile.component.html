@@ -147,7 +147,7 @@
                 <div class="form-group row" *ngIf="!is_individual">
                   <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.rc_number" pattern="[0-9,A-Z,a-z]{5,10}" type="text" name="rc_number"
+                    <input [(ngModel)]="client.rc_number" pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number"
                            required class="form-control" id="rc_number" placeholder="RC Number..."></div>
                 </div>
 
@@ -155,7 +155,7 @@
                   <label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
                   <div class="col-sm-9">
                     <select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status" required>
-                      <option> - select Marital Status -</option>
+                      <option> - Select Marital Status -</option>
                       <option value="single">Single</option>
                       <option value="married">Married</option>
                     </select>
@@ -213,13 +213,18 @@
               <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
 
                 <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification</label>
+                  <label for="identification" class="col-sm-3 text-right control-label col-form-label">Identification</label>
                   <div class="col-sm-9">
-                    <input [(ngModel)]="client.identification" type="text" name="identification" class="form-control" id="identification" placeholder="Means of Identification..."></div>
+                    <select class="form-control" required [(ngModel)]="client.identification" name="identification" id="identification">
+                      <option value="drivers license">Driver's License</option>
+                      <option value="international passport">International Passport</option>
+                      <option value="national id card">National ID Card</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
+                  <label for="identification_number" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
                   <div class="col-sm-9">
                     <input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number" placeholder="Identification Number...">
                   </div>
@@ -228,7 +233,7 @@
                 <hr>
 
                 <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
+                  <label for="identification_document" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
                   <div class="col-sm-9">
                     <p *ngIf="client.identification_document">You have 1 document uploaded already</p>
                     <input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document" class="form-control" id="identification_document"
@@ -237,7 +242,7 @@
                 </div>
 
                 <div class="form-group row" *ngIf="!is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
+                  <label for="cac_document" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
                   <div class="col-sm-9">
                     <p *ngIf="client.cac_document">You have 1 document uploaded already</p>
                     <input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control" id="cac_document" placeholder="CAC Document...">
