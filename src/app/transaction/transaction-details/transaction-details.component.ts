@@ -93,45 +93,33 @@ export class TransactionDetailsComponent implements OnInit {
 
     switch (this.transaction.transaction_status_id) {
       case 1: {
-        this.nextActionText = 'Treat/Review Transaction';
-        this.nextSubmitText = 'Update & Treat';
         this.can_be_treated = true;
         break;
       }
 
       case 2: {
-        this.nextActionText = 'Treat/Review Transaction';
-        this.nextSubmitText = 'Update & Treat';
         this.can_be_treated = true;
         this.can_be_rejected = false;
         break;
       }
 
       case 3: {
-        this.nextActionText = 'Approve Transaction';
-        this.nextSubmitText = 'Comment & Approve';
         this.can_be_approved = true;
         break;
       }
 
       case 4: {
-        this.nextActionText = 'Fulfil Transaction';
-        this.nextSubmitText = 'Comment & Fulfil';
         this.can_be_fulfilled = true;
         break;
       }
 
       case 5: {
-        this.nextActionText = 'CANCELLED';
-        this.nextSubmitText = 'CANCELLED';
         this.can_be_rejected = false;
         this.can_be_cancelled = false;
         break;
       }
 
       case 6: {
-        this.nextActionText = 'CLOSED';
-        this.nextSubmitText = 'CLOSED';
         this.can_be_rejected = false;
         this.can_be_cancelled = false;
         break;

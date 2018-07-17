@@ -2,6 +2,7 @@
   <div class="col-12" *ngIf="transaction">
     <ng-container class="col-12" *ngIf="!is_client">
 
+      <!-- Alert/ Notification-->
       <ngb-alert *ngIf="!can_take_action" [type]="'warning'">
         <b>NOTE: </b>You're not eligible to perform any update to this transaction'
       </ngb-alert>
@@ -12,7 +13,8 @@
           <div class="card-header">
             <h3>
               <span class="lstick"></span>
-              Transaction Information</h3>
+              Transaction Information
+            </h3>
           </div>
           <div class="card-body">
             <ngb-tabset #t="ngbTabset" [justify]="'fill'">
@@ -42,8 +44,9 @@
                           </button>
                           <button class="btn btn-outline-primary waves-effect waves-light" [disabled]="!can_take_action" type="button" (click)="takeAction()">
                             <span class="btn-label">
-                              <i class="fa fa-envelope-o"></i>
-                            </span>{{ nextActionText }}
+                              <i class="mdi mdi-send"></i>
+                            </span>
+                            SUBMIT
                           </button>
                         </div>
                       </div>
@@ -57,16 +60,19 @@
                             <br>
                             <p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r"><strong>Amount In</strong>
                             <br>
                             <p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
                               transaction.amount | number:'1.1-2' }}</p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r">
                             <strong>Transaction Type</strong>
                             <br>
                             <p class="text-muted">{{ transaction.transaction_type_id | type:'desc' }}</p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r">
                             <strong>Country</strong>
                             <br>
@@ -77,22 +83,76 @@
                             <br>
                             <p class="text-muted">{{ transaction.selling_product_id | currency:'desc' }}</p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r"><strong>Amount Out</strong>
                             <br>
                             <p class="text-muted" *ngIf="transaction.calculated_amount">
                               {{ transaction.selling_product_id | currency:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
                             </p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r">
                             <strong>Transaction Mode</strong>
                             <br>
                             <p class="text-muted">{{ transaction?.transaction_mode_id | mode:'desc' }}</p>
                           </div>
+
                           <div class="col-md-3 col-xs-6 b-r">
                             <strong>Date Requested</strong>
                             <br>
                             <p class="text-muted">{{ transaction?.created_at | amCalendar }}</p>
                           </div>
+
+                          <ng-container *ngIf="transaction.transaction_mode_id !== 1">
+                            <div class="col-md-3 col-xs-6 b-r"><strong>
+                              {{ transaction.account_id ? 'Receiving Bank Account' : 'Swift Code' }}
+                            </strong>
+                              <br>
+                              <p class="text-muted" *ngIf="transaction.account_id">
+                                {{ transaction?.account?.bank.toLocaleUpperCase() }}
+                              </p>
+                              <p class="text-muted" *ngIf="!transaction.account_id">
+                                {{ transaction?.swift_code }}
+                              </p>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6 b-r"><strong>
+                              {{ transaction.account_id ? 'Receiving Bank Name' : 'Sort Code' }}
+                            </strong>
+                              <br>
+                              <p class="text-muted" *ngIf="transaction.account_id">
+                                {{ transaction?.account?.name.toLocaleUpperCase() }}
+                              </p>
+                              <p class="text-muted" *ngIf="!transaction.account_id">
+                                {{ transaction?.sort_code }}
+                              </p>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6 b-r"><strong>
+                              {{ transaction.account_id ? 'Receiving Account Number' : 'Routing Number' }}
+                            </strong>
+                              <br>
+                              <p class="text-muted" *ngIf="transaction.account_id">
+                                {{ transaction?.account?.number }}
+                              </p>
+                              <p class="text-muted" *ngIf="!transaction.account_id">
+                                {{ transaction?.routing_no }}
+                              </p>
+                            </div>
+
+                            <div class="col-md-3 col-xs-6 b-r">
+                              <strong>
+                                {{ transaction.account_id ? 'Receiving Account BVN' : 'IBAN' }}
+                              </strong>
+                              <br>
+                              <p class="text-muted" *ngIf="transaction.account_id">
+                                {{ transaction?.client?.bvn }}
+                              </p>
+                              <p class="text-muted" *ngIf="!transaction.account_id">
+                                {{ transaction?.iban }}
+                              </p>
+                            </div>
+                          </ng-container>
 
                         </div>
                         <hr>
@@ -104,7 +164,43 @@
                       <form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
                         <div class="col-12">
 
-                          <h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>
+                          <!--<h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>-->
+
+                          <div class="row">
+                            <div class="form-check col-lg-3 col-sm-12">
+                              <label class="custom-control custom-checkbox" for="funds_received">
+                                <input type="checkbox" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Funds Received</span>
+                              </label>
+                            </div>
+
+                            <div class="form-check col-lg-3 col-sm-12">
+                              <label class="custom-control custom-checkbox" for="funds_paid">
+                                <input type="checkbox" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Funds Paid</span>
+                              </label>
+                            </div>
+
+                            <div class="form-check col-lg-3 col-sm-12">
+                              <label class="custom-control custom-checkbox" for="aml_check">
+                                <input type="checkbox" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">AML Check</span>
+                              </label>
+                            </div>
+
+                            <div class="form-check col-lg-3 col-sm-12">
+                              <label class="custom-control custom-checkbox" for="kyc_check">
+                                <input type="checkbox" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check" class="custom-control-input">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">KYC Check</span>
+                              </label>
+                            </div>
+                          </div>
+
+                          <hr>
 
                           <div class="row">
 
@@ -163,7 +259,7 @@
                               </label>
 
                               <select class="form-control" [required]="transaction" [disabled]="!can_be_treated"
-                                      [(ngModel)]="transaction.condition" name="condition" id="condition" placeholder="Condition">
+                                      [(ngModel)]="transaction.condition" name="condition" id="condition">
                                 <option value="advance">Advance</option>
                                 <option value="loan">Loan</option>
                                 <option value="pay first">Pay First</option>
@@ -182,11 +278,12 @@
                             </div>
 
                           </div>
-                          <!--</div>-->
 
-                          <button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">{{ nextSubmitText }}</button>
-                          <!--</div>-->
-                          <!--</div>-->
+                          <button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">
+                            SUBMIT
+                            <i class="mdi mdi-send"></i>
+                          </button>
+
                         </div>
                       </form>
                     </div>
