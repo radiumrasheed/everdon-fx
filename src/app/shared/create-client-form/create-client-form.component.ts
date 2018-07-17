@@ -44,6 +44,7 @@ export class CreateClientFormComponent implements OnInit {
             if (client) {
               this.toastr.success('Individual Client created successfully');
               this.client = new Client();
+              this.submittedSuccessfully.emit(client.id + '');
             }
           },
           err => {

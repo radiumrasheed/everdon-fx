@@ -25,6 +25,7 @@ export class Transaction {
   buying_product_id?: number;
   selling_product_id?: number;
   rate?: number;
+  referrer?: string;
   reviewed_at?: string;
   reviewed_by?: number;
   transaction_ref?: string;
@@ -37,6 +38,16 @@ export class Transaction {
   account_name?: string;
   account_number?: string;
   bvn?: string;
+
+  funds_received?: boolean;
+  funds_paid?: boolean;
+  aml_check?: boolean;
+  kyc_check?: boolean;
+
+  swift_code?: string;
+  iban?: string;
+  sort_code?: string;
+  routing_no?: string;
 
   full_name: string;
 }

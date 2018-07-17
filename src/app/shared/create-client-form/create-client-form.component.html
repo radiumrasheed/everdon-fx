@@ -55,7 +55,7 @@
   <div class="form-group row" *ngIf="is_cooperate">
     <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
     <div class="col-sm-9">
-      <input [(ngModel)]="client.rc_number" [required]="is_cooperate" type="text" name="rc_number" class="form-control" id="rc_number" pattern="[0-9,A-Z,a-z]{5,10}" placeholder="RC Number...">
+      <input [(ngModel)]="client.rc_number" [required]="is_cooperate" type="text" name="rc_number" class="form-control" id="rc_number" pattern="[A-Z]{2}[0-9]{6}" placeholder="RC Number...">
     </div>
   </div>
 
@@ -127,7 +127,7 @@
 
   <div class="form-group m-b-0">
     <div class="offset-sm-3 col-sm-9">
-      <button [disabled]="!clientForm.form.valid || submitting" type="submit"
+      <button [disabled]="!clientForm.form.valid || (submitting === true)" type="submit"
               class="btn btn-info waves-effect waves-light m-t-10">{{ submitting ? 'Creating Customer' : 'Create Customer' }}
       </button>
     </div>

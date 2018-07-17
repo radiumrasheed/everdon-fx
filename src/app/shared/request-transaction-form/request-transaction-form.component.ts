@@ -8,6 +8,7 @@ import {User} from '../../authentication/login/user';
 import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES, GenericOption} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
+import {transition} from '@angular/animations';
 
 @Component({
   selector: 'app-request-transaction-form',
@@ -17,10 +18,18 @@ import {RequestTransactionFormService} from './request-transaction-form.service'
 })
 export class RequestTransactionFormComponent implements OnInit {
   roles$: Observable<string>;
+  @Output() transactionChange = new EventEmitter<Transaction>();
+
   @Input() role: string;
   @Output() submittedSuccessfully = new EventEmitter<string>();
+  form3 = false;
 
-  transaction = new Transaction();
+  private _transaction: Transaction;
+
+  get transaction(): Transaction {
+    return this._transaction;
+  }
+
   newAccount = true;
   submitting = false;
   countries = COUNTRIES;
@@ -33,6 +42,11 @@ export class RequestTransactionFormComponent implements OnInit {
   model: any;
   form1 = true;
   form2 = false;
+
+  @Input() set transaction(transaction: Transaction) {
+    this._transaction = transaction;
+    this.transactionChange.emit(transaction);
+  }
   searching = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -75,7 +89,7 @@ export class RequestTransactionFormComponent implements OnInit {
     delete this.transaction.account_name;
     delete this.transaction.account_number;
     delete this.transaction.bank_name;
-    delete this.transaction.bvn;
+    // delete this.transaction.bvn;
   }
 
   ngOnInit() {
@@ -86,6 +100,10 @@ export class RequestTransactionFormComponent implements OnInit {
       } catch (e) {
         console.error(e);
       }
+    }
+
+    if (!this.transaction) {
+      this.transaction = new Transaction();
     }
 
     this.getMyAccounts();
@@ -134,14 +152,22 @@ export class RequestTransactionFormComponent implements OnInit {
   }
 
 
+  goToForm3() {
+    this.form1 = false;
+    this.form2 = false;
+    this.form3 = true;
+  }
+
   goToForm2() {
     this.form1 = false;
     this.form2 = true;
+    this.form3 = false;
   }
 
   goToForm1() {
     this.form1 = true;
     this.form2 = false;
+    this.form3 = false;
   }
 
   // Get Clients Accounts...
