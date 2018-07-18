@@ -14,7 +14,7 @@ export class Transaction {
   closed_at?: string;
   closed_by?: number;
   created_at?: string;
-  country?: string;
+  country? = 'Nigeria';
   comment?: string;
   org_account_id?: number;
   events: Event[];

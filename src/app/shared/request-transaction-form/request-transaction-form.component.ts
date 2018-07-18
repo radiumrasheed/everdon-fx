@@ -8,7 +8,6 @@ import {User} from '../../authentication/login/user';
 import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES, GenericOption} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
-import {transition} from '@angular/animations';
 
 @Component({
   selector: 'app-request-transaction-form',
