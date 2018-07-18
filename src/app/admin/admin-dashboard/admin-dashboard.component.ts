@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/index';
 import * as _ from 'lodash';
 
 import {AdminDashboardService} from './admin-dashboard.service';
-import {Event, Transaction} from '../../shared/meta-data';
-import {Observable} from 'rxjs/index';
 import {AuthService} from '../../services/auth/auth.service';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Event, Transaction} from '../../shared/meta-data';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -18,6 +18,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   // Authentication Properties...
   roles$: Observable<string>;
   role: string;
+
+  // Child Components...
   @ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
   @ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
 
@@ -166,12 +168,20 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
         buckets => {
           this.buckets = buckets;
 
+          // Calculate sum of currencies in local equivalent...
           let sum = 0;
           _.forEach(this.buckets, bucket => {
             sum += parseFloat(bucket.bucket_local);
           });
+
           _.forEach(this.buckets, bucket => {
+            // !Get .percentage
             bucket.percentage = (parseFloat(bucket.bucket_local) / sum) * 100;
+
+            // !Get .ratio
+            bucket.ratio = (parseFloat(bucket.bucket_cash) / parseFloat(bucket.bucket) * 100);
+
+            // !Get .direction
             switch (true) {
               case (parseFloat(bucket.prev_bucket) === null):
                 bucket.direction = 'middle';
@@ -188,6 +198,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
               default:
                 bucket.direction = 'middle';
             }
+
+            // !Get .type
             switch (true) {
               case 0 <= bucket.percentage && bucket.percentage < 20:
                 bucket.type = 'danger';
@@ -201,9 +213,24 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
               default:
                 bucket.type = '';
             }
+
+            // !Get .ratio_type
+            switch (true) {
+              case 0 <= bucket.ratio && bucket.ratio < 20:
+                bucket.ratio_type = 'danger';
+                break;
+              case 20 <= bucket.ratio && bucket.ratio <= 40:
+                bucket.ratio_type = 'info';
+                break;
+              case bucket.ratio > 40:
+                bucket.ratio_type = 'success';
+                break;
+              default:
+                bucket.ratio_type = '';
+            }
           });
 
-          // !drop local...
+          // !Drop local currency...
           this.waccs = _.dropRight(this.buckets);
         }
       );

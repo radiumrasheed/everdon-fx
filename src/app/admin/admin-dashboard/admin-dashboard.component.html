@@ -1,6 +1,4 @@
-<!-- ============================================================== -->
 <!-- Quick Start -->
-<!-- ============================================================== -->
 <div class="row">
   <div class="col-lg-6">
     <div class="card">
@@ -59,30 +57,42 @@
   </div>
 </div>
 
-<!-- ============================================================== -->
 <!-- Buckets -->
-<!-- ============================================================== -->
 <div class="row">
   <!-- Column -->
   <div class="col-lg-3 col-md-6" *ngFor="let bucket of buckets">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">{{ bucket.description }}</h4>
-        <div class="text-right"><span class="text-muted">
-          <i class="ti-arrow-up text-success" *ngIf="bucket.direction === 'up'"></i>
-          <i class="ti-arrows-horizontal text-info" *ngIf="bucket.direction === 'middle'"></i>
-          <i class="ti-arrow-down text-danger" *ngIf="bucket.direction === 'down'"></i>
-          {{ bucket.name }}
-        </span>
-          <h1 class="font-light"><sup>
-
-          </sup>{{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
+        <h4 class="card-title">
+          {{ bucket.description }}
+          <span class="text-muted">
+            <i class="ti-arrow-up text-success" *ngIf="bucket.direction === 'up'"></i>
+            <i class="ti-arrows-horizontal text-info" *ngIf="bucket.direction === 'middle'"></i>
+            <i class="ti-arrow-down text-danger" *ngIf="bucket.direction === 'down'"></i>
+          </span>
+        </h4>
+        <div class="text-right">
+          <h1 class="font-weight-bold">
+            <sup>Total</sup>
+            {{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
           </h1>
+          <h2 class="font-light">
+            <sup>Cash</sup>
+            {{ bucket.id | currency:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
+          </h2>
+          <h2 class="font-light">
+            <sup>Transfer</sup>
+            {{ bucket.id | currency:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
+          </h2>
         </div>
         <p>
-          <ngb-progressbar type="{{bucket.type}}" [value]="bucket.percentage + 25" [striped]="true"
-                           [animated]="true">
+          <!--<ngb-progressbar type="{{bucket.type}}" [value]="bucket.percentage + 25" [striped]="true" [animated]="true">
             <i>{{ bucket.percentage | number:'1.1-1' }}%</i>
+          </ngb-progressbar>-->
+        </p>
+        <p>
+          <ngb-progressbar type="{{bucket.ratio_type}}" [value]="bucket.ratio" [striped]="true" [animated]="true">
+            <i>CASH - {{ bucket.ratio | number:'1.1-1' }}%</i>
           </ngb-progressbar>
         </p>
       </div>
@@ -90,9 +100,7 @@
   </div>
 </div>
 
-<!-- ============================================================== -->
 <!-- Charts and Stats -->
-<!-- ============================================================== -->
 <div class="row">
   <!-- line chart component -->
   <div class="col-lg-9 col-md-6">
@@ -174,9 +182,7 @@
   </div>
 </div>
 
-<!-- ============================================================== -->
 <!-- Recent Transactions & Comments -->
-<!-- ============================================================== -->
 <div class="row">
   <div class="col-lg-6">
     <div class="card">
@@ -228,9 +234,7 @@
         <h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
       </div>
       <div class="card-body">
-        <!-- ============================================================== -->
         <!-- Comment widgets -->
-        <!-- ============================================================== -->
         <div class="comment-widgets">
           <!-- Comment Row -->
           <div class="d-flex flex-row comment-row" *ngFor="let event of events">
