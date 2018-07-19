@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {SwalComponent, SwalPartialTargets} from '@toverux/ngx-sweetalert2';
-import {ToastrService} from 'ngx-toastr';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import * as _ from 'lodash';
 
 import {DashboardService} from './dashboard.service';
-import {Account, BANKS, COUNTRIES, GenericOption, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../../shared/meta-data';
+import {Account, PRODUCTS, Transaction} from '../../shared/meta-data';
 import {TransactionService} from '../../transaction/transaction.service';
 
 @Component({
@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   public figures: any;
 
   public transactions: Transaction[];
+  public buckets: any;
   submitting = false;
   newAccount = true;
   availableProducts = PRODUCTS;
@@ -94,6 +95,7 @@ export class DashboardComponent implements OnInit {
     this.getTimeline();
     this.getRecentTransactions();
     this.getMyAccounts();
+    this.getBucketBalance();
   }
 
   getMyAccounts(): void {
@@ -163,6 +165,17 @@ export class DashboardComponent implements OnInit {
               }
             ];
           }
+        }
+      );
+  }
+
+
+  public getBucketBalance() {
+    this.dashboardService.buckets()
+      .subscribe(
+        buckets => {
+          // !Drop local currency...
+          this.buckets = buckets;
         }
       );
   }

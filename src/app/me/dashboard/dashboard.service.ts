@@ -39,4 +39,12 @@ export class DashboardService {
         catchError(this.handleError<any>('Get Rates Timeline', null))
       );
   }
+
+  buckets(): Observable<any> {
+    return this.http.get<any>(this.dashboardUrl + '/buckets')
+      .pipe(
+        map(response => response['data']['products']),
+        catchError(this.handleError<any>('Get Bucket Balance', null))
+      );
+  }
 }
