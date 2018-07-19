@@ -10,21 +10,25 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-  user: User = new User();
+  public user: User = new User();
+  public submitting: boolean;
 
   constructor(private authService: AuthService,
               private router: Router,
               private toastr: ToastrService) {
   }
 
+
   ngOnInit() {
   }
+
 
   signUp() {
     if (this.user.password !== this.user.password_confirmation) {
       return this.toastr.error('Provided Passwords do not match!');
     }
 
+    this.submitting = true;
     this.authService.signUp(this.user)
       .subscribe(
         user => {
@@ -33,10 +37,13 @@ export class SignupComponent implements OnInit {
             const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'me/profile';
 
             // redirect the user
-            this.router.navigate([redirect])
-              .then(_ => this.toastr.success('SignUp successful'))
-              .catch();
+            this.router.navigate([redirect]).then(_ => this.toastr.success('SignUp successful')).catch();
           }
+        },
+        () => {
+        },
+        () => {
+          this.submitting = false;
         }
       );
   }
