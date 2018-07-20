@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
 
 import {User} from '../../authentication/login/user';
-import {Account, BANKS, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES, GenericOption} from '../meta-data';
+import {Account, BANKS, Client, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
 
@@ -21,59 +21,73 @@ export class RequestTransactionFormComponent implements OnInit {
 
   @Input() role: string;
   @Output() submittedSuccessfully = new EventEmitter<string>();
-  form3 = false;
+  public client: Client;
+  public gettingClient: boolean;
+  // Constants...
+  public countries = COUNTRIES;
+  public availableProducts = PRODUCTS;
 
   private _transaction: Transaction;
-
-  get transaction(): Transaction {
-    return this._transaction;
-  }
-
-  newAccount = true;
-  submitting = false;
-  countries = COUNTRIES;
-  availableProducts = PRODUCTS;
-  accounts: Account[];
-  bankList = BANKS;
-  transactionModes: GenericOption[] = TRANSACTION_MODES;
-  transactionTypes: GenericOption[] = TRANSACTION_TYPES;
-
-  model: any;
-  form1 = true;
-  form2 = false;
-
-  @Input() set transaction(transaction: Transaction) {
-    this._transaction = transaction;
-    this.transactionChange.emit(transaction);
-  }
-  searching = false;
-  searchFailed = false;
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-
-
-  // products
+  public bankList = BANKS;
+  public transactionModes = TRANSACTION_MODES;
+  public transactionTypes = TRANSACTION_TYPES;
+  // Form Properties...
+  public model: any;
+  public form1 = true;
+  public form2 = false;
+  public form3 = false;
+  public newAccount = true;
+  public submitting = false;
+  public accounts: Account[];
+  searchEmpty = false;
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       tap(() => this.searching = true),
-      switchMap(term =>
-        this.transactionService.searchClients(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
+      switchMap(term => {
+          if (term === '' || term.length < 3) {
             return of([]);
-          }))
+          }
+
+          delete this.client;
+          return this.transactionService.searchClients(term)
+            .pipe(
+              tap(result => {
+                this.searchFailed = false;
+                this.searchEmpty = result.length < 1;
+              }),
+              catchError(() => {
+                this.searchFailed = true;
+                return of([]);
+              })
+            );
+        }
       ),
       tap(() => this.searching = false),
       merge(this.hideSearchingWhenUnsubscribed)
     );
-  formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
-  updateModel = (event: any) => {
-    this.transaction.client_id = event.item.id;
 
+
+  searching = false;
+  searchFailed = false;
+  updateModel = (event: any) => {
+    this.getClient(event.item.id);
     this.getAccounts(event.item.id);
+    this.transaction.client_id = event.item.id;
   };
+  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+
+  get transaction(): Transaction {
+    return this._transaction;
+  }
+
+  formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
+
+  @Input() set transaction(transaction: Transaction) {
+    this._transaction = transaction;
+    this.transactionChange.emit(transaction);
+  }
 
   constructor(private transactionService: RequestTransactionFormService,
               private router: Router,
@@ -150,6 +164,20 @@ export class RequestTransactionFormComponent implements OnInit {
       );
   }
 
+  getClient(id: string): void {
+    this.gettingClient = true;
+    this.transactionService.getClient(id)
+      .subscribe(
+        client => {
+          this.client = client;
+        },
+        err => {
+        },
+        () => {
+          this.gettingClient = false;
+        }
+      );
+  }
 
   goToForm3() {
     this.form1 = false;

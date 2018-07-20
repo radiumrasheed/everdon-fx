@@ -47,6 +47,14 @@ export class RequestTransactionFormService {
       );
   }
 
+  getClient(id: string): Observable<Client> {
+    return this.http.get<Client>(this.clientUrl + '/' + id)
+      .pipe(
+        map(response => response['data']['client']),
+        catchError(this.handleError<Client>('Get Customer', null))
+      );
+  }
+
   searchClients(term: string): Observable<Client[]> {
     if (term === '' || term.length < 3) {
       return of([]);

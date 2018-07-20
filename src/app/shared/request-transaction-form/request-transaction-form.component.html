@@ -7,14 +7,35 @@
         <label for="client_id" class="col-form-label">Client<span class="text-danger">*</span></label>
         <div class="input-group">
           <input hidden name="client_id" [ngModel]="transaction.client_id" title="fake_client_id">
-          <input id="client_id" type="text" class="form-control" placeholder="Search Client..."
-                 [class.is-invalid]="searchFailed" [(ngModel)]="model" [inputFormatter]="formatter"
-                 [resultFormatter]="formatter" required
-                 [ngbTypeahead]="search" name="model" (selectItem)="updateModel($event)">
-          <span class="input-group-addon" *ngIf="!searching">Search!</span>
-          <span class="input-group-addon" *ngIf="searching">searching...</span>
-          <span class="input-group-addon label label-danger" *ngIf="searchFailed">Search Failed</span>
+          <input id="client_id" type="text" class="form-control" placeholder="Search Customer... Enter at least 3 characters..."
+                 [class.is-invalid]="searchFailed" [(ngModel)]="model" [inputFormatter]="formatter" [resultFormatter]="formatter"
+                 required [ngbTypeahead]="search" name="model" (selectItem)="updateModel($event)">
+
+          <ng-container [ngSwitch]="true">
+            <span class="input-group-addon" *ngSwitchCase="searching">searching...</span>
+            <span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found!</span>
+            <span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
+            <span *ngSwitchDefault></span>
+          </ng-container>
         </div>
+        <br>
+        <span *ngIf="gettingClient">Loading Customer Profile...<i class="mdi mdi-rotate-3d"></i></span>
+        <ng-template #tipContent>
+          <p>First Name: <b>{{ client?.first_name }}</b></p>
+          <p>Last Name: <b>{{ client?.last_name }}</b></p>
+          <p>Email: <b>{{ client?.email }}</b></p>
+          <p>Phone: <b>{{ client?.phone }}</b></p>
+          <p *ngIf="client.residential_address">Residential Address: <b>{{ client?.residential_address }}</b></p>
+          <p *ngIf="client.occupation">Occupation: <b>{{ client?.occupation }}</b></p>
+          <p *ngIf="client.gender">Gender: <b>{{ client?.gender }}</b></p>
+          <p *ngIf="client.rc_number">RC Number: <b>{{ client?.rc_number }}</b></p>
+        </ng-template>
+        <button *ngIf="client" type="button" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
+          <i class="mdi mdi-account"></i>
+          View Profile
+        </button>
+        <span *ngIf="client?.kyc.status === 1" class="text-success"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
+        <span *ngIf="client?.kyc.status === 0" class="text-danger"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
       </div>
     </ng-container>
 
