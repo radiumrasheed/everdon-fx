@@ -16,6 +16,7 @@ import {ProductPipe} from './pipes/product.pipe';
 import {RequestTransactionFormService} from './request-transaction-form/request-transaction-form.service';
 import {RequestTransactionFormComponent} from './request-transaction-form/request-transaction-form.component';
 import {CreateClientFormComponent} from './create-client-form/create-client-form.component';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -31,6 +32,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     NgbModule,
     PerfectScrollbarModule,
+    SweetAlert2Module,
   ],
   declarations: [
     BreadcrumbComponent,

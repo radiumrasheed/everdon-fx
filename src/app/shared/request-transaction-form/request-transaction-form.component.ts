@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
@@ -8,6 +8,7 @@ import {User} from '../../authentication/login/user';
 import {Account, BANKS, Client, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-request-transaction-form',
@@ -21,8 +22,11 @@ export class RequestTransactionFormComponent implements OnInit {
 
   @Input() role: string;
   @Output() submittedSuccessfully = new EventEmitter<string>();
+  searching = false;
+
   public client: Client;
   public gettingClient: boolean;
+
   // Constants...
   public countries = COUNTRIES;
   public availableProducts = PRODUCTS;
@@ -40,6 +44,10 @@ export class RequestTransactionFormComponent implements OnInit {
   public submitting = false;
   public accounts: Account[];
   searchEmpty = false;
+  searchFailed = false;
+  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+  @ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(300),
@@ -69,14 +77,11 @@ export class RequestTransactionFormComponent implements OnInit {
     );
 
 
-  searching = false;
-  searchFailed = false;
   updateModel = (event: any) => {
     this.getClient(event.item.id);
     this.getAccounts(event.item.id);
     this.transaction.client_id = event.item.id;
   };
-  hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 
   get transaction(): Transaction {
     return this._transaction;
@@ -206,4 +211,17 @@ export class RequestTransactionFormComponent implements OnInit {
         }
       );
   }
+
+  public onSubmittedSuccessfully($event: any, type: string) {
+    switch (type) {
+      case 'create':
+        this.createSwalComponent.nativeSwal.close();
+        this.toastr.success('Kindly search and select the just created user');
+        break;
+
+      default:
+      // Do Nothing...
+    }
+  }
+
 }

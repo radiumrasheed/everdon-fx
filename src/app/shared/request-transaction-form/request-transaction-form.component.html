@@ -7,15 +7,25 @@
         <label for="client_id" class="col-form-label">Client<span class="text-danger">*</span></label>
         <div class="input-group">
           <input hidden name="client_id" [ngModel]="transaction.client_id" title="fake_client_id">
-          <input id="client_id" type="text" class="form-control" placeholder="Search Customer... Enter at least 3 characters..."
+          <input id="client_id" type="text" class="form-control" placeholder="Search Customer... Enter at least 3 characters..." [editable]="false"
                  [class.is-invalid]="searchFailed" [(ngModel)]="model" [inputFormatter]="formatter" [resultFormatter]="formatter"
                  required [ngbTypeahead]="search" name="model" (selectItem)="updateModel($event)">
 
           <ng-container [ngSwitch]="true">
+            <swal #createSwal title="Create a Customer" [showConfirmButton]="false">
+
+              <app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'create')"></app-create-client-form>
+
+              <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+              <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
+
+            </swal>
+
             <span class="input-group-addon" *ngSwitchCase="searching">searching...</span>
-            <span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found!</span>
+            <!--<span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found! Create Customer?</span>-->
+            <button class="input-group-addon btn btn-group btn-outline-info" type="button" [swal]="createSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
             <span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
-            <span *ngSwitchDefault></span>
+            <button class="input-group-addon btn btn-group btn-outline-dark" type="reset">Reset</button>
           </ng-container>
         </div>
         <br>
@@ -30,6 +40,7 @@
           <p *ngIf="client.gender">Gender: <b>{{ client?.gender }}</b></p>
           <p *ngIf="client.rc_number">RC Number: <b>{{ client?.rc_number }}</b></p>
         </ng-template>
+
         <button *ngIf="client" type="button" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
           <i class="mdi mdi-account"></i>
           View Profile
@@ -46,6 +57,7 @@
       <div class="input-group">
         <select id="buying_product_id" class="custom-select col-12" required
                 [(ngModel)]="transaction.buying_product_id" name="buying_product_id">
+          <option> - select currency -</option>
           <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
             {{ availableProduct.description }}
           </option>
