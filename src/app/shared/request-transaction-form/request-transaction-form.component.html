@@ -18,14 +18,14 @@
 
             <span class="input-group-addon" *ngSwitchCase="searching">searching...</span>
             <!--<span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found! Create Customer?</span>-->
-            <button class="input-group-addon btn btn-group btn-outline-info" type="button" [swal]="createCustomerSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
+            <button class="input-group-addon btn btn-group btn-outline-warning" type="button" [swal]="createCustomerSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
             <span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
             <!--<button class="input-group-addon btn btn-group btn-outline-dark" type="reset">Reset</button>-->
 
           </ng-container>
 
         </div>
-        <app-loader *ngIf="gettingClient">></app-loader>
+        <app-loader *ngIf="gettingClient"></app-loader>
         <br>
         <ng-template #tipContent>
           <p>First Name: <b>{{ client?.first_name }}</b></p>

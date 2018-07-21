@@ -60,7 +60,8 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
       buttonsStyling: false,
       customClass: 'modal-content',
       confirmButtonClass: 'btn btn-primary',
-      cancelButtonClass: 'btn btn-warning'
+      cancelButtonClass: 'btn btn-warning',
+      showCloseButton: true
     })
   ],
   providers: [
