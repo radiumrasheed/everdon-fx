@@ -3,6 +3,9 @@ import {ProfileService} from './profile.service';
 import {Account, BANKS, Client} from '../../shared/meta-data';
 import {ToastrService} from 'ngx-toastr';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import {AppConfig} from '../../app.config';
+import {AuthService} from '../../services/auth/auth.service';
+import {FileHolder} from 'angular2-image-upload';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +22,9 @@ export class ProfileComponent implements OnInit {
 
   formData = new FormData();
   @ViewChild(`newAccountSwal`) private swalComponent: SwalComponent;
+  public avatarUrl: string;
+  public avatarHeaders: object;
+  @ViewChild(`avatarSwal`) private avatarSwalComponent: SwalComponent;
 
   constructor(private profileService: ProfileService,
               private toastr: ToastrService) {
@@ -46,6 +52,11 @@ export class ProfileComponent implements OnInit {
         client => {
           if (client) {
             this.client = client;
+            // this.client.avatar$;
+
+            // Set Properties for avatar...
+            this.avatarUrl = AppConfig.API_URL + '/clients/' + client.id + '/avatar';
+            this.avatarHeaders = {Authorization: AuthService.getToken()};
 
             if (this.client.client_type === 1) {
               this.is_individual = true;
@@ -67,6 +78,8 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         client => {
           if (client) {
+            // this.client.avatar$.next(client.avatar);
+
             this.toastr.success('Profile updated successfully');
           }
         },
@@ -99,4 +112,10 @@ export class ProfileComponent implements OnInit {
       );
   }
 
+  onUploadFinished($event: FileHolder) {
+    this.avatarSwalComponent.nativeSwal.close();
+    const response = JSON.parse($event.serverResponse.response._body);
+    this.client.avatar = response.data.avatar;
+    this.toastr.success('Avatar Uploaded Successfully!');
+  }
 }

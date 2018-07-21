@@ -1,6 +1,7 @@
 import {Account} from './account';
 
 export class Client {
+
   link: string;
   bvn?: number;
   client_type?: number;
@@ -11,6 +12,7 @@ export class Client {
   first_name: string;
   last_name: string;
   middle_name: string;
+  avatar?: string;
   id?: number;
   is_individual?: boolean;
   marital_status: string;
@@ -19,7 +21,6 @@ export class Client {
   occupation: string;
   identification: string;
   identification_number: string;
-  // identification_document: any;
   office_address: string;
   phone: string;
   rc_number: string;

@@ -12,6 +12,8 @@ import {MeComponent} from './me.component';
 import {SharedModule} from '../shared/shared.module';
 import {MomentModule} from 'angular2-moment';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
+import {ImageUploadModule} from 'angular2-image-upload';
+import {CloudinaryModule} from '@cloudinary/angular-5.x';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
     ChartistModule,
     MeRoutingModule,
     MomentModule,
-    SweetAlert2Module
+    CloudinaryModule,
+    SweetAlert2Module,
+    ImageUploadModule
   ],
   declarations: [
     DashboardComponent,

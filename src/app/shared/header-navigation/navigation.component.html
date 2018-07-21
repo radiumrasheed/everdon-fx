@@ -177,20 +177,20 @@
         <!-- ============================================================== -->
         <!-- Profile -->
         <!-- ============================================================== -->
-        <li class="nav-item dropdown" ngbDropdown *ngIf="isLoggedIn$ | async as isLoggedIn">
+        <li class="nav-item dropdown" ngbDropdown *ngIf="(isLoggedIn$ | async) && user$ | async as user">
           <a ngbDropdownToggle class="nav-link dropdown-toggle text-muted waves-effect waves-dark"
              href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img src="assets/images/users/avi.png" alt="user" class="profile-pic"/>
+            <img [src]="user?.avatar || 'assets/images/users/avi.png'" alt="user" class="profile-pic"/>
           </a>
           <div class="dropdown-menu dropdown-menu-right animated slideInDown" *ngIf="role$ | async as role" ngbDropdownMenu>
             <ul class="dropdown-user">
               <li>
                 <div class="dw-user-box">
-                  <div class="u-img"><img src="assets/images/users/avi.png" alt="user"></div>
-                  <div class="u-text" *ngIf="user$ | async as user">
+                  <div class="u-img"><img [src]="user?.avatar || 'assets/images/users/avi.png'" alt="user"></div>
+                  <div class="u-text">
                     <h4>{{ user?.name }}</h4>
                     <h6>{{ user?.email }}</h6>
-                    <a href="javascript:void(0)" [routerLink]="role==='admin'?['/admin/profile']:['/me/profile']"
+                    <a href="javascript:void(0)" [routerLink]="role === 'admin' ? ['/admin/profile'] : ['/me/profile']"
                        class="btn btn-rounded btn-danger btn-sm">View Profile
                     </a>
                   </div>

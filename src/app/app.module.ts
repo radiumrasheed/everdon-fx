@@ -2,10 +2,11 @@ import * as $ from 'jquery';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/common';
-import {ErrorHandler, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {RequestOptions} from '@angular/http';
 import {RouterModule} from '@angular/router';
+import {CloudinaryModule, CloudinaryConfiguration} from '@cloudinary/angular-5.x';
+import {Cloudinary} from 'cloudinary-core';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
@@ -18,8 +19,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppRoutes} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {AuthService} from './services/auth/auth.service';
-import {AuthErrorHandler} from './services/auth/auth-error.handler';
-import {AuthRequestOptions} from './services/auth/auth.request';
 import {RequestCache, RequestCacheWithMap} from './services/request-cache.service';
 import {HttpErrorHandler} from './services/http-error-handler.service';
 import {MessageService} from './services/message.service';
@@ -31,6 +30,8 @@ import {AdminGuard} from './guards/admin.guard';
 import {NotFoundComponent} from './authentication/404/not-found.component';
 import {ToastrModule} from 'ngx-toastr';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
+import {ImageUploadModule} from 'angular2-image-upload';
+import {AppConfig} from './app.config';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,8 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
     SharedModule,
     HttpClientModule,
     NgbModule.forRoot(),
+    ImageUploadModule.forRoot(),
+    CloudinaryModule.forRoot({Cloudinary}, {cloud_name: AppConfig.CLOUDINARY_CLOUD_NAME} as CloudinaryConfiguration),
     RouterModule.forRoot(AppRoutes, {
       useHash: false
     }),

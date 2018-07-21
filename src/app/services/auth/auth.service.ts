@@ -193,7 +193,7 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email'], avatar: data['user']['avatar']}));
 
           this._isLoggedIn.next(true);
         }),
@@ -211,7 +211,7 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email'], avatar: data['user']['avatar']}));
 
           this._isLoggedIn.next(true);
         }),
@@ -229,7 +229,7 @@ export class AuthService {
         tap(data => {
           AuthService.setToken(data['token']);
           AuthService.setRoleToken(data['_token']);
-          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email']}));
+          AuthService.setUser(JSON.stringify({name: data['user']['name'], email: data['user']['email'], avatar: data['user']['avatar']}));
 
           this._isLoggedIn.next(true);
         }),
