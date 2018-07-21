@@ -12,7 +12,9 @@
           <b>NOTE: </b>You're not eligible to make this request! Please refer to FX-Ops Member
         </ngb-alert>
 
-        <app-request-transaction-form [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="client"></app-request-transaction-form>
+        <app-request-transaction-form [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="client">
+
+        </app-request-transaction-form>
 
       </div>
     </div>

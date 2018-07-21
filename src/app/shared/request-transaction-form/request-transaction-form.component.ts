@@ -22,6 +22,7 @@ export class RequestTransactionFormComponent implements OnInit {
 
   @Input() role: string;
   @Output() submittedSuccessfully = new EventEmitter<string>();
+  @Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
   searching = false;
 
   public client: Client;
@@ -46,7 +47,7 @@ export class RequestTransactionFormComponent implements OnInit {
   searchEmpty = false;
   searchFailed = false;
   hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-  @ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
+  @ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
 
   search = (text$: Observable<string>) =>
     text$.pipe(
@@ -212,16 +213,9 @@ export class RequestTransactionFormComponent implements OnInit {
       );
   }
 
-  public onSubmittedSuccessfully($event: any, type: string) {
-    switch (type) {
-      case 'create':
-        this.createSwalComponent.nativeSwal.close();
-        this.toastr.success('Kindly search and select the just created user');
-        break;
-
-      default:
-      // Do Nothing...
-    }
+  public onSubmittedSuccessfully($event: any) {
+    this.createCustomerSwalComponent.nativeSwal.close();
+    this.customerCreatedSuccessfully.emit(true);
   }
 
 }

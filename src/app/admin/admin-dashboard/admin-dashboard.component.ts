@@ -22,6 +22,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
   // Child Components...
   @ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
   @ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
+  public transaction = new Transaction();
 
   // This is for the WACC dashboard line chart...
   public lineChartData: Array<any> = [
@@ -278,6 +279,10 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
         // Navigate to the newly requested transaction...
         this.router.navigate(['..', 'transaction', 'details', $event], {relativeTo: this.route})
           .catch(err => console.error(err, $event));
+        break;
+
+      case 'customer-created':
+        this.requestSwalComponent.show().catch();
         break;
 
       default:

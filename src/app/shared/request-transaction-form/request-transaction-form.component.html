@@ -12,24 +12,21 @@
                  required [ngbTypeahead]="search" name="model" (selectItem)="updateModel($event)">
 
           <ng-container [ngSwitch]="true">
-            <swal #createSwal title="Create a Customer" [showConfirmButton]="false">
-
-              <app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'create')"></app-create-client-form>
-
-              <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
-              <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
-
+            <swal #createCustomerSwal title="Create a Customer" [showConfirmButton]="false">
+              <app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event)"></app-create-client-form>
             </swal>
 
             <span class="input-group-addon" *ngSwitchCase="searching">searching...</span>
             <!--<span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found! Create Customer?</span>-->
-            <button class="input-group-addon btn btn-group btn-outline-info" type="button" [swal]="createSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
+            <button class="input-group-addon btn btn-group btn-outline-info" type="button" [swal]="createCustomerSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
             <span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
-            <button class="input-group-addon btn btn-group btn-outline-dark" type="reset">Reset</button>
+            <!--<button class="input-group-addon btn btn-group btn-outline-dark" type="reset">Reset</button>-->
+
           </ng-container>
+
         </div>
+        <app-loader *ngIf="gettingClient">></app-loader>
         <br>
-        <span *ngIf="gettingClient">Loading Customer Profile...<i class="mdi mdi-rotate-3d"></i></span>
         <ng-template #tipContent>
           <p>First Name: <b>{{ client?.first_name }}</b></p>
           <p>Last Name: <b>{{ client?.last_name }}</b></p>
