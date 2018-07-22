@@ -63,6 +63,7 @@ export class ClientsComponent implements OnInit {
         clients => {
           this.clients = clients.map<Client>(client => {
             client.link = `<a href="/#/admin/customer/${client.id}">View Details</a>`;
+            client.full_name = `${client.first_name} ${client.last_name}`;
             return client;
           });
         }

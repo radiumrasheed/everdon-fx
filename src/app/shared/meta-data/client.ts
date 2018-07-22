@@ -11,7 +11,8 @@ export class Client {
   email?: string;
   first_name: string;
   last_name: string;
-  middle_name: string;
+  middle_name?: string;
+  full_name?: string;
   avatar?: string;
   id?: number;
   is_individual?: boolean;
