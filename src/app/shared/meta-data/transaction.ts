@@ -24,7 +24,7 @@ export class Transaction {
   link?: string;
   buying_product_id?: number;
   selling_product_id?: number;
-  rate?: number;
+  rate?: any;
   referrer?: string;
   reviewed_at?: string;
   reviewed_by?: number;

@@ -2,6 +2,18 @@
   <!-- Stage 1 of FORM -->
   <ng-container #step1 *ngIf="form1">
 
+    <div class="text-center" *ngIf="transaction?.rate">
+      <span class="text-success font-weight-bold font-enlarge">
+        <i class="mdi mdi-24px mdi-currency-{{transaction?.buying_product_id | currency:'value'}}" style="font-size: xx-large">1   </i>
+      </span>
+      <span>
+        <i class="mdi mdi-36px mdi-equal"></i>
+      </span>
+      <span class="text-info font-weight-bold font-enlarge">
+        <i class="mdi mdi-24px mdi-currency-{{transaction?.selling_product_id | currency:'value'}}" style="font-size: xx-large">{{transaction?.rate}}</i>
+      </span>
+    </div>
+
     <ng-container *ngIf="role === 'fx-ops'">
       <div class="form-group">
         <label for="client_id" class="col-form-label">Client<span class="text-danger">*</span></label>
@@ -17,13 +29,11 @@
             </swal>
 
             <span class="input-group-addon" *ngSwitchCase="searching">searching...</span>
-            <!--<span class="input-group-addon label label-warning" *ngSwitchCase="searchEmpty">No result found! Create Customer?</span>-->
-            <button class="input-group-addon btn btn-group btn-outline-warning" type="button" [swal]="createCustomerSwal" *ngSwitchCase="searchEmpty && !searching">Not found! Create Customer?</button>
+            <button class="input-group-addon btn btn-group btn-outline-warning" type="button" [swal]="createCustomerSwal" *ngSwitchCase="searchEmpty && !searching">
+              Not found! Create Customer?
+            </button>
             <span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
-            <!--<button class="input-group-addon btn btn-group btn-outline-dark" type="reset">Reset</button>-->
-
           </ng-container>
-
         </div>
         <app-loader *ngIf="gettingClient"></app-loader>
         <br>
@@ -38,9 +48,9 @@
           <p *ngIf="client.rc_number">RC Number: <b>{{ client?.rc_number }}</b></p>
         </ng-template>
 
-        <button *ngIf="client" type="button" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
+        <button *ngIf="client" type="button" (click)="goToProfilePage()" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
           <i class="mdi mdi-account"></i>
-          View Profile
+          Go To Profile Page
         </button>
         <span *ngIf="client?.kyc.status === 1" class="text-success"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
         <span *ngIf="client?.kyc.status === 0" class="text-danger"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
@@ -52,7 +62,7 @@
         Buying
         <span class="text-danger">*</span></label>
       <div class="input-group">
-        <select id="buying_product_id" class="custom-select col-12" required
+        <select id="buying_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
                 [(ngModel)]="transaction.buying_product_id" name="buying_product_id">
           <option> - select currency -</option>
           <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
@@ -67,10 +77,10 @@
         Selling
         <span class="text-danger">*</span></label>
       <div class="input-group">
-        <select id="selling_product_id" class="custom-select col-12" required
+        <select id="selling_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
                 [(ngModel)]="transaction.selling_product_id" name="selling_product_id">
-          <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">{{
-            availableProduct.description }}
+          <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
+            {{ availableProduct.description }}
           </option>
         </select>
       </div>

@@ -72,4 +72,11 @@ export class RequestTransactionFormService {
         // catchError(err => Observable.of([]))
       );
   }
+
+  getAllRates(): Observable<any> {
+    return this.http.get(this.productUrl + '/rates')
+      .pipe(
+        map(response => response['data']['rates'])
+      );
+  }
 }

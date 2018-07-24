@@ -9,6 +9,7 @@ export class Client {
   date_of_birth: string;
   accounts?: Account[];
   email?: string;
+  gender?: string;
   first_name: string;
   last_name: string;
   middle_name?: string;

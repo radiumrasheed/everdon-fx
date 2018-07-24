@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
@@ -21,6 +21,10 @@ export class RequestTransactionFormComponent implements OnInit {
   @Output() transactionChange = new EventEmitter<Transaction>();
 
   @Input() role: string;
+  /**
+   *  Link to profile relative to `transaction.client_id`
+   * */
+  @Input() profileLink: any;
   @Output() submittedSuccessfully = new EventEmitter<string>();
   @Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
   searching = false;
@@ -36,7 +40,9 @@ export class RequestTransactionFormComponent implements OnInit {
   public bankList = BANKS;
   public transactionModes = TRANSACTION_MODES;
   public transactionTypes = TRANSACTION_TYPES;
+
   // Form Properties...
+  public rates: any;
   public model: any;
   public form1 = true;
   public form2 = false;
@@ -123,6 +129,8 @@ export class RequestTransactionFormComponent implements OnInit {
 
     if (!this.transaction) {
       this.transaction = new Transaction();
+    } else {
+      this.shouldGetRates();
     }
 
     this.getMyAccounts();
@@ -218,4 +226,44 @@ export class RequestTransactionFormComponent implements OnInit {
     this.customerCreatedSuccessfully.emit(true);
   }
 
+  getRates() {
+    this.transactionService.getAllRates()
+      .subscribe(
+        rates => {
+          if (rates) {
+            this.rates = rates;
+            this.applyRate(rates);
+          }
+        },
+        () => {
+        },
+        () => {
+        }
+      );
+  }
+
+  shouldGetRates($event = null) {
+    if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
+      this.getRates();
+    }
+  }
+
+  applyRate(rates = this.rates) {
+    const b = this.transaction.buying_product_id;
+    const s = this.transaction.selling_product_id;
+
+    if (rates) {
+      try {
+        this.transaction.rate = (rates[b - 1]['rate'] / rates[s - 1]['rate']).toFixed(4);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  goToProfilePage() {
+    if (this.profileLink) {
+      this.router.navigate(this.profileLink).catch();
+    }
+  }
 }

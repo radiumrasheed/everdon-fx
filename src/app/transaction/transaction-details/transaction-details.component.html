@@ -169,7 +169,8 @@
                           <div class="row">
                             <div class="form-check col-lg-3 col-sm-12">
                               <label class="custom-control custom-checkbox" for="funds_received">
-                                <input type="checkbox" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received" class="custom-control-input">
+                                <input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
+                                       class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Funds Received</span>
                               </label>
@@ -177,7 +178,7 @@
 
                             <div class="form-check col-lg-3 col-sm-12">
                               <label class="custom-control custom-checkbox" for="funds_paid">
-                                <input type="checkbox" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid" class="custom-control-input">
+                                <input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">Funds Paid</span>
                               </label>
@@ -185,7 +186,7 @@
 
                             <div class="form-check col-lg-3 col-sm-12">
                               <label class="custom-control custom-checkbox" for="aml_check">
-                                <input type="checkbox" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check" class="custom-control-input">
+                                <input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">AML Check</span>
                               </label>
@@ -193,7 +194,7 @@
 
                             <div class="form-check col-lg-3 col-sm-12">
                               <label class="custom-control custom-checkbox" for="kyc_check">
-                                <input type="checkbox" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check" class="custom-control-input">
+                                <input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check" class="custom-control-input">
                                 <span class="custom-control-indicator"></span>
                                 <span class="custom-control-description">KYC Check</span>
                               </label>
@@ -240,10 +241,10 @@
                               <label for="org_account_id">
                                 <i class="mdi mdi-bank text-warning"></i>
                                 Paying Organization / Account
-                                <span *ngIf="transaction" class="text-danger">*</span>
+                                <span *ngIf="can_modify_org" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="transaction" [disabled]="!can_be_treated"
+                              <select class="form-control" [required]="can_modify_org" [disabled]="!can_modify_org"
                                       [(ngModel)]="transaction.org_account_id" name="org_account_id" id="org_account_id">
                                 <option *ngFor="let organization of organizationList" value="{{organization.id}}">
                                   {{organization.name + ' ' + organization.account_number}}
@@ -255,10 +256,10 @@
                               <label for="condition">
                                 <i class="mdi mdi-code-not-equal text-warning"></i>
                                 Condition
-                                <span *ngIf="transaction" class="text-danger">*</span>
+                                <span *ngIf="can_modify_condition" class="text-danger">*</span>
                               </label>
 
-                              <select class="form-control" [required]="transaction" [disabled]="!can_be_treated"
+                              <select class="form-control" [required]="can_modify_condition" [disabled]="!can_modify_condition"
                                       [(ngModel)]="transaction.condition" name="condition" id="condition">
                                 <option value="advance">Advance</option>
                                 <option value="loan">Loan</option>
@@ -272,7 +273,7 @@
                               <label for="comment">
                                 <i class="mdi mdi-comment text-success disabled"></i>
                                 Comment
-                                <span *ngIf="transaction" class="text-danger">*</span>
+                                <span *ngIf="can_take_action" class="text-danger">*</span>
                               </label>
                               <textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
                             </div>

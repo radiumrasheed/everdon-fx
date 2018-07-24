@@ -13,12 +13,10 @@
             <swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
 
               <app-request-transaction-form [transaction]="transaction" *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"
+                                            [profileLink]="['admin', 'customer', transaction.client_id]"
                                             (customerCreatedSuccessfully)="onSubmittedSuccessfully($event, 'customer-created')">
 
               </app-request-transaction-form>
-
-              <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
-              <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
 
             </swal>
             <button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">

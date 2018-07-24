@@ -25,6 +25,9 @@ export class ProductPipe implements PipeTransform {
       case 'sign':
         this.result = this.selectedCurrency.sign;
         break;
+      case 'value':
+        this.result = this.selectedCurrency.value;
+        break;
       default:
         this.result = this.selectedCurrency.name;
         break;

@@ -12,12 +12,16 @@ export class RequestTransactionComponent implements OnInit {
   roles$: Observable<string>;
   role: string;
 
-  transaction = new Transaction();
+  transaction: Transaction;
 
   constructor(private auth: AuthService) {
   }
 
   ngOnInit() {
+    if (!this.transaction) {
+      this.transaction = new Transaction();
+    }
+
     this.roles$ = this.auth.roles;
     this.roles$.subscribe(roles => this.role = roles[0]);
   }
