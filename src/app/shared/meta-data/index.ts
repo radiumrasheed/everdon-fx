@@ -275,10 +275,28 @@ export const COUNTRIES: any[] = [
 ];
 
 export const BANKS: any[] = [
-  {name: 'GTB', value: 'gtb'},
-  {name: 'UBA', value: 'uba'},
-  {name: 'Zenith', value: 'zenith'},
-  {name: 'Access', value: 'access'}
+  {id: 1, name: 'Access Bank', value: 'access bank'},
+  {id: 2, name: 'Citibank', value: 'citibank'},
+  {id: 3, name: 'Diamond Bank', value: 'diamond bank'},
+  {id: 4, name: 'Dynamic Standard Bank', value: 'dynamic standard bank'},
+  {id: 5, name: 'Ecobank Nigeria', value: 'ecobank nigeria'},
+  {id: 6, name: 'Fidelity Bank Nigeria', value: 'fidelity bank nigeria'},
+  {id: 7, name: 'First Bank of Nigeria', value: 'first bank of nigeria'},
+  {id: 8, name: 'First City Monument Bank', value: 'first city monument bank'},
+  {id: 9, name: 'Guaranty Trust Bank', value: 'guaranty trust bank'},
+  {id: 10, name: 'Heritage Bank Plc', value: 'heritage bank plc'},
+  {id: 11, name: 'Keystone Bank Limited', value: 'keystone bank limited'},
+  {id: 12, name: 'Providus Bank Plc', value: 'providus bank plc'},
+  {id: 13, name: 'Skye Bank', value: 'skye bank'},
+  {id: 14, name: 'Stanbic IBTC Bank Nigeria Limited', value: 'stanbic ibtc bank nigeria limited'},
+  {id: 15, name: 'Standard Chartered Bank', value: 'standard chartered bank'},
+  {id: 16, name: 'Sterling Bank', value: 'sterling bank'},
+  {id: 17, name: 'Suntrust Bank Nigeria Limited', value: 'suntrust bank nigeria limited'},
+  {id: 18, name: 'Union Bank of Nigeria', value: 'union bank of nigeria'},
+  {id: 19, name: 'United Bank for Africa', value: 'united bank for africa'},
+  {id: 20, name: 'Unity Bank Plc', value: 'unity bank plc'},
+  {id: 21, name: 'Wema Bank', value: 'wema bank'},
+  {id: 22, name: 'Zenith Bank', value: 'zenith bank'}
 ];
 
 export const TRANSACTION_MODES: GenericOption[] = [
@@ -307,4 +325,3 @@ export const TRANSACTION_TYPES: GenericOption[] = [
   {id: 4, name: 'refund', desc: 'Refund'},
   {id: 5, name: 'expenses', desc: 'Expenses'}
 ];
-
