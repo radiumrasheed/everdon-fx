@@ -19,6 +19,7 @@
           <div class="card-body">
             <ngb-tabset #t="ngbTabset" [justify]="'fill'">
 
+              <!-- Transaction -->
               <ngb-tab id="summary" title="Transaction Details">
                 <ng-template ngbTabContent>
                   <div class="card-body" *ngIf="transaction">
@@ -292,6 +293,7 @@
                 </ng-template>
               </ngb-tab>
 
+              <!-- Customer -->
               <ngb-tab id="customer" title="KYC Details">
                 <ng-template ngbTabContent>
                   <div class="card-body">
@@ -304,20 +306,25 @@
 
                           <div class="row text-center justify-content-md-center">
                             <div class="col-6">
-                              <a href="javascript:void(0)" class="link"
-                                 popoverTitle="Account Details" ngbPopover="
-                     {{ transaction?.account?.name + ' | ' + transaction?.account?.bank.toLocaleUpperCase() + ' : ' + transaction?.account?.number }}">
+                              <a href="javascript:void(0)" class="link" popoverTitle="Account Details"
+                                 ngbPopover="{{ transaction?.account?.name + ' | ' + transaction?.account?.bank.toLocaleUpperCase() + ' : ' + transaction?.account?.number }}">
                                 <i class="icon-wallet"></i>
                               </a>
                             </div>
                           </div>
 
                           <div>
-                            <i class="fa" [ngClass]="{'fa-user-o' : transaction?.client?.client_type === 1, 'fa-bank-o' :  transaction?.client?.client_type === 2}"></i>
+                            <i class="fa" [ngClass]="{
+                            'fa-user-o' : transaction?.client?.client_type === 1,
+                             'fa-bank-o' :  transaction?.client?.client_type === 2,
+                             'fa-user' :  transaction?.client?.client_type === 3,
+                             'fa-bank' :  transaction?.client?.client_type === 4
+                            }"></i>
 
-                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 1">Individual</span>
-                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 2">Cooperate</span>
-                            <span class="text-muted" *ngIf="transaction?.client?.client_type === null"></span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 1"> Individual</span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 2"> Cooperate</span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 3"> Individual</span>
+                            <span class="text-muted" *ngIf="transaction?.client?.client_type === 4"> Cooperate</span>
                           </div>
                         </div>
 
@@ -398,23 +405,23 @@
                           <div class="pricing-body">
                             <div class="pricing-header">
                               <h4 class="price-lable text-white bg-warning"> KYC</h4>
-                              <!--<h4 class="text-center"></h4>-->
-                              <h2 class="text-center">
-                                {{ transaction?.client?.kyc?.status === 1 ? 'Valid' : 'Invalid' }}
-                              </h2>
-                              <!--<p class="uppercase">per month</p>-->
                             </div>
                             <div class="price-table-content">
-                              <div class="price-row"><i class="icon-calender"></i>{{ transaction?.client?.kyc?.updated_at | amCalendar }}</div>
-                              <!--<div class="price-row"><i class="icon-screen-smartphone"></i> Single Device</div>-->
-                              <!--<div class="price-row"><i class="icon-drawar"></i> 120GB Storage</div>-->
-                              <!--<div class="price-row"><i class="icon-refresh"></i> Monthly Backups</div>-->
-                              <div class="price-row" *ngIf="transaction?.client?.kyc?.status !== 1">
-                                <button class="btn btn-lg btn-info waves-effect waves-light m-t-20">
-                                  Validate
-                                  <i class="mdi mdi-send"></i>
-                                </button>
+                              <div class="price-row">
+                                <i class="icon-calender"> </i>
+                                {{ transaction?.client?.kyc?.updated_at | amCalendar }}
                               </div>
+                              <form>
+                                <h1 class="text-center">
+                                  {{ transaction?.client?.kyc?.status ? 'Valid' : 'Invalid' }}
+                                  <ui-switch [(ngModel)]="transaction.client.kyc.status" name="status" size="large"></ui-switch>
+                                </h1>
+                                <hr>
+                                <button class="btn btn-lg btn-info waves-effect waves-light m-t-20" (click)="validateKYC()">
+                                  {{ transaction?.client?.kyc?.status ? 'Validate' : 'Invalidate' }}
+                                  <i class="mdi mdi-toggle-{{ transaction?.client?.kyc?.status ? 'switch' : 'switch-off'}} "></i>
+                                </button>
+                              </form>
                             </div>
                           </div>
                         </div>
@@ -424,6 +431,7 @@
                 </ng-template>
               </ngb-tab>
 
+              <!-- Comments /Events -->
               <ngb-tab id="comments" title="Comments & Timeline">
                 <ng-template ngbTabContent>
                   <div class="card-body">

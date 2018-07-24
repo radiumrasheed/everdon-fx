@@ -14,6 +14,9 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class TransactionDetailsComponent implements OnInit {
 
+  /**
+   * Transaction Data
+   * */
   public transaction: Transaction;
   public currencyList = PRODUCTS;
   public organizationList = ORGANIZATIONS;
@@ -281,5 +284,22 @@ export class TransactionDetailsComponent implements OnInit {
       </html>`
     );
     popupWin.document.close();
+  }
+
+  validateKYC() {
+    this.transactionService.validateKYC(this.transaction.client_id, this.transaction.client.kyc)
+      .subscribe(
+        client => {
+          if (client) {
+            this.transaction.client = client;
+          }
+        },
+        () => {
+
+        },
+        () => {
+
+        }
+      );
   }
 }

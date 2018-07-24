@@ -115,8 +115,15 @@ export class TransactionService {
   getClientAccounts(client_id: any): Observable<Account[]> {
     return this.http.get<any>(`${this.clientUrl}/${client_id}/accounts`)
       .pipe(
-        map(response => response['data']['accounts']),
+        map(response => response['data']['accounts'])
         // catchError(err => Observable.of([]))
+      );
+  }
+
+  validateKYC(client_id: any, client: any): Observable<Client> {
+    return this.http.post<any>(`${this.clientUrl}/${client_id}/validate_kyc`, client)
+      .pipe(
+        map(response => response['data']['client'])
       );
   }
 }

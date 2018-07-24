@@ -11,6 +11,7 @@ import {TransactionService} from './transaction.service';
 import {SharedModule} from '../shared/shared.module';
 import {HttpInterceptorProviders} from '../http-interceptors';
 import {HttpClientModule} from '@angular/common/http';
+import {UiSwitchModule} from 'angular2-ui-switch';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {HttpClientModule} from '@angular/common/http';
     NgbModule,
     SharedModule,
     Ng2SmartTableModule,
+    UiSwitchModule,
 
     TransactionRoutingModule
   ],

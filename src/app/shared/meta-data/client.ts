@@ -32,4 +32,5 @@ export class Client {
   referee_4: string;
   residential_address: string;
   updated_at?: string;
+  kyc: any;
 }

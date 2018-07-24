@@ -32,6 +32,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {ImageUploadModule} from 'angular2-image-upload';
 import {AppConfig} from './app.config';
+import {UiSwitchModule} from 'angular2-ui-switch';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {AppConfig} from './app.config';
     FormsModule,
     SharedModule,
     HttpClientModule,
+    UiSwitchModule,
     NgbModule.forRoot(),
     ImageUploadModule.forRoot(),
     CloudinaryModule.forRoot({Cloudinary}, {cloud_name: AppConfig.CLOUDINARY_CLOUD_NAME} as CloudinaryConfiguration),
