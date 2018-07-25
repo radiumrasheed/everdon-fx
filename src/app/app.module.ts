@@ -32,7 +32,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {ImageUploadModule} from 'angular2-image-upload';
 import {AppConfig} from './app.config';
-import {UiSwitchModule} from 'angular2-ui-switch';
+import {UiSwitchModule} from 'ngx-ui-switch';
 
 @NgModule({
   declarations: [

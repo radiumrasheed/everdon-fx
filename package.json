@@ -62,7 +62,7 @@
     "rxjs-compat": "^6.2.0",
     "sweetalert2": "^7.22.0",
     "zone.js": "^0.8.26",
-    "angular2-ui-switch": "latest"
+    "ngx-ui-switch": "latest"
   },
   "devDependencies": {
     "@angular/language-service": "^5.0.0",
