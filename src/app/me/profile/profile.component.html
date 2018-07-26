@@ -222,7 +222,7 @@
         <ngb-tab id="identity" title="My Identity">
           <ng-template ngbTabContent>
             <div class="card-body">
-              <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
+              <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateIdentity()">
 
                 <div class="form-group row" *ngIf="is_individual">
                   <label for="identification" class="col-sm-3 text-right control-label col-form-label">Identification</label>
@@ -248,8 +248,13 @@
                   <label for="identification_document" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
                   <div class="col-sm-5">
                     <p *ngIf="client.identification_document">You have 1 document uploaded already</p>
-                    <input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document" class="form-control" id="identification_document"
-                           placeholder="Means of Identification...">
+                    <ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
+                    <br>
+                    <div class="form-group">
+                      <label for="identification_document">{{ client.identification_document ? 'Upload Document' : 'Change Document' }}</label>
+                      <input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document"
+                             class="form-control-file form-control-lg" id="identification_document" placeholder="Means of Identification...">
+                    </div>
                   </div>
                 </div>
 
@@ -257,7 +262,13 @@
                   <label for="cac_document" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
                   <div class="col-sm-5">
                     <p *ngIf="client.cac_document">You have 1 document uploaded already</p>
-                    <input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control" id="cac_document" placeholder="CAC Document...">
+                    <ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
+                    <br>
+                    <div class="form-group">
+                      <label for="cac_document">{{ client.cac_document ? 'Upload CAC Document' : 'Change CAC Document' }}</label>
+                      <input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control-file form-control-lg" id="cac_document"
+                             placeholder="CAC Document...">
+                    </div>
                   </div>
                 </div>
 

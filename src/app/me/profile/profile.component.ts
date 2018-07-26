@@ -118,4 +118,22 @@ export class ProfileComponent implements OnInit {
     this.client.avatar = response.data.avatar;
     this.toastr.success('Avatar Uploaded Successfully!');
   }
+
+  updateIdentity() {
+    this.constructFormData();
+    this.profileService.updateIdentity(this.formData, this.client.id)
+      .subscribe(
+        client => {
+          if (client) {
+            this.toastr.success('Profile updated successfully');
+          }
+        },
+        () => {
+        },
+        () => {
+          this.formData = new FormData();
+          this.getProfile();
+        }
+      );
+  }
 }

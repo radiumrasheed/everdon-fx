@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {MeRoutingModule} from './me.routing';
+import {ImageViewerModule} from '@hallysonh/ngx-imageviewer';
 
 import {ChartistModule} from 'ng-chartist';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -27,7 +28,8 @@ import {CloudinaryModule} from '@cloudinary/angular-5.x';
     MomentModule,
     CloudinaryModule,
     SweetAlert2Module,
-    ImageUploadModule
+    ImageUploadModule,
+    ImageViewerModule
   ],
   declarations: [
     DashboardComponent,

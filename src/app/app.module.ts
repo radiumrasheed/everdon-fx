@@ -5,16 +5,22 @@ import {CommonModule, HashLocationStrategy, LocationStrategy} from '@angular/com
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientModule} from '@angular/common/http';
+
 import {CloudinaryModule, CloudinaryConfiguration} from '@cloudinary/angular-5.x';
 import {Cloudinary} from 'cloudinary-core';
+import {ImageViewerModule} from '@hallysonh/ngx-imageviewer';
+import {ToastrModule} from 'ngx-toastr';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
+import {ImageUploadModule} from 'angular2-image-upload';
+import {UiSwitchModule} from 'ngx-ui-switch';
 
 import {FullComponent} from './layouts/full/full.component';
 import {BlankComponent} from './layouts/blank/blank.component';
 import {LoginComponent} from './authentication/login/login.component';
 import {Login2Component} from './authentication/login2/login2.component';
 import {SignupComponent} from './authentication/signup/signup.component';
-
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppRoutes} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -24,15 +30,10 @@ import {HttpErrorHandler} from './services/http-error-handler.service';
 import {MessageService} from './services/message.service';
 import {HttpInterceptorProviders} from './http-interceptors';
 import {AuthGuard} from './guards/auth/auth.guard';
-import {HttpClientModule} from '@angular/common/http';
 import {SharedModule} from './shared/shared.module';
 import {AdminGuard} from './guards/admin.guard';
 import {NotFoundComponent} from './authentication/404/not-found.component';
-import {ToastrModule} from 'ngx-toastr';
-import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
-import {ImageUploadModule} from 'angular2-image-upload';
 import {AppConfig} from './app.config';
-import {UiSwitchModule} from 'ngx-ui-switch';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import {UiSwitchModule} from 'ngx-ui-switch';
     SharedModule,
     HttpClientModule,
     UiSwitchModule,
+    ImageViewerModule,
     NgbModule.forRoot(),
     ImageUploadModule.forRoot(),
     CloudinaryModule.forRoot({Cloudinary}, {cloud_name: AppConfig.CLOUDINARY_CLOUD_NAME} as CloudinaryConfiguration),

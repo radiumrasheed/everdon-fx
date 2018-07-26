@@ -40,4 +40,12 @@ export class ProfileService {
         catchError(this.handleError<Account[]>('Create Account', null))
       );
   }
+
+  updateIdentity(client: FormData, id: number): Observable<Client> {
+    return this.http.post<Client>(`${this.clientUrl}/${id}/identity`, client, {headers: {'Content-Type': 'ignore'}})
+      .pipe(
+        map(response => response['data']['client']),
+        catchError(this.handleError<Client>('Update Identity', null))
+      );
+  }
 }
