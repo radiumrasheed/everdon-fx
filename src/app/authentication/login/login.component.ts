@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import * as $ from 'jquery';
+
 import {AuthService} from '../../services/auth/auth.service';
 import {User} from './user';
 import {Subject} from 'rxjs';
