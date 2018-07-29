@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AppConfig} from '../../app.config';
 import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
-import {Client} from '../meta-data/client';
+import {Client} from '../meta-data';
 import {catchError, map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
