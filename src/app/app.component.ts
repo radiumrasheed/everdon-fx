@@ -7,8 +7,6 @@ import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
-
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
   constructor(private toastrService: ToastrService) {
