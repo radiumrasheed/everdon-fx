@@ -15,25 +15,25 @@ import {UiSwitchModule} from 'ngx-ui-switch';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    MomentModule,
-    NgbModule,
-    SharedModule,
-    Ng2SmartTableModule,
-    UiSwitchModule,
+	imports: [
+		CommonModule,
+		FormsModule,
+		HttpClientModule,
+		MomentModule,
+		NgbModule,
+		SharedModule,
+		Ng2SmartTableModule,
+		UiSwitchModule,
 
-    TransactionRoutingModule
-  ],
-  declarations: [
-    TransactionComponents
-  ],
-  providers: [
-    TransactionService,
-    HttpInterceptorProviders
-  ]
+		TransactionRoutingModule
+	],
+	declarations: [
+		TransactionComponents
+	],
+	providers: [
+		TransactionService,
+		HttpInterceptorProviders
+	]
 })
 export class TransactionModule {
 }

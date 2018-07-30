@@ -1,371 +1,372 @@
 <div class="row">
-  <!-- Column -->
-  <div class="col-lg-4 col-xlg-3 col-md-5">
-    <div class="card">
-      <div class="card-body">
-        <div class="m-t-30 text-center">
-          <swal #avatarSwal [title]="client?.avatar === null ? 'Upload Avatar' : 'Change Avatar'" [showConfirmButton]="false">
-            <image-upload *swalPartial [url]="avatarUrl" [headers]="avatarHeaders" dropBoxMessage="or Drop Here" buttonCaption="Select Image"
-                          (uploadFinished)="onUploadFinished($event)">
+	<!-- Column -->
+	<div class="col-lg-4 col-xlg-3 col-md-5">
+		<div class="card">
+			<div class="card-body">
+				<div class="m-t-30 text-center">
+					<swal #avatarSwal [title]="client?.avatar === null ? 'Upload Avatar' : 'Change Avatar'" [showConfirmButton]="false">
+						<image-upload *swalPartial [url]="avatarUrl" [headers]="avatarHeaders" dropBoxMessage="or Drop Here" buttonCaption="Select Image"
+						              (uploadFinished)="onUploadFinished($event)">
 
-            </image-upload>
-          </swal>
+						</image-upload>
+					</swal>
 
-          <img [src]="client?.avatar || 'assets/images/users/avi.png'" [swal]="avatarSwal" class="img-circle" width="150"/>
-          <p>
-            <a class="small" [swal]="avatarSwal" href="javascript:void(0)">{{ client?.avatar === null ? 'Upload Avatar' : 'Change Avatar' }}</a>
-          </p>
+					<img [src]="client?.avatar || 'assets/images/users/avi.png'" [swal]="avatarSwal" class="img-circle" width="150"/>
+					<p>
+						<a class="small" [swal]="avatarSwal" href="javascript:void(0)">{{ client?.avatar === null ? 'Upload Avatar' : 'Change Avatar' }}</a>
+					</p>
 
-          <hr>
-          <h4 class="card-title m-t-10">{{ client?.first_name}} {{client?.last_name}}</h4>
-          <h6 class="card-subtitle">{{ client?.occupation }}</h6>
-          <div class="row text-center justify-content-md-center">
-            <div class="col-4">
-              <a href="javascript:void(0)" (click)="t.select('accounts')" class="link" title="{{ client?.accounts?.length }} accounts">
-                <i class="icon-wallet"></i>
-                <font class="font-medium">{{ client?.accounts?.length }}</font>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <hr>
-      </div>
-      <div class="card-body">
+					<hr>
+					<h4 class="card-title m-t-10">{{ client?.first_name}} {{client?.last_name}}</h4>
+					<h6 class="card-subtitle">{{ client?.occupation }}</h6>
+					<div class="row text-center justify-content-md-center">
+						<div class="col-4">
+							<a href="javascript:void(0)" (click)="t.select('accounts')" class="link" title="{{ client?.accounts?.length }} accounts">
+								<i class="icon-wallet"></i>
+								<font class="font-medium">{{ client?.accounts?.length }}</font>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div>
+				<hr>
+			</div>
+			<div class="card-body">
 
-        <div *ngIf="client?.email">
-          <small class="text-muted">Email address</small>
-          <h6>{{ client?.email }}</h6>
-        </div>
+				<div *ngIf="client?.email">
+					<small class="text-muted">Email address</small>
+					<h6>{{ client?.email }}</h6>
+				</div>
 
-        <div *ngIf="client?.phone">
-          <small class="text-muted p-t-30 db">Phone</small>
-          <h6>{{ client?.phone }}</h6>
-        </div>
+				<div *ngIf="client?.phone">
+					<small class="text-muted p-t-30 db">Phone</small>
+					<h6>{{ client?.phone }}</h6>
+				</div>
 
-        <div *ngIf="client?.office_address">
-          <small class="text-muted p-t-30 db">Office Address</small>
-          <h6>{{ client?.office_address }}</h6>
-        </div>
+				<div *ngIf="client?.office_address">
+					<small class="text-muted p-t-30 db">Office Address</small>
+					<h6>{{ client?.office_address }}</h6>
+				</div>
 
-        <div *ngIf="client?.rc_number">
-          <small class="text-muted p-t-30 db" *ngIf="client?.client_type == 2">RC Number</small>
-          <h6>{{ client?.rc_number }}</h6>
-        </div>
-        <div *ngIf="client?.bvn">
-          <small class="text-muted p-t-30 db">BVN</small>
-          <h6>{{ client?.bvn }}</h6>
-        </div>
-        <div *ngIf="client?.occupation">
-          <small class="text-muted p-t-30 db">Occupation</small>
-          <h6>{{ client?.occupation }}</h6>
-        </div>
-        <div *ngIf="client?.nok_full_name">
-          <small class="text-muted p-t-30 db">Next of Kin</small>
-          <h6>{{ client?.nok_full_name }}</h6>
-        </div>
-        <div *ngIf="client?.nok_phone">
-          <small class="text-muted p-t-30 db">Phone of Next of Kin</small>
-          <h6>{{ client?.nok_phone }}</h6>
-        </div>
-        <div *ngIf="client?.date_of_birth">
-          <small class="text-muted p-t-30 db">Date of birth</small>
-          <h6>{{ client?.date_of_birth | amCalendar }}</h6>
-        </div>
-        <div *ngIf="client?.residential_address">
-          <small class="text-muted p-t-30 db">Residential Address</small>
-          <h6>{{ client?.residential_address }}</h6>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Column -->
-
-
-  <!-- Column -->
-  <div class="col-lg-8 col-xlg-9 col-md-7">
-    <div class="card">
+				<div *ngIf="client?.rc_number">
+					<small class="text-muted p-t-30 db" *ngIf="client?.client_type == 2">RC Number</small>
+					<h6>{{ client?.rc_number }}</h6>
+				</div>
+				<div *ngIf="client?.bvn">
+					<small class="text-muted p-t-30 db">BVN</small>
+					<h6>{{ client?.bvn }}</h6>
+				</div>
+				<div *ngIf="client?.occupation">
+					<small class="text-muted p-t-30 db">Occupation</small>
+					<h6>{{ client?.occupation }}</h6>
+				</div>
+				<div *ngIf="client?.nok_full_name">
+					<small class="text-muted p-t-30 db">Next of Kin</small>
+					<h6>{{ client?.nok_full_name }}</h6>
+				</div>
+				<div *ngIf="client?.nok_phone">
+					<small class="text-muted p-t-30 db">Phone of Next of Kin</small>
+					<h6>{{ client?.nok_phone }}</h6>
+				</div>
+				<div *ngIf="client?.date_of_birth">
+					<small class="text-muted p-t-30 db">Date of birth</small>
+					<h6>{{ client?.date_of_birth | amCalendar }}</h6>
+				</div>
+				<div *ngIf="client?.residential_address">
+					<small class="text-muted p-t-30 db">Residential Address</small>
+					<h6>{{ client?.residential_address }}</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Column -->
 
 
-      <ngb-tabset #t="ngbTabset">
+	<!-- Column -->
+	<div class="col-lg-8 col-xlg-9 col-md-7">
+		<div class="card">
 
-        <ngb-tab id="profile" title="Personal Details">
-          <ng-template ngbTabContent>
-            <div class="card-body">
 
-              <ngb-alert *ngIf="client?.kyc.status === 0 && client?.kyc.awaiting_review !== 1" [type]="'warning'">
-                <b>NOTE: </b>Please update your profile so transactions can be treated.
-              </ngb-alert>
+			<ngb-tabset #t="ngbTabset">
 
-              <ngb-alert *ngIf="client?.kyc.awaiting_review === 1" [type]="'info'">
-                <b>NOTE: </b>Your profile is awaiting review
-              </ngb-alert>
+				<ngb-tab id="profile" title="Personal Details">
+					<ng-template ngbTabContent>
+						<div class="card-body">
 
-              <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
-                <div class="form-group row">
-                  <label class="col-sm-3 text-right control-label col-form-label">First Name <span class="text-danger">*</span></label>
-                  <div class="col-sm-5">
-                    <input type="text" [(ngModel)]="client.first_name" required placeholder="First Name..." name="first_name" class="form-control form-control-line">
-                  </div>
-                </div>
+							<ngb-alert *ngIf="client?.kyc.status === 0 && client?.kyc.awaiting_review !== 1" [type]="'warning'">
+								<b>NOTE: </b>Please update your profile so transactions can be treated.
+							</ngb-alert>
 
-                <div class="form-group row">
-                  <label class="col-sm-3 text-right control-label col-form-label">Middle Name</label>
-                  <div class="col-sm-5">
-                    <input type="text" [(ngModel)]="client.middle_name" placeholder="Middle Name..." name="middle_name" class="form-control form-control-line">
-                  </div>
-                </div>
+							<ngb-alert *ngIf="client?.kyc.awaiting_review === 1" [type]="'info'">
+								<b>NOTE: </b>Your profile is awaiting review
+							</ngb-alert>
 
-                <div class="form-group row">
-                  <label class="col-sm-3 text-right control-label col-form-label">Last Name <span class="text-danger">*</span></label>
-                  <div class="col-sm-5">
-                    <input type="text" [(ngModel)]="client.last_name" required placeholder="Last Name..." name="last_name" class="form-control form-control-line">
-                  </div>
-                </div>
+							<form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
+								<div class="form-group row">
+									<label class="col-sm-3 text-right control-label col-form-label">First Name <span class="text-danger">*</span></label>
+									<div class="col-sm-5">
+										<input type="text" [(ngModel)]="client.first_name" required placeholder="First Name..." name="first_name" class="form-control form-control-line">
+									</div>
+								</div>
 
-                <div class="form-group row">
-                  <label for="email" class="col-sm-3 text-right control-label col-form-label">Email</label>
-                  <div class="col-sm-5">
-                    <input type="email" [(ngModel)]="client.email" disabled placeholder="Email..." class="form-control form-control-line" name="email" id="email">
-                  </div>
-                </div>
+								<div class="form-group row">
+									<label class="col-sm-3 text-right control-label col-form-label">Middle Name</label>
+									<div class="col-sm-5">
+										<input type="text" [(ngModel)]="client.middle_name" placeholder="Middle Name..." name="middle_name" class="form-control form-control-line">
+									</div>
+								</div>
 
-                <div class="form-group row">
-                  <label for="phone" class="col-sm-3 text-right control-label col-form-label">Phone Number <span class="text-danger">*</span></label>
-                  <div class="col-sm-5">
-                    <input type="tel" pattern="[0]\d{10}" [(ngModel)]="client.phone" placeholder="Phone..."
-                           class="form-control form-control-line" minlength="11" maxlength="11" required
-                           name="phone" id="phone">
-                  </div>
-                </div>
+								<div class="form-group row">
+									<label class="col-sm-3 text-right control-label col-form-label">Last Name <span class="text-danger">*</span></label>
+									<div class="col-sm-5">
+										<input type="text" [(ngModel)]="client.last_name" required placeholder="Last Name..." name="last_name" class="form-control form-control-line">
+									</div>
+								</div>
 
-                <div class="form-group row">
-                  <label class="col-sm-3 text-right control-label col-form-label">Office Address <span class="text-danger">*</span></label>
-                  <div class="col-sm-6">
+								<div class="form-group row">
+									<label for="email" class="col-sm-3 text-right control-label col-form-label">Email</label>
+									<div class="col-sm-5">
+										<input type="email" [(ngModel)]="client.email" disabled placeholder="Email..." class="form-control form-control-line" name="email" id="email">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label for="phone" class="col-sm-3 text-right control-label col-form-label">Phone Number <span class="text-danger">*</span></label>
+									<div class="col-sm-5">
+										<input type="tel" pattern="[0]\d{10}" [(ngModel)]="client.phone" placeholder="Phone..."
+										       class="form-control form-control-line" minlength="11" maxlength="11" required
+										       name="phone" id="phone">
+									</div>
+								</div>
+
+								<div class="form-group row">
+									<label class="col-sm-3 text-right control-label col-form-label">Office Address <span class="text-danger">*</span></label>
+									<div class="col-sm-6">
                     <textarea rows="4" [(ngModel)]="client.office_address" placeholder="Office Address..." name="office_address"
                               required class="form-control form-control-line"></textarea>
-                  </div>
-                </div>
+									</div>
+								</div>
 
-                <div class="form-group row">
-                  <label for="bvn" class="col-sm-3 text-right control-label col-form-label">BVN <span class="text-danger">*</span></label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.bvn" required placeholder="BVN..." name="bvn" id="bvn" class="code form-control form-control-line"
-                           minlength="10" maxlength="10">
-                  </div>
-                </div>
+								<div class="form-group row">
+									<label for="bvn" class="col-sm-3 text-right control-label col-form-label">BVN <span class="text-danger">*</span></label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.bvn" required placeholder="BVN..." name="bvn" id="bvn" class="code form-control form-control-line"
+										       minlength="10" maxlength="10">
+									</div>
+								</div>
 
-                <div class="form-group row" *ngIf="!is_individual">
-                  <label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number <span class="text-danger">*</span></label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.rc_number" pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number"
-                           required class="form-control" id="rc_number" placeholder="RC Number..."></div>
-                </div>
+								<div class="form-group row" *ngIf="!is_individual">
+									<label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number <span class="text-danger">*</span></label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.rc_number" pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number"
+										       required class="form-control" id="rc_number" placeholder="RC Number..."></div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
-                  <div class="col-sm-5">
-                    <select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status">
-                      <option disabled selected> - Select Marital Status -</option>
-                      <option value="single">Single</option>
-                      <option value="married">Married</option>
-                    </select>
-                  </div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
+									<div class="col-sm-5">
+										<select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status">
+											<option disabled selected> - Select Marital Status -</option>
+											<option value="single">Single</option>
+											<option value="married">Married</option>
+										</select>
+									</div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential Address</label>
-                  <div class="col-sm-6">
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="residential_address" class="col-sm-3 text-right control-label col-form-label">Residential Address</label>
+									<div class="col-sm-6">
                     <textarea rows="4" [(ngModel)]="client.residential_address" placeholder="Residential Address..."
                               name="residential_address" id="residential_address" class="form-control form-control-line"></textarea>
-                  </div>
-                </div>
+									</div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control"
-                           id="date_of_birth" placeholder="Date of birth..."></div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control"
+										       id="date_of_birth" placeholder="Date of birth..."></div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name"
-                           placeholder="Next of Kin..."></div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name"
+										       placeholder="Next of Kin..."></div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone"
-                           placeholder="Next of Kin's Phone Number..."></div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone"
+										       placeholder="Next of Kin's Phone Number..."></div>
+								</div>
 
-                <div class="form-group">
-                  <div class="col-sm-11">
-                    <button class="btn btn-success" [disabled]="!profileForm.form.valid" type="submit">Update Profile</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </ng-template>
-        </ngb-tab>
+								<div class="form-group">
+									<div class="col-sm-11">
+										<button class="btn btn-success" [disabled]="!profileForm.form.valid" type="submit">Update Profile</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</ng-template>
+				</ngb-tab>
 
-        <ngb-tab id="identity" title="My Identity">
-          <ng-template ngbTabContent>
-            <div class="card-body">
-              <form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateIdentity()">
+				<ngb-tab id="identity" title="My Identity">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateIdentity()">
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="identification" class="col-sm-3 text-right control-label col-form-label">Identification</label>
-                  <div class="col-sm-5">
-                    <select class="form-control" required [(ngModel)]="client.identification" name="identification" id="identification">
-                      <option value="drivers license">Driver's License</option>
-                      <option value="international passport">International Passport</option>
-                      <option value="national id card">National ID Card</option>
-                    </select>
-                  </div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="identification" class="col-sm-3 text-right control-label col-form-label">Identification</label>
+									<div class="col-sm-5">
+										<select class="form-control" required [(ngModel)]="client.identification" name="identification" id="identification">
+											<option value="drivers license">Driver's License</option>
+											<option value="international passport">International Passport</option>
+											<option value="national id card">National ID Card</option>
+										</select>
+									</div>
+								</div>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="identification_number" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
-                  <div class="col-sm-5">
-                    <input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number" placeholder="Identification Number...">
-                  </div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="identification_number" class="col-sm-3 text-right control-label col-form-label">Identification Number</label>
+									<div class="col-sm-5">
+										<input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number"
+										       placeholder="Identification Number...">
+									</div>
+								</div>
 
-                <hr>
+								<hr>
 
-                <div class="form-group row" *ngIf="is_individual">
-                  <label for="identification_document" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
-                  <div class="col-sm-5">
-                    <p *ngIf="client.identification_document">You have 1 document uploaded already</p>
-                    <ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
-                    <br>
-                    <div class="form-group">
-                      <label for="identification_document">{{ client.identification_document ? 'Upload Document' : 'Change Document' }}</label>
-                      <input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document"
-                             class="form-control-file form-control-lg" id="identification_document" placeholder="Means of Identification...">
-                    </div>
-                  </div>
-                </div>
+								<div class="form-group row" *ngIf="is_individual">
+									<label for="identification_document" class="col-sm-3 text-right control-label col-form-label">Upload Means of Identification</label>
+									<div class="col-sm-5">
+										<p *ngIf="client.identification_document">You have 1 document uploaded already</p>
+										<ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
+										<br>
+										<div class="form-group">
+											<label for="identification_document">{{ client.identification_document ? 'Upload Document' : 'Change Document' }}</label>
+											<input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document"
+											       class="form-control-file form-control-lg" id="identification_document" placeholder="Means of Identification...">
+										</div>
+									</div>
+								</div>
 
-                <div class="form-group row" *ngIf="!is_individual">
-                  <label for="cac_document" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
-                  <div class="col-sm-5">
-                    <p *ngIf="client.cac_document">You have 1 document uploaded already</p>
-                    <ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
-                    <br>
-                    <div class="form-group">
-                      <label for="cac_document">{{ client.cac_document ? 'Upload CAC Document' : 'Change CAC Document' }}</label>
-                      <input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control-file form-control-lg" id="cac_document"
-                             placeholder="CAC Document...">
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="form-group">
-                  <div class="col-sm-11">
-                    <button class="btn btn-success" type="submit">Update Identity Profile</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </ng-template>
-        </ngb-tab>
-
-        <ngb-tab id="accounts" title="My Accounts">
-          <ng-template ngbTabContent>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-lg-4 col-md-6" *ngFor="let account of client.accounts">
-                  <div class="card">
-                    <div class="d-flex flex-row">
-                      <div class="p-10 bg-info">
-                        <h3 class="text-white box m-b-0">
-                          <i class="ti-wallet"></i>
-                        </h3>
-                      </div>
-                      <div class="align-self-center m-l-20">
-                        <h4 class="m-b-0 text-info">{{ account.name}} </h4>
-                        <i class="mdi mdi-credit-card"></i>
-                        <code>{{ account.number }}</code>
-                        <h6 class="text-muted m-b-0">{{ account.bank }}</h6></div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-12 text-center">
-                  <p class="text-center text-warning" *ngIf="client?.accounts?.length === 0">You don't have any accounts yet.</p>
+								<div class="form-group row" *ngIf="!is_individual">
+									<label for="cac_document" class="col-sm-3 text-right control-label col-form-label">Upload CAC Document</label>
+									<div class="col-sm-5">
+										<p *ngIf="client.cac_document">You have 1 document uploaded already</p>
+										<ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
+										<br>
+										<div class="form-group">
+											<label for="cac_document">{{ client.cac_document ? 'Upload CAC Document' : 'Change CAC Document' }}</label>
+											<input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control-file form-control-lg" id="cac_document"
+											       placeholder="CAC Document...">
+										</div>
+									</div>
+								</div>
 
 
-                  <swal #newAccountSwal title="Create Account" [showConfirmButton]="false">
+								<div class="form-group">
+									<div class="col-sm-11">
+										<button class="btn btn-success" type="submit">Update Identity Profile</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</ng-template>
+				</ngb-tab>
 
-                    <form *swalPartial class="form col-md-10 offset-md-1" #createAccountForm="ngForm" (submit)="createAccount()">
+				<ngb-tab id="accounts" title="My Accounts">
+					<ng-template ngbTabContent>
+						<div class="card-body">
+							<div class="row">
+								<div class="col-lg-4 col-md-6" *ngFor="let account of client.accounts">
+									<div class="card">
+										<div class="d-flex flex-row">
+											<div class="p-10 bg-info">
+												<h3 class="text-white box m-b-0">
+													<i class="ti-wallet"></i>
+												</h3>
+											</div>
+											<div class="align-self-center m-l-20">
+												<h4 class="m-b-0 text-info">{{ account.name}} </h4>
+												<i class="mdi mdi-credit-card"></i>
+												<code>{{ account.number }}</code>
+												<h6 class="text-muted m-b-0">{{ account.bank }}</h6></div>
+										</div>
+									</div>
+								</div>
 
-                      <div class="form-group">
-                        <label for="bank" class="col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
-                        <div class="input-group">
-                          <select class="form-control" [required]="newAccount" [(ngModel)]="newAccount.bank" name="bank" id="bank">
-                            <option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="name" class="col-form-label">Account Name <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <input type="text" class="form-control" required
-                                 [(ngModel)]="newAccount.name" name="name" id="name"
-                                 placeholder="Account Name">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label for="number" class="col-form-label">Account Number <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <input type="text" class="form-control" required minlength="10" maxlength="10" [(ngModel)]="newAccount.number"
-                                 name="number" id="number" pattern="\d{10}" placeholder="Account Number">
-                        </div>
-                      </div>
-
-                      <hr>
-
-                      <button type="submit" class="btn btn-success" [title]="!createAccountForm.form.valid ? 'Form is not valid' : 'Create Account'"
-                              [disabled]="!createAccountForm.form.valid">
-                        {{ submitting ? 'Creating Account... ' : 'Create Account ' }}
-                        <i class="mdi mdi-wallet"></i>
-                      </button>
-
-                    </form>
-
-                    <!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
-                    <!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
-
-                  </swal>
-                  <button [swal]="newAccountSwal" type="button" rel="tooltip" title="Create Account" class="btn btn-outline-primary">
-                    Create a New Account
-                    <i class="mdi mdi-wallet"></i>
-                  </button>
-
-                </div>
-              </div>
-            </div>
-          </ng-template>
-        </ngb-tab>
+								<div class="col-12 text-center">
+									<p class="text-center text-warning" *ngIf="client?.accounts?.length === 0">You don't have any accounts yet.</p>
 
 
-      </ngb-tabset>
-    </div>
-  </div>
-  <!-- Column -->
+									<swal #newAccountSwal title="Create Account" [showConfirmButton]="false">
+
+										<form *swalPartial class="form col-md-10 offset-md-1" #createAccountForm="ngForm" (submit)="createAccount()">
+
+											<div class="form-group">
+												<label for="bank" class="col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
+												<div class="input-group">
+													<select class="form-control" [required]="newAccount" [(ngModel)]="newAccount.bank" name="bank" id="bank">
+														<option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
+													</select>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="name" class="col-form-label">Account Name <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required
+													       [(ngModel)]="newAccount.name" name="name" id="name"
+													       placeholder="Account Name">
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="number" class="col-form-label">Account Number <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required minlength="10" maxlength="10" [(ngModel)]="newAccount.number"
+													       name="number" id="number" pattern="\d{10}" placeholder="Account Number">
+												</div>
+											</div>
+
+											<hr>
+
+											<button type="submit" class="btn btn-success" [title]="!createAccountForm.form.valid ? 'Form is not valid' : 'Create Account'"
+											        [disabled]="!createAccountForm.form.valid">
+												{{ submitting ? 'Creating Account... ' : 'Create Account ' }}
+												<i class="mdi mdi-wallet"></i>
+											</button>
+
+										</form>
+
+										<!-- This targets the confirm button's inner content - Notice the usage of ng-container to avoid creating an useless DOM element inside the button -->
+										<!--<ng-container *swalPartial="swalTargets.cancelButton"></ng-container>-->
+
+									</swal>
+									<button [swal]="newAccountSwal" type="button" rel="tooltip" title="Create Account" class="btn btn-outline-primary">
+										Create a New Account
+										<i class="mdi mdi-wallet"></i>
+									</button>
+
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</ngb-tab>
+
+
+			</ngb-tabset>
+		</div>
+	</div>
+	<!-- Column -->
 </div>

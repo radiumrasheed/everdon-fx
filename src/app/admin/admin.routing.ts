@@ -8,65 +8,65 @@ import {NgModule} from '@angular/core';
 import {MeRoutes} from '../me/me.routing';
 
 export const AdminRoutes: Routes = [
-  {
-    path: '',
-    component: AdminComponent,
-    children: [
-      {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path: 'transactions', redirectTo: 'transaction', pathMatch: 'full'},
-      {
-        path: 'dashboard',
-        component: AdminDashboardComponent,
-        data: {
-          title: 'Dashboard',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'Dashboard'}]
-        }
-      },
-      {
-        path: 'customers',
-        component: ClientsComponent,
-        data: {
-          title: 'View Customers',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customers'}]
-        }
-      },
-      {
-        path: 'create_customer',
-        component: CreateClientComponent,
-        data: {
-          title: 'Create Customer',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'Create Customer'}]
-        }
-      },
-      {
-        path: 'customer/:id',
-        component: ViewClientComponent,
-        data: {
-          title: 'View Customer',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customer'}]
-        }
-      },
-      {
-        path: 'transaction',
-        loadChildren: '../transaction/transaction.module#TransactionModule',
-        data: {
-          title: 'Transactions',
-          urls: [{title: 'Admin', url: '/admin'}, {title: 'Transactions'}]
-        }
-      }
-    ]
-  }
+	{
+		path: '',
+		component: AdminComponent,
+		children: [
+			{path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+			{path: 'transactions', redirectTo: 'transaction', pathMatch: 'full'},
+			{
+				path: 'dashboard',
+				component: AdminDashboardComponent,
+				data: {
+					title: 'Dashboard',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'Dashboard'}]
+				}
+			},
+			{
+				path: 'customers',
+				component: ClientsComponent,
+				data: {
+					title: 'View Customers',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customers'}]
+				}
+			},
+			{
+				path: 'create_customer',
+				component: CreateClientComponent,
+				data: {
+					title: 'Create Customer',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'Create Customer'}]
+				}
+			},
+			{
+				path: 'customer/:id',
+				component: ViewClientComponent,
+				data: {
+					title: 'View Customer',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customer'}]
+				}
+			},
+			{
+				path: 'transaction',
+				loadChildren: '../transaction/transaction.module#TransactionModule',
+				data: {
+					title: 'Transactions',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'Transactions'}]
+				}
+			}
+		]
+	}
 ];
 
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(AdminRoutes)
-  ],
-  exports: [
-    RouterModule
-  ],
-  providers: []
+	imports: [
+		RouterModule.forChild(AdminRoutes)
+	],
+	exports: [
+		RouterModule
+	],
+	providers: []
 })
 export class AdminRoutingModule {
 }

@@ -5,15 +5,15 @@ import {ToastrService} from 'ngx-toastr';
 let toastrServiceStub: Partial<ToastrService>;
 
 describe('HttpErrorHandler', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [HttpErrorHandler, {provide: ToastrService, useValue: toastrServiceStub}],
-    });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			providers: [HttpErrorHandler, {provide: ToastrService, useValue: toastrServiceStub}],
+		});
 
-    toastrServiceStub = {};
-  });
+		toastrServiceStub = {};
+	});
 
-  it('should be created', inject([HttpErrorHandler], (service: HttpErrorHandler) => {
-    expect(service).toBeTruthy();
-  }));
+	it('should be created', inject([HttpErrorHandler], (service: HttpErrorHandler) => {
+		expect(service).toBeTruthy();
+	}));
 });

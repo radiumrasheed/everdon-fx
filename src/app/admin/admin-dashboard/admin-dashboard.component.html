@@ -1,262 +1,262 @@
 <!-- Quick Start -->
 <div class="row">
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><span class="lstick"></span>Request Transaction</h2>
-      </div>
-      <div class="card-body">
-        <div class="text-center">
-          <h3 class="card-title">Quickly Request an exchange</h3>
-          <form class="form-material">
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h2 class="card-title"><span class="lstick"></span>Request Transaction</h2>
+			</div>
+			<div class="card-body">
+				<div class="text-center">
+					<h3 class="card-title">Quickly Request an exchange</h3>
+					<form class="form-material">
 
-            <swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
+						<swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
 
-              <app-request-transaction-form [transaction]="transaction" *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"
-                                            [profileLink]="['admin', 'customer', transaction.client_id]"
-                                            (customerCreatedSuccessfully)="onSubmittedSuccessfully($event, 'customer-created')">
+							<app-request-transaction-form [transaction]="transaction" *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"
+							                              [profileLink]="['admin', 'customer', transaction.client_id]"
+							                              (customerCreatedSuccessfully)="onSubmittedSuccessfully($event, 'customer-created')">
 
-              </app-request-transaction-form>
+							</app-request-transaction-form>
 
-            </swal>
-            <button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
-              Make Request
-              <i class="mdi mdi-cookie"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+						</swal>
+						<button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
+							Make Request
+							<i class="mdi mdi-cookie"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h2 class="card-title"><span class="lstick"></span>Create Customer</h2>
-      </div>
-      <div class="card-body">
-        <div class="text-center">
-          <h3 class="card-title">Quickly Create a Customer</h3>
-          <form class="form-material">
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h2 class="card-title"><span class="lstick"></span>Create Customer</h2>
+			</div>
+			<div class="card-body">
+				<div class="text-center">
+					<h3 class="card-title">Quickly Create a Customer</h3>
+					<form class="form-material">
 
-            <swal #createSwal title="Create a Customer" [showConfirmButton]="false">
+						<swal #createSwal title="Create a Customer" [showConfirmButton]="false">
 
-              <app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'create')"></app-create-client-form>
+							<app-create-client-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'create')"></app-create-client-form>
 
-            </swal>
-            <button [swal]="createSwal" type="button" rel="tooltip" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
-              Create Customer
-              <i class="mdi mdi-account"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+						</swal>
+						<button [swal]="createSwal" type="button" rel="tooltip" class="btn btn-outline-primary" [disabled]="role !== 'fx-ops'">
+							Create Customer
+							<i class="mdi mdi-account"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Buckets -->
 <div class="row">
-  <!-- Column -->
-  <div class="col-lg-3 col-md-6" *ngFor="let bucket of buckets">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">
-          {{ bucket.description }}
-          <span class="text-muted">
+	<!-- Column -->
+	<div class="col-lg-3 col-md-6" *ngFor="let bucket of buckets">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">
+					{{ bucket.description }}
+					<span class="text-muted">
             <i class="ti-arrow-up text-success" *ngIf="bucket.direction === 'up'"></i>
             <i class="ti-arrows-horizontal text-info" *ngIf="bucket.direction === 'middle'"></i>
             <i class="ti-arrow-down text-danger" *ngIf="bucket.direction === 'down'"></i>
           </span>
-        </h4>
-        <div class="text-right">
-          <h1 class="font-weight-bold">
-            <sup>Total</sup>
-            {{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
-          </h1>
-          <h2 class="font-light">
-            <sup>Cash</sup>
-            {{ bucket.id | currency:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
-          </h2>
-          <h2 class="font-light">
-            <sup>Transfer</sup>
-            {{ bucket.id | currency:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
-          </h2>
-        </div>
-        <p>
-          <!--<ngb-progressbar type="{{bucket.type}}" [value]="bucket.percentage + 25" [striped]="true" [animated]="true">
-            <i>{{ bucket.percentage | number:'1.1-1' }}%</i>
-          </ngb-progressbar>-->
-        </p>
-        <p>
-          <ngb-progressbar type="{{bucket.ratio_type}}" [value]="bucket.ratio" [striped]="true" [animated]="true">
-            <i>CASH - {{ bucket.ratio | number:'1.1-1' }}%</i>
-          </ngb-progressbar>
-        </p>
-      </div>
-    </div>
-  </div>
+				</h4>
+				<div class="text-right">
+					<h1 class="font-weight-bold">
+						<sup>Total</sup>
+						{{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
+					</h1>
+					<h2 class="font-light">
+						<sup>Cash</sup>
+						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
+					</h2>
+					<h2 class="font-light">
+						<sup>Transfer</sup>
+						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
+					</h2>
+				</div>
+				<p>
+					<!--<ngb-progressbar type="{{bucket.type}}" [value]="bucket.percentage + 25" [striped]="true" [animated]="true">
+						<i>{{ bucket.percentage | number:'1.1-1' }}%</i>
+					</ngb-progressbar>-->
+				</p>
+				<p>
+					<ngb-progressbar type="{{bucket.ratio_type}}" [value]="bucket.ratio" [striped]="true" [animated]="true">
+						<i>CASH - {{ bucket.ratio | number:'1.1-1' }}%</i>
+					</ngb-progressbar>
+				</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Charts and Stats -->
 <div class="row">
-  <!-- line chart component -->
-  <div class="col-lg-9 col-md-6">
-    <div class="card">
+	<!-- line chart component -->
+	<div class="col-lg-9 col-md-6">
+		<div class="card">
 
-      <div class="card-header">
-        <h4 class="card-title"><span class="lstick"></span>WACC Timeline</h4>
-      </div>
+			<div class="card-header">
+				<h4 class="card-title"><span class="lstick"></span>WACC Timeline</h4>
+			</div>
 
-      <div class="card-body">
-        <div style="height:460px;" *ngIf="lineChartData">
-          <canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
-                  [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
+			<div class="card-body">
+				<div style="height:460px;" *ngIf="lineChartData">
+					<canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
+					        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <!-- pie chart component -->
-  <div class="col-lg-3 col-md-6">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><span class="lstick"></span>Transaction Status</h4>
-      </div>
+	<!-- pie chart component -->
+	<div class="col-lg-3 col-md-6">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title"><span class="lstick"></span>Transaction Status</h4>
+			</div>
 
-      <div class="card-body">
-        <div style="height: 220px">
-          <canvas baseChart height="100px" [data]="doughnutChartData" [labels]="doughnutChartLabels"
-                  [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType"
-                  [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 141, 241)', '#02379f', 'rgb(16, 40, 242)']}]">
-          </canvas>
-        </div>
+			<div class="card-body">
+				<div style="height: 220px">
+					<canvas baseChart height="100px" [data]="doughnutChartData" [labels]="doughnutChartLabels"
+					        [options]="doughnutChartOptions" [legend]="doughnutChartLegend" [chartType]="doughnutChartType"
+					        [colors]="[{backgroundColor: ['rgb(116, 90, 242)', 'rgb(30, 136, 229)', '#06d79c', 'rgb(236, 141, 241)', '#02379f', 'rgb(16, 40, 242)']}]">
+					</canvas>
+				</div>
 
-        <table class="table vm font-14 m-b-0">
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td class="b-0">Open</td>
-            </a>
-            <td class="text-right font-medium b-0">{{(counts?.open / totalTransactions) * 100 | number:'1.1-1' }}%</td>
-          </tr>
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td>In Progress</td>
-            </a>
-            <td class="text-right font-medium">{{(counts?.in_progress / totalTransactions) * 100 | number:'1.1-1' }}%
-            </td>
-          </tr>
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td>Awaiting Approval</td>
-            </a>
-            <td class="text-right font-medium">{{(counts?.pending_approval / totalTransactions) * 100 | number:'1.1-1'
-              }}%
-            </td>
-          </tr>
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td>Awaiting Fulfilment</td>
-            </a>
-            <td class="text-right font-medium">{{(counts?.pending_fulfilment / totalTransactions) * 100 | number:'1.1-1'
-              }}%
-            </td>
-          </tr>
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td>Cancelled</td>
-            </a>
-            <td class="text-right font-medium">{{(counts?.cancelled / totalTransactions) * 100 | number:'1.1-1' }}%</td>
-          </tr>
-          <tr>
-            <a [routerLink]="'../transaction/list'">
-              <td>Closed</td>
-            </a>
-            <td class="text-right font-medium">{{(counts?.closed / totalTransactions) * 100 | number:'1.1-1' }}%</td>
-          </tr>
-        </table>
-      </div>
-    </div>
-  </div>
+				<table class="table vm font-14 m-b-0">
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td class="b-0">Open</td>
+						</a>
+						<td class="text-right font-medium b-0">{{(counts?.open / totalTransactions) * 100 | number:'1.1-1' }}%</td>
+					</tr>
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td>In Progress</td>
+						</a>
+						<td class="text-right font-medium">{{(counts?.in_progress / totalTransactions) * 100 | number:'1.1-1' }}%
+						</td>
+					</tr>
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td>Awaiting Approval</td>
+						</a>
+						<td class="text-right font-medium">{{(counts?.pending_approval / totalTransactions) * 100 | number:'1.1-1'
+							}}%
+						</td>
+					</tr>
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td>Awaiting Fulfilment</td>
+						</a>
+						<td class="text-right font-medium">{{(counts?.pending_fulfilment / totalTransactions) * 100 | number:'1.1-1'
+							}}%
+						</td>
+					</tr>
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td>Cancelled</td>
+						</a>
+						<td class="text-right font-medium">{{(counts?.cancelled / totalTransactions) * 100 | number:'1.1-1' }}%</td>
+					</tr>
+					<tr>
+						<a [routerLink]="'../transaction/list'">
+							<td>Closed</td>
+						</a>
+						<td class="text-right font-medium">{{(counts?.closed / totalTransactions) * 100 | number:'1.1-1' }}%</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Recent Transactions & Comments -->
 <div class="row">
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><span class="lstick"></span>Recent Transactions</h4>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" *ngIf="transactions?.length > 0">
-          <table class="table table-hover earning-box">
-            <thead>
-            <tr>
-              <th class="text-active text-capitalize">Reference</th>
-              <th class="text-active text-capitalize">Requester</th>
-              <th class="text-active text-capitalize">Status</th>
-              <th class="text-active text-capitalize">Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let transaction of transactions" class="active">
-              <td>
-                <a [routerLink]="['..', 'transaction', 'details', transaction?.id]">
-                  {{ '#' + transaction?.transaction_ref }}
-                </a>
-              </td>
-              <td>
-                <h6>{{ transaction?.client?.first_name + ' ' + transaction?.client?.last_name }}</h6>
-                <small class="text-muted">{{transaction?.client?.occupation}}</small>
-              </td>
-              <td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>
-              </td>
-              <td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
-            </tr>
-            </tbody>
-          </table>
-          <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">View All</a>
-        </div>
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title"><span class="lstick"></span>Recent Transactions</h4>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive" *ngIf="transactions?.length > 0">
+					<table class="table table-hover earning-box">
+						<thead>
+						<tr>
+							<th class="text-active text-capitalize">Reference</th>
+							<th class="text-active text-capitalize">Requester</th>
+							<th class="text-active text-capitalize">Status</th>
+							<th class="text-active text-capitalize">Amount</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let transaction of transactions" class="active">
+							<td>
+								<a [routerLink]="['..', 'transaction', 'details', transaction?.id]">
+									{{ '#' + transaction?.transaction_ref }}
+								</a>
+							</td>
+							<td>
+								<h6>{{ transaction?.client?.first_name + ' ' + transaction?.client?.last_name }}</h6>
+								<small class="text-muted">{{transaction?.client?.occupation}}</small>
+							</td>
+							<td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>
+							</td>
+							<td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+						</tr>
+						</tbody>
+					</table>
+					<a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">View All</a>
+				</div>
 
-        <div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
-          <p class="text-center text-warning">There are no recent transactions yet.</p>
-          <a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Request Transaction</a>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
+					<p class="text-center text-warning">There are no recent transactions yet.</p>
+					<a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Request Transaction</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
-      </div>
-      <div class="card-body">
-        <!-- Comment widgets -->
-        <div class="comment-widgets">
-          <!-- Comment Row -->
-          <div class="d-flex flex-row comment-row" *ngFor="let event of events">
-            <div class="p-2"><span class="round"><img src="{{ event.image || 'assets/images/users/avi.png' }}" alt="user" width="50"></span></div>
-            <div class="comment-text w-100">
-              <h5>{{event?.done_by.name}} - {{ event.action }}</h5>
-              <p class="m-b-5">{{ event.comment }}</p>
-              <div class="comment-footer">
-                <span class="text-muted pull-right">{{ event.done_at | amTimeAgo }}</span>
-                <span class="label" [ngClass]="event?.transaction_status_id | status:'class'">{{event.transaction_status_id | status}}</span>
-                <span class="action-icons">
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
+			</div>
+			<div class="card-body">
+				<!-- Comment widgets -->
+				<div class="comment-widgets">
+					<!-- Comment Row -->
+					<div class="d-flex flex-row comment-row" *ngFor="let event of events">
+						<div class="p-2"><span class="round"><img src="{{ event.image || 'assets/images/users/avi.png' }}" alt="user" width="50"></span></div>
+						<div class="comment-text w-100">
+							<h5>{{event?.done_by.name}} - {{ event.action }}</h5>
+							<p class="m-b-5">{{ event.comment }}</p>
+							<div class="comment-footer">
+								<span class="text-muted pull-right">{{ event.done_at | amTimeAgo }}</span>
+								<span class="label" [ngClass]="event?.transaction_status_id | status:'class'">{{event.transaction_status_id | status}}</span>
+								<span class="action-icons">
                   <a href="javascript:void(0)" [routerLink]="['..', 'transaction', 'details', event.transaction_id]"><i
-                    class="ti-pencil-alt"></i></a>
+	                  class="ti-pencil-alt"></i></a>
               </span>
-              </div>
-            </div>
-          </div>
-        </div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="col-12 text-center comment-widgets" *ngIf="events?.length === 0 || !events">
-          <p class="text-center text-warning">There are no recent events yet.</p>
-          <a [routerLink]="['..', 'transaction', 'list']" class="btn btn-outline-primary">Go to Transactions</a>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="col-12 text-center comment-widgets" *ngIf="events?.length === 0 || !events">
+					<p class="text-center text-warning">There are no recent events yet.</p>
+					<a [routerLink]="['..', 'transaction', 'list']" class="btn btn-outline-primary">Go to Transactions</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

@@ -11,15 +11,15 @@ import {AuthenticationRoutes} from './authentication.routing';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AuthenticationRoutes),
-    NgbModule
-  ],
-  declarations: [
-    LockComponent,
-    Signup2Component
-  ]
+	imports: [
+		CommonModule,
+		RouterModule.forChild(AuthenticationRoutes),
+		NgbModule
+	],
+	declarations: [
+		LockComponent,
+		Signup2Component
+	]
 })
 
 export class AuthenticationModule {

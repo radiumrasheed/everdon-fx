@@ -20,54 +20,54 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 import {LoaderComponent} from './loader/loader.component';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-  suppressScrollX: true,
-  wheelSpeed: 2,
-  wheelPropagation: true,
+	suppressScrollX: true,
+	wheelSpeed: 2,
+	wheelPropagation: true,
 };
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    NgbModule,
-    PerfectScrollbarModule,
-    SweetAlert2Module,
-  ],
-  declarations: [
-    BreadcrumbComponent,
-    NavigationComponent,
-    SidebarComponent,
-    SpinnerComponent,
-    ExpressTransactionComponent,
-    RequestTransactionFormComponent,
-    CreateClientFormComponent,
-    StatusPipe,
-    TypePipe,
-    ModePipe,
-    ProductPipe,
-    LoaderComponent,
-  ],
-  exports: [
-    BreadcrumbComponent,
-    NavigationComponent,
-    SidebarComponent,
-    SpinnerComponent,
-    ExpressTransactionComponent,
-    RequestTransactionFormComponent,
-    CreateClientFormComponent,
-    StatusPipe,
-    TypePipe,
-    ModePipe,
-    ProductPipe
-  ],
-  providers: [
-    {
-      provide: PERFECT_SCROLLBAR_CONFIG,
-      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
-  ]
+	imports: [
+		CommonModule,
+		RouterModule,
+		FormsModule,
+		NgbModule,
+		PerfectScrollbarModule,
+		SweetAlert2Module,
+	],
+	declarations: [
+		BreadcrumbComponent,
+		NavigationComponent,
+		SidebarComponent,
+		SpinnerComponent,
+		ExpressTransactionComponent,
+		RequestTransactionFormComponent,
+		CreateClientFormComponent,
+		StatusPipe,
+		TypePipe,
+		ModePipe,
+		ProductPipe,
+		LoaderComponent,
+	],
+	exports: [
+		BreadcrumbComponent,
+		NavigationComponent,
+		SidebarComponent,
+		SpinnerComponent,
+		ExpressTransactionComponent,
+		RequestTransactionFormComponent,
+		CreateClientFormComponent,
+		StatusPipe,
+		TypePipe,
+		ModePipe,
+		ProductPipe
+	],
+	providers: [
+		{
+			provide: PERFECT_SCROLLBAR_CONFIG,
+			useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+		}
+	]
 })
 export class SharedModule {
 }

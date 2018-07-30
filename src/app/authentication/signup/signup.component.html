@@ -5,127 +5,129 @@
 <app-navigation></app-navigation>
 
 <div class="login-register">
-  <div class="login-box card">
-    <div class="card-body">
-      <form class="form-horizontal form-material" #signUpForm="ngForm" (ngSubmit)="signUp()">
-        <h3 class="box-title m-b-20">Sign Up</h3>
-        <h6 class="box-title m-b-20">Note that all fields marked <span class="text-danger"> *</span> are mandatory!</h6>
+	<div class="login-box card">
+		<div class="card-body">
+			<form class="form-horizontal form-material" #signUpForm="ngForm" (ngSubmit)="signUp()">
+				<h3 class="box-title m-b-20">Sign Up</h3>
+				<h6 class="box-title m-b-20">Note that all fields marked <span class="text-danger"> *</span> are mandatory!</h6>
 
-        <div class="form-group">
-          <div class="col-xs-12">
-            <label>First Name<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.first_name" required type="text" minlength="4" placeholder="First Name" name="first_name" #first_name="ngModel">
-            <div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="small alert alert-danger">
-              <div *ngIf="first_name.errors.required">
-                First Name is required.
-              </div>
-              <div *ngIf="first_name.errors.minlength">
-                First Name must be at least 4 characters long.
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<label>First Name<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.first_name" required type="text" minlength="4" placeholder="First Name" name="first_name" #first_name="ngModel">
+						<div *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="small alert alert-danger">
+							<div *ngIf="first_name.errors.required">
+								First Name is required.
+							</div>
+							<div *ngIf="first_name.errors.minlength">
+								First Name must be at least 4 characters long.
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="form-group">
-          <div class="col-xs-12">
-            <label>Last Name<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.last_name" required minlength="4" type="text" placeholder="Last Name" name="last_name" #last_name="ngModel">
-            <div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="small alert alert-danger">
-              <div *ngIf="last_name.errors.required">
-                Last Name is required.
-              </div>
-              <div *ngIf="last_name.errors.minlength">
-                Last Name must be at least 4 characters long.
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<label>Last Name<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.last_name" required minlength="4" type="text" placeholder="Last Name" name="last_name" #last_name="ngModel">
+						<div *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="small alert alert-danger">
+							<div *ngIf="last_name.errors.required">
+								Last Name is required.
+							</div>
+							<div *ngIf="last_name.errors.minlength">
+								Last Name must be at least 4 characters long.
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="form-group ">
-          <div class="col-xs-12">
-            <label>Email<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.email" required type="email" placeholder="Email Address" name="email" #email="ngModel" email>
-            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="small alert alert-danger">
-              <div *ngIf="email.errors.required">
-                Email is required.
-              </div>
-              <div *ngIf="email.errors.email">
-                Email must be a valid email address.
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="form-group ">
+					<div class="col-xs-12">
+						<label>Email<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.email" required type="email" placeholder="Email Address" name="email" #email="ngModel" email>
+						<div *ngIf="email.invalid && (email.dirty || email.touched)" class="small alert alert-danger">
+							<div *ngIf="email.errors.required">
+								Email is required.
+							</div>
+							<div *ngIf="email.errors.email">
+								Email must be a valid email address.
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="form-group ">
-          <div class="col-xs-12">
-            <label>Phone Number<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.phone" required type="tel" pattern="[0]\d{10}" placeholder="08012345678" name="phone" #phone="ngModel">
-            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="small alert alert-danger">
-              <div *ngIf="phone.errors.required">
-                Phone Number is required.
-              </div>
-              <div *ngIf="phone.errors.pattern">
-                Phone Number must be like 08012345678
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="form-group ">
+					<div class="col-xs-12">
+						<label>Phone Number<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.phone" required type="tel" pattern="[0]\d{10}" placeholder="08012345678" name="phone" #phone="ngModel">
+						<div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="small alert alert-danger">
+							<div *ngIf="phone.errors.required">
+								Phone Number is required.
+							</div>
+							<div *ngIf="phone.errors.pattern">
+								Phone Number must be like 08012345678
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="form-group">
-          <div class="col-xs-12">
-            <div class="checkbox checkbox-success p-t-0">
-              <input id="cooperate" [(ngModel)]="user.is_cooperate" name="cooperate" type="checkbox" class="filled-in chk-col-light-blue">
-              <label for="cooperate"> Cooperate Account
-              </label>
-            </div>
-          </div>
-        </div>
-
-
-        <div class="form-group" *ngIf="user.is_cooperate">
-          <div class="col-xs-12">
-            <label>RC Number<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.rc_number" [required]="user.is_cooperate" type="text" pattern="[A-Z]{2}[0-9]{6}" placeholder="e.g. RC123456*"
-                   name="rc_number" #rc_number="ngModel">
-            <div *ngIf="rc_number.invalid && (rc_number.dirty || rc_number.touched)" class="small alert alert-danger">
-              <div *ngIf="rc_number.errors.required">
-                RC Number is required.
-              </div>
-              <div *ngIf="rc_number.errors.pattern">
-                RC Number must be like RC123456.
-              </div>
-            </div>
-          </div>
-        </div>
+				<div class="form-group">
+					<div class="col-xs-12">
+						<div class="checkbox checkbox-success p-t-0">
+							<input id="cooperate" [(ngModel)]="user.is_cooperate" name="cooperate" type="checkbox" class="filled-in chk-col-light-blue">
+							<label for="cooperate"> Cooperate Account
+							</label>
+						</div>
+					</div>
+				</div>
 
 
-        <div class="form-group ">
-          <div class="col-xs-12">
-            <label>Password<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.password" minlength="3" required type="password" placeholder="Password*" name="password">
-          </div>
-        </div>
+				<div class="form-group" *ngIf="user.is_cooperate">
+					<div class="col-xs-12">
+						<label>RC Number<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.rc_number" [required]="user.is_cooperate" type="text" pattern="[A-Z]{2}[0-9]{6}" placeholder="e.g. RC123456*"
+						       name="rc_number" #rc_number="ngModel">
+						<div *ngIf="rc_number.invalid && (rc_number.dirty || rc_number.touched)" class="small alert alert-danger">
+							<div *ngIf="rc_number.errors.required">
+								RC Number is required.
+							</div>
+							<div *ngIf="rc_number.errors.pattern">
+								RC Number must be like RC123456.
+							</div>
+						</div>
+					</div>
+				</div>
 
-        <div class="form-group">
-          <div class="col-xs-12">
-            <label>Confirm Password<span class="text-danger"> *</span></label>
-            <input class="form-control" [(ngModel)]="user.password_confirmation" required type="password" placeholder="Confirm Password*" name="confirm_password">
-          </div>
-        </div>
 
-        <div class="form-group text-center p-b-20">
-          <div class="col-xs-12">
-            <button [disabled]="!signUpForm.form.valid || submitting" type="submit" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light">Sign Up</button>
-          </div>
-          <hr>
-          <div class="form-group m-b-0">
-            <div class="col-sm-12 text-center">
-              Already have an account?
-              <a class="text-info m-l-5" [routerLink]="['/login']"><b>Sign In</b></a>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+				<div class="form-group ">
+					<div class="col-xs-12">
+						<label>Password<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.password" minlength="3" required type="password" placeholder="Password*" name="password">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-xs-12">
+						<label>Confirm Password<span class="text-danger"> *</span></label>
+						<input class="form-control" [(ngModel)]="user.password_confirmation" required type="password" placeholder="Confirm Password*" name="confirm_password">
+					</div>
+				</div>
+
+				<div class="form-group text-center p-b-20">
+					<div class="col-xs-12">
+						<button [disabled]="!signUpForm.form.valid || submitting" type="submit" class="btn btn-info btn-lg btn-block btn-rounded text-uppercase waves-effect waves-light">Sign
+							Up
+						</button>
+					</div>
+					<hr>
+					<div class="form-group m-b-0">
+						<div class="col-sm-12 text-center">
+							Already have an account?
+							<a class="text-info m-l-5" [routerLink]="['/login']"><b>Sign In</b></a>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </div>

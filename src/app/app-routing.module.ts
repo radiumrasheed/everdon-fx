@@ -11,41 +11,41 @@ import {Login2Component} from './authentication/login2/login2.component';
 import {NotFoundComponent} from './authentication/404/not-found.component';
 
 export const AppRoutes: Routes = [
-  {
-    path: '',
-    component: FullComponent,
-    children: [
-      {path: '', redirectTo: '/me/dashboard', pathMatch: 'full'},
-      {path: 'me', canActivate: [AuthGuard], loadChildren: './me/me.module#MeModule'},
-      {path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule'},
-      // {path: 'dashboard', loadChildren: './dashboards/dashboard.module#DashboardModule'},
-      // {path: 'starter', loadChildren: './starter/starter.module#StarterModule'},
-      // {path: 'component', loadChildren: './component/component.module#ComponentsModule'},
-      // {path: 'icons', loadChildren: './icons/icons.module#IconsModule'},
-      // {path: 'forms', loadChildren: './form/forms.module#FormModule'},
-      // {path: 'tables', loadChildren: './table/tables.module#TablesModule'},
-      // {path: 'charts', loadChildren: './charts/charts.module#ChartModule'},
-      // {path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule'},
-      // {path: 'extra-component', loadChildren: './extra-component/extra-component.module#ExtraComponentsModule'},
-      // {path: 'apps', loadChildren: './apps/apps.module#AppsModule'},
-      // {path: 'sample-pages', loadChildren: './sample-pages/sample-pages.module#SamplePagesModule'},
-    ]
-  },
-  {
-    path: '',
-    component: BlankComponent,
-    children: [
-      // {path: 'authentication', loadChildren: './authentication/authentication.module#AuthenticationModule'},
-      {path: '404', component: NotFoundComponent},
-      {path: 'login', component: LoginComponent},
-      {path: 'admin-login', component: Login2Component},
-      {path: 'signup', component: SignupComponent},
-    ]
-  },
-  {
-    path: '**',
-    redirectTo: '/404'
-  }
+	{
+		path: '',
+		component: FullComponent,
+		children: [
+			{path: '', redirectTo: '/me/dashboard', pathMatch: 'full'},
+			{path: 'me', canActivate: [AuthGuard], loadChildren: './me/me.module#MeModule'},
+			{path: 'admin', canActivate: [AdminGuard], loadChildren: './admin/admin.module#AdminModule'},
+			// {path: 'dashboard', loadChildren: './dashboards/dashboard.module#DashboardModule'},
+			// {path: 'starter', loadChildren: './starter/starter.module#StarterModule'},
+			// {path: 'component', loadChildren: './component/component.module#ComponentsModule'},
+			// {path: 'icons', loadChildren: './icons/icons.module#IconsModule'},
+			// {path: 'forms', loadChildren: './form/forms.module#FormModule'},
+			// {path: 'tables', loadChildren: './table/tables.module#TablesModule'},
+			// {path: 'charts', loadChildren: './charts/charts.module#ChartModule'},
+			// {path: 'widgets', loadChildren: './widgets/widgets.module#WidgetsModule'},
+			// {path: 'extra-component', loadChildren: './extra-component/extra-component.module#ExtraComponentsModule'},
+			// {path: 'apps', loadChildren: './apps/apps.module#AppsModule'},
+			// {path: 'sample-pages', loadChildren: './sample-pages/sample-pages.module#SamplePagesModule'},
+		]
+	},
+	{
+		path: '',
+		component: BlankComponent,
+		children: [
+			// {path: 'authentication', loadChildren: './authentication/authentication.module#AuthenticationModule'},
+			{path: '404', component: NotFoundComponent},
+			{path: 'login', component: LoginComponent},
+			{path: 'admin-login', component: Login2Component},
+			{path: 'signup', component: SignupComponent},
+		]
+	},
+	{
+		path: '**',
+		redirectTo: '/404'
+	}
 ];
 
 

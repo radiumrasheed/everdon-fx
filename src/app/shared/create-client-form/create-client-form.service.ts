@@ -9,50 +9,50 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class CreateClientFormService {
 
-  private readonly clientUrl = AppConfig.API_URL + '/clients';
-  private readonly handleError: HandleError;
+	private readonly clientUrl = AppConfig.API_URL + '/clients';
+	private readonly handleError: HandleError;
 
-  constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('clientService');
-  }
+	constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+		this.handleError = httpErrorHandler.createHandleError('clientService');
+	}
 
-  getClient(id: string): Observable<Client> {
-    return this.http.get<Client>(this.clientUrl + '/' + id)
-      .pipe(
-        map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Get Customer', null))
-      );
-  }
+	getClient(id: string): Observable<Client> {
+		return this.http.get<Client>(this.clientUrl + '/' + id)
+			.pipe(
+				map(response => response['data']['client']),
+				catchError(this.handleError<Client>('Get Customer', null))
+			);
+	}
 
-  updateClient(id: number, client: Client): Observable<Client> {
-    return this.http.post<Client>(this.clientUrl + '/' + id, client)
-      .pipe(
-        map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Update Customer', null))
-      );
-  }
+	updateClient(id: number, client: Client): Observable<Client> {
+		return this.http.post<Client>(this.clientUrl + '/' + id, client)
+			.pipe(
+				map(response => response['data']['client']),
+				catchError(this.handleError<Client>('Update Customer', null))
+			);
+	}
 
-  getClients(): Observable<Client[]> {
-    return this.http.get<Client>(this.clientUrl)
-      .pipe(
-        map(response => response['data']['clients']),
-        catchError(this.handleError<Client[]>('Get Customer', []))
-      );
-  }
+	getClients(): Observable<Client[]> {
+		return this.http.get<Client>(this.clientUrl)
+			.pipe(
+				map(response => response['data']['clients']),
+				catchError(this.handleError<Client[]>('Get Customer', []))
+			);
+	}
 
-  createIndividualClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.clientUrl + '/individual', client)
-      .pipe(
-        map(response => response['data']),
-        catchError(this.handleError<Client>('Create Customer', null))
-      );
-  }
+	createIndividualClient(client: Client): Observable<Client> {
+		return this.http.post<Client>(this.clientUrl + '/individual', client)
+			.pipe(
+				map(response => response['data']),
+				catchError(this.handleError<Client>('Create Customer', null))
+			);
+	}
 
-  createCooperateClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(this.clientUrl + '/cooperate', client)
-      .pipe(
-        map(response => response['data']),
-        catchError(this.handleError<Client>('Create Customer', null))
-      );
-  }
+	createCooperateClient(client: Client): Observable<Client> {
+		return this.http.post<Client>(this.clientUrl + '/cooperate', client)
+			.pipe(
+				map(response => response['data']),
+				catchError(this.handleError<Client>('Create Customer', null))
+			);
+	}
 }

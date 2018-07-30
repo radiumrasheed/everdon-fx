@@ -7,34 +7,34 @@ import {HttpErrorHandler} from '../../services/http-error-handler.service';
 import {ToastrService} from 'ngx-toastr';
 
 describe('CreateClientFormService', () => {
-  let httpClient: HttpClient;
-  let httpErrorHandler: HttpErrorHandler;
-  let httpTestingController: HttpTestingController;
-  let createClientFormService: CreateClientFormService;
-  let toastrServiceStub: Partial<ToastrService>;
+	let httpClient: HttpClient;
+	let httpErrorHandler: HttpErrorHandler;
+	let httpTestingController: HttpTestingController;
+	let createClientFormService: CreateClientFormService;
+	let toastrServiceStub: Partial<ToastrService>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        CreateClientFormService,
-        HttpErrorHandler,
-        {provide: ToastrService, useValue: toastrServiceStub}]
-    });
+	beforeEach(() => {
+		TestBed.configureTestingModule({
+			imports: [HttpClientTestingModule],
+			providers: [
+				CreateClientFormService,
+				HttpErrorHandler,
+				{provide: ToastrService, useValue: toastrServiceStub}]
+		});
 
-    httpClient = TestBed.get(HttpClient);
-    httpErrorHandler = TestBed.get(HttpErrorHandler);
-    httpTestingController = TestBed.get(HttpTestingController);
-    createClientFormService = TestBed.get(CreateClientFormService);
-    toastrServiceStub = {};
-  });
+		httpClient = TestBed.get(HttpClient);
+		httpErrorHandler = TestBed.get(HttpErrorHandler);
+		httpTestingController = TestBed.get(HttpTestingController);
+		createClientFormService = TestBed.get(CreateClientFormService);
+		toastrServiceStub = {};
+	});
 
-  afterEach(() => {
-    // After every test, assert that there are no more pending requests.
-    httpTestingController.verify();
-  });
+	afterEach(() => {
+		// After every test, assert that there are no more pending requests.
+		httpTestingController.verify();
+	});
 
-  it('should be created', inject([CreateClientFormService], (service: CreateClientFormService) => {
-    expect(service).toBeTruthy();
-  }));
+	it('should be created', inject([CreateClientFormService], (service: CreateClientFormService) => {
+		expect(service).toBeTruthy();
+	}));
 });

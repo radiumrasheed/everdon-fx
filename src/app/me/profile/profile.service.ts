@@ -8,44 +8,44 @@ import {Account, Client} from '../../shared/meta-data';
 
 @Injectable()
 export class ProfileService {
-  private readonly clientUrl = AppConfig.API_URL + '/clients';
-  private readonly handleError: HandleError;
+	private readonly clientUrl = AppConfig.API_URL + '/clients';
+	private readonly handleError: HandleError;
 
-  constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
-    this.handleError = httpErrorHandler.createHandleError('ProfileService');
-  }
+	constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
+		this.handleError = httpErrorHandler.createHandleError('ProfileService');
+	}
 
-  /** GET: get a transaction */
-  getMyProfile(): Observable<Client> {
-    return this.http.get<any>(this.clientUrl)
-      .pipe(
-        map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Get Transaction', null))
-      );
-  }
+	/** GET: get a transaction */
+	getMyProfile(): Observable<Client> {
+		return this.http.get<any>(this.clientUrl)
+			.pipe(
+				map(response => response['data']['client']),
+				catchError(this.handleError<Client>('Get Transaction', null))
+			);
+	}
 
-  updateProfile(client: FormData, id: number): Observable<Client> {
-    return this.http.post<Client>(this.clientUrl + '/' + id, client, {headers: {'Content-Type': 'ignore'}})
-      .pipe(
-        map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Get Profile', null))
-      );
-  }
+	updateProfile(client: FormData, id: number): Observable<Client> {
+		return this.http.post<Client>(this.clientUrl + '/' + id, client, {headers: {'Content-Type': 'ignore'}})
+			.pipe(
+				map(response => response['data']['client']),
+				catchError(this.handleError<Client>('Get Profile', null))
+			);
+	}
 
-  // Create a new Account for the Customer
-  createAccount(account: Account, id: number): Observable<Account[]> {
-    return this.http.post<Account>(this.clientUrl + `/${id}/account`, account)
-      .pipe(
-        map(response => response['data']['accounts']),
-        catchError(this.handleError<Account[]>('Create Account', null))
-      );
-  }
+	// Create a new Account for the Customer
+	createAccount(account: Account, id: number): Observable<Account[]> {
+		return this.http.post<Account>(this.clientUrl + `/${id}/account`, account)
+			.pipe(
+				map(response => response['data']['accounts']),
+				catchError(this.handleError<Account[]>('Create Account', null))
+			);
+	}
 
-  updateIdentity(client: FormData, id: number): Observable<Client> {
-    return this.http.post<Client>(`${this.clientUrl}/${id}/identity`, client, {headers: {'Content-Type': 'ignore'}})
-      .pipe(
-        map(response => response['data']['client']),
-        catchError(this.handleError<Client>('Update Identity', null))
-      );
-  }
+	updateIdentity(client: FormData, id: number): Observable<Client> {
+		return this.http.post<Client>(`${this.clientUrl}/${id}/identity`, client, {headers: {'Content-Type': 'ignore'}})
+			.pipe(
+				map(response => response['data']['client']),
+				catchError(this.handleError<Client>('Update Identity', null))
+			);
+	}
 }

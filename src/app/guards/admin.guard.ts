@@ -6,21 +6,21 @@ import {AuthService} from '../services/auth/auth.service';
 @Injectable()
 export class AdminGuard implements CanActivate {
 
-  constructor(public auth: AuthService, public router: Router) {
-  }
+	constructor(public auth: AuthService, public router: Router) {
+	}
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    const url: string = state.url;
+	canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+		const url: string = state.url;
 
-    if (this.auth.adminTokenNotExpired()) {
-      return true;
-    }
+		if (this.auth.adminTokenNotExpired()) {
+			return true;
+		}
 
-    // store the attempted URL for redirecting
-    this.auth.redirectUrl = url;
+		// store the attempted URL for redirecting
+		this.auth.redirectUrl = url;
 
-    this.router.navigate(['/admin-login']);
+		this.router.navigate(['/admin-login']);
 
-    return false;
-  }
+		return false;
+	}
 }

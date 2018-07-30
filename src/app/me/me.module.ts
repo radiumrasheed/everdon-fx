@@ -17,25 +17,25 @@ import {ImageUploadModule} from 'angular2-image-upload';
 import {CloudinaryModule} from '@cloudinary/angular-5.x';
 
 @NgModule({
-  imports: [
-    FormsModule,
-    CommonModule,
-    NgbModule,
-    SharedModule,
-    ChartsModule,
-    ChartistModule,
-    MeRoutingModule,
-    MomentModule,
-    CloudinaryModule,
-    SweetAlert2Module,
-    ImageUploadModule,
-    ImageViewerModule
-  ],
-  declarations: [
-    DashboardComponent,
-    ProfileComponent,
-    MeComponent,
-  ]
+	imports: [
+		FormsModule,
+		CommonModule,
+		NgbModule,
+		SharedModule,
+		ChartsModule,
+		ChartistModule,
+		MeRoutingModule,
+		MomentModule,
+		CloudinaryModule,
+		SweetAlert2Module,
+		ImageUploadModule,
+		ImageViewerModule
+	],
+	declarations: [
+		DashboardComponent,
+		ProfileComponent,
+		MeComponent,
+	]
 })
 export class MeModule {
 }

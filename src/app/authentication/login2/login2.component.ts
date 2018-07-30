@@ -4,42 +4,42 @@ import {AuthService} from '../../services/auth/auth.service';
 import {User} from '../login/user';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login2.component.html',
-  styleUrls: ['./login2.component.css']
+	selector: 'app-login',
+	templateUrl: './login2.component.html',
+	styleUrls: ['./login2.component.css']
 })
 export class Login2Component implements OnInit, AfterViewInit {
 
-  public user: User = new User();
+	public user: User = new User();
 
-  constructor(public router: Router, public authService: AuthService) {
-  }
+	constructor(public router: Router, public authService: AuthService) {
+	}
 
-  ngOnInit() {
-  }
+	ngOnInit() {
+	}
 
-  ngAfterViewInit() {
-    $(function () {
-      $('.preloader').fadeOut();
-    });
+	ngAfterViewInit() {
+		$(function () {
+			$('.preloader').fadeOut();
+		});
 
-    $('#to-recover').on('click', function () {
-      $('#loginform').slideUp();
-      $('#recoverform').fadeIn();
-    });
-  }
+		$('#to-recover').on('click', function () {
+			$('#loginform').slideUp();
+			$('#recoverform').fadeIn();
+		});
+	}
 
-  login() {
-    this.authService.adminLogin(this.user)
-      .subscribe(() => {
-        if (this.authService.tokenNotExpired()) {
-          // redirect the staff
-          this.router.navigate(['/admin', 'dashboard']).catch();
-        }
-      });
-  }
+	login() {
+		this.authService.adminLogin(this.user)
+			.subscribe(() => {
+				if (this.authService.tokenNotExpired()) {
+					// redirect the staff
+					this.router.navigate(['/admin', 'dashboard']).catch();
+				}
+			});
+	}
 
-  logout() {
-    this.authService.logout();
-  }
+	logout() {
+		this.authService.logout();
+	}
 }

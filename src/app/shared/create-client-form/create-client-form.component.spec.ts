@@ -3,23 +3,36 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {CreateClientFormComponent} from './create-client-form.component';
 
 describe('CreateClientFormComponent', () => {
-  let component: CreateClientFormComponent;
-  let fixture: ComponentFixture<CreateClientFormComponent>;
+	let component: CreateClientFormComponent;
+	let fixture: ComponentFixture<CreateClientFormComponent>;
+	let createClientFormServiceSnub: Partial<CreateClientFormService>;
+	let createClientFormService: any;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CreateClientFormComponent]
-    })
-      .compileComponents();
-  }));
+	beforeEach(async(() => {
+		createClientFormServiceSnub = {};
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CreateClientFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+		TestBed.configureTestingModule({
+			declarations: [CreateClientFormComponent],
+			imports: [
+				FormsModule,
+				NgbModule,
+				HttpClientTestingModule
+			],
+			providers: [{provide: CreateClientFormService, useValue: createClientFormServiceSnub}]
+		})
+			.compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+		createClientFormService = TestBed.get(CreateClientFormService);
+
+	}));
+
+	beforeEach(() => {
+		fixture = TestBed.createComponent(CreateClientFormComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
+
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

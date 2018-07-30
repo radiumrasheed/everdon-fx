@@ -1,182 +1,183 @@
 <!-- Graph -->
 <div class="row" *ngIf="false">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><span class="lstick"></span>Rate Timeline</h3>
-      </div>
-      <div class="card-boy">
-        <div style="height:300px;" *ngIf="lineChartData">
-          <canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
-                  [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="col-12">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title"><span class="lstick"></span>Rate Timeline</h3>
+			</div>
+			<div class="card-boy">
+				<div style="height:300px;" *ngIf="lineChartData">
+					<canvas baseChart [datasets]="lineChartData" [options]="lineChartOptions"
+					        [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Buckets -->
 <div class="row">
-  <!-- Column -->
-  <div class="col-4" *ngFor="let bucket of buckets">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">
-          {{ bucket.description }}
-        </h4>
-        <div class="text-right">
-          <h1 class="font-weight-bold">
-            <sup>₦</sup>
-            {{ bucket.rate | number:'2.' }}/{{ bucket.id | currency}}
-          </h1>
-        </div>
-      </div>
-    </div>
-  </div>
+	<!-- Column -->
+	<div class="col-4" *ngFor="let bucket of buckets">
+		<div class="card">
+			<div class="card-body">
+				<h4 class="card-title">
+					{{ bucket.description }}
+				</h4>
+				<div class="text-right">
+					<h1 class="font-weight-bold">
+						<sup>₦</sup>
+						{{ bucket.rate | number:'2.' }}/{{ bucket.id | currency}}
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Figures -->
 <div class="row" *ngIf="figures">
-  <div class="col-md-6 col-lg-3 col-xlg-2">
-    <div class="card card-inverse card-success">
-      <a [routerLink]="'/me/transactions'">
-        <div class="box text-center">
-          <h1 class="font-light text-white">{{ figures?.transactions }}</h1>
-          <h6 class="text-white">All Transactions</h6>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
-    <div class="card card-inverse card-warning">
-      <a [routerLink]="'/me/transactions'">
-        <div class="box text-center">
-          <h1 class="font-light text-white">{{ figures?.transactions - (figures?.open_transactions + figures?.closed_transactions) }}</h1>
-          <h6 class="text-white">Transactions in progress</h6>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
-    <div class="card card-inverse card-megna">
-      <a [routerLink]="'/me/transactions'">
-        <div class="box text-center">
-          <h1 class="font-light text-white">{{ figures?.closed_transactions }}</h1>
-          <h6 class="text-white">Closed Transactions</h6>
-        </div>
-      </a>
-    </div>
-  </div>
-  <div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
-    <div class="card card-inverse card-info">
-      <a [routerLink]="'/me/profile'" fragment="accounts">
-        <div class="box text-center">
-          <h1 class="font-light text-white">{{ figures?.accounts }}</h1>
-          <h6 class="text-white">Accounts</h6>
-        </div>
-      </a>
-    </div>
-  </div>
+	<div class="col-md-6 col-lg-3 col-xlg-2">
+		<div class="card card-inverse card-success">
+			<a [routerLink]="'/me/transactions'">
+				<div class="box text-center">
+					<h1 class="font-light text-white">{{ figures?.transactions }}</h1>
+					<h6 class="text-white">All Transactions</h6>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
+		<div class="card card-inverse card-warning">
+			<a [routerLink]="'/me/transactions'">
+				<div class="box text-center">
+					<h1 class="font-light text-white">{{ figures?.transactions - (figures?.open_transactions + figures?.closed_transactions) }}</h1>
+					<h6 class="text-white">Transactions in progress</h6>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
+		<div class="card card-inverse card-megna">
+			<a [routerLink]="'/me/transactions'">
+				<div class="box text-center">
+					<h1 class="font-light text-white">{{ figures?.closed_transactions }}</h1>
+					<h6 class="text-white">Closed Transactions</h6>
+				</div>
+			</a>
+		</div>
+	</div>
+	<div class="col-md-6 col-lg-3 col-xlg-2 offset-xlg-1">
+		<div class="card card-inverse card-info">
+			<a [routerLink]="'/me/profile'" fragment="accounts">
+				<div class="box text-center">
+					<h1 class="font-light text-white">{{ figures?.accounts }}</h1>
+					<h6 class="text-white">Accounts</h6>
+				</div>
+			</a>
+		</div>
+	</div>
 </div>
 
 <!-- Recent Transactions -->
 <div class="row">
 
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><span class="lstick"></span>Recent Transactions</h3>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive" *ngIf="transactions?.length > 0">
-          <table class="table table-hover earning-box">
-            <thead>
-            <tr>
-              <th class="text-active text-capitalize">Action</th>
-              <th class="text-active text-capitalize">Currency</th>
-              <th class="text-active text-capitalize">Status</th>
-              <th class="text-active text-capitalize">Amount</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let transaction of transactions" class="active">
-              <td>
-                <a href="javascript:void(0)" [routerLink]="['../transaction/details', transaction.id]" class="link">View Details</a>
-              </td>
-              <td>
-                <h6>
-                  <li class="p-l-0">{{ transaction?.buying_product_id | currency }}/{{ transaction?.selling_product_id | currency }}</li>
-                </h6>
-              </td>
-              <td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class':'client'">{{ transaction?.transaction_status_id | status:null:'client' }}</span>
-              </td>
-              <td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
-            </tr>
-            </tbody>
-          </table>
-          <a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">see more...</a>
-        </div>
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title"><span class="lstick"></span>Recent Transactions</h3>
+			</div>
+			<div class="card-body">
+				<div class="table-responsive" *ngIf="transactions?.length > 0">
+					<table class="table table-hover earning-box">
+						<thead>
+						<tr>
+							<th class="text-active text-capitalize">Action</th>
+							<th class="text-active text-capitalize">Currency</th>
+							<th class="text-active text-capitalize">Status</th>
+							<th class="text-active text-capitalize">Amount</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr *ngFor="let transaction of transactions" class="active">
+							<td>
+								<a href="javascript:void(0)" [routerLink]="['../transaction/details', transaction.id]" class="link">View Details</a>
+							</td>
+							<td>
+								<h6>
+									<li class="p-l-0">{{ transaction?.buying_product_id | currency }}/{{ transaction?.selling_product_id | currency }}</li>
+								</h6>
+							</td>
+							<td><span class="label"
+							          [ngClass]="transaction?.transaction_status_id | status:'class':'client'">{{ transaction?.transaction_status_id | status:null:'client' }}</span>
+							</td>
+							<td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+						</tr>
+						</tbody>
+					</table>
+					<a [routerLink]="['..', 'transaction', 'list']" class="pull-right text-active">see more...</a>
+				</div>
 
-        <div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
-          <p class="text-center text-warning">You have no transactions yet.</p>
-          <a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Go to Request Page</a>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
+					<p class="text-center text-warning">You have no transactions yet.</p>
+					<a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Go to Request Page</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><span class="lstick"></span>Request Transaction</h3>
-      </div>
-      <div class="card-body">
-        <div class="text-center">
-          <h4 class="card-title">Quickly Request an exchange</h4>
-          <h6 class="card-subtitle">Just select currencies and amount</h6>
-          <form class="form-material">
-            <div class="row">
-              <div class="form-group col-6 m-t-20">
-                <label for="_buying_product_id">Buy</label>
-                <select id="_buying_product_id" class="form-control form-control-line" required
-                        [(ngModel)]="transaction.buying_product_id" name="_buying_product_id">
-                  <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
-                    {{ availableProduct.description }}
-                  </option>
-                </select>
-              </div>
-              <div class="form-group col-6 m-t-20">
-                <label for="_selling_product_id">Sell</label>
-                <select id="_selling_product_id" class="form-control form-control-line" required
-                        [(ngModel)]="transaction.selling_product_id" name="_selling_product_id">
-                  <option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
-                    {{ availableProduct.description }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="form-group col-6 offset-3 m-t-20">
-              <label for="_amount" class="form-control-label">Amount</label>
-              <div class="input-group">
-                <span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
-                <input type="number" [(ngModel)]="transaction.amount" id="_amount" name="_amount" class="form-control" placeholder="Amount to buy">
-              </div>
-            </div>
+	<div class="col-lg-6">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title"><span class="lstick"></span>Request Transaction</h3>
+			</div>
+			<div class="card-body">
+				<div class="text-center">
+					<h4 class="card-title">Quickly Request an exchange</h4>
+					<h6 class="card-subtitle">Just select currencies and amount</h6>
+					<form class="form-material">
+						<div class="row">
+							<div class="form-group col-6 m-t-20">
+								<label for="_buying_product_id">Buy</label>
+								<select id="_buying_product_id" class="form-control form-control-line" required
+								        [(ngModel)]="transaction.buying_product_id" name="_buying_product_id">
+									<option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
+										{{ availableProduct.description }}
+									</option>
+								</select>
+							</div>
+							<div class="form-group col-6 m-t-20">
+								<label for="_selling_product_id">Sell</label>
+								<select id="_selling_product_id" class="form-control form-control-line" required
+								        [(ngModel)]="transaction.selling_product_id" name="_selling_product_id">
+									<option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
+										{{ availableProduct.description }}
+									</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-6 offset-3 m-t-20">
+							<label for="_amount" class="form-control-label">Amount</label>
+							<div class="input-group">
+								<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
+								<input type="number" [(ngModel)]="transaction.amount" id="_amount" name="_amount" class="form-control" placeholder="Amount to buy">
+							</div>
+						</div>
 
-            <swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
+						<swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
 
-              <app-request-transaction-form *swalPartial [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="client">
+							<app-request-transaction-form *swalPartial [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="client">
 
-              </app-request-transaction-form>
+							</app-request-transaction-form>
 
-            </swal>
-            <button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary">
-              Make Request
-              <i class="mdi mdi-cookie"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+						</swal>
+						<button [swal]="requestSwal" type="button" rel="tooltip" title="Request" class="btn btn-outline-primary">
+							Make Request
+							<i class="mdi mdi-cookie"></i>
+						</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

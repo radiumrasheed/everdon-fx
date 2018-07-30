@@ -5,54 +5,54 @@ import {CreateClientFormService} from '../../shared/create-client-form/create-cl
 import {Client} from '../../shared/meta-data';
 
 @Component({
-  selector: 'app-view-client',
-  templateUrl: './view-client.component.html',
-  styleUrls: ['./view-client.component.css'],
-  providers: [CreateClientFormService]
+	selector: 'app-view-client',
+	templateUrl: './view-client.component.html',
+	styleUrls: ['./view-client.component.css'],
+	providers: [CreateClientFormService]
 })
 export class ViewClientComponent implements OnInit {
-  public id: string;
-  public successMessage: boolean;
-  public is_individual: boolean;
-  public client = new Client;
+	public id: string;
+	public successMessage: boolean;
+	public is_individual: boolean;
+	public client = new Client;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private clientService: CreateClientFormService,
-    private toastr: ToastrService) {
+	constructor(
+		private route: ActivatedRoute,
+		private router: Router,
+		private clientService: CreateClientFormService,
+		private toastr: ToastrService) {
 
-  }
+	}
 
-  ngOnInit() {
-    // Get Transaction Id from route...
-    this.route.paramMap
-      .subscribe(params => {
-        this.id = params.get('id');
-        this.getClient(params.get('id'));
-      });
-  }
+	ngOnInit() {
+		// Get Transaction Id from route...
+		this.route.paramMap
+			.subscribe(params => {
+				this.id = params.get('id');
+				this.getClient(params.get('id'));
+			});
+	}
 
-  getClient(id: string): void {
-    this.clientService.getClient(id)
-      .subscribe(
-        client => {
-          this.client = client;
-        },
-        err => {
-        }
-      );
-  }
+	getClient(id: string): void {
+		this.clientService.getClient(id)
+			.subscribe(
+				client => {
+					this.client = client;
+				},
+				err => {
+				}
+			);
+	}
 
-  updateClient() {
-    this.clientService.updateClient(this.client.id, this.client)
-      .subscribe(
-        client => {
-          if (client) {
-            this.client = client;
-            this.toastr.success('Customer details updated successfully');
-          }
-        }
-      );
-  }
+	updateClient() {
+		this.clientService.updateClient(this.client.id, this.client)
+			.subscribe(
+				client => {
+					if (client) {
+						this.client = client;
+						this.toastr.success('Customer details updated successfully');
+					}
+				}
+			);
+	}
 }

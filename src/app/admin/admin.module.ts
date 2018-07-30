@@ -18,30 +18,30 @@ import {HttpClientModule} from '@angular/common/http';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    FormsModule,
-    CommonModule,
-    NgbModule,
-    ChartsModule,
-    ChartistModule,
-    Ng2SmartTableModule,
-    SharedModule,
-    MomentModule,
-    AdminRoutingModule,
-    SweetAlert2Module
-  ],
-  declarations: [
-    AdminDashboardComponent,
-    AdminComponent,
-    ClientsComponent,
-    CreateClientComponent,
-    ViewClientComponent
-  ],
-  providers: [
-    HttpInterceptorProviders
-  ]
+	imports: [
+		CommonModule,
+		HttpClientModule,
+		FormsModule,
+		CommonModule,
+		NgbModule,
+		ChartsModule,
+		ChartistModule,
+		Ng2SmartTableModule,
+		SharedModule,
+		MomentModule,
+		AdminRoutingModule,
+		SweetAlert2Module
+	],
+	declarations: [
+		AdminDashboardComponent,
+		AdminComponent,
+		ClientsComponent,
+		CreateClientComponent,
+		ViewClientComponent
+	],
+	providers: [
+		HttpInterceptorProviders
+	]
 })
 export class AdminModule {
 }

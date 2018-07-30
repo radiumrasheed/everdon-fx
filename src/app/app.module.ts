@@ -36,58 +36,58 @@ import {NotFoundComponent} from './authentication/404/not-found.component';
 import {AppConfig} from './app.config';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FullComponent,
-    BlankComponent,
-    LoginComponent,
-    Login2Component,
-    SignupComponent,
-    NotFoundComponent
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    SharedModule,
-    HttpClientModule,
-    UiSwitchModule,
-    ImageViewerModule,
-    NgbModule.forRoot(),
-    ImageUploadModule.forRoot(),
-    CloudinaryModule.forRoot({Cloudinary}, {cloud_name: AppConfig.CLOUDINARY_CLOUD_NAME} as CloudinaryConfiguration),
-    RouterModule.forRoot(AppRoutes, {
-      useHash: false
-    }),
-    ToastrModule.forRoot({
-      positionClass: 'toast-top-center'
-    }),
-    SweetAlert2Module.forRoot({
-      buttonsStyling: false,
-      customClass: 'modal-content',
-      confirmButtonClass: 'btn btn-primary',
-      cancelButtonClass: 'btn btn-warning',
-      showCloseButton: true
-    })
-  ],
-  providers: [
-    AuthService,
-    AuthGuard,
-    AdminGuard,
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    },
-    {
-      provide: RequestCache,
-      useClass: RequestCacheWithMap
-    },
-    HttpErrorHandler,
-    MessageService,
-    HttpInterceptorProviders,
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		FullComponent,
+		BlankComponent,
+		LoginComponent,
+		Login2Component,
+		SignupComponent,
+		NotFoundComponent
+	],
+	imports: [
+		CommonModule,
+		BrowserModule,
+		BrowserAnimationsModule,
+		FormsModule,
+		SharedModule,
+		HttpClientModule,
+		UiSwitchModule,
+		ImageViewerModule,
+		NgbModule.forRoot(),
+		ImageUploadModule.forRoot(),
+		CloudinaryModule.forRoot({Cloudinary}, {cloud_name: AppConfig.CLOUDINARY_CLOUD_NAME} as CloudinaryConfiguration),
+		RouterModule.forRoot(AppRoutes, {
+			useHash: false
+		}),
+		ToastrModule.forRoot({
+			positionClass: 'toast-top-center'
+		}),
+		SweetAlert2Module.forRoot({
+			buttonsStyling: false,
+			customClass: 'modal-content',
+			confirmButtonClass: 'btn btn-primary',
+			cancelButtonClass: 'btn btn-warning',
+			showCloseButton: true
+		})
+	],
+	providers: [
+		AuthService,
+		AuthGuard,
+		AdminGuard,
+		{
+			provide: LocationStrategy,
+			useClass: HashLocationStrategy
+		},
+		{
+			provide: RequestCache,
+			useClass: RequestCacheWithMap
+		},
+		HttpErrorHandler,
+		MessageService,
+		HttpInterceptorProviders,
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 }

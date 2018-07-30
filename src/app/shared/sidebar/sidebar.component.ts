@@ -9,62 +9,62 @@ import {Observable} from 'rxjs';
 declare var $: any;
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html'
+	selector: 'app-sidebar',
+	templateUrl: './sidebar.component.html'
 
 })
 export class SidebarComponent implements OnInit {
 
-  role$: Observable<string>;
-  showMenu: String = '';
-  showSubMenu: String = '';
-  @Input() public sidebarnavItems: any[];
+	role$: Observable<string>;
+	showMenu: String = '';
+	showSubMenu: String = '';
+	@Input() public sidebarnavItems: any[];
 
-  constructor(private modalService: NgbModal,
-              private router: Router,
-              private auth: AuthService,
-              private route: ActivatedRoute) {
+	constructor(private modalService: NgbModal,
+	            private router: Router,
+	            private auth: AuthService,
+	            private route: ActivatedRoute) {
 
-  }
+	}
 
-  // this is for the open close
-  addExpandClass(element: any) {
-    if (element === this.showMenu) {
-      this.showMenu = '0';
+	// this is for the open close
+	addExpandClass(element: any) {
+		if (element === this.showMenu) {
+			this.showMenu = '0';
 
-    } else {
-      this.showMenu = element;
-    }
-  }
+		} else {
+			this.showMenu = element;
+		}
+	}
 
-  addActiveClass(element: any) {
-    if (element === this.showSubMenu) {
-      this.showSubMenu = '0';
+	addActiveClass(element: any) {
+		if (element === this.showSubMenu) {
+			this.showSubMenu = '0';
 
-    } else {
-      this.showSubMenu = element;
-    }
-  }
+		} else {
+			this.showSubMenu = element;
+		}
+	}
 
-  // End open close
-  ngOnInit() {
-    this.role$ = this.auth.role;
+	// End open close
+	ngOnInit() {
+		this.role$ = this.auth.role;
 
-    this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
+		this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
 
-    $(function () {
-      $('.sidebartoggler').on('click', function () {
-        if ($('#main-wrapper').hasClass('mini-sidebar')) {
-          $('body').trigger('resize');
-          $('#main-wrapper').removeClass('mini-sidebar');
+		$(function () {
+			$('.sidebartoggler').on('click', function () {
+				if ($('#main-wrapper').hasClass('mini-sidebar')) {
+					$('body').trigger('resize');
+					$('#main-wrapper').removeClass('mini-sidebar');
 
-        } else {
-          $('body').trigger('resize');
-          $('#main-wrapper').addClass('mini-sidebar');
-        }
-      });
+				} else {
+					$('body').trigger('resize');
+					$('#main-wrapper').addClass('mini-sidebar');
+				}
+			});
 
-    });
+		});
 
-  }
+	}
 }

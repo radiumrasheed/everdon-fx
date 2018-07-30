@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
+	HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
 } from '@angular/common/http';
 
 import {Observable} from 'rxjs';
@@ -9,9 +9,9 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class NoopInterceptor implements HttpInterceptor {
 
-  intercept(req: HttpRequest<any>, next: HttpHandler):
-    Observable<HttpEvent<any>> {
-    return next.handle(req);
-  }
+	intercept(req: HttpRequest<any>, next: HttpHandler):
+		Observable<HttpEvent<any>> {
+		return next.handle(req);
+	}
 }
 
