@@ -57,35 +57,39 @@
 											<div class="m-t-40" style="clear: both;">
 												<hr>
 												<div class="row">
-													<div class="col-md-3 col-xs-6 b-r"><strong>Buying Currency</strong>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small>Buying Currency</small>
 														<br>
 														<p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
 													</div>
 
-													<div class="col-md-3 col-xs-6 b-r"><strong>Amount Out</strong>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small>Amount Out</small>
 														<br>
 														<p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
 															transaction.amount | number:'1.1-2' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<strong>Transaction Type</strong>
+														<small>Transaction Type</small>
 														<br>
 														<p class="text-muted">{{ transaction.transaction_type_id | type:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<strong>Country</strong>
+														<small>Country</small>
 														<br>
 														<p class="text-muted">{{ transaction?.country }}</p>
 													</div>
 
-													<div class="col-md-3 col-xs-6 b-r"><strong>Selling Currency</strong>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small>Selling Currency</small>
 														<br>
 														<p class="text-muted">{{ transaction.selling_product_id | currency:'desc' }}</p>
 													</div>
 
-													<div class="col-md-3 col-xs-6 b-r"><strong>Amount In</strong>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small>Amount In</small>
 														<br>
 														<p class="text-muted" *ngIf="transaction.calculated_amount">
 															{{ transaction.selling_product_id | currency:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
@@ -93,21 +97,22 @@
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<strong>Transaction Mode</strong>
+														<small>Transaction Mode</small>
 														<br>
 														<p class="text-muted">{{ transaction?.transaction_mode_id | mode:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<strong>Date Requested</strong>
+														<small>Date Requested</small>
 														<br>
 														<p class="text-muted">{{ transaction?.created_at | amCalendar }}</p>
 													</div>
 
 													<ng-container *ngIf="transaction.transaction_mode_id !== 1">
-														<div class="col-md-3 col-xs-6 b-r"><strong>
-															{{ transaction.account_id ? 'Receiving Bank Account' : 'Swift Code' }}
-														</strong>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small>
+																{{ transaction.account_id ? 'Receiving Bank Account' : 'Swift Code' }}
+															</small>
 															<br>
 															<p class="text-muted" *ngIf="transaction.account_id">
 																{{ transaction?.account?.bank.toLocaleUpperCase() }}
@@ -117,9 +122,10 @@
 															</p>
 														</div>
 
-														<div class="col-md-3 col-xs-6 b-r"><strong>
-															{{ transaction.account_id ? 'Receiving Bank Name' : 'Sort Code' }}
-														</strong>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small>
+																{{ transaction.account_id ? 'Receiving Bank Name' : 'Sort Code' }}
+															</small>
 															<br>
 															<p class="text-muted" *ngIf="transaction.account_id">
 																{{ transaction?.account?.name.toLocaleUpperCase() }}
@@ -129,9 +135,10 @@
 															</p>
 														</div>
 
-														<div class="col-md-3 col-xs-6 b-r"><strong>
-															{{ transaction.account_id ? 'Receiving Account Number' : 'Routing Number' }}
-														</strong>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small>
+																{{ transaction.account_id ? 'Receiving Account Number' : 'Routing Number' }}
+															</small>
 															<br>
 															<p class="text-muted" *ngIf="transaction.account_id">
 																{{ transaction?.account?.number }}
@@ -142,9 +149,9 @@
 														</div>
 
 														<div class="col-md-3 col-xs-6 b-r">
-															<strong>
+															<small>
 																{{ transaction.account_id ? 'Receiving Account BVN' : 'IBAN' }}
-															</strong>
+															</small>
 															<br>
 															<p class="text-muted" *ngIf="transaction.account_id">
 																{{ transaction?.client?.bvn }}
@@ -171,7 +178,7 @@
 														<div class="form-check col-lg-3 col-sm-12">
 															<label class="custom-control custom-checkbox" for="funds_received">
 																<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
-																       class="custom-control-input">
+																       class="custom-control-input input-group-lg">
 																<span class="custom-control-indicator"></span>
 																<span class="custom-control-description">Funds Received</span>
 															</label>
@@ -180,7 +187,7 @@
 														<div class="form-check col-lg-3 col-sm-12">
 															<label class="custom-control custom-checkbox" for="funds_paid">
 																<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid"
-																       class="custom-control-input">
+																       class="custom-control-input input-group-lg">
 																<span class="custom-control-indicator"></span>
 																<span class="custom-control-description">Funds Paid</span>
 															</label>
@@ -189,7 +196,7 @@
 														<div class="form-check col-lg-3 col-sm-12">
 															<label class="custom-control custom-checkbox" for="aml_check">
 																<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check"
-																       class="custom-control-input">
+																       class="custom-control-input input-group-lg">
 																<span class="custom-control-indicator"></span>
 																<span class="custom-control-description">AML Check</span>
 															</label>
@@ -198,7 +205,7 @@
 														<div class="form-check col-lg-3 col-sm-12">
 															<label class="custom-control custom-checkbox" for="kyc_check">
 																<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check"
-																       class="custom-control-input">
+																       class="custom-control-input input-group-lg">
 																<span class="custom-control-indicator"></span>
 																<span class="custom-control-description">KYC Check</span>
 															</label>
@@ -266,10 +273,12 @@
 															<select class="form-control" [required]="can_modify_condition" [disabled]="!can_modify_condition"
 															        [(ngModel)]="transaction.condition" name="condition" id="condition">
 																<option value="advance">Advance</option>
+																<option value="funds received">Funds Received</option>
 																<option value="loan">Loan</option>
 																<option value="pay first">Pay First</option>
 																<option value="rate concession">Rate Concession</option>
 																<option value="waiver">Waiver</option>
+																<option value="others">Others</option>
 															</select>
 														</div>
 
@@ -420,6 +429,7 @@
 															<label class="label-light-danger label-rounded" *ngIf="transaction.client.kyc.awaiting_review === 1">
 																Recently updated by Customer !
 															</label>
+															<br *ngIf="transaction.client.kyc.awaiting_review === 1">
 
 															<i class="mdi mdi-calendar-clock"> </i>
 															{{ transaction.client.kyc.awaiting_review === 1 ? 'Customer updated' : 'Updated'}} {{ transaction?.client?.updated_at | amCalendar }}
@@ -441,7 +451,7 @@
 																<br>
 																<br>
 																<i class="icon-calender"> </i>
-																Last reviewed {{ transaction?.client?.kyc?.updated_at | amCalendar }}
+																Last reviewed {{ transaction?.client?.kyc?.last_reviewed_at | amCalendar }}
 															</form>
 														</div>
 													</div>
@@ -582,21 +592,25 @@
 						<div class="m-t-40" style="clear: both;">
 							<hr>
 							<div class="row">
-								<div class="col-md-3 col-xs-6"><strong>Order ID</strong>
+								<div class="col-md-3 col-xs-6">
+									<small>Order ID</small>
 									<br>
 									<p class="text-muted">{{ transaction.transaction_ref }}</p>
 								</div>
-								<div class="col-md-3 col-xs-6 b-r"><strong>Currency</strong>
+								<div class="col-md-3 col-xs-6 b-r">
+									<small>Currency</small>
 									<br>
 									<p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
 								</div>
-								<div class="col-md-3 col-xs-6 b-r"><strong>Exchange Rate</strong>
+								<div class="col-md-3 col-xs-6 b-r">
+									<small>Exchange Rate</small>
 									<br>
 									<p class="text-muted"> 1 {{transaction.buying_product_id | currency }} = {{
 										transaction.rate | number:'1.1-2' }} {{ transaction.selling_product_id | currency
 										}}</p>
 								</div>
-								<div class="col-md-3 col-xs-6 b-r"><strong>Amount</strong>
+								<div class="col-md-3 col-xs-6 b-r">
+									<small>Amount</small>
 									<br>
 									<p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
 										transaction.amount | number:'1.1-2' }}</p>
