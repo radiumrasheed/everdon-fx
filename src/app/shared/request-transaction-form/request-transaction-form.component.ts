@@ -231,6 +231,12 @@ export class RequestTransactionFormComponent implements OnInit {
 		if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
 			this.getRates();
 		}
+
+		if (typeof this.transaction.buying_product_id !== 'undefined' && (this.transaction.buying_product_id === this.transaction.selling_product_id)) {
+			this.transaction.transaction_type_id = '3';
+		} else {
+			delete this.transaction.transaction_type_id;
+		}
 	}
 
 	applyRate(rates = this.rates) {

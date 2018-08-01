@@ -105,7 +105,8 @@
 				Transaction Type
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
-				<select class="custom-select col-12" required [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id">
+				<select [disabled]="transaction.buying_product_id && (transaction.buying_product_id === transaction.selling_product_id)"
+				        required [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id" class="custom-select col-12">
 					<option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">
 						{{ transactionType.desc }}
 					</option>
