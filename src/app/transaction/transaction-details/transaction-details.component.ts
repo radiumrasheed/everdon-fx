@@ -42,6 +42,7 @@ export class TransactionDetailsComponent implements OnInit {
 	public can_modify_aml_kyc = false;
 	public can_modify_condition = false;
 	public can_modify_org = false;
+	public can_modify_swap_charges = false;
 	public can_take_action = false;
 	public is_client: boolean;
 
@@ -143,6 +144,7 @@ export class TransactionDetailsComponent implements OnInit {
 				this.can_take_action = true;
 				this.can_modify_aml_kyc = true;
 				this.can_modify_condition = true;
+				this.can_modify_swap_charges = true;
 				this.can_modify_org = true;
 
 				break;
@@ -151,6 +153,7 @@ export class TransactionDetailsComponent implements OnInit {
 			case this.can_approve && this.can_be_approved:
 				this.can_take_action = true;
 				this.can_modify_condition = true;
+				this.can_modify_swap_charges = true;
 				this.can_modify_org = true;
 				break;
 

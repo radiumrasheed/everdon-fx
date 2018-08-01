@@ -58,105 +58,105 @@
 												<hr>
 												<div class="row">
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Buying Currency</small>
+														<small class="text-muted">Buying Currency</small>
 														<br>
-														<p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
+														<p class="text-dark">{{ transaction.buying_product_id | currency:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Amount Out</small>
+														<small class="text-muted">Amount Out</small>
 														<br>
-														<p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
+														<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{
 															transaction.amount | number:'1.1-2' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Transaction Type</small>
+														<small class="text-muted">Transaction Type</small>
 														<br>
-														<p class="text-muted">{{ transaction.transaction_type_id | type:'desc' }}</p>
+														<p class="text-dark">{{ transaction.transaction_type_id | type:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Country</small>
+														<small class="text-muted">Country</small>
 														<br>
-														<p class="text-muted">{{ transaction?.country }}</p>
+														<p class="text-dark">{{ transaction?.country }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Selling Currency</small>
+														<small class="text-muted">Selling Currency</small>
 														<br>
-														<p class="text-muted">{{ transaction.selling_product_id | currency:'desc' }}</p>
+														<p class="text-dark">{{ transaction.selling_product_id | currency:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Amount In</small>
+														<small class="text-muted">Amount In</small>
 														<br>
-														<p class="text-muted" *ngIf="transaction.calculated_amount">
+														<p class="text-dark" *ngIf="transaction.calculated_amount">
 															{{ transaction.selling_product_id | currency:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
 														</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Transaction Mode</small>
+														<small class="text-muted">Transaction Mode</small>
 														<br>
-														<p class="text-muted">{{ transaction?.transaction_mode_id | mode:'desc' }}</p>
+														<p class="text-dark">{{ transaction?.transaction_mode_id | mode:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small>Date Requested</small>
+														<small class="text-muted">Date Requested</small>
 														<br>
-														<p class="text-muted">{{ transaction?.created_at | amCalendar }}</p>
+														<p class="text-dark">{{ transaction?.created_at | amCalendar }}</p>
 													</div>
 
 													<ng-container *ngIf="transaction.transaction_mode_id !== 1">
 														<div class="col-md-3 col-xs-6 b-r">
-															<small>
+															<small class="text-muted">
 																{{ transaction.account_id ? 'Receiving Bank Account' : 'Swift Code' }}
 															</small>
 															<br>
-															<p class="text-muted" *ngIf="transaction.account_id">
+															<p class="text-dark" *ngIf="transaction.account_id">
 																{{ transaction?.account?.bank.toLocaleUpperCase() }}
 															</p>
-															<p class="text-muted" *ngIf="!transaction.account_id">
+															<p class="text-dark" *ngIf="!transaction.account_id">
 																{{ transaction?.swift_code }}
 															</p>
 														</div>
 
 														<div class="col-md-3 col-xs-6 b-r">
-															<small>
+															<small class="text-muted">
 																{{ transaction.account_id ? 'Receiving Bank Name' : 'Sort Code' }}
 															</small>
 															<br>
-															<p class="text-muted" *ngIf="transaction.account_id">
+															<p class="text-dark" *ngIf="transaction.account_id">
 																{{ transaction?.account?.name.toLocaleUpperCase() }}
 															</p>
-															<p class="text-muted" *ngIf="!transaction.account_id">
+															<p class="text-dark" *ngIf="!transaction.account_id">
 																{{ transaction?.sort_code }}
 															</p>
 														</div>
 
 														<div class="col-md-3 col-xs-6 b-r">
-															<small>
+															<small class="text-muted">
 																{{ transaction.account_id ? 'Receiving Account Number' : 'Routing Number' }}
 															</small>
 															<br>
-															<p class="text-muted" *ngIf="transaction.account_id">
+															<p class="text-dark" *ngIf="transaction.account_id">
 																{{ transaction?.account?.number }}
 															</p>
-															<p class="text-muted" *ngIf="!transaction.account_id">
+															<p class="text-dark" *ngIf="!transaction.account_id">
 																{{ transaction?.routing_no }}
 															</p>
 														</div>
 
 														<div class="col-md-3 col-xs-6 b-r">
-															<small>
+															<small class="text-muted">
 																{{ transaction.account_id ? 'Receiving Account BVN' : 'IBAN' }}
 															</small>
 															<br>
-															<p class="text-muted" *ngIf="transaction.account_id">
+															<p class="text-dark" *ngIf="transaction.account_id">
 																{{ transaction?.client?.bvn }}
 															</p>
-															<p class="text-muted" *ngIf="!transaction.account_id">
+															<p class="text-dark" *ngIf="!transaction.account_id">
 																{{ transaction?.iban }}
 															</p>
 														</div>
@@ -245,6 +245,18 @@
 																       name="calculated_amount" id="calculated_amount"
 																       aria-label="Amount (to the nearest dollar)">
 															</div>
+														</div>
+
+
+														<div class="form-group col-lg-6 col-sm-12" *ngIf="transaction.transaction_type_id === 3">
+															<label for="swap_charges">
+																<i class="mdi mdi-cash text-warning"></i>
+																Swap Charges
+																<span *ngIf="can_modify_org" class="text-danger">*</span>
+															</label>
+
+															<input class="form-control" [required]="can_modify_swap_charges" [disabled]="!can_modify_swap_charges" type="number"
+															       [(ngModel)]="transaction.swap_charges" name="swap_charges" id="swap_charges">
 														</div>
 
 
@@ -472,7 +484,7 @@
 												<div class="sl-right">
 													<div>
 														<a class="link">{{ event?.done_by?.name }}</a>
-														<span class="text-muted font-14 m-l-10">|    {{ event.done_at | amCalendar:referenceTime:formats }}</span>
+														<span class="text-dark font-14 m-l-10">|    {{ event.done_at | amCalendar:referenceTime:formats }}</span>
 														<p class="m-t-9"> {{ event.action }} </p>
 													</div>
 													<blockquote class="m-t-11" *ngIf="event?.comment">
@@ -569,7 +581,7 @@
 							<div class="pull-left" hidden>
 								<address>
 									<h3> &nbsp;<b class="text-danger">Everdon Bureau De Change</b></h3>
-									<p class="text-muted m-l-5">VFD Building
+									<p class="text-dark m-l-5">VFD Building
 										<br/> Foresight House,
 										<br/> Inner Marina,
 										<br/> Lagos - 100242</p>
@@ -579,7 +591,7 @@
 								<address>
 									<!--<h3>To,</h3>
 									<h4 class="font-bold">{{ transaction?.client?.full_name }}</h4>
-									<p class="text-muted m-l-30">{{ transaction?.client?.office_address }},
+									<p class="text-dark m-l-30">{{ transaction?.client?.office_address }},
 										<br/> Nr' Viswakarma Temple,
 										<br/> Talaja Road,
 										<br/> Bhavnagar - 100242</p>-->
@@ -593,26 +605,26 @@
 							<hr>
 							<div class="row">
 								<div class="col-md-3 col-xs-6">
-									<small>Order ID</small>
+									<small class="text-muted">Order ID</small>
 									<br>
-									<p class="text-muted">{{ transaction.transaction_ref }}</p>
+									<p class="text-dark">{{ transaction.transaction_ref }}</p>
 								</div>
 								<div class="col-md-3 col-xs-6 b-r">
-									<small>Currency</small>
+									<small class="text-muted">Currency</small>
 									<br>
-									<p class="text-muted">{{ transaction.buying_product_id | currency:'desc' }}</p>
+									<p class="text-dark">{{ transaction.buying_product_id | currency:'desc' }}</p>
 								</div>
 								<div class="col-md-3 col-xs-6 b-r">
-									<small>Exchange Rate</small>
+									<small class="text-muted">Exchange Rate</small>
 									<br>
-									<p class="text-muted"> 1 {{transaction.buying_product_id | currency }} = {{
+									<p class="text-dark"> 1 {{transaction.buying_product_id | currency }} = {{
 										transaction.rate | number:'1.1-2' }} {{ transaction.selling_product_id | currency
 										}}</p>
 								</div>
 								<div class="col-md-3 col-xs-6 b-r">
-									<small>Amount</small>
+									<small class="text-muted">Amount</small>
 									<br>
-									<p class="text-muted">{{transaction.buying_product_id | currency:'sign' }}{{
+									<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{
 										transaction.amount | number:'1.1-2' }}</p>
 								</div>
 

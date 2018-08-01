@@ -39,6 +39,7 @@ export class Transaction {
 	account_number?: string;
 	bvn?: string;
 
+	swap_charges?: number;
 	funds_received?: boolean;
 	funds_paid?: boolean;
 	aml_check?: boolean;
