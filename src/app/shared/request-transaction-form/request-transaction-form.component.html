@@ -1,4 +1,5 @@
 <form class="form" #requestForm="ngForm" (submit)="requestTransaction()">
+
 	<!-- Stage 1 of FORM -->
 	<ng-container #step1 *ngIf="form1">
 
@@ -16,7 +17,9 @@
 
 		<ng-container *ngIf="role === 'fx-ops'">
 			<div class="form-group">
-				<label for="client_id" class="col-form-label">Client<span class="text-danger">*</span></label>
+				<label for="client_id" class="col-form-label small">
+					Client
+					<span class="text-danger">*</span></label>
 				<div class="input-group">
 					<input hidden name="client_id" [ngModel]="transaction.client_id" title="fake_client_id">
 					<input id="client_id" type="text" class="form-control" placeholder="Search Customer... Enter at least 3 characters..." [editable]="false"
@@ -37,7 +40,9 @@
 					</ng-container>
 				</div>
 				<app-loader *ngIf="gettingClient"></app-loader>
-				<br>
+
+				<br *ngIf="client">
+
 				<ng-template #tipContent>
 					<p>First Name: <b>{{ client?.first_name }}</b></p>
 					<p>Last Name: <b>{{ client?.last_name }}</b></p>
@@ -48,7 +53,6 @@
 					<p *ngIf="client.gender">Gender: <b>{{ client?.gender }}</b></p>
 					<p *ngIf="client.rc_number">RC Number: <b>{{ client?.rc_number }}</b></p>
 				</ng-template>
-
 				<button *ngIf="client" type="button" (click)="goToProfilePage()" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
 					<i class="mdi mdi-account"></i>
 					Go To Profile Page
@@ -59,7 +63,7 @@
 		</ng-container>
 
 		<div class="form-group">
-			<label for="buying_product_id" class="col-form-label">
+			<label for="buying_product_id" class="col-form-label small">
 				Buying
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
@@ -74,7 +78,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="selling_product_id" class="col-form-label">
+			<label for="selling_product_id" class="col-form-label small">
 				Selling
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
@@ -88,7 +92,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="amount" class="col-form-label">
+			<label for="amount" class="col-form-label small">
 				Amount to buy
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
@@ -101,7 +105,7 @@
 		</div>
 
 		<div class="form-group" *ngIf="role === 'fx-ops'">
-			<label for="transaction-type" class="col-form-label">
+			<label for="transaction-type" class="col-form-label small">
 				Transaction Type
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
@@ -115,7 +119,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="transaction-mode" class="col-form-label">
+			<label for="transaction-mode" class="col-form-label small">
 				Transaction Mode
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
@@ -129,12 +133,11 @@
 		</div>
 
 		<div class="form-group">
-			<label for="country" class="col-form-label">
+			<label for="country" class="col-form-label small">
 				Country
 				<span class="text-danger">*</span></label>
 			<div class="input-group">
-				<select id="country" class="custom-select col-12" required
-				        [(ngModel)]="transaction.country" name="country">
+				<select id="country" class="custom-select col-12" required [(ngModel)]="transaction.country" name="country" (change)="onCountryChange($event)">
 					<option *ngFor="let country of countries" [value]="country.name">
 						{{ country.name }} - {{ country.code }}
 					</option>
@@ -147,99 +150,121 @@
 	<!-- Stage 2 of FORM -->
 	<ng-container #step2 *ngIf="form2">
 
-		<ng-container *ngIf="transaction.country !== 'Nigeria' && transaction.country !== null">
+		<!-- Foreign or Local Account -->
+		<div class="form-control-lg text-center">
+			<label class="custom-control custom-radio disabled" for="_local">
+				<input class="form-check-input" type="radio" name="foreign" id="_local" [value]="false" [(ngModel)]="transaction.foreign" disabled>
+				<span class="custom-control-input"></span>
+				<span class="custom-control-description">Local Account</span>
+			</label>
+			<label class="custom-control custom-radio disabled" for="_foreign">
+				<input class="form-check-input" type="radio" name="foreign" id="_foreign" [value]="true" [(ngModel)]="transaction.foreign" disabled>
+				<span class="custom-control-input"></span>
+				<span class="custom-control-description">Foreign Account</span>
+			</label>
+		</div>
+
+		<!-- Pick whether from existing account or create new account... -->
+		<div class="form-check">
+			<label class="custom-control custom-checkbox">
+				<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
+				       class="custom-control-input">
+				<span class="custom-control-indicator"></span>
+				<span class="custom-control-description">Create a new account</span>
+			</label>
+		</div>
+
+		<!-- Select from Existing Accounts -->
+		<div class="form-group" *ngIf="!newAccount">
+			<label for="account_id" class="col-form-label small">Account <span class="text-danger" *ngIf="!newAccount">*</span></label>
+			<div class="input-group">
+				<select class="custom-select col-12" [required]="!newAccount" [(ngModel)]="transaction.account_id"
+				        id="account_id" name="account_id">
+					<option disabled selected="selected" value>- select an account -</option>
+					<option *ngFor="let account of accounts" [value]="account.id">{{ account?.bank.toLocaleUpperCase() + ' : ' + account?.number + ' - ' + account?.name }}
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<!-- Enter New Account Details -->
+		<ng-container *ngIf="newAccount">
+
+
 			<div class="form-group">
-				<label for="sort_code" class="col-form-label">Sort Code <span class="text-danger">*</span></label>
+				<label for="bank_name" class="col-form-label small">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
 				<div class="input-group">
-					<input type="text" class="form-control" required [(ngModel)]="transaction.sort_code" name="sort_code" id="sort_code" placeholder="Sort Code">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="swift_code" class="col-form-label">Swift Code <span class="text-danger">*</span></label>
-				<div class="input-group">
-					<input type="text" class="form-control" required [(ngModel)]="transaction.swift_code" name="swift_code" id="swift_code" placeholder="Swift Code">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="routing_no" class="col-form-label">Routing Number <span class="text-danger">*</span></label>
-				<div class="input-group">
-					<input type="text" class="form-control" required [(ngModel)]="transaction.routing_no" name="routing_no" id="routing_no" placeholder="Routing Number">
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label for="iban" class="col-form-label">IBAN <span class="text-danger">*</span></label>
-				<div class="input-group">
-					<input type="text" class="form-control" required [(ngModel)]="transaction.iban" name="iban" id="iban" placeholder="IBAN">
-				</div>
-			</div>
-		</ng-container>
-
-		<ng-container *ngIf="transaction.country === 'Nigeria'">
-
-			<!-- Pick whether from existing account or create new account... -->
-			<div class="form-check">
-				<label class="custom-control custom-checkbox">
-					<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
-					       class="custom-control-input"> <span class="custom-control-indicator"></span>
-					<span class="custom-control-description">Create a new account</span>
-				</label>
-			</div>
-
-			<!-- Select from Existing Accounts -->
-			<div class="form-group" *ngIf="!newAccount">
-				<label for="account_id" class="col-form-label">Account <span class="text-danger" *ngIf="!newAccount">*</span></label>
-				<div class="input-group">
-					<select class="custom-select col-12" [required]="!newAccount" [(ngModel)]="transaction.account_id"
-					        id="account_id" name="account_id">
-						<option disabled selected="selected" value>- select an account -</option>
-						<option *ngFor="let account of accounts" [value]="account.id">{{ account?.bank.toLocaleUpperCase() + ' : ' + account?.number + ' - ' + account?.name }}
-						</option>
+					<select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" id="bank_name" *ngIf="transaction.foreign !== true">
+						<option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
 					</select>
+					<input type="text" class="form-control" required [(ngModel)]="transaction.bank_name" *ngIf="transaction.foreign === true"
+					       name="bank_name" id="bank_name" placeholder="Bank">
 				</div>
 			</div>
 
-			<!-- Enter New Account Details -->
-			<ng-container *ngIf="newAccount">
+			<div class="form-group">
+				<label for="account_name" class="col-form-label small">Account Name <span class="text-danger" *ngIf="newAccount">*</span></label>
+				<div class="input-group">
+					<input type="text" class="form-control" [required]="newAccount" [(ngModel)]="transaction.account_name"
+					       id="account_name" name="account_name" placeholder="Account Name">
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label for="account_number" class="col-form-label small">Account Number <span class="text-danger" *ngIf="newAccount">*</span></label>
+				<div class="input-group">
+					<input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
+					       [(ngModel)]="transaction.account_number" name="account_number" id="account_number"
+					       placeholder="Account Number">
+				</div>
+			</div>
+
+
+			<div class="form-group" *ngIf="false">
+				<label for="bvn" class="col-form-label small">BVN <span class="text-danger" *ngIf="newAccount">*</span></label>
+				<div class="input-group">
+					<input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
+					       [(ngModel)]="transaction.bvn" name="bvn" id="bvn" placeholder="Enter BVN">
+				</div>
+			</div>
+
+			<ng-container *ngIf="transaction.foreign === true">
 				<div class="form-group">
-					<label for="bank_name" class="col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
+					<label for="bank_address" class="col-form-label small">Bank Address <span class="text-danger">*</span></label>
 					<div class="input-group">
-						<select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" id="bank_name">
-							<option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
-						</select>
+						<input type="text" class="form-control" required [(ngModel)]="transaction.bank_address" name="bank_address" id="bank_address" placeholder="Bank Address">
 					</div>
 				</div>
 
 				<div class="form-group">
-					<label for="account_name" class="col-form-label">Account Name <span class="text-danger" *ngIf="newAccount">*</span></label>
+					<label for="sort_code" class="col-form-label small">Sort Code <span class="text-danger">*</span></label>
 					<div class="input-group">
-						<input type="text" class="form-control" [required]="newAccount" [(ngModel)]="transaction.account_name"
-						       id="account_name" name="account_name" placeholder="Account Name">
+						<input type="text" class="form-control" required [(ngModel)]="transaction.sort_code" name="sort_code" id="sort_code" placeholder="Sort Code">
 					</div>
 				</div>
-
 
 				<div class="form-group">
-					<label for="account_number" class="col-form-label">Account Number <span class="text-danger" *ngIf="newAccount">*</span></label>
+					<label for="swift_code" class="col-form-label small">Swift Code <span class="text-danger">*</span></label>
 					<div class="input-group">
-						<input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
-						       [(ngModel)]="transaction.account_number" name="account_number" id="account_number"
-						       placeholder="Account Number">
+						<input type="text" class="form-control" required [(ngModel)]="transaction.swift_code" name="swift_code" id="swift_code" placeholder="Swift Code">
 					</div>
 				</div>
 
-
-				<div class="form-group" *ngIf="false">
-					<label for="bvn" class="col-form-label">BVN <span class="text-danger" *ngIf="newAccount">*</span></label>
+				<div class="form-group">
+					<label for="routing_no" class="col-form-label small">Routing Number <span class="text-danger">*</span></label>
 					<div class="input-group">
-						<input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
-						       [(ngModel)]="transaction.bvn" name="bvn" id="bvn" placeholder="Enter BVN">
+						<input type="text" class="form-control" required [(ngModel)]="transaction.routing_no" name="routing_no" id="routing_no" placeholder="Routing Number">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="iban" class="col-form-label small">IBAN <span class="text-danger">*</span></label>
+					<div class="input-group">
+						<input type="text" class="form-control" required [(ngModel)]="transaction.iban" name="iban" id="iban" placeholder="IBAN">
 					</div>
 				</div>
 			</ng-container>
-
 		</ng-container>
 
 	</ng-container>
@@ -248,7 +273,7 @@
 	<!-- Stage 3 of FORM -->
 	<ng-container #step3 *ngIf="form3">
 		<div class="form-group">
-			<label for="rate" class="col-form-label">Rate <span class="text-danger">*</span></label>
+			<label for="rate" class="col-form-label small">Rate <span class="text-danger">*</span></label>
 			<div class="input-group">
 				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
 				<input type="number" class="form-control" required [(ngModel)]="transaction.rate" name="rate" id="rate" placeholder="Rate">
@@ -257,7 +282,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="condition" class="col-form-label">Condition <span class="text-danger">*</span></label>
+			<label for="condition" class="col-form-label small">Condition <span class="text-danger">*</span></label>
 			<div class="input-group">
 				<select class="form-control" required [(ngModel)]="transaction.condition" name="condition" id="condition">
 					<option value="advance">Advance</option>
@@ -272,14 +297,14 @@
 		</div>
 
 		<div class="form-group">
-			<label for="referrer" class="col-form-label">Referrer <span class="text-danger">*</span></label>
+			<label for="referrer" class="col-form-label small">Referrer <span class="text-danger">*</span></label>
 			<div class="input-group">
 				<input class="form-control" name="referrer" id="referrer" [(ngModel)]="transaction.referrer" type="text">
 			</div>
 		</div>
 
 		<div class="form-group" *ngIf="transaction.transaction_type_id === '3'">
-			<label for="swap_charges" class="col-form-label">Swap Charges <span class="text-danger">*</span></label>
+			<label for="swap_charges" class="col-form-label small">Swap Charges <span class="text-danger">*</span></label>
 			<div class="input-group">
 				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
 				<input class="form-control" name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
@@ -287,7 +312,7 @@
 		</div>
 
 		<div class="form-group">
-			<label for="comment" class="col-form-label">Comment <span class="text-danger">*</span></label>
+			<label for="comment" class="col-form-label small">Comment <span class="text-danger">*</span></label>
 			<div class="input-group">
 				<textarea class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
 

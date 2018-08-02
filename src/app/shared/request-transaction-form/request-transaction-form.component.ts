@@ -267,4 +267,8 @@ export class RequestTransactionFormComponent implements OnInit {
 				}
 			);
 	}
+
+	onCountryChange($event = null) {
+		this.transaction.foreign = this.transaction.country !== 'Nigeria';
+	}
 }

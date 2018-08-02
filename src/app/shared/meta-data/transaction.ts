@@ -10,6 +10,7 @@ export class Transaction {
 	approved_at?: string;
 	approved_by?: number;
 	client?: Client;
+	foreign? = false;
 	client_id: number;
 	closed_at?: string;
 	closed_by?: number;

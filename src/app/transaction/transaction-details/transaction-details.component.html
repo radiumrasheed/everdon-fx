@@ -108,59 +108,85 @@
 														<p class="text-dark">{{ transaction?.created_at | amCalendar }}</p>
 													</div>
 
-													<ng-container *ngIf="transaction.transaction_mode_id !== 1">
-														<div class="col-md-3 col-xs-6 b-r">
-															<small class="text-muted">
-																{{ transaction.account_id ? 'Receiving Bank Account' : 'Swift Code' }}
-															</small>
-															<br>
-															<p class="text-dark" *ngIf="transaction.account_id">
-																{{ transaction?.account?.bank.toLocaleUpperCase() }}
-															</p>
-															<p class="text-dark" *ngIf="!transaction.account_id">
-																{{ transaction?.swift_code }}
-															</p>
-														</div>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Receiving Bank Account
+														</small>
+														<br>
+														<p class="text-dark" *ngIf="transaction.account_id">
+															{{ transaction?.account?.bank.toLocaleUpperCase() }}
+														</p>
+													</div>
 
-														<div class="col-md-3 col-xs-6 b-r">
-															<small class="text-muted">
-																{{ transaction.account_id ? 'Receiving Bank Name' : 'Sort Code' }}
-															</small>
-															<br>
-															<p class="text-dark" *ngIf="transaction.account_id">
-																{{ transaction?.account?.name.toLocaleUpperCase() }}
-															</p>
-															<p class="text-dark" *ngIf="!transaction.account_id">
-																{{ transaction?.sort_code }}
-															</p>
-														</div>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Receiving Bank Name
+														</small>
+														<br>
+														<p class="text-dark" *ngIf="transaction.account_id">
+															{{ transaction?.account?.name.toLocaleUpperCase() }}
+														</p>
+													</div>
 
-														<div class="col-md-3 col-xs-6 b-r">
-															<small class="text-muted">
-																{{ transaction.account_id ? 'Receiving Account Number' : 'Routing Number' }}
-															</small>
-															<br>
-															<p class="text-dark" *ngIf="transaction.account_id">
-																{{ transaction?.account?.number }}
-															</p>
-															<p class="text-dark" *ngIf="!transaction.account_id">
-																{{ transaction?.routing_no }}
-															</p>
-														</div>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Receiving Account Number
+														</small>
+														<br>
+														<p class="text-dark" *ngIf="transaction.account_id">
+															{{ transaction?.account?.number }}
+														</p>
+													</div>
 
-														<div class="col-md-3 col-xs-6 b-r">
-															<small class="text-muted">
-																{{ transaction.account_id ? 'Receiving Account BVN' : 'IBAN' }}
-															</small>
-															<br>
-															<p class="text-dark" *ngIf="transaction.account_id">
-																{{ transaction?.client?.bvn }}
-															</p>
-															<p class="text-dark" *ngIf="!transaction.account_id">
-																{{ transaction?.iban }}
-															</p>
-														</div>
-													</ng-container>
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Receiving Account BVN
+														</small>
+														<br>
+														<p class="text-dark" *ngIf="transaction.client?.bvn">
+															{{ transaction?.client?.bvn }}
+														</p>
+													</div>
+
+													<div class="col-md-3 col-xs-6 b-r" *ngIf="transaction.account.foreign == true">
+														<small class="text-muted">
+															Swift Code
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.account?.swift_code }}
+														</p>
+													</div>
+
+													<div class="col-md-3 col-xs-6 b-r" *ngIf="transaction.account.foreign == true">
+														<small class="text-muted">
+															Sort Code
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.account?.sort_code }}
+														</p>
+													</div>
+
+													<div class="col-md-3 col-xs-6 b-r" *ngIf="transaction.account.foreign == true">
+														<small class="text-muted">
+															Routing Number
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.account?.routing_no }}
+														</p>
+													</div>
+
+													<div class="col-md-3 col-xs-6 b-r" *ngIf="transaction.account.foreign == true">
+														<small class="text-muted">
+															IBAN
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.account?.iban }}
+														</p>
+													</div>
 
 												</div>
 												<hr>

@@ -252,7 +252,7 @@
 										<ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
 										<br>
 										<div class="form-group">
-											<label for="identification_document">{{ client.identification_document ? 'Upload Document' : 'Change Document' }}</label>
+											<label for="identification_document">{{ client.identification_document ? 'Update Document' : 'Upload Document' }}</label>
 											<input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document"
 											       class="form-control-file form-control-lg" id="identification_document" placeholder="Means of Identification...">
 										</div>
@@ -300,7 +300,8 @@
 												<h4 class="m-b-0 text-info">{{ account.name}} </h4>
 												<i class="mdi mdi-credit-card"></i>
 												<code>{{ account.number }}</code>
-												<h6 class="text-muted m-b-0">{{ account.bank }}</h6></div>
+												<h6 class="text-muted m-b-0">{{ account.bank }} {{ account?.bank_address ? '- ' + account.bank_address : '' }}</h6>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -313,12 +314,33 @@
 
 										<form *swalPartial class="form col-md-10 offset-md-1" #createAccountForm="ngForm" (submit)="createAccount()">
 
+											<div class="form-check-inline">
+												<label class="custom-control custom-radio" for="_local">
+													<input class="form-check-input" type="radio" name="foreign" id="_local" [value]="false" [(ngModel)]="newAccount.foreign">
+													<span class="custom-control-description">Local Account</span>
+												</label>
+												<label class="custom-control custom-radio" for="_foreign">
+													<input class="form-check-input" type="radio" name="foreign" id="_foreign" [value]="true" [(ngModel)]="newAccount.foreign">
+													<span class="custom-control-description">Foreign Account</span>
+												</label>
+											</div>
+
 											<div class="form-group">
 												<label for="bank" class="col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
 												<div class="input-group">
-													<select class="form-control" [required]="newAccount" [(ngModel)]="newAccount.bank" name="bank" id="bank">
+													<select class="form-control" [required]="newAccount" [(ngModel)]="newAccount.bank" name="bank" id="bank" *ngIf="newAccount.foreign === false">
 														<option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
 													</select>
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.bank" *ngIf="newAccount.foreign === true"
+													       name="bank" id="bank" placeholder="Bank">
+												</div>
+											</div>
+
+											<div class="form-group" *ngIf="newAccount.foreign === true">
+												<label for="bank_address" class="col-form-label">Bank Address <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.bank_address"
+													       name="bank_address" id="bank_address" placeholder="Bank Address">
 												</div>
 											</div>
 
@@ -336,6 +358,38 @@
 												<div class="input-group">
 													<input type="text" class="form-control" required minlength="10" maxlength="10" [(ngModel)]="newAccount.number"
 													       name="number" id="number" pattern="\d{10}" placeholder="Account Number">
+												</div>
+											</div>
+
+											<div class="form-group" *ngIf="newAccount.foreign === true">
+												<label for="routing_no" class="col-form-label">Routing Number <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.routing_no"
+													       name="routing_no" id="routing_no" placeholder="Routing Number ">
+												</div>
+											</div>
+
+											<div class="form-group" *ngIf="newAccount.foreign === true">
+												<label for="sort_code" class="col-form-label">Sort Code <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.sort_code"
+													       name="sort_code" id="sort_code" placeholder="Sort Code">
+												</div>
+											</div>
+
+											<div class="form-group" *ngIf="newAccount.foreign === true">
+												<label for="number" class="col-form-label">Swift Code <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.swift_code"
+													       name="swift_code" id="swift_code" placeholder="Swift Code">
+												</div>
+											</div>
+
+											<div class="form-group" *ngIf="newAccount.foreign === true">
+												<label for="iban" class="col-form-label">IBAN <span class="text-danger">*</span></label>
+												<div class="input-group">
+													<input type="text" class="form-control" required [(ngModel)]="newAccount.iban"
+													       name="iban" id="iban" placeholder="IBAN">
 												</div>
 											</div>
 
