@@ -219,7 +219,7 @@
 				</div>
 
 				<div class="col-12 text-center comment-widgets" *ngIf="transactions?.length === 0 || !transactions">
-					<p class="text-center text-warning">There are no recent transactions yet.</p>
+					<p class="text-center text-warning">There are no transactions needing your attention.</p>
 					<a [routerLink]="['..', 'transaction', 'request']" class="btn btn-outline-primary">Request Transaction</a>
 				</div>
 			</div>

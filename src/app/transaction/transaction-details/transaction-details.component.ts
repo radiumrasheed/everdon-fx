@@ -45,6 +45,7 @@ export class TransactionDetailsComponent implements OnInit {
 	public can_modify_swap_charges = false;
 	public can_take_action = false;
 	public is_client: boolean;
+	private can_be_updated = false;
 
 	constructor(private transactionService: TransactionService,
 	            private route: ActivatedRoute,
@@ -127,7 +128,8 @@ export class TransactionDetailsComponent implements OnInit {
 				break;
 			}
 
-			case 6: {
+			case 6: { // CLOSED...
+				this.can_be_updated = true;
 				this.can_be_rejected = false;
 				this.can_be_cancelled = false;
 				break;
@@ -146,6 +148,13 @@ export class TransactionDetailsComponent implements OnInit {
 				this.can_modify_condition = true;
 				this.can_modify_swap_charges = true;
 				this.can_modify_org = true;
+
+				break;
+
+			// FX-Ops...
+			case this.can_treat && this.can_be_updated:
+				this.can_take_action = true;
+				this.can_modify_funds_check = true;
 
 				break;
 
@@ -207,6 +216,21 @@ export class TransactionDetailsComponent implements OnInit {
 							}
 						}
 					);
+				break;
+
+			// FX-Ops && CLOSED...
+			case this.can_treat && this.can_be_updated:
+				this.transactionService.updateTransaction(this.transaction, this.id)
+					.subscribe(
+						treated_transaction => {
+							if (treated_transaction) {
+								this.transaction = treated_transaction;
+								this.toastr.success('Successfully approved');
+								this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+							}
+						}
+					);
+
 				break;
 
 			// FX-Ops Manager && PENDING_APPROVAL...

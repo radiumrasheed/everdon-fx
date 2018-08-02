@@ -94,6 +94,14 @@ export class TransactionService {
 			);
 	}
 
+	updateTransaction(transaction: Transaction, id: string): Observable<Transaction> {
+		return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/update', transaction)
+			.pipe(
+				map(response => response['data']['transaction']),
+				catchError(this.handleError<Transaction>('Update Transaction', null))
+			);
+	}
+
 	getAccounts(): Observable<Account[]> {
 		return this.http.get<any>(this.accountUrl)
 			.pipe(
