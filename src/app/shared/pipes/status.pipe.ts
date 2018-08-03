@@ -16,9 +16,9 @@ export class StatusPipe implements PipeTransform {
 			switch (user) {
 				case 'client':
 					if (status.id in [1, 2, 3, 4, 7]) {
-						value = 8;
-					} else if (status.id in [6]) {
 						value = 9;
+					} else if (status.id in [6, 8]) {
+						value = 10;
 					}
 					break;
 				default:

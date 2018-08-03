@@ -313,8 +313,9 @@ export const TRANSACTION_STATUSES: GenericOption[] = [
 	{id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger'},
 	{id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success'},
 	{id: 7, name: 'raised', desc: 'Raised', class: ''},
-	{id: 8, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning'},
-	{id: 9, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green'}
+	{id: 8, name: 'closed-processed', desc: 'Closed & Processed', class: 'label-light-success'},
+	{id: 9, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning'},
+	{id: 10, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green'}
 ];
 
 export const TRANSACTION_TYPES: GenericOption[] = [
