@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Transaction} from '../../shared/meta-data';
 import {Observable} from 'rxjs/Observable';
 import {AuthService} from '../../services/auth/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
 	selector: 'app-request-transaction',
@@ -14,7 +15,7 @@ export class RequestTransactionComponent implements OnInit {
 
 	transaction: Transaction;
 
-	constructor(private auth: AuthService) {
+	constructor(private auth: AuthService, private router: Router) {
 	}
 
 	ngOnInit() {
@@ -27,6 +28,10 @@ export class RequestTransactionComponent implements OnInit {
 	}
 
 	public onSubmittedSuccessfully($event: any) {
-		//
+		if (this.role === 'client') {
+			this.router.navigate(['/me', 'dashboard']).catch(err => console.error(err, $event));
+		} else {
+			this.router.navigate(['/admin', 'dashboard']).catch(err => console.error(err, $event));
+		}
 	}
 }

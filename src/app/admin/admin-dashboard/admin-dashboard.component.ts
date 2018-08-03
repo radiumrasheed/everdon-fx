@@ -273,8 +273,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 				this.requestSwalComponent.nativeSwal.close();
 
 				// Navigate to the newly requested transaction...
-				this.router.navigate(['..', 'transaction', 'details', $event], {relativeTo: this.route})
-					.catch(err => console.error(err, $event));
+				this.router.navigate(['/admin', 'dashboard']).catch(err => console.error(err, $event));
 				break;
 
 			case 'customer-created':

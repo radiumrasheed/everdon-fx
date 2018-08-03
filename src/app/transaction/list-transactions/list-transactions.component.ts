@@ -99,7 +99,7 @@ export class ListTransactionsComponent implements OnInit {
 	admin_table_settings = {
 		columns: {
 			full_name: {
-				title: 'Requester',
+				title: 'Client Name',
 				filter: true,
 			},
 			link: {
@@ -138,6 +138,10 @@ export class ListTransactionsComponent implements OnInit {
 					return this.statusPipe.transform(val);
 				},
 				filter: this.filterStatusSettings,
+			},
+			referee: {
+				title: 'Referee',
+				filter: true,
 			},
 			created_at: {
 				title: 'Time Requested',

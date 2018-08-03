@@ -1,6 +1,7 @@
 import {Client} from './client';
 import {Account} from './account';
 import {Event} from './event';
+import {User} from './user';
 
 export class Transaction {
 	amount: number;
@@ -8,7 +9,7 @@ export class Transaction {
 	calculated_amount: number;
 	account_id: number;
 	approved_at?: string;
-	approved_by?: number;
+	approved_by?: number | User;
 	client?: Client;
 	foreign? = false;
 	client_id: number;
@@ -24,7 +25,7 @@ export class Transaction {
 	initiated_by?: number;
 	link?: string;
 	buying_product_id?: number;
-	selling_product_id?: number;
+	selling_product_id? = 4;
 	rate?: any;
 	referrer?: string;
 	reviewed_at?: string;
@@ -41,8 +42,8 @@ export class Transaction {
 	bvn?: string;
 
 	swap_charges?: number;
-	funds_received?: boolean;
-	funds_paid?: boolean;
+	funds_received? = false;
+	funds_paid? = false;
 	aml_check?: boolean;
 	kyc_check?: boolean;
 

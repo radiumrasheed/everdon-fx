@@ -22,8 +22,8 @@
 					<div class="row text-center justify-content-md-center">
 						<div class="col-4">
 							<a href="javascript:void(0)" (click)="t.select('accounts')" class="link" title="{{ client?.accounts?.length }} accounts">
-								<i class="icon-wallet"></i>
-								<font class="font-medium">{{ client?.accounts?.length }}</font>
+								<i class="mdi mdi-wallet"> </i>
+								<small class="font-medium"> {{ client?.accounts?.length }} Account{{ client?.accounts?.length === 1 ? '' : 's'}}</small>
 							</a>
 						</div>
 					</div>
