@@ -6,8 +6,7 @@ import {AuthService} from '../../services/auth/auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
-	constructor(private authService: AuthService,
-	            private router: Router) {
+	constructor(private authService: AuthService, private router: Router) {
 
 	}
 
@@ -22,14 +21,20 @@ export class AuthGuard implements CanActivate, CanActivateChild {
 	}
 
 	checkLogin(url: string): boolean {
-		if (this.authService.clientTokenNotExpired()) {
-			return true;
-		}
 
 		// store the attempted URL for redirecting
 		this.authService.redirectUrl = url;
 
-		this.router.navigate(['/login']);
+		if (this.authService.clientTokenNotExpired()) {
+
+			return true;
+		} else if (this.authService.adminTokenNotExpired()) {
+			this.router.navigate(['/admin']).catch();
+
+			return false;
+		}
+
+		this.router.navigate(['/login']).catch();
 
 		return false;
 	}
