@@ -2,138 +2,247 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="box-title m-b-0" *ngIf="client">
+				<h3 class="box-title m-b-0">
 					<span class="lstick"></span>
 					Update Customer Details
 				</h3>
 			</div>
 			<div class="card-body">
-				<form class="form-horizontal" #clientForm="ngForm" (ngSubmit)="updateClient()">
-					<div class="form-group row">
-						<label for="email" class="col-sm-3 text-right control-label col-form-label">Email Address<span class="text-danger">*</span></label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.email" name="email" disabled type="email" class="form-control" id="email" placeholder="Email..."></div>
-					</div>
+				<!-- Loading Client Data... -->
+				<app-loader *ngIf="!client"></app-loader>
 
-					<div class="form-group row">
-						<label for="first_name" class="col-sm-3 text-right control-label col-form-label">First Name<span class="text-danger">*</span></label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.first_name" name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="last_name" class="col-sm-3 text-right control-label col-form-label">Last Name<span class="text-danger">*</span></label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.last_name" name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="middle_name" class="col-sm-3 text-right control-label col-form-label">Middle Name<span class="text-danger">*</span></label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.middle_name" name="middle_name" type="text" class="form-control" id="middle_name" placeholder="Middle Name..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="phone" class="col-sm-3 text-right control-label col-form-label">Phone<span class="text-danger">*</span></label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.phone" name="phone" type="tel" pattern="[0]\d{10}" class="form-control"
-							       id="phone" placeholder="Phone..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="bvn" class="col-sm-3 text-right control-label col-form-label">BVN</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.bvn" type="text" name="bvn" class="form-control" id="bvn" placeholder="BVN..." minlength="10" maxlength="10"></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="office_address" class="col-sm-3 text-right control-label col-form-label">Office Address</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.office_address" type="text" name="office_address" class="form-control" id="office_address" placeholder="Office Address..."></div>
-					</div>
-
-					<div class="form-group row">
-						<div class="offset-sm-3 col-sm-9">
-							<div class="checkbox checkbox-success">
-								<input id="is_individual" name="is_individual" [(ngModel)]="is_individual" type="checkbox">
-								<label for="is_individual">Is Cooperate ?</label>
+				<div class="row">
+					<!-- Client Form -->
+					<form class="form-horizontal col-8" #clientForm="ngForm" (ngSubmit)="updateClient()" *ngIf="client">
+						<div class="form-group row">
+							<label for="email" class="col-sm-3 text-right control-label col-form-label">
+								Email Address
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.email" name="email" disabled type="email" class="form-control" id="email" placeholder="Email...">
 							</div>
 						</div>
-					</div>
 
-					<div class="form-group row" *ngIf="client.is_individual">
-						<label for="rc_number" class="col-sm-3 text-right control-label col-form-label">RC Number</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.rc_number" pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number" class="form-control" id="rc_number" placeholder="RC Number..."></div>
-					</div>
-
-					<div class="form-group row" *ngIf="!client.is_individual">
-						<label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
-					</div>
-
-					<div class="form-group row" *ngIf="!client.is_individual">
-						<label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
-						<div class="col-sm-9">
-							<select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status" placeholder="Marital Status...">
-								<option value="single">Single</option>
-								<option value="married">Married</option>
-							</select>
+						<div class="form-group row">
+							<label for="first_name" class="col-sm-3 text-right control-label col-form-label">
+								First Name
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.first_name" required name="first_name" type="text" class="form-control" id="first_name" placeholder="First Name..."></div>
 						</div>
-					</div>
 
-					<div class="form-group row" *ngIf="!client.is_individual">
-						<label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Date of birth..."></div>
-					</div>
-
-					<div class="form-group row" *ngIf="!client.is_individual">
-						<label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name" placeholder="Next of Kin..."></div>
-					</div>
-
-					<div class="form-group row" *ngIf="!client.is_individual">
-						<label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone" placeholder="Next of Kin's Phone Number..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="referee_1" class="col-sm-3 text-right control-label col-form-label">Referee 1</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.referee_1" type="text" name="referee_1" class="form-control" id="referee_1" placeholder="Referee 1..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="referee_2" class="col-sm-3 text-right control-label col-form-label">Referee 2</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.referee_2" type="text" name="referee_2" class="form-control" id="referee_2" placeholder="Referee 2..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="referee_3" class="col-sm-3 text-right control-label col-form-label">Referee 3</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.referee_3" type="text" name="referee_3" class="form-control" id="referee_3" placeholder="Referee 3..."></div>
-					</div>
-
-					<div class="form-group row">
-						<label for="referee_4" class="col-sm-3 text-right control-label col-form-label">Referee 4</label>
-						<div class="col-sm-9">
-							<input [(ngModel)]="client.referee_4" type="text" name="referee_4" class="form-control" id="referee_4" placeholder="Referee 4..."></div>
-					</div>
-
-					<div class="form-group m-b-0">
-						<div class="offset-sm-3 col-sm-9">
-							<button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Update Client</button>
+						<div class="form-group row">
+							<label for="last_name" class="col-sm-3 text-right control-label col-form-label">
+								Last Name
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.last_name" required name="last_name" type="text" class="form-control" id="last_name" placeholder="Last Name...">
+							</div>
 						</div>
+
+						<div class="form-group row">
+							<label for="middle_name" class="col-sm-3 text-right control-label col-form-label">
+								Middle Name
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.middle_name" name="middle_name" type="text" class="form-control" id="middle_name" placeholder="Middle Name...">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="phone" class="col-sm-3 text-right control-label col-form-label">
+								Phone
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.phone" name="phone" required type="tel" pattern="[0]\d{10}" class="form-control" id="phone" placeholder="Phone...">
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<label for="bvn" class="col-sm-3 text-right control-label col-form-label">
+								BVN
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.bvn" type="text" required name="bvn" class="form-control" id="bvn" placeholder="BVN..." minlength="10" maxlength="10"></div>
+						</div>
+
+						<div class="form-group row">
+							<label for="office_address" class="col-sm-3 text-right control-label col-form-label">
+								Office Address
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.office_address" type="text" required name="office_address" class="form-control" id="office_address" placeholder="Office Address...">
+							</div>
+						</div>
+
+						<div class="form-group row" *ngIf="client.is_individual">
+							<label for="rc_number" class="col-sm-3 text-right control-label col-form-label">
+								RC Number
+								<span class="text-danger">*</span>
+							</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.rc_number" required pattern="[A-Z]{2}[0-9]{6}" type="text" name="rc_number" class="form-control" id="rc_number"
+								       placeholder="RC Number...">
+							</div>
+						</div>
+
+						<div class="form-group row" *ngIf="!client.is_individual">
+							<label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
+						</div>
+
+						<div class="form-group row" *ngIf="!client.is_individual">
+							<label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
+							<div class="col-sm-6">
+								<select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status">
+									<option value="single">Single</option>
+									<option value="married">Married</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group row" *ngIf="!client.is_individual">
+							<label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Date of birth..."></div>
+						</div>
+
+						<div class="form-group row" *ngIf="!client.is_individual">
+							<label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name" placeholder="Next of Kin..."></div>
+						</div>
+
+						<div class="form-group row" *ngIf="!client.is_individual">
+							<label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone" placeholder="Next of Kin's Phone Number..."></div>
+						</div>
+
+						<div class="form-group row">
+							<label for="referee_1" class="col-sm-3 text-right control-label col-form-label">Referee 1</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.referee_1" type="text" name="referee_1" class="form-control" id="referee_1" placeholder="Referee 1..."></div>
+						</div>
+
+						<div class="form-group row">
+							<label for="referee_2" class="col-sm-3 text-right control-label col-form-label">Referee 2</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.referee_2" type="text" name="referee_2" class="form-control" id="referee_2" placeholder="Referee 2..."></div>
+						</div>
+
+						<div class="form-group row">
+							<label for="referee_3" class="col-sm-3 text-right control-label col-form-label">Referee 3</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.referee_3" type="text" name="referee_3" class="form-control" id="referee_3" placeholder="Referee 3..."></div>
+						</div>
+
+						<div class="form-group row">
+							<label for="referee_4" class="col-sm-3 text-right control-label col-form-label">Referee 4</label>
+							<div class="col-sm-6">
+								<input [(ngModel)]="client.referee_4" type="text" name="referee_4" class="form-control" id="referee_4" placeholder="Referee 4..."></div>
+						</div>
+
+						<div class="form-group m-b-0">
+							<div class="offset-sm-3 col-sm-6">
+								<button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Update Client</button>
+							</div>
+						</div>
+
+						<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
+
+					</form>
+
+					<div class="col-4">
+						<!-- Client KYC Card -->
+						<div *ngIf="client?.kyc" class="pricing-box featured-plan">
+							<div class="pricing-body">
+								<div class="pricing-header">
+									<h3 class="price-lable text-white bg-primary"> KYC Card</h3>
+								</div>
+								<div class="price-table-content">
+									<label class="label-light-danger label-rounded" *ngIf="client?.kyc?.awaiting_review === 1">
+										Recently updated by Customer !
+									</label>
+									<br *ngIf="client.kyc?.awaiting_review === 1">
+
+									<i class="mdi mdi-calendar-clock"> </i>
+									{{ client?.kyc?.awaiting_review === 1 ? 'Customer updated' : 'Updated'}} {{ client?.updated_at | amCalendar }}
+
+									<hr>
+									<form>
+										<h1 class="text-center">
+											<span>{{ client?.kyc?.status ? '   ' : 'No' }}</span>
+											<ui-switch [(ngModel)]="client.kyc.status" name="status" size="large"></ui-switch>
+											<span>{{ client?.kyc?.status ? 'Yes' : '  ' }}</span>
+										</h1>
+										<button class="btn btn-lg btn-info waves-effect waves-light m-t-20" (click)="validateKYC()">
+											{{ client?.kyc?.status ? 'Update' : 'Update' }}
+											<i class="mdi mdi-toggle-{{ client?.kyc?.status ? 'switch' : 'switch-off'}} "></i>
+										</button>
+										<br>
+										<br>
+										<i class="icon-calender"> </i>
+										Last reviewed {{ client?.kyc?.last_reviewed_at | amCalendar }}
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<br>
+
+						<!-- Client Identity Card -->
+						<div *ngIf="client?.identification" class="pricing-box featured-plan">
+							<div class="pricing-body">
+								<div class="pricing-header">
+									<h3 class="price-lable text-white bg-primary"> Identity Card</h3>
+								</div>
+								<div class="price-table-content">
+
+
+									<div class="col-12 b-r">
+										<small class="text-muted">Identification Type</small>
+										<br>
+										<p class="text-dark">{{ client?.identification }}</p>
+									</div>
+
+									<div class="col-12 b-r" *ngIf="client.identification_number">
+										<small class="text-muted">Identification Number</small>
+										<br>
+										<p class="text-dark">{{ client?.identification_number }}</p>
+									</div>
+
+									<swal #documentSwal [title]="client.identification.toLocaleUpperCase()" [showConfirmButton]="false" width="850px">
+										<ng-container *swalPartial>
+											<div class="col-12">
+												<p *ngIf="client.identification_document">You have 1 document uploaded already</p>
+												<ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
+											</div>
+
+											<div class="col-12">
+												<p *ngIf="client.cac_document">You have 1 document uploaded already</p>
+												<ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
+											</div>
+										</ng-container>
+
+									</swal>
+									<a class="btn btn-rounded btn-outline-info" [swal]="documentSwal" href="javascript:void(0)">View Document</a>
+
+								</div>
+							</div>
+						</div>
+
+
 					</div>
+				</div>
 
-					<ngb-alert *ngIf="successMessage" type="success" (close)="successMessage = null">{{ successMessage }}</ngb-alert>
-
-				</form>
 			</div>
 		</div>
 	</div>

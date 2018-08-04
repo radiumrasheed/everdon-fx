@@ -16,6 +16,8 @@ import {MomentModule} from 'angular2-moment';
 import {HttpInterceptorProviders} from '../http-interceptors';
 import {HttpClientModule} from '@angular/common/http';
 import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
+import {UiSwitchModule} from 'ngx-ui-switch';
+import {ImageViewerModule} from '@hallysonh/ngx-imageviewer';
 
 @NgModule({
 	imports: [
@@ -30,7 +32,9 @@ import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 		SharedModule,
 		MomentModule,
 		AdminRoutingModule,
-		SweetAlert2Module
+		SweetAlert2Module,
+		UiSwitchModule,
+		ImageViewerModule
 	],
 	declarations: [
 		AdminDashboardComponent,

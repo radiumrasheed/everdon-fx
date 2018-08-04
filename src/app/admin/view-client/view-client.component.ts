@@ -13,8 +13,7 @@ import {Client} from '../../shared/meta-data';
 export class ViewClientComponent implements OnInit {
 	public id: string;
 	public successMessage: boolean;
-	public is_individual: boolean;
-	public client = new Client;
+	public client: Client;
 
 	constructor(
 		private route: ActivatedRoute,
@@ -38,8 +37,6 @@ export class ViewClientComponent implements OnInit {
 			.subscribe(
 				client => {
 					this.client = client;
-				},
-				err => {
 				}
 			);
 	}

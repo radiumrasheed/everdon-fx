@@ -60,7 +60,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 		StatusPipe,
 		TypePipe,
 		ModePipe,
-		ProductPipe
+		ProductPipe,
+		LoaderComponent
 	],
 	providers: [
 		{
