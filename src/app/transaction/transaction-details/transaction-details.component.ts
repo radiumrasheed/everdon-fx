@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {TransactionService} from '../transaction.service';
 import {ORGANIZATIONS, PRODUCTS, Transaction} from '../../shared/meta-data';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {AuthService} from '../../services/auth/auth.service';
 import {ToastrService} from 'ngx-toastr';
+import {RefundTransaction} from '../../shared/meta-data/transaction';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 
 @Component({
@@ -14,6 +16,7 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class TransactionDetailsComponent implements OnInit {
 
+	public refund_transaction: Transaction;
 	/**
 	 * Transaction Data
 	 * */
@@ -46,12 +49,13 @@ export class TransactionDetailsComponent implements OnInit {
 	public can_take_action = false;
 	public is_client: boolean;
 	private can_be_updated = false;
+	@ViewChild(`refundSwal`) private refundSwalComponent: SwalComponent;
 
 	constructor(private transactionService: TransactionService,
-	            private route: ActivatedRoute,
-	            private router: Router,
-	            private auth: AuthService,
-	            private toastr: ToastrService) {
+							private route: ActivatedRoute,
+							private router: Router,
+							private auth: AuthService,
+							private toastr: ToastrService) {
 	}
 
 	ngOnInit() {
@@ -193,6 +197,7 @@ export class TransactionDetailsComponent implements OnInit {
 
 					// Set all configs according to role and status...
 					this.transaction = transaction;
+					this.refund_transaction = new RefundTransaction(transaction);
 					this.computeTLogic();
 				}
 			);
@@ -328,5 +333,9 @@ export class TransactionDetailsComponent implements OnInit {
 
 				}
 			);
+	}
+
+	onSubmittedSuccessfully() {
+		this.refundSwalComponent.nativeSwal.close();
 	}
 }

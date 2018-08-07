@@ -19,6 +19,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 	roles$: Observable<string>;
 	role: string;
 	public transaction = new Transaction();
+
 	// This is for the WACC dashboard line chart...
 	public lineChartData: Array<any> = [
 		{
@@ -78,12 +79,14 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 	];
 	public lineChartLegend = true;
 	public lineChartType = 'line';
+
 	// API Stats...
 	public counts: any;
 	public buckets: any;
 	public transactions: Transaction[];
 	public events: Event[];
 	public waccs: any;
+
 	// Doughnut...
 	public doughnutChartLabels: string[] = [
 		'Open',
@@ -102,6 +105,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 	};
 	public doughnutChartType = 'doughnut';
 	public doughnutChartLegend = false;
+
 	// Child Components...
 	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
 	@ViewChild(`createSwal`) private createSwalComponent: SwalComponent;

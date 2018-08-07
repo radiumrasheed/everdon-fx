@@ -35,6 +35,20 @@
 												</label>
 
 												<div class="btn-group m-b-11 pull-right" role="group" aria-label="Treat Transaction">
+													<swal #refundSwal title="Refund Transaction" [showConfirmButton]="false">
+
+														<app-request-transaction-form [transaction]="refund_transaction" *swalPartial
+														                              (submittedSuccessfully)="onSubmittedSuccessfully()"
+														                              [profileLink]="['admin', 'customer', transaction.client_id]">
+
+														</app-request-transaction-form>
+
+													</swal>
+													<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
+													        [disabled]="!(transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8) ">
+														Refund
+														<i class="mdi mdi-undo-variant"></i>
+													</button>
 													<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
 														Cancel
 														<i class="mdi mdi-block-helper"></i>
@@ -45,18 +59,19 @@
 													</button>
 													<button class="btn btn-outline-primary waves-effect waves-light" [disabled]="!can_take_action" type="button" (click)="takeAction()">
                             <span class="btn-label">
-                              <i class="mdi mdi-send"></i>
+                              SUBMIT
                             </span>
-														SUBMIT
+														<i class="mdi mdi-send"></i>
 													</button>
 												</div>
 											</div>
 										</div>
 
 										<ng-container>
-											<div class="m-t-40" style="clear: both;">
+											<div style="clear: both;">
 												<hr>
 												<div class="row">
+													<!-- Step 1 -->
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Buying Currency</small>
 														<br>
@@ -81,7 +96,9 @@
 														<br>
 														<p class="text-dark">{{ transaction?.country }}</p>
 													</div>
+													<!-- End of Step 1 -->
 
+													<!-- Step 2 -->
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Selling Currency</small>
 														<br>
@@ -107,7 +124,9 @@
 														<br>
 														<p class="text-dark">{{ transaction?.created_at | amCalendar }}</p>
 													</div>
+													<!-- End of Step 2 -->
 
+													<!-- Step 3 -->
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">
 															Receiving Bank Account
@@ -147,7 +166,9 @@
 															{{ transaction?.client?.bvn }}
 														</p>
 													</div>
+													<!-- End of Step 3 -->
 
+													<!-- Step 4 -->
 													<div class="col-md-3 col-xs-6 b-r" *ngIf="transaction.account?.foreign == true">
 														<small class="text-muted">
 															Swift Code
@@ -187,158 +208,179 @@
 															{{ transaction?.account?.iban }}
 														</p>
 													</div>
+													<!-- End of Step 4 -->
+
+													<!-- Step 5 -->
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Referrer
+														</small>
+														<br>
+														<p class="text-dark" *ngIf="transaction.referrer">
+															{{ transaction?.referrer }}
+														</p>
+													</div>
+
+													<div class="col-md-6 col-xs-6 b-r">
+														<small class="text-muted">
+															Purpose
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.purpose }}
+														</p>
+													</div>
+													<!-- End of Step 5 -->
 
 												</div>
 												<hr>
 											</div>
 										</ng-container>
 
-										<div class="">
+										<form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
+											<div class="col-12">
 
-											<form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
-												<div class="col-12">
+												<!--<h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>-->
 
-													<!--<h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>-->
-
-													<div class="row">
-														<div class="form-check col-lg-3 col-sm-12">
-															<label class="custom-control custom-checkbox" for="funds_received">
-																<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
-																       class="custom-control-input input-group-lg">
-																<span class="custom-control-indicator"></span>
-																<span class="custom-control-description">Funds Received</span>
-															</label>
-														</div>
-
-														<div class="form-check col-lg-3 col-sm-12">
-															<label class="custom-control custom-checkbox" for="funds_paid">
-																<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid"
-																       class="custom-control-input input-group-lg">
-																<span class="custom-control-indicator"></span>
-																<span class="custom-control-description">Funds Paid</span>
-															</label>
-														</div>
-
-														<div class="form-check col-lg-3 col-sm-12">
-															<label class="custom-control custom-checkbox" for="aml_check">
-																<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check"
-																       class="custom-control-input input-group-lg">
-																<span class="custom-control-indicator"></span>
-																<span class="custom-control-description">AML Check</span>
-															</label>
-														</div>
-
-														<div class="form-check col-lg-3 col-sm-12">
-															<label class="custom-control custom-checkbox" for="kyc_check">
-																<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check"
-																       class="custom-control-input input-group-lg">
-																<span class="custom-control-indicator"></span>
-																<span class="custom-control-description">KYC Check</span>
-															</label>
-														</div>
+												<div class="row">
+													<div class="form-check col-lg-3 col-sm-12">
+														<label class="custom-control custom-checkbox" for="funds_received">
+															<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
+															       class="custom-control-input input-group-lg">
+															<span class="custom-control-indicator"></span>
+															<span class="custom-control-description">Funds Received</span>
+														</label>
 													</div>
 
-													<hr>
+													<div class="form-check col-lg-3 col-sm-12">
+														<label class="custom-control custom-checkbox" for="funds_paid">
+															<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_paid" name="funds_paid" id="funds_paid"
+															       class="custom-control-input input-group-lg">
+															<span class="custom-control-indicator"></span>
+															<span class="custom-control-description">Funds Paid</span>
+														</label>
+													</div>
 
-													<div class="row">
+													<div class="form-check col-lg-3 col-sm-12">
+														<label class="custom-control custom-checkbox" for="aml_check">
+															<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.aml_check" name="aml_check" id="aml_check"
+															       class="custom-control-input input-group-lg">
+															<span class="custom-control-indicator"></span>
+															<span class="custom-control-description">AML Check</span>
+														</label>
+													</div>
 
-														<div class="form-group col-lg-6 col-sm-12">
-															<label for="rate">
-																<i class="mdi mdi-percent text-warning disabled"></i>
-																Rate
-																<span *ngIf="transaction" class="text-danger">*</span>
-															</label>
-															<div class="input-group">
-																<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
-																<input type="text" class="form-control" [(ngModel)]="transaction.rate"
-																       (keyup)="updateCalculatedAmount()" [disabled]="!can_be_treated"
-																       name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
-																<span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
-															</div>
+													<div class="form-check col-lg-3 col-sm-12">
+														<label class="custom-control custom-checkbox" for="kyc_check">
+															<input type="checkbox" [disabled]="!can_modify_aml_kyc" [(ngModel)]="transaction.kyc_check" name="kyc_check" id="kyc_check"
+															       class="custom-control-input input-group-lg">
+															<span class="custom-control-indicator"></span>
+															<span class="custom-control-description">KYC Check</span>
+														</label>
+													</div>
+												</div>
 
-														</div>
+												<hr>
 
-														<div class="form-group col-lg-6 col-sm-12" hidden>
-															<label for="calculated_amount">
-																<i class="mdi mdi-cash-multiple text-warning disabled"></i>
-																Amount to be paid by Customer
-																<span *ngIf="transaction" class="text-danger">*</span>
-															</label>
-															<div class="input-group">
-																<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
-																<input type="text" class="form-control" disabled
-																       [ngModel]="transaction.calculated_amount"
-																       name="calculated_amount" id="calculated_amount"
-																       aria-label="Amount (to the nearest dollar)">
-															</div>
-														</div>
+												<div class="row">
 
-
-														<div class="form-group col-lg-6 col-sm-12" *ngIf="transaction.transaction_type_id === 3">
-															<label for="swap_charges">
-																<i class="mdi mdi-cash text-warning"></i>
-																Swap Charges
-																<span *ngIf="can_modify_org" class="text-danger">*</span>
-															</label>
-
-															<input class="form-control" [required]="can_modify_swap_charges" [disabled]="!can_modify_swap_charges" type="number"
-															       [(ngModel)]="transaction.swap_charges" name="swap_charges" id="swap_charges">
-														</div>
-
-
-														<div class="form-group col-lg-6 col-sm-12">
-															<label for="org_account_id">
-																<i class="mdi mdi-bank text-warning"></i>
-																Paying Organization / Account
-																<span *ngIf="can_modify_org" class="text-danger">*</span>
-															</label>
-
-															<select class="form-control" [required]="can_modify_org" [disabled]="!can_modify_org"
-															        [(ngModel)]="transaction.org_account_id" name="org_account_id" id="org_account_id">
-																<option *ngFor="let organization of organizationList" value="{{organization.id}}">
-																	{{organization.name + ' ' + organization.account_number}}
-																</option>
-															</select>
-														</div>
-
-														<div class="form-group col-lg-6 col-sm-12">
-															<label for="condition">
-																<i class="mdi mdi-code-not-equal text-warning"></i>
-																Condition
-																<span *ngIf="can_modify_condition" class="text-danger">*</span>
-															</label>
-
-															<select class="form-control" [required]="can_modify_condition" [disabled]="!can_modify_condition"
-															        [(ngModel)]="transaction.condition" name="condition" id="condition">
-																<option value="advance">Advance</option>
-																<option value="funds received">Funds Received</option>
-																<option value="loan">Loan</option>
-																<option value="pay first">Pay First</option>
-																<option value="rate concession">Rate Concession</option>
-																<option value="waiver">Waiver</option>
-																<option value="others">Others</option>
-															</select>
-														</div>
-
-														<div class="form-group col-lg-6 col-sm-12">
-															<label for="comment">
-																<i class="mdi mdi-comment text-success disabled"></i>
-																Comment
-																<span *ngIf="can_take_action" class="text-danger">*</span>
-															</label>
-															<textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
+													<div class="form-group col-lg-6 col-sm-12">
+														<label for="rate">
+															<i class="mdi mdi-percent text-warning disabled"></i>
+															Rate
+															<span *ngIf="transaction" class="text-danger">*</span>
+														</label>
+														<div class="input-group">
+															<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
+															<input type="text" class="form-control" [(ngModel)]="transaction.rate"
+															       (keyup)="updateCalculatedAmount()" [disabled]="!can_be_treated"
+															       name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
+															<span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
 														</div>
 
 													</div>
 
-													<button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">
-														SUBMIT
-														<i class="mdi mdi-send"></i>
-													</button>
+													<div class="form-group col-lg-6 col-sm-12" hidden>
+														<label for="calculated_amount">
+															<i class="mdi mdi-cash-multiple text-warning disabled"></i>
+															Amount to be paid by Customer
+															<span *ngIf="transaction" class="text-danger">*</span>
+														</label>
+														<div class="input-group">
+															<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
+															<input type="text" class="form-control" disabled
+															       [ngModel]="transaction.calculated_amount"
+															       name="calculated_amount" id="calculated_amount"
+															       aria-label="Amount (to the nearest dollar)">
+														</div>
+													</div>
+
+
+													<div class="form-group col-lg-6 col-sm-12" *ngIf="transaction.transaction_type_id === 3">
+														<label for="swap_charges">
+															<i class="mdi mdi-cash text-warning"></i>
+															Swap Charges
+															<span *ngIf="can_modify_org" class="text-danger">*</span>
+														</label>
+
+														<input class="form-control" [required]="can_modify_swap_charges" [disabled]="!can_modify_swap_charges" type="number"
+														       [(ngModel)]="transaction.swap_charges" name="swap_charges" id="swap_charges">
+													</div>
+
+
+													<div class="form-group col-lg-6 col-sm-12">
+														<label for="org_account_id">
+															<i class="mdi mdi-bank text-warning"></i>
+															Paying Organization / Account
+															<span *ngIf="can_modify_org" class="text-danger">*</span>
+														</label>
+
+														<select class="form-control" [required]="can_modify_org" [disabled]="!can_modify_org"
+														        [(ngModel)]="transaction.org_account_id" name="org_account_id" id="org_account_id">
+															<option *ngFor="let organization of organizationList" value="{{organization.id}}">
+																{{organization.name + ' ' + organization.account_number}}
+															</option>
+														</select>
+													</div>
+
+													<div class="form-group col-lg-6 col-sm-12">
+														<label for="condition">
+															<i class="mdi mdi-code-not-equal text-warning"></i>
+															Condition
+															<span *ngIf="can_modify_condition" class="text-danger">*</span>
+														</label>
+
+														<select class="form-control" [required]="can_modify_condition" [disabled]="!can_modify_condition"
+														        [(ngModel)]="transaction.condition" name="condition" id="condition">
+															<option value="advance">Advance</option>
+															<option value="funds received">Funds Received</option>
+															<option value="loan">Loan</option>
+															<option value="pay first">Pay First</option>
+															<option value="rate concession">Rate Concession</option>
+															<option value="waiver">Waiver</option>
+															<option value="others">Others</option>
+														</select>
+													</div>
+
+													<div class="form-group col-lg-6 col-sm-12">
+														<label for="comment">
+															<i class="mdi mdi-comment text-success disabled"></i>
+															Comment
+															<span *ngIf="can_take_action" class="text-danger">*</span>
+														</label>
+														<textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
+													</div>
 
 												</div>
-											</form>
-										</div>
+
+												<button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">
+													SUBMIT
+													<i class="mdi mdi-send"></i>
+												</button>
+
+											</div>
+										</form>
+
 									</div>
 								</ng-template>
 							</ngb-tab>

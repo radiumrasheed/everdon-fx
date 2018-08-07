@@ -17,9 +17,11 @@
 
 		<ng-container *ngIf="role === 'fx-ops'">
 
-			<div class="form-group row"><label for="client_id" class="col-sm-3 text-right control-label col-form-label">
-				Client
-				<span class="text-danger">*</span></label>
+			<div class="form-group row">
+				<label for="client_id" class="col-sm-3 text-right control-label col-form-label">
+					Client
+					<span class="text-danger">*</span>
+				</label>
 				<div class="input-group col-sm-9">
 					<input hidden name="client_id" [ngModel]="transaction.client_id" title="fake_client_id">
 					<input id="client_id" type="text" class="form-control" placeholder="Search Customer... Enter at least 3 characters..." [editable]="false"
@@ -39,26 +41,28 @@
 						<span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
 					</ng-container>
 				</div>
-				<app-loader *ngIf="gettingClient"></app-loader>
+				<div class="offset-sm-3">
+					<app-loader *ngIf="gettingClient"></app-loader>
 
-				<br *ngIf="client">
+					<br *ngIf="transaction.client">
 
-				<ng-template #tipContent>
-					<p>First Name: <b>{{ client?.first_name }}</b></p>
-					<p>Last Name: <b>{{ client?.last_name }}</b></p>
-					<p>Email: <b>{{ client?.email }}</b></p>
-					<p>Phone: <b>{{ client?.phone }}</b></p>
-					<p *ngIf="client.residential_address">Residential Address: <b>{{ client?.residential_address }}</b></p>
-					<p *ngIf="client.occupation">Occupation: <b>{{ client?.occupation }}</b></p>
-					<p *ngIf="client.gender">Gender: <b>{{ client?.gender }}</b></p>
-					<p *ngIf="client.rc_number">RC Number: <b>{{ client?.rc_number }}</b></p>
-				</ng-template>
-				<button *ngIf="client" type="button" (click)="goToProfilePage()" class="btn btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
-					<i class="mdi mdi-account"></i>
-					Go To Profile Page
-				</button>
-				<span *ngIf="client?.kyc.status === 1" class="text-success"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
-				<span *ngIf="client?.kyc.status === 0" class="text-danger"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
+					<ng-template #tipContent>
+						<p>First Name: <b>{{ transaction.client?.first_name }}</b></p>
+						<p>Last Name: <b>{{ transaction.client?.last_name }}</b></p>
+						<p>Email: <b>{{ transaction.client?.email }}</b></p>
+						<p>Phone: <b>{{ transaction.client?.phone }}</b></p>
+						<p *ngIf="transaction.client.residential_address">Residential Address: <b>{{ transaction.client?.residential_address }}</b></p>
+						<p *ngIf="transaction.client.occupation">Occupation: <b>{{ transaction.client?.occupation }}</b></p>
+						<p *ngIf="transaction.client.gender">Gender: <b>{{ transaction.client?.gender }}</b></p>
+						<p *ngIf="transaction.client.rc_number">RC Number: <b>{{ transaction.client?.rc_number }}</b></p>
+					</ng-template>
+					<button *ngIf="transaction.client" type="button" (click)="goToProfilePage()" class="btn btn-sm btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
+						<i class="mdi mdi-account"></i>
+						Go To Profile Page
+					</button>
+					<span *ngIf="transaction.client?.kyc.status === 1" class="text-success"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
+					<span *ngIf="transaction.client?.kyc.status === 0" class="text-danger"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
+				</div>
 			</div>
 		</ng-container>
 
@@ -166,17 +170,19 @@
 		</div>
 
 		<!-- Pick whether from existing account or create new account... -->
-		<div class="form-check">
-			<label class="custom-control custom-checkbox">
-				<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
-				       class="custom-control-input">
-				<span class="custom-control-indicator"></span>
-				<span class="custom-control-description">Create a new account</span>
-			</label>
+		<div class="form-group row">
+			<div class="form-check offset-sm-3 col-sm-9">
+				<label class="custom-control custom-checkbox">
+					<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
+					       class="custom-control-input">
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description">Create a new account</span>
+				</label>
+			</div>
 		</div>
 
 		<!-- Select from Existing Accounts -->
-		<div class="form-group" *ngIf="!newAccount">
+		<div class="form-group row" *ngIf="!newAccount">
 			<label for="account_id" class="col-sm-3 text-right control-label col-form-label">Account <span class="text-danger" *ngIf="!newAccount">*</span></label>
 			<div class="input-group col-sm-9">
 				<select class="custom-select col-12" [required]="!newAccount" [(ngModel)]="transaction.account_id"
@@ -192,7 +198,8 @@
 		<ng-container *ngIf="newAccount">
 
 
-			<div class="form-group row"><label for="bank_name" class="col-sm-3 text-right control-label col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
+			<div class="form-group row">
+				<label for="bank_name" class="col-sm-3 text-right control-label col-form-label">Bank <span class="text-danger" *ngIf="newAccount">*</span></label>
 				<div class="input-group col-sm-9">
 					<select class="form-control" [required]="newAccount" [(ngModel)]="transaction.bank_name" name="bank_name" id="bank_name" *ngIf="transaction.foreign !== true">
 						<option *ngFor="let bank of bankList" value="{{bank.value}}">{{bank.name}}</option>
@@ -300,7 +307,7 @@
 
 		<div class="form-group row"><label for="referrer" class="col-sm-3 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
-				<input class="form-control" name="referrer" id="referrer" [(ngModel)]="transaction.referrer" type="text">
+				<input class="form-control" name="referrer" required id="referrer" [(ngModel)]="transaction.referrer" type="text">
 			</div>
 		</div>
 
@@ -308,15 +315,14 @@
 			<label for="swap_charges" class="col-sm-3 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
-				<input class="form-control" name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
+				<input class="form-control" required name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
 			</div>
 		</div>
 
 
 		<div class="form-group row"><label for="comment" class="col-sm-3 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
-				<textarea class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
-
+				<textarea class="form-control" required name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
 			</div>
 		</div>
 	</ng-container>

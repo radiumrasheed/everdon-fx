@@ -29,7 +29,6 @@ export class RequestTransactionFormComponent implements OnInit {
 	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
 	searching = false;
 
-	public client: Client;
 	public gettingClient: boolean;
 
 	// Constants...
@@ -60,7 +59,7 @@ export class RequestTransactionFormComponent implements OnInit {
 						return of([]);
 					}
 
-					delete this.client;
+				delete this.transaction.client;
 					return this.transactionService.searchClients(term)
 						.pipe(
 							tap(result => {
@@ -86,10 +85,10 @@ export class RequestTransactionFormComponent implements OnInit {
 	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
 
 	constructor(private transactionService: RequestTransactionFormService,
-	            private router: Router,
-	            private route: ActivatedRoute,
-	            private auth: AuthService,
-	            private toastr: ToastrService) {
+							private router: Router,
+							private route: ActivatedRoute,
+							private auth: AuthService,
+							private toastr: ToastrService) {
 	}
 
 	private _transaction: Transaction;
@@ -113,6 +112,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		// Get and apply Role if no Role
 		if (!this.role) {
 			try {
 				this.roles$ = this.auth.roles;
@@ -122,13 +122,15 @@ export class RequestTransactionFormComponent implements OnInit {
 			}
 		}
 
+		// Initiate new Transaction and get Client's accounts if no Transaction
 		if (!this.transaction) {
 			this.transaction = new Transaction();
 		} else {
 			this.shouldGetRates();
-		}
 
-		this.getMyAccounts();
+			// Get accounts
+			this.role === 'client' ? this.getMyAccounts() : this.getAccounts(this.transaction.client_id);
+		}
 	}
 
 	// Submit a transaction Request...
@@ -178,7 +180,7 @@ export class RequestTransactionFormComponent implements OnInit {
 		this.transactionService.getClient(id)
 			.subscribe(
 				client => {
-					this.client = client;
+					this.transaction.client = client;
 				},
 				err => {
 				},
@@ -234,6 +236,8 @@ export class RequestTransactionFormComponent implements OnInit {
 
 		if (typeof this.transaction.buying_product_id !== 'undefined' && (this.transaction.buying_product_id === this.transaction.selling_product_id)) {
 			this.transaction.transaction_type_id = '3';
+		} else if (this.transaction.transaction_type_id === 4) {
+			// this.transaction.transaction_type_id = '4';
 		} else {
 			delete this.transaction.transaction_type_id;
 		}
@@ -264,6 +268,9 @@ export class RequestTransactionFormComponent implements OnInit {
 			.subscribe(
 				accounts => {
 					this.accounts = accounts;
+					if (accounts.length > 0) {
+						this.newAccount = false;
+					}
 				}
 			);
 	}

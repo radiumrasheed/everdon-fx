@@ -54,3 +54,22 @@ export class Transaction {
 
 	full_name: string;
 }
+
+
+export class RefundTransaction extends Transaction {
+	originating_id: number;
+
+	constructor(transaction: Transaction) {
+		super();
+		this.transaction_type_id = 4;
+		this.originating_id = transaction.id;
+		this.client_id = transaction.client_id;
+		this.client = transaction.client;
+		this.buying_product_id = transaction.selling_product_id;
+		this.selling_product_id = transaction.buying_product_id;
+		this.transaction_mode_id = transaction.transaction_mode_id;
+		this.account_id = transaction.account_id;
+		this.amount = transaction.calculated_amount;
+		this.referrer = transaction.referrer;
+	}
+}

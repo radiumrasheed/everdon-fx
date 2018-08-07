@@ -68,7 +68,8 @@ import {AppConfig} from './app.config';
 			customClass: 'modal-content',
 			confirmButtonClass: 'btn btn-primary',
 			cancelButtonClass: 'btn btn-warning',
-			showCloseButton: true
+			showCloseButton: true,
+			width: '700px',
 		})
 	],
 	providers: [

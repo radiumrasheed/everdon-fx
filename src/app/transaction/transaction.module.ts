@@ -12,6 +12,7 @@ import {SharedModule} from '../shared/shared.module';
 import {HttpInterceptorProviders} from '../http-interceptors';
 import {HttpClientModule} from '@angular/common/http';
 import {UiSwitchModule} from 'ngx-ui-switch';
+import {SweetAlert2Module} from '@toverux/ngx-sweetalert2';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {UiSwitchModule} from 'ngx-ui-switch';
 		SharedModule,
 		Ng2SmartTableModule,
 		UiSwitchModule,
+		SweetAlert2Module,
 
 		TransactionRoutingModule
 	],
