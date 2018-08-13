@@ -22,8 +22,7 @@ export class CreateClientFormComponent implements OnInit {
 	public is_cooperate = false;
 	private _success = new Subject<string>();
 
-	constructor(private clientService: CreateClientFormService,
-	            private toastr: ToastrService) {
+	constructor(private clientService: CreateClientFormService, private toastr: ToastrService) {
 	}
 
 	ngOnInit() {
