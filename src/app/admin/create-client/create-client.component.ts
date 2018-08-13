@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
 	selector: 'app-create-client',
@@ -7,9 +8,13 @@ import {Component, OnInit} from '@angular/core';
 })
 export class CreateClientComponent implements OnInit {
 
-	constructor() {
+	constructor(private router: Router) {
 	}
 
 	ngOnInit() {
+	}
+
+	onSubmittedSuccessfully() {
+		this.router.navigate(['admin', 'transaction', 'request']).catch();
 	}
 }
