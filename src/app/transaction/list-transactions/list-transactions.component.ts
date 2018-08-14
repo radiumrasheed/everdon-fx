@@ -11,6 +11,7 @@ import {TypePipe} from '../../shared/pipes/type.pipe';
 import {StatusPipe} from '../../shared/pipes/status.pipe';
 import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '../../shared/meta-data';
 
+
 @Component({
 	selector: 'app-list-transactions',
 	templateUrl: './list-transactions.component.html',
@@ -18,7 +19,7 @@ import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '..
 	providers: [ProductPipe, CalendarPipe, StatusPipe, TypePipe]
 })
 export class ListTransactionsComponent implements OnInit {
-	public transactions: Transaction[];
+	transactions: Transaction[];
 
 	/* Smart table... */
 
@@ -28,7 +29,7 @@ export class ListTransactionsComponent implements OnInit {
 		config: {
 			selectText: 'select..',
 			list: _.map(PRODUCTS, _.partial(_.pick, _, ['id', 'name'])).map(({id, name}) => ({value: id, title: name}))
-		},
+		}
 	};
 	filterStatusSettings = {
 		type: 'list',
@@ -76,7 +77,7 @@ export class ListTransactionsComponent implements OnInit {
 			},*/
 			amount: {
 				title: 'Amount',
-				filter: true,
+				filter: true
 			},
 			created_at: {
 				title: 'Time Requested',
@@ -91,7 +92,7 @@ export class ListTransactionsComponent implements OnInit {
 			add: false,
 			edit: false,
 			delete: false,
-			columnTitle: '',
+			columnTitle: ''
 		}
 	};
 
@@ -100,7 +101,7 @@ export class ListTransactionsComponent implements OnInit {
 		columns: {
 			full_name: {
 				title: 'Client Name',
-				filter: true,
+				filter: true
 			},
 			link: {
 				title: 'Transaction Reference',
@@ -123,25 +124,25 @@ export class ListTransactionsComponent implements OnInit {
 			},
 			amount: {
 				title: 'Amount',
-				filter: true,
+				filter: true
 			},
 			transaction_type_id: {
 				title: 'Type',
 				valuePrepareFunction: (val) => {
 					return this.typePipe.transform(val);
 				},
-				filter: this.filterTypeSettings,
+				filter: this.filterTypeSettings
 			},
 			transaction_status_id: {
 				title: 'Status',
 				valuePrepareFunction: (val) => {
 					return this.statusPipe.transform(val);
 				},
-				filter: this.filterStatusSettings,
+				filter: this.filterStatusSettings
 			},
-			referee: {
-				title: 'Referee',
-				filter: true,
+			referrer: {
+				title: 'Referrer',
+				filter: true
 			},
 			created_at: {
 				title: 'Time Requested',
@@ -156,7 +157,7 @@ export class ListTransactionsComponent implements OnInit {
 			add: false,
 			edit: false,
 			delete: false,
-			columnTitle: '',
+			columnTitle: ''
 		}
 	};
 
@@ -166,13 +167,14 @@ export class ListTransactionsComponent implements OnInit {
 
 	// Class Constructor...
 	constructor(private transactionService: TransactionService,
-	            private authService: AuthService,
-	            private calendarPipe: CalendarPipe,
-	            private statusPipe: StatusPipe,
-	            private productPipe: ProductPipe,
-	            private typePipe: TypePipe,
-	            private route: ActivatedRoute) {
+							private authService: AuthService,
+							private calendarPipe: CalendarPipe,
+							private statusPipe: StatusPipe,
+							private productPipe: ProductPipe,
+							private typePipe: TypePipe,
+							private route: ActivatedRoute) {
 	}
+
 
 	// OnInit Method...
 	ngOnInit() {
@@ -180,6 +182,7 @@ export class ListTransactionsComponent implements OnInit {
 		this.role$ = this.authService.role;
 		this.getTransactions();
 	}
+
 
 	// Get the transactions and format them for viewing...
 	getTransactions(): void {

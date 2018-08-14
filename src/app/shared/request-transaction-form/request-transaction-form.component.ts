@@ -10,6 +10,7 @@ import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
+
 @Component({
 	selector: 'app-request-transaction-form',
 	templateUrl: './request-transaction-form.component.html',
@@ -17,38 +18,61 @@ import {SwalComponent} from '@toverux/ngx-sweetalert2';
 	providers: [RequestTransactionFormService]
 })
 export class RequestTransactionFormComponent implements OnInit {
+
+
+	private _transaction: Transaction;
+	get transaction(): Transaction {
+		return this._transaction;
+	}
+
+
+	@Input() set transaction(transaction: Transaction) {
+		this._transaction = transaction;
+		this.transactionChange.emit(transaction);
+	}
+
+
+	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
+
 	roles$: Observable<string>;
+
 	@Output() transactionChange = new EventEmitter<Transaction>();
 
 	@Input() role: string;
+
 	/**
 	 *  Link to profile relative to `transaction.client_id`
 	 * */
 	@Input() profileLink: any;
-	@Output() submittedSuccessfully = new EventEmitter<string>();
-	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
-	searching = false;
 
-	public gettingClient: boolean;
+	@Output() submittedSuccessfully = new EventEmitter<string>();
+
+	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
 
 	// Constants...
-	public countries = COUNTRIES;
-	public availableProducts = PRODUCTS;
-	public bankList = BANKS;
-	public transactionModes = TRANSACTION_MODES;
-	public transactionTypes = TRANSACTION_TYPES;
+	countries = COUNTRIES;
+	availableProducts = PRODUCTS;
+	bankList = BANKS;
+	transactionModes = TRANSACTION_MODES;
+	transactionTypes = TRANSACTION_TYPES;
+
 	// Form Properties...
-	public rates: any;
-	public model: any;
-	public form1 = true;
-	public form2 = false;
-	public form3 = false;
-	public newAccount = true;
-	public submitting = false;
-	public accounts: Account[];
+	rates: any;
+	model: any;
+	form1 = true;
+	form2 = false;
+	form3 = false;
+	newAccount = true;
+	submitting = false;
+	accounts: Account[];
+
+	// Search Input Properties...
+	searching = false;
+	gettingClient = false;
 	searchEmpty = false;
 	searchFailed = false;
 	hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+
 	search = (text$: Observable<string>) =>
 		text$.pipe(
 			debounceTime(300),
@@ -76,13 +100,15 @@ export class RequestTransactionFormComponent implements OnInit {
 			tap(() => this.searching = false),
 			merge(this.hideSearchingWhenUnsubscribed)
 		);
+
 	updateModel = (event: any) => {
 		this.getClient(event.item.id);
 		this.getAccounts(event.item.id);
 		this.transaction.client_id = event.item.id;
 	};
+
 	formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
-	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
+
 
 	constructor(private transactionService: RequestTransactionFormService,
 							private router: Router,
@@ -91,25 +117,6 @@ export class RequestTransactionFormComponent implements OnInit {
 							private toastr: ToastrService) {
 	}
 
-	private _transaction: Transaction;
-
-	get transaction(): Transaction {
-		return this._transaction;
-	}
-
-	@Input() set transaction(transaction: Transaction) {
-		this._transaction = transaction;
-		this.transactionChange.emit(transaction);
-	}
-
-	// reset account
-	resetAccounts() {
-		delete this.transaction.account_id;
-		delete this.transaction.account_name;
-		delete this.transaction.account_number;
-		delete this.transaction.bank_name;
-		// delete this.transaction.bvn;
-	}
 
 	ngOnInit() {
 		// Get and apply Role if no Role
@@ -129,9 +136,59 @@ export class RequestTransactionFormComponent implements OnInit {
 			this.shouldGetRates();
 
 			// Get accounts
-			this.role === 'client' ? this.getMyAccounts() : this.getAccounts(this.transaction.client_id);
+			if (this.role === 'client') {
+				this.getMyAccounts();
+			} else if (this.transaction.client_id) {
+				this.getAccounts(this.transaction.client_id);
+			}
 		}
 	}
+
+
+	// Get Clients Accounts...
+	private getAccounts(client_id: any) {
+		this.transactionService.getClientAccounts(client_id)
+			.subscribe(
+				accounts => {
+					this.accounts = accounts;
+					if (accounts.length > 0) {
+						this.newAccount = false;
+					}
+				}
+			);
+	}
+
+
+	protected goToForm3(): void {
+		this.form1 = false;
+		this.form2 = false;
+		this.form3 = true;
+	}
+
+
+	protected goToForm2(): void {
+		this.form1 = false;
+		this.form2 = true;
+		this.form3 = false;
+	}
+
+
+	protected goToForm1(): void {
+		this.form1 = true;
+		this.form2 = false;
+		this.form3 = false;
+	}
+
+
+	// reset account
+	resetAccounts() {
+		delete this.transaction.account_id;
+		delete this.transaction.account_name;
+		delete this.transaction.account_number;
+		delete this.transaction.bank_name;
+		// delete this.transaction.bvn;
+	}
+
 
 	// Submit a transaction Request...
 	requestTransaction(): void {
@@ -161,6 +218,8 @@ export class RequestTransactionFormComponent implements OnInit {
 			);
 	}
 
+
+	// Get My Accounts if signed in as a client...
 	getMyAccounts(): void {
 		this.transactionService.getAccounts()
 			.subscribe(
@@ -175,6 +234,8 @@ export class RequestTransactionFormComponent implements OnInit {
 			);
 	}
 
+
+	// Get client details...
 	getClient(id: string): void {
 		this.gettingClient = true;
 		this.transactionService.getClient(id)
@@ -190,30 +251,14 @@ export class RequestTransactionFormComponent implements OnInit {
 			);
 	}
 
-	goToForm3() {
-		this.form1 = false;
-		this.form2 = false;
-		this.form3 = true;
-	}
 
-	goToForm2() {
-		this.form1 = false;
-		this.form2 = true;
-		this.form3 = false;
-	}
-
-	goToForm1() {
-		this.form1 = true;
-		this.form2 = false;
-		this.form3 = false;
-	}
-
-	public onSubmittedSuccessfully($event: any) {
+	onSubmittedSuccessfully($event: any = null): void {
 		this.createCustomerSwalComponent.nativeSwal.close();
 		this.customerCreatedSuccessfully.emit(true);
 	}
 
-	getRates() {
+
+	getRates(): void {
 		this.transactionService.getAllRates()
 			.subscribe(
 				rates => {
@@ -229,7 +274,8 @@ export class RequestTransactionFormComponent implements OnInit {
 			);
 	}
 
-	shouldGetRates($event = null) {
+
+	shouldGetRates($event: any = null): void {
 		if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
 			this.getRates();
 		}
@@ -243,7 +289,8 @@ export class RequestTransactionFormComponent implements OnInit {
 		}
 	}
 
-	applyRate(rates = this.rates) {
+
+	applyRate(rates = this.rates): void {
 		const b = this.transaction.buying_product_id;
 		const s = this.transaction.selling_product_id;
 
@@ -256,26 +303,15 @@ export class RequestTransactionFormComponent implements OnInit {
 		}
 	}
 
-	goToProfilePage() {
+
+	goToProfilePage(): void {
 		if (this.profileLink) {
 			this.router.navigate(this.profileLink).catch();
 		}
 	}
 
-	// Get Clients Accounts...
-	private getAccounts(client_id: any) {
-		this.transactionService.getClientAccounts(client_id)
-			.subscribe(
-				accounts => {
-					this.accounts = accounts;
-					if (accounts.length > 0) {
-						this.newAccount = false;
-					}
-				}
-			);
-	}
 
-	onCountryChange($event = null) {
+	onCountryChange($event: any = null): void {
 		this.transaction.foreign = this.transaction.country !== 'Nigeria';
 	}
 }
