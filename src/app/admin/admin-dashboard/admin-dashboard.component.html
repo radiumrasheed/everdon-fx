@@ -105,7 +105,10 @@
 		<div class="card">
 
 			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>WACC Timeline</h4>
+				<h4 class="card-title"><span class="lstick"></span>
+					WACC Timeline
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTimeline()"></i>
+				</h4>
 			</div>
 
 			<div class="card-body">
@@ -185,7 +188,10 @@
 	<div class="col-lg-6">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>Recent Transactions</h4>
+				<h4 class="card-title"><span class="lstick"></span>
+					Recent Transactions
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getRecentTransactions()"></i>
+				</h4>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive" *ngIf="transactions?.length > 0">
@@ -229,7 +235,10 @@
 	<div class="col-lg-6">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>Recent Activities</h4>
+				<h4 class="card-title"><span class="lstick"></span>
+					Recent Activities
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getRecentEvents()"></i>
+				</h4>
 			</div>
 			<div class="card-body">
 				<!-- Comment widgets -->

@@ -7,6 +7,7 @@ import {AppConfig} from '../../app.config';
 import {AuthService} from '../../services/auth/auth.service';
 import {FileHolder} from 'angular2-image-upload';
 
+
 @Component({
 	selector: 'app-profile',
 	templateUrl: './profile.component.html',
@@ -14,37 +15,41 @@ import {FileHolder} from 'angular2-image-upload';
 	providers: [ProfileService]
 })
 export class ProfileComponent implements OnInit {
+	@ViewChild(`newAccountSwal`) private swalComponent: SwalComponent;
+	@ViewChild(`avatarSwal`) private avatarSwalComponent: SwalComponent;
+
 	client: Client;
 	newAccount = new Account();
 	bankList = BANKS;
 	submitting = false;
 	is_individual: boolean;
-
 	formData = new FormData();
-	public avatarUrl: string;
-	public avatarHeaders: object;
-	@ViewChild(`newAccountSwal`) private swalComponent: SwalComponent;
-	@ViewChild(`avatarSwal`) private avatarSwalComponent: SwalComponent;
+	avatarUrl: string;
+	avatarHeaders: object;
 
-	constructor(private profileService: ProfileService,
-	            private toastr: ToastrService) {
+
+	constructor(private profileService: ProfileService, private toastr: ToastrService) {
 	}
+
 
 	ngOnInit() {
 		this.getProfile();
 	}
 
-	fileChangeEvent(fileInput: any, name: string) {
-		this.formData.append(name, fileInput.target.files[0]);
-	}
 
-	constructFormData() {
+	private constructFormData() {
 		Object.keys(this.client).forEach(key => {
 			if (this.client[key]) {
 				this.formData.append(key, this.client[key]);
 			}
 		});
 	}
+
+
+	fileChangeEvent(fileInput: any, name: string) {
+		this.formData.append(name, fileInput.target.files[0]);
+	}
+
 
 	getProfile() {
 		this.profileService.getMyProfile()
@@ -72,6 +77,7 @@ export class ProfileComponent implements OnInit {
 			);
 	}
 
+
 	updateProfile() {
 		this.constructFormData();
 		this.profileService.updateProfile(this.formData, this.client.id)
@@ -91,6 +97,7 @@ export class ProfileComponent implements OnInit {
 				}
 			);
 	}
+
 
 	createAccount() {
 		this.submitting = true;
@@ -112,12 +119,14 @@ export class ProfileComponent implements OnInit {
 			);
 	}
 
+
 	onUploadFinished($event: FileHolder) {
 		this.avatarSwalComponent.nativeSwal.close();
 		const response = JSON.parse($event.serverResponse.response._body);
 		this.client.avatar = response.data.avatar;
 		this.toastr.success('Avatar Uploaded Successfully!');
 	}
+
 
 	updateIdentity() {
 		this.constructFormData();

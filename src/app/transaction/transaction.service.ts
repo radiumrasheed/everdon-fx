@@ -128,8 +128,9 @@ export class TransactionService {
 			);
 	}
 
-	validateKYC(client_id: any, client: any): Observable<Client> {
-		return this.http.post<any>(`${this.clientUrl}/${client_id}/validate_kyc`, client)
+
+	validateKYC(client_id: any, kyc: any): Observable<Client> {
+		return this.http.post<any>(`${this.clientUrl}/${client_id}/validate_kyc`, kyc)
 			.pipe(
 				map(response => response['data']['client'])
 			);

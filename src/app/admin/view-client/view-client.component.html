@@ -5,6 +5,7 @@
 				<h3 class="box-title m-b-0">
 					<span class="lstick"></span>
 					Update Customer Details
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getClient()"></i>
 				</h3>
 			</div>
 			<div class="card-body">
@@ -81,7 +82,7 @@
 							</div>
 						</div>
 
-						<div class="form-group row" *ngIf="client.is_individual">
+						<div class="form-group row" *ngIf="(client.client_type === 2 || client.client_type === 5)">
 							<label for="rc_number" class="col-sm-3 text-right control-label col-form-label">
 								RC Number
 								<span class="text-danger">*</span>
@@ -92,13 +93,13 @@
 							</div>
 						</div>
 
-						<div class="form-group row" *ngIf="!client.is_individual">
+						<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
 							<label for="occupation" class="col-sm-3 text-right control-label col-form-label">Occupation</label>
 							<div class="col-sm-6">
 								<input [(ngModel)]="client.occupation" type="text" name="occupation" class="form-control" id="occupation" placeholder="Occupation..."></div>
 						</div>
 
-						<div class="form-group row" *ngIf="!client.is_individual">
+						<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
 							<label for="marital_status" class="col-sm-3 text-right control-label col-form-label">Marital Status</label>
 							<div class="col-sm-6">
 								<select [(ngModel)]="client.marital_status" type="text" name="marital_status" class="form-control" id="marital_status">
@@ -108,19 +109,19 @@
 							</div>
 						</div>
 
-						<div class="form-group row" *ngIf="!client.is_individual">
+						<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
 							<label for="date_of_birth" class="col-sm-3 text-right control-label col-form-label">Date of birth</label>
 							<div class="col-sm-6">
 								<input [(ngModel)]="client.date_of_birth" type="date" name="date_of_birth" class="form-control" id="date_of_birth" placeholder="Date of birth..."></div>
 						</div>
 
-						<div class="form-group row" *ngIf="!client.is_individual">
+						<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
 							<label for="nok_full_name" class="col-sm-3 text-right control-label col-form-label">Next of Kin</label>
 							<div class="col-sm-6">
 								<input [(ngModel)]="client.nok_full_name" type="text" name="nok_full_name" class="form-control" id="nok_full_name" placeholder="Next of Kin..."></div>
 						</div>
 
-						<div class="form-group row" *ngIf="!client.is_individual">
+						<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
 							<label for="nok_phone" class="col-sm-3 text-right control-label col-form-label">Next of Kin's Phone Number</label>
 							<div class="col-sm-6">
 								<input [(ngModel)]="client.nok_phone" type="text" name="nok_phone" class="form-control" id="nok_phone" placeholder="Next of Kin's Phone Number..."></div>
@@ -152,7 +153,7 @@
 
 						<div class="form-group m-b-0">
 							<div class="offset-sm-3 col-sm-6">
-								<button type="submit" class="btn btn-info waves-effect waves-light m-t-10">Update Client</button>
+								<button type="submit" [disabled]="!clientForm.form.valid" class="btn btn-info waves-effect waves-light m-t-10">Update Client</button>
 							</div>
 						</div>
 
@@ -168,7 +169,7 @@
 									<h3 class="price-lable text-white bg-primary"> KYC Card</h3>
 								</div>
 								<div class="price-table-content">
-									<label class="label-light-danger label-rounded" *ngIf="client?.kyc?.awaiting_review === 1">
+									<label class="label-light-warning label-rounded" *ngIf="client?.kyc?.awaiting_review === 1">
 										Recently updated by Customer !
 									</label>
 									<br *ngIf="client.kyc?.awaiting_review === 1">
@@ -199,27 +200,15 @@
 						<br>
 
 						<!-- Client Identity Card -->
-						<div *ngIf="client?.identification" class="pricing-box featured-plan">
+						<div *ngIf="client" class="pricing-box featured-plan">
 							<div class="pricing-body">
 								<div class="pricing-header">
 									<h3 class="price-lable text-white bg-primary"> Identity Card</h3>
 								</div>
+
 								<div class="price-table-content">
 
-
-									<div class="col-12 b-r">
-										<small class="text-muted">Identification Type</small>
-										<br>
-										<p class="text-dark">{{ client?.identification }}</p>
-									</div>
-
-									<div class="col-12 b-r" *ngIf="client.identification_number">
-										<small class="text-muted">Identification Number</small>
-										<br>
-										<p class="text-dark">{{ client?.identification_number }}</p>
-									</div>
-
-									<swal #documentSwal [title]="client.identification.toLocaleUpperCase()" [showConfirmButton]="false" width="850px">
+									<swal #documentSwal [title]="client?.identification ? client?.identification?.toLocaleUpperCase() : 'CAC DOCUMENT'" [showConfirmButton]="false" width="850px">
 										<ng-container *swalPartial>
 											<div class="col-12">
 												<p *ngIf="client.identification_document">You have 1 document uploaded already</p>
@@ -234,8 +223,61 @@
 
 									</swal>
 									<a class="btn btn-rounded btn-outline-info" [swal]="documentSwal" href="javascript:void(0)">View Document</a>
-
 								</div>
+
+								<br>
+
+								<div class="price-table-content">
+									<form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateIdentity()">
+
+										<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
+											<label for="identification" class="col-sm-3 offset-1 text-right control-label col-form-label">Identification</label>
+											<div class="col-sm-5">
+												<select class="form-control" required [(ngModel)]="client.identification" name="identification" id="identification">
+													<option value="drivers license">Driver's License</option>
+													<option value="international passport">International Passport</option>
+													<option value="national id card">National ID Card</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
+											<label for="identification_number" class="col-sm-3 offset-1 text-right control-label col-form-label">Identification Number</label>
+											<div class="col-sm-5">
+												<input [(ngModel)]="client.identification_number" type="text" name="identification_number" class="form-control" id="identification_number"
+												       placeholder="Identification Number...">
+											</div>
+										</div>
+
+										<div class="form-group row" *ngIf="!(client.client_type === 2 || client.client_type === 5)">
+											<label for="identification_document" class="col-sm-3 offset-1 text-right control-label col-form-label">
+												{{ client.identification_document ? 'Update Document' : 'Upload Document' }}
+											</label>
+											<div class="col-sm-5">
+												<input (change)="fileChangeEvent($event, 'identification_document')" type="file" name="identification_document"
+												       class="form-control-file form-control-lg" id="identification_document" placeholder="Means of Identification...">
+											</div>
+										</div>
+
+										<div class="form-group row" *ngIf="(client.client_type === 2 || client.client_type === 5)">
+											<label for="cac_document" class="col-sm-3 offset-1 text-right control-label col-form-label">
+												{{ client.cac_document ? 'Update CAC Document' : 'Upload CAC Document' }}
+											</label>
+											<div class="col-sm-5">
+												<input (change)="fileChangeEvent($event, 'cac_document')" type="file" name="cac_document" class="form-control-file form-control-lg" id="cac_document"
+												       placeholder="CAC Document...">
+											</div>
+										</div>
+
+
+										<div class="form-group">
+											<div class="col-sm-11">
+												<button class="btn btn-success" type="submit">Update Identity Profile</button>
+											</div>
+										</div>
+									</form>
+								</div>
+
 							</div>
 						</div>
 

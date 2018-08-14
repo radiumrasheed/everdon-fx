@@ -103,6 +103,14 @@
 							</ngb-alert>
 
 							<form class="form-horizontal form-material" *ngIf="client" #profileForm="ngForm" (ngSubmit)="updateProfile()">
+
+								<div class="form-group row">
+									<label for="email" class="col-sm-3 text-right control-label col-form-label">Email</label>
+									<div class="col-sm-5">
+										<input type="email" [(ngModel)]="client.email" disabled placeholder="Email..." class="form-control form-control-line" name="email" id="email">
+									</div>
+								</div>
+
 								<div class="form-group row">
 									<label class="col-sm-3 text-right control-label col-form-label">First Name <span class="text-danger">*</span></label>
 									<div class="col-sm-5">
@@ -121,13 +129,6 @@
 									<label class="col-sm-3 text-right control-label col-form-label">Last Name <span class="text-danger">*</span></label>
 									<div class="col-sm-5">
 										<input type="text" [(ngModel)]="client.last_name" required placeholder="Last Name..." name="last_name" class="form-control form-control-line">
-									</div>
-								</div>
-
-								<div class="form-group row">
-									<label for="email" class="col-sm-3 text-right control-label col-form-label">Email</label>
-									<div class="col-sm-5">
-										<input type="email" [(ngModel)]="client.email" disabled placeholder="Email..." class="form-control form-control-line" name="email" id="email">
 									</div>
 								</div>
 

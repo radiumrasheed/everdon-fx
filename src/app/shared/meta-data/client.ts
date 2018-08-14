@@ -1,5 +1,6 @@
 import {Account} from './account';
 
+
 export class Client {
 
 	link: string;
@@ -21,8 +22,10 @@ export class Client {
 	nok_full_name: string;
 	nok_phone: string;
 	occupation: string;
-	identification: string;
-	identification_number: string;
+	identification?: string;
+	identification_document?: string;
+	identification_number?: string;
+	cac_document?: string;
 	office_address: string;
 	phone: string;
 	rc_number: string;
@@ -32,5 +35,16 @@ export class Client {
 	referee_4: string;
 	residential_address: string;
 	updated_at?: string;
-	kyc: any;
+	kyc: KYC;
+}
+
+
+export class KYC {
+	id: number;
+	status?: boolean;
+	awaiting_review?: boolean | number;
+	last_reviewed_at?: string;
+	last_reviewed_by?: string;
+	created_at?: string;
+	deleted_at?: string;
 }

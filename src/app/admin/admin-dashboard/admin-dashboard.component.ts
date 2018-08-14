@@ -8,6 +8,7 @@ import {AdminDashboardService} from './admin-dashboard.service';
 import {AuthService} from '../../services/auth/auth.service';
 import {Event, Transaction} from '../../shared/meta-data';
 
+
 @Component({
 	selector: 'app-admin-dashboard',
 	templateUrl: './admin-dashboard.component.html',
@@ -15,13 +16,17 @@ import {Event, Transaction} from '../../shared/meta-data';
 	providers: [AdminDashboardService]
 })
 export class AdminDashboardComponent implements AfterViewInit, OnInit {
+	// Child Components...
+	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
+	@ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
+
 	// Authentication Properties...
 	roles$: Observable<string>;
 	role: string;
-	public transaction = new Transaction();
+	transaction = new Transaction();
 
 	// This is for the WACC dashboard line chart...
-	public lineChartData: Array<any> = [
+	lineChartData: Array<any> = [
 		{
 			label: 'usd', data: [],
 			fill: false,
@@ -39,9 +44,9 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			fill: false,
 			pointRadius: 0,
 			pointHitRadius: 10
-		},
+		}
 	];
-	public lineChartOptions: any = {
+	lineChartOptions: any = {
 		scales: {
 			xAxes: [{
 				type: 'time',
@@ -60,7 +65,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			mode: 'index'  // or 'x-axis'
 		}
 	};
-	public lineChartColors: Array<any> = [
+	lineChartColors: Array<any> = [
 		{
 			// info
 			borderColor: 'rgba(57,139,247,1)',
@@ -77,18 +82,18 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			pointHoverBorderColor: 'rgba(255,178,43,1)'
 		}
 	];
-	public lineChartLegend = true;
-	public lineChartType = 'line';
+	lineChartLegend = true;
+	lineChartType = 'line';
 
 	// API Stats...
-	public counts: any;
-	public buckets: any;
-	public transactions: Transaction[];
-	public events: Event[];
-	public waccs: any;
+	counts: any;
+	buckets: any;
+	transactions: Transaction[];
+	events: Event[];
+	waccs: any;
 
 	// Doughnut...
-	public doughnutChartLabels: string[] = [
+	doughnutChartLabels: string[] = [
 		'Open',
 		'In Progress',
 		'Awaiting Approval',
@@ -96,30 +101,29 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 		'Canceled',
 		'Closed'
 	];
-	public doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
-	public totalTransactions = 0;
-	public doughnutChartOptions: any = {
+	doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
+	totalTransactions = 0;
+	doughnutChartOptions: any = {
 		borderWidth: 2,
 		maintainAspectRatio: false,
 		total: this.totalTransactions
 	};
-	public doughnutChartType = 'doughnut';
-	public doughnutChartLegend = false;
+	doughnutChartType = 'doughnut';
+	doughnutChartLegend = false;
 
-	// Child Components...
-	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
-	@ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
 
 	constructor(
 		private dashboardService: AdminDashboardService,
 		private auth: AuthService,
 		private router: Router,
-		private route: ActivatedRoute,
+		private route: ActivatedRoute
 	) {
 	}
 
+
 	ngAfterViewInit() {
 	}
+
 
 	ngOnInit() {
 		this.roles$ = this.auth.roles;
@@ -137,7 +141,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 		});
 	}
 
-	public getTransactionCounts() {
+
+	getTransactionCounts() {
 		this.dashboardService.counts()
 			.subscribe(
 				counts => {
@@ -149,21 +154,24 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			);
 	}
 
-	public getRecentTransactions() {
+
+	getRecentTransactions() {
 		this.dashboardService.recentTransactions()
 			.subscribe(
 				transactions => this.transactions = transactions
 			);
 	}
 
-	public getRecentEvents() {
+
+	getRecentEvents() {
 		this.dashboardService.recentEvents()
 			.subscribe(
 				events => this.events = events
 			);
 	}
 
-	public getBucketBalance() {
+
+	getBucketBalance() {
 		this.dashboardService.buckets()
 			.subscribe(
 				buckets => {
@@ -237,7 +245,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			);
 	}
 
-	public getTimeline() {
+
+	getTimeline() {
 		this.dashboardService.timeline()
 			.subscribe(
 				wacc => {
@@ -267,7 +276,8 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			);
 	}
 
-	public onSubmittedSuccessfully($event: any, type: string) {
+
+	onSubmittedSuccessfully($event: any, type: string) {
 		switch (type) {
 			case 'create':
 				this.createSwalComponent.nativeSwal.close();

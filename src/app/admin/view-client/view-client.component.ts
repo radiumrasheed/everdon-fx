@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr';
 import {CreateClientFormService} from '../../shared/create-client-form/create-client-form.service';
 import {Client} from '../../shared/meta-data';
 
+
 @Component({
 	selector: 'app-view-client',
 	templateUrl: './view-client.component.html',
@@ -11,9 +12,12 @@ import {Client} from '../../shared/meta-data';
 	providers: [CreateClientFormService]
 })
 export class ViewClientComponent implements OnInit {
+	private formData: FormData = new FormData();
+
 	public id: string;
 	public successMessage: boolean;
 	public client: Client;
+
 
 	constructor(
 		private route: ActivatedRoute,
@@ -23,23 +27,36 @@ export class ViewClientComponent implements OnInit {
 
 	}
 
+
 	ngOnInit() {
 		// Get Transaction Id from route...
 		this.route.paramMap
 			.subscribe(params => {
 				this.id = params.get('id');
-				this.getClient(params.get('id'));
+				this.getClient();
 			});
 	}
 
-	getClient(id: string): void {
-		this.clientService.getClient(id)
+
+	private constructFormData() {
+		Object.keys(this.client).forEach(key => {
+			if (this.client[key]) {
+				this.formData.append(key, this.client[key]);
+			}
+		});
+	}
+
+
+	getClient() {
+		delete this.client;
+		this.clientService.getClient(this.id)
 			.subscribe(
 				client => {
 					this.client = client;
 				}
 			);
 	}
+
 
 	updateClient() {
 		this.clientService.updateClient(this.client.id, this.client)
@@ -49,6 +66,43 @@ export class ViewClientComponent implements OnInit {
 						this.client = client;
 						this.toastr.success('Customer details updated successfully');
 					}
+				}
+			);
+	}
+
+
+	validateKYC(): void {
+		this.clientService.validateKYC(this.client.id, this.client.kyc)
+			.subscribe(
+				client => {
+					if (client) {
+						this.client = client;
+						this.toastr.success('Customer KYC validated successfully');
+					}
+				}
+			);
+	}
+
+
+	fileChangeEvent(fileInput: any, name: string) {
+		this.formData.append(name, fileInput.target.files[0]);
+	}
+
+
+	updateIdentity() {
+		this.constructFormData();
+		this.clientService.updateIdentity(this.formData, this.client.id)
+			.subscribe(
+				client => {
+					if (client) {
+						this.toastr.success('Identity Profile updated successfully');
+					}
+				},
+				() => {
+				},
+				() => {
+					this.formData = new FormData();
+					this.getClient();
 				}
 			);
 	}
