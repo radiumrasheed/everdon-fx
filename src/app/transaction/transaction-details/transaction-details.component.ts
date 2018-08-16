@@ -74,10 +74,6 @@ export class TransactionDetailsComponent implements OnInit {
 
 				switch (roles[0]) {
 					case 'fx-ops':
-						// this.can_treat = true;
-						break;
-
-					case 'fx-ops-lead':
 						this.can_treat = true;
 						break;
 
