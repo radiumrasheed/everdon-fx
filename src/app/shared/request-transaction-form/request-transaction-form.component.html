@@ -149,6 +149,16 @@
 				</select>
 			</div>
 		</div>
+
+		<div class="form-group row">
+			<div class="form-check offset-sm-3 col-sm-9">
+				<label class="custom-control custom-checkbox">
+					<input type="checkbox" [(ngModel)]="transaction.is_domiciliary" name="is_domiciliary" class="custom-control-input">
+					<span class="custom-control-indicator"></span>
+					<span class="custom-control-description">Domiciliary Account</span>
+				</label>
+			</div>
+		</div>
 	</ng-container>
 	<!-- END OF Stage 1 -->
 
@@ -173,8 +183,7 @@
 		<div class="form-group row">
 			<div class="form-check offset-sm-3 col-sm-9">
 				<label class="custom-control custom-checkbox">
-					<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()"
-					       class="custom-control-input">
+					<input type="checkbox" [(ngModel)]="newAccount" name="new_account" (change)="resetAccounts()" class="custom-control-input">
 					<span class="custom-control-indicator"></span>
 					<span class="custom-control-description">Create a new account</span>
 				</label>

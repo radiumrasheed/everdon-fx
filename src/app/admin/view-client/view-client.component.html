@@ -222,7 +222,8 @@
 										</ng-container>
 
 									</swal>
-									<a class="btn btn-rounded btn-outline-info" [swal]="documentSwal" href="javascript:void(0)">View Document</a>
+									<a *ngIf="client.cac_document || client.identification_document" class="btn btn-rounded btn-outline-info" [swal]="documentSwal" href="javascript:void(0)">View
+										Document</a>
 								</div>
 
 								<br>

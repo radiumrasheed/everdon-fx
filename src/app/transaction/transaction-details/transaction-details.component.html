@@ -1,5 +1,7 @@
 <div class="row">
+	<!-- Transaction Section -->
 	<div class="col-12" *ngIf="transaction">
+		<!-- Admin View -->
 		<ng-container class="col-12" *ngIf="!is_client">
 
 			<!-- Alert/ Notification-->
@@ -34,30 +36,37 @@
 													{{ transaction?.transaction_status_id | status }}
 												</label>
 
-												<div class="btn-group m-b-11 pull-right" role="group" aria-label="Treat Transaction">
-													<swal #refundSwal title="Refund Transaction" [showConfirmButton]="false">
+												<div class="pull-right clearfix">
 
-														<app-request-transaction-form [transaction]="refund_transaction" *swalPartial
-														                              (submittedSuccessfully)="onSubmittedSuccessfully()"
-														                              [profileLink]="['admin', 'customer', transaction.client_id]">
+													<div class="btn-group" role="group" aria-label="Treat Transaction">
+														<swal #refundSwal title="Refund Transaction" [showConfirmButton]="false">
 
-														</app-request-transaction-form>
+															<app-request-transaction-form [transaction]="refund_transaction" *swalPartial
+															                              (submittedSuccessfully)="onSubmittedSuccessfully()"
+															                              [profileLink]="['admin', 'customer', transaction.client_id]">
 
-													</swal>
-													<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
-													        [disabled]="!(transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8) ">
-														Refund
-														<i class="mdi mdi-undo-variant"></i>
-													</button>
-													<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
-														Cancel
-														<i class="mdi mdi-block-helper"></i>
-													</button>
-													<button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
-														Reject
-														<i class="mdi mdi-close"></i>
-													</button>
-													<button class="btn btn-outline-primary waves-effect waves-light" [disabled]="!can_take_action" type="button" (click)="takeAction()">
+															</app-request-transaction-form>
+
+														</swal>
+														<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
+														        [disabled]="!(transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8) ">
+															Refund
+															<i class="mdi mdi-undo-variant"></i>
+														</button>
+
+														<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
+															Cancel
+															<i class="mdi mdi-block-helper"></i>
+														</button>
+
+														<button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
+															Reject
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+
+
+													<button class="btn btn-outline-success waves-effect waves-light rounded-right font-19" [disabled]="!can_take_action" type="button" (click)="takeAction()">
                             <span class="btn-label">
                               SUBMIT
                             </span>
@@ -81,8 +90,7 @@
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Amount Out</small>
 														<br>
-														<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{
-															transaction.amount | number:'1.1-2' }}</p>
+														<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{transaction.amount | number:'1.1-2' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
@@ -216,8 +224,18 @@
 															Referrer
 														</small>
 														<br>
-														<p class="text-dark" *ngIf="transaction.referrer">
+														<p class="text-dark">
 															{{ transaction?.referrer }}
+														</p>
+													</div>
+
+													<div class="col-md-3 col-xs-6 b-r">
+														<small class="text-muted">
+															Account Type
+														</small>
+														<br>
+														<p class="text-dark">
+															{{ transaction?.is_domiciliary ? 'Domiciliary' : 'Default' }}
 														</p>
 													</div>
 
@@ -373,8 +391,8 @@
 
 												</div>
 
-												<button type="submit" [disabled]="!can_take_action" class="btn btn-success btn-secondary">
-													SUBMIT
+												<button type="submit" [disabled]="!can_take_action" class="btn btn-outline-success waves-effect waves-light">
+													<span class="btn-label">SUBMIT</span>
 													<i class="mdi mdi-send"></i>
 												</button>
 
@@ -634,7 +652,9 @@
 			</div>
 
 		</ng-container>
+		<!-- End of Admin View -->
 
+		<!-- Client View -->
 		<ng-container class="col-12" *ngIf="is_client">
 			<div class="card card-body" id="printableArea">
 				<h3><b>{{ transaction.transaction_status_id | status:'desc':'client'}}</b> <span
@@ -720,8 +740,10 @@
 				</div>
 			</div>
 		</ng-container>
+		<!-- End of Client View -->
 	</div>
 
+	<!-- Loading Fragment -->
 	<div class="col-12 timeline-wrapper" *ngIf="!transaction">
 		<div class="timeline-item">
 			<div class="animated-background">

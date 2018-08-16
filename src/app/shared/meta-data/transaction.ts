@@ -33,8 +33,8 @@ export class Transaction {
 	iban?: string;
 	id: number;
 	initiated_at?: number;
-	initiated_by?: number;
-	is_domiciliary: boolean;
+	initiated_by?: number | User;
+	is_domiciliary?: boolean;
 	kyc_check?: boolean;
 	link?: string;
 	org_account_id?: number;
