@@ -1,15 +1,14 @@
 export class Account {
-	id?: number;
+	bank?: string;
+	bank_address?: string;
 	client_id?: number;
 	default?: boolean;
 	foreign = false;
-	number?: number;
+	iban?: string;
+	id?: number;
 	name?: string;
-	bank?: string;
-
-	bank_address?: string;
-	swift_code?: string;
+	number?: number;
 	routing_no?: string;
 	sort_code?: string;
-	iban?: string;
+	swift_code?: string;
 }

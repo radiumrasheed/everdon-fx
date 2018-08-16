@@ -1,10 +1,10 @@
 export class Product {
-	id?: number;
-	name?: string;
-	value?: string;
+	created_at?: string;
 	desc?: string;
 	description?: string;
+	id?: number;
+	name?: string;
 	sign?: string;
-	created_at?: string;
 	updated_at?: string;
+	value?: string;
 }

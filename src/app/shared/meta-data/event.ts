@@ -1,10 +1,11 @@
 import {User} from './user';
 
+
 export class Event {
 	action: string;
 	amount: number;
-	created_at: string;
 	comment?: string;
+	created_at: string;
 	done_at: string;
 	done_by: User;
 	id: number;

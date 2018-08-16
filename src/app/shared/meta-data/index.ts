@@ -302,7 +302,7 @@ export const BANKS: any[] = [
 export const TRANSACTION_MODES: GenericOption[] = [
 	{id: 1, name: 'cash', desc: 'Cash'},
 	{id: 2, name: 'transfer', desc: 'Transfer'},
-	{id: 3, name: 'cash-deposit', desc: 'Cash Deposit'},
+	{id: 3, name: 'cash-deposit', desc: 'Cash Deposit'}
 ];
 
 export const TRANSACTION_STATUSES: GenericOption[] = [
