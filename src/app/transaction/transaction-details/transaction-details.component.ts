@@ -12,44 +12,41 @@ import {SwalComponent} from '@toverux/ngx-sweetalert2';
 @Component({
 	selector: 'app-transaction-details',
 	templateUrl: './transaction-details.component.html',
-	styleUrls: ['./transaction-details.component.scss'],
+	styleUrls: ['./transaction-details.component.scss']
 })
 export class TransactionDetailsComponent implements OnInit {
 
-	public refund_transaction: Transaction;
+	private can_be_updated = false;
+	@ViewChild(`refundSwal`) private refundSwalComponent: SwalComponent;
+	refund_transaction: Transaction;
 	/**
 	 * Transaction Data
 	 * */
-	public transaction: Transaction;
-	public currencyList = PRODUCTS;
-	public organizationList = ORGANIZATIONS;
-
+	transaction: Transaction;
+	currencyList = PRODUCTS;
+	organizationList = ORGANIZATIONS;
 	id: string;
+	roles$: Observable<any>;
+	role$: Observable<string>;
+	nextActionText: string;
+	nextSubmitText: string;
+	can_treat = false;
+	can_approve = false;
+	can_fulfil = false;
+	can_be_rejected = true;
+	can_be_treated = false;
+	can_be_approved = false;
+	can_be_fulfilled = false;
+	can_be_cancelled = true;
+	can_modify_rate = false;
+	can_modify_funds_check = false;
+	can_modify_aml_kyc = false;
+	can_modify_condition = false;
+	can_modify_org = false;
+	can_modify_swap_charges = false;
+	can_take_action = false;
+	is_client: boolean;
 
-	public roles$: Observable<any>;
-	public role$: Observable<string>;
-
-	public nextActionText: string;
-	public nextSubmitText: string;
-
-	public can_treat = false;
-	public can_approve = false;
-	public can_fulfil = false;
-	public can_be_rejected = true;
-	public can_be_treated = false;
-	public can_be_approved = false;
-	public can_be_fulfilled = false;
-	public can_be_cancelled = true;
-	public can_modify_rate = false;
-	public can_modify_funds_check = false;
-	public can_modify_aml_kyc = false;
-	public can_modify_condition = false;
-	public can_modify_org = false;
-	public can_modify_swap_charges = false;
-	public can_take_action = false;
-	public is_client: boolean;
-	private can_be_updated = false;
-	@ViewChild(`refundSwal`) private refundSwalComponent: SwalComponent;
 
 	constructor(private transactionService: TransactionService,
 							private route: ActivatedRoute,
@@ -57,6 +54,7 @@ export class TransactionDetailsComponent implements OnInit {
 							private auth: AuthService,
 							private toastr: ToastrService) {
 	}
+
 
 	ngOnInit() {
 		this.roles$ = this.auth.roles;
@@ -98,6 +96,7 @@ export class TransactionDetailsComponent implements OnInit {
 			}
 		);
 	}
+
 
 	computeTLogic() {
 		if (!this.transaction) {
@@ -165,9 +164,9 @@ export class TransactionDetailsComponent implements OnInit {
 			// FX-Ops Manager...
 			case this.can_approve && this.can_be_approved:
 				this.can_take_action = true;
-				this.can_modify_condition = true;
-				this.can_modify_swap_charges = true;
-				this.can_modify_org = true;
+				// this.can_modify_condition = true;
+				// this.can_modify_swap_charges = true;
+				// this.can_modify_org = true;
 				break;
 
 			// Treasury-Ops
@@ -182,10 +181,12 @@ export class TransactionDetailsComponent implements OnInit {
 		}
 	}
 
+
 	refreshTransaction() {
 		delete this.transaction;
 		this.getTransaction(this.id);
 	}
+
 
 	getTransaction(id: string): void {
 		this.transactionService.getTransaction(id)
@@ -203,9 +204,11 @@ export class TransactionDetailsComponent implements OnInit {
 			);
 	}
 
+
 	updateCalculatedAmount() {
 		this.transaction.calculated_amount = this.transaction.rate * this.transaction.amount;
 	}
+
 
 	takeAction() {
 		switch (true) {
@@ -272,6 +275,7 @@ export class TransactionDetailsComponent implements OnInit {
 		}
 	}
 
+
 	rejectTransaction() {
 		this.transactionService.rejectTransaction(this.transaction, this.id)
 			.subscribe(
@@ -289,6 +293,7 @@ export class TransactionDetailsComponent implements OnInit {
 			);
 	}
 
+
 	cancelTransaction() {
 		this.transactionService.cancelTransaction(this.transaction, this.id)
 			.subscribe(
@@ -301,6 +306,7 @@ export class TransactionDetailsComponent implements OnInit {
 				}
 			);
 	}
+
 
 	print(): void {
 		let printContents, popupWin;
@@ -318,6 +324,7 @@ export class TransactionDetailsComponent implements OnInit {
 		popupWin.document.close();
 	}
 
+
 	validateKYC() {
 		this.transactionService.validateKYC(this.transaction.client_id, this.transaction.client.kyc)
 			.subscribe(
@@ -334,6 +341,7 @@ export class TransactionDetailsComponent implements OnInit {
 				}
 			);
 	}
+
 
 	onSubmittedSuccessfully() {
 		this.refundSwalComponent.nativeSwal.close();
