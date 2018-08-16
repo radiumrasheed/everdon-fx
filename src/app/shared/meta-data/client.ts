@@ -11,6 +11,7 @@ export class Client {
 	accounts?: Account[];
 	email?: string;
 	gender?: string;
+	country?: string;
 	first_name: string;
 	last_name: string;
 	middle_name?: string;

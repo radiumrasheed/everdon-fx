@@ -3,6 +3,8 @@ import {AuthService} from '../../services/auth/auth.service';
 import {Router} from '@angular/router';
 import {User} from '../login/user';
 import {ToastrService} from 'ngx-toastr';
+import {COUNTRIES} from '../../shared/meta-data';
+
 
 @Component({
 	selector: 'app-signup',
@@ -12,10 +14,12 @@ import {ToastrService} from 'ngx-toastr';
 export class SignupComponent implements OnInit {
 	public user: User = new User();
 	public submitting: boolean;
+	public countries = COUNTRIES;
+
 
 	constructor(private authService: AuthService,
-	            private router: Router,
-	            private toastr: ToastrService) {
+							private router: Router,
+							private toastr: ToastrService) {
 	}
 
 

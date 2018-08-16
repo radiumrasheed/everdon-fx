@@ -30,9 +30,22 @@
 	</div>
 
 	<div class="form-group row">
+		<label for="country" class="col-sm-3 text-right control-label col-form-label">Country<span class="text-danger">*</span></label>
+		<div class="input-group col-sm-9">
+			<select id="country" class="custom-select col-12" required [(ngModel)]="client.country" name="country">
+				<option *ngFor="let country of countries" [value]="country.name">
+					{{ country.name }} - {{ country.code }}
+				</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group row">
 		<label for="phone" class="col-sm-3 text-right control-label col-form-label">Phone<span class="text-danger">*</span></label>
 		<div class="col-sm-9">
-			<input [(ngModel)]="client.phone" name="phone" type="tel" pattern="[0]\d{10}" required class="form-control" id="phone" placeholder="Phone..."></div>
+			<input [(ngModel)]="client.phone" name="phone" type="tel" [pattern]=" client.country === 'Nigeria' ? '[0]\\d{10}' : '' " required class="form-control" id="phone"
+			       placeholder="Phone...">
+		</div>
 	</div>
 
 	<div class="form-group row">

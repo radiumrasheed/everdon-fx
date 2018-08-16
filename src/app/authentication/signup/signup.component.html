@@ -56,15 +56,27 @@
 					</div>
 				</div>
 
+				<div class="form-group">
+					<div class="col-xs-12">
+						<label for="country">Country<span class="text-danger"> *</span></label>
+						<select id="country" class="custom-select col-12" required [(ngModel)]="user.country" name="country">
+							<option *ngFor="let country of countries" [value]="country.name">
+								{{ country.name }} - {{ country.code }}
+							</option>
+						</select>
+					</div>
+				</div>
+
 				<div class="form-group ">
 					<div class="col-xs-12">
 						<label>Phone Number<span class="text-danger"> *</span></label>
-						<input class="form-control" [(ngModel)]="user.phone" required type="tel" pattern="[0]\d{10}" placeholder="08012345678" name="phone" #phone="ngModel">
-						<div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="small alert alert-danger">
-							<div *ngIf="phone.errors.required">
+						<input class="form-control" [(ngModel)]="user.phone" required type="tel" [pattern]=" user.country === 'Nigeria' ? '[0]\\d{10}' : '' " placeholder="08012345678"
+						       name="phone" #phone="ngModel">
+						<div *ngIf="phone.invalid && (phone.dirty || phone.touched) && user.country === 'Nigeria'" class="small alert alert-danger">
+							<div *ngIf="phone.errors.required && user.country === 'Nigeria'">
 								Phone Number is required.
 							</div>
-							<div *ngIf="phone.errors.pattern">
+							<div *ngIf="phone.errors.pattern && user.country === 'Nigeria'">
 								Phone Number must be like 08012345678
 							</div>
 						</div>

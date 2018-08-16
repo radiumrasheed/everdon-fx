@@ -3,8 +3,9 @@ import {debounceTime} from 'rxjs/operators';
 import {ToastrService} from 'ngx-toastr';
 import {Subject} from 'rxjs';
 
-import {Client} from '../meta-data';
+import {Client, COUNTRIES} from '../meta-data';
 import {CreateClientFormService} from './create-client-form.service';
+
 
 @Component({
 	selector: 'app-create-client-form',
@@ -13,17 +14,19 @@ import {CreateClientFormService} from './create-client-form.service';
 	providers: [CreateClientFormService]
 })
 export class CreateClientFormComponent implements OnInit {
+	private _success = new Subject<string>();
 	@Output() submittedSuccessfully = new EventEmitter<string>();
-
 	client = new Client;
+	countries = COUNTRIES;
 	successMessage: string;
 	staticAlertClosed = false;
 	submitting = false;
-	public is_cooperate = false;
-	private _success = new Subject<string>();
+	is_cooperate = false;
+
 
 	constructor(private clientService: CreateClientFormService, private toastr: ToastrService) {
 	}
+
 
 	ngOnInit() {
 		setTimeout(() => this.staticAlertClosed = true, 20000);
@@ -33,6 +36,7 @@ export class CreateClientFormComponent implements OnInit {
 			debounceTime(5000)
 		).subscribe(() => this.successMessage = null);
 	}
+
 
 	createClient() {
 		this.submitting = true;
