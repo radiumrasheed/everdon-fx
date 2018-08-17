@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
+import * as _ from 'lodash';
 
 import {User} from '../../authentication/login/user';
 import {Account, BANKS, Client, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
@@ -54,7 +55,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	availableProducts = PRODUCTS;
 	bankList = BANKS;
 	transactionModes = TRANSACTION_MODES;
-	transactionTypes = TRANSACTION_TYPES;
+	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
 
 	// Form Properties...
 	rates: any;

@@ -35,7 +35,7 @@ export class ListTransactionsComponent implements OnInit {
 		type: 'list',
 		config: {
 			selectText: 'select..',
-			list: _.map(TRANSACTION_STATUSES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
+			list: _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
 		}
 	};
 	filterTypeSettings = {

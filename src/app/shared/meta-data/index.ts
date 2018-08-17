@@ -306,23 +306,23 @@ export const TRANSACTION_MODES: GenericOption[] = [
 ];
 
 export const TRANSACTION_STATUSES: GenericOption[] = [
-	{id: 1, name: 'open', desc: 'Open', class: 'label-light-info'},
-	{id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning'},
-	{id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary'},
-	{id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary'},
-	{id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger'},
-	{id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success'},
-	{id: 7, name: 'raised', desc: 'Raised', class: ''},
-	{id: 8, name: 'closed-processed', desc: 'Closed & Processed', class: 'label-light-success'},
-	{id: 9, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning'},
-	{id: 10, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green'}
+	{id: 1, name: 'open', desc: 'Open', class: 'label-light-info, show: false', show: true},
+	{id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning', show: true},
+	{id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary', show: true},
+	{id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary', show: true},
+	{id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger', show: true},
+	{id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success', show: true},
+	{id: 7, name: 'raised', desc: 'Raised', class: '', show: true},
+	{id: 8, name: 'closed-processed', desc: 'Closed & Processed', class: 'label-light-success', show: false},
+	{id: 9, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning', show: false},
+	{id: 10, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green', show: false}
 ];
 
 export const TRANSACTION_TYPES: GenericOption[] = [
-	{id: 1, name: 'purchase', desc: 'Purchase'},
-	{id: 2, name: 'sales', desc: 'Sales'},
-	{id: 3, name: 'swap', desc: 'Swap'},
-	{id: 6, name: 'cross', desc: 'Cross'},
-	{id: 4, name: 'refund', desc: 'Refund'},
-	{id: 5, name: 'expenses', desc: 'Expenses'}
+	{id: 1, name: 'purchase', desc: 'Purchase', show: false},
+	{id: 2, name: 'sales', desc: 'Sales', show: false},
+	{id: 3, name: 'swap', desc: 'Swap', show: true},
+	{id: 6, name: 'cross', desc: 'Cross', show: true},
+	{id: 4, name: 'refund', desc: 'Refund', show: true},
+	{id: 5, name: 'expenses', desc: 'Expenses', show: true}
 ];
