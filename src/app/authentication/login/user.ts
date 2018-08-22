@@ -1,6 +1,6 @@
 export class User {
 	email?: string;
-	country?: string;
+	country?: string = '';
 	password?: string;
 	password_confirmation?: string;
 	phone?: string;
