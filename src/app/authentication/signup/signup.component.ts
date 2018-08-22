@@ -37,11 +37,8 @@ export class SignupComponent implements OnInit {
 			.subscribe(
 				user => {
 					if (user) {
-						// get the redirect url from our auth service, else use default
-						const redirect = this.authService.redirectUrl ? this.authService.redirectUrl : 'me/profile';
-
-						// redirect the user
-						this.router.navigate([redirect]).then(_ => this.toastr.success('SignUp successful')).catch();
+						// redirect the user to profile page
+						this.router.navigate(['me/profile']).then(_ => this.toastr.success('SignUp successful')).catch();
 					}
 				},
 				() => {
