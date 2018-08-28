@@ -109,11 +109,10 @@
 
 		<div class="form-group row" *ngIf="role === 'fx-ops'">
 			<label for="transaction-type" class="col-sm-3 text-right control-label col-form-label">
-				Transaction Type
-				<span class="text-danger">*</span></label>
+				Transaction Type</label>
 			<div class="input-group col-sm-9">
 				<select [disabled]="transaction.buying_product_id && (transaction.buying_product_id === transaction.selling_product_id)"
-				        required [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id" class="custom-select col-12">
+				        [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id" class="custom-select col-12">
 					<option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">
 						{{ transactionType.desc }}
 					</option>

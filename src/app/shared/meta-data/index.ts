@@ -323,6 +323,6 @@ export const TRANSACTION_TYPES: GenericOption[] = [
 	{id: 2, name: 'sales', desc: 'Sales', show: false},
 	{id: 3, name: 'swap', desc: 'Swap', show: true},
 	{id: 6, name: 'cross', desc: 'Cross', show: true},
-	{id: 4, name: 'refund', desc: 'Refund', show: true},
+	{id: 4, name: 'refund', desc: 'Refund', show: false},
 	{id: 5, name: 'expenses', desc: 'Expenses', show: true}
 ];
