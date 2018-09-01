@@ -74,7 +74,7 @@
 				<select id="buying_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
 				        [(ngModel)]="transaction.buying_product_id" name="buying_product_id">
 					<option> - select currency -</option>
-					<option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
+					<option *ngFor="let availableProduct of foreignProducts" [value]="availableProduct.id">
 						{{ availableProduct.description }}
 					</option>
 				</select>
@@ -88,7 +88,7 @@
 			<div class="input-group col-sm-9">
 				<select id="selling_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
 				        [(ngModel)]="transaction.selling_product_id" name="selling_product_id">
-					<option *ngFor="let availableProduct of availableProducts" [value]="availableProduct.id">
+					<option *ngFor="let availableProduct of localProducts" [value]="availableProduct.id">
 						{{ availableProduct.description }}
 					</option>
 				</select>

@@ -7,4 +7,5 @@ export class Product {
 	sign?: string;
 	updated_at?: string;
 	value?: string;
+	local?: boolean;
 }

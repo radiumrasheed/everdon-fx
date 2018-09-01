@@ -6,7 +6,7 @@ import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} f
 import * as _ from 'lodash';
 
 import {User} from '../../authentication/login/user';
-import {Account, BANKS, Client, COUNTRIES, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
+import {Account, BANKS, Client, COUNTRIES, Product, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
 import {AuthService} from '../../services/auth/auth.service';
 import {RequestTransactionFormService} from './request-transaction-form.service';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
@@ -52,7 +52,9 @@ export class RequestTransactionFormComponent implements OnInit {
 
 	// Constants...
 	countries = COUNTRIES;
-	availableProducts = PRODUCTS;
+	availableProducts: Product[] = PRODUCTS;
+	foreignProducts: Product[] = _.filter(PRODUCTS, ['local', false]);
+	localProducts: Product[] = _.filter(PRODUCTS, 'local');
 	bankList = BANKS;
 	transactionModes = TRANSACTION_MODES;
 	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
