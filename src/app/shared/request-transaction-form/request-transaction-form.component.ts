@@ -34,48 +34,29 @@ export class RequestTransactionFormComponent implements OnInit {
 
 
 	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
-
-	roles$: Observable<string>;
-
-	@Output() transactionChange = new EventEmitter<Transaction>();
-
-	@Input() role: string;
-
+	accounts: Account[];
+	availableProducts: Product[] = PRODUCTS;
+	bankList = BANKS;
+	// Constants...
+	countries = COUNTRIES;
+	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
+	foreignProducts: Product[] = _.filter(PRODUCTS, ['local', false]);
+	form1 = true;
+	form2 = false;
+	form3 = false;
+	formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
+	gettingClient = false;
+	localProducts: Product[] = _.filter(PRODUCTS, 'local');
+	model: any;
+	newAccount = true;
 	/**
 	 *  Link to profile relative to `transaction.client_id`
 	 * */
 	@Input() profileLink: any;
-
-	@Output() submittedSuccessfully = new EventEmitter<string>();
-
-	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
-
-	// Constants...
-	countries = COUNTRIES;
-	availableProducts: Product[] = PRODUCTS;
-	foreignProducts: Product[] = _.filter(PRODUCTS, ['local', false]);
-	localProducts: Product[] = _.filter(PRODUCTS, 'local');
-	bankList = BANKS;
-	transactionModes = TRANSACTION_MODES;
-	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
-
 	// Form Properties...
 	rates: any;
-	model: any;
-	form1 = true;
-	form2 = false;
-	form3 = false;
-	newAccount = true;
-	submitting = false;
-	accounts: Account[];
-
-	// Search Input Properties...
-	searching = false;
-	gettingClient = false;
-	searchEmpty = false;
-	searchFailed = false;
-	hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
-
+	@Input() role: string;
+	roles$: Observable<string>;
 	search = (text$: Observable<string>) =>
 		text$.pipe(
 			debounceTime(300),
@@ -103,14 +84,21 @@ export class RequestTransactionFormComponent implements OnInit {
 			tap(() => this.searching = false),
 			merge(this.hideSearchingWhenUnsubscribed)
 		);
-
+	searchEmpty = false;
+	searchFailed = false;
+	// Search Input Properties...
+	searching = false;
+	hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
+	@Output() submittedSuccessfully = new EventEmitter<string>();
+	submitting = false;
+	@Output() transactionChange = new EventEmitter<Transaction>();
+	transactionModes = TRANSACTION_MODES;
+	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
 	updateModel = (event: any) => {
 		this.getClient(event.item.id);
 		this.getAccounts(event.item.id);
 		this.transaction.client_id = event.item.id;
 	};
-
-	formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
 
 
 	constructor(private transactionService: RequestTransactionFormService,
@@ -190,6 +178,11 @@ export class RequestTransactionFormComponent implements OnInit {
 		delete this.transaction.account_number;
 		delete this.transaction.bank_name;
 		// delete this.transaction.bvn;
+	}
+
+
+	updateCalculatedAmount() {
+		this.transaction.calculated_amount = this.transaction.rate * this.transaction.amount;
 	}
 
 
@@ -281,6 +274,11 @@ export class RequestTransactionFormComponent implements OnInit {
 	shouldGetRates($event: any = null): void {
 		if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
 			this.getRates();
+
+			// Should recalculate cost if amount exists
+			if (this.transaction.amount) {
+				this.updateCalculatedAmount()
+			}
 		}
 
 		if (typeof this.transaction.buying_product_id !== 'undefined' && (this.transaction.buying_product_id === this.transaction.selling_product_id)) {

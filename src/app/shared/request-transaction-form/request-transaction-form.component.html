@@ -103,7 +103,19 @@
 			</label>
 			<div class="input-group col-sm-9">
 				<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
-				<input type="text" pattern="[^a-z ] *([.0-9])*\d" class="form-control" required [(ngModel)]="transaction.amount" name="amount" id="amount" aria-label="Amount">
+				<input type="text" pattern="[^a-z ] *([.0-9])*\d" class="form-control" required (keyup)="updateCalculatedAmount()"
+				       [(ngModel)]="transaction.amount" name="amount" id="amount" aria-label="Amount">
+			</div>
+		</div>
+
+
+		<div class="form-group row">
+			<label for="calculated_amount" class="col-sm-3 text-right control-label col-form-label">
+				Calculated Cost
+			</label>
+			<div class="input-group col-sm-9">
+				<span class="input-group-addon" *ngIf="transaction.selling_product_id">{{ transaction.selling_product_id | currency:'sign' }}</span>
+				<input type="text" class="form-control" [(ngModel)]="transaction.calculated_amount" disabled name="calculated_amount" id="calculated_amount">
 			</div>
 		</div>
 
@@ -313,13 +325,14 @@
 		</div>
 
 
-		<div class="form-group row"><label for="referrer" class="col-sm-3 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
+		<div class="form-group row">
+			<label for="referrer" class="col-sm-3 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<input class="form-control" name="referrer" required id="referrer" [(ngModel)]="transaction.referrer" type="text">
 			</div>
 		</div>
 
-		<div class="form-group" *ngIf="transaction.transaction_type_id === '3'">
+		<div class="form-group row" *ngIf="transaction.transaction_type_id === '3'">
 			<label for="swap_charges" class="col-sm-3 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
@@ -328,7 +341,8 @@
 		</div>
 
 
-		<div class="form-group row"><label for="comment" class="col-sm-3 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
+		<div class="form-group row">
+			<label for="comment" class="col-sm-3 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<textarea class="form-control" required name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
 			</div>

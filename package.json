@@ -15,6 +15,9 @@
     "e2e": "ng e2e"
   },
   "private": true,
+	"engines": {
+		"npm": "5.7.x"
+	},
   "dependencies": {
     "@angular/animations": "^6.0.0",
     "@angular/cli": "^6.0.8",
