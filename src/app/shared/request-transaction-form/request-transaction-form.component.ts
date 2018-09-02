@@ -34,10 +34,10 @@ export class RequestTransactionFormComponent implements OnInit {
 
 
 	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
+	// Constants...
 	accounts: Account[];
 	availableProducts: Product[] = PRODUCTS;
 	bankList = BANKS;
-	// Constants...
 	countries = COUNTRIES;
 	@Output() customerCreatedSuccessfully = new EventEmitter<boolean>();
 	foreignProducts: Product[] = _.filter(PRODUCTS, ['local', false]);
@@ -53,12 +53,14 @@ export class RequestTransactionFormComponent implements OnInit {
 	 *  Link to profile relative to `transaction.client_id`
 	 * */
 	@Input() profileLink: any;
+
 	// Form Properties...
+	rate: number | string;
 	rates: any;
 	@Input() role: string;
 	roles$: Observable<string>;
-	search = (text$: Observable<string>) =>
-		text$.pipe(
+	search = (text$: Observable<string>) => {
+		return text$.pipe(
 			debounceTime(300),
 			distinctUntilChanged(),
 			tap(() => this.searching = true),
@@ -84,8 +86,10 @@ export class RequestTransactionFormComponent implements OnInit {
 			tap(() => this.searching = false),
 			merge(this.hideSearchingWhenUnsubscribed)
 		);
+	};
 	searchEmpty = false;
 	searchFailed = false;
+
 	// Search Input Properties...
 	searching = false;
 	hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
@@ -150,10 +154,22 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
-	protected goToForm3(): void {
-		this.form1 = false;
-		this.form2 = false;
-		this.form3 = true;
+	private applyRate(rates = this.rates): Promise<string> {
+		return new Promise<string>((resolve, reject) => {
+			const b = this.transaction.buying_product_id;
+			const s = this.transaction.selling_product_id;
+
+			if (rates) {
+				try {
+					const _rate = (rates[b - 1]['rate'] / rates[s - 1]['rate']).toFixed(4);
+					this.transaction.rate = this.rate = _rate;
+
+					resolve(_rate);
+				} catch (e) {
+					throw new Error(e);
+				}
+			}
+		});
 	}
 
 
@@ -254,18 +270,14 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
-	getRates(): void {
-		this.transactionService.getAllRates()
+	getRates(): any {
+		return this.transactionService.getAllRates()
 			.subscribe(
-				rates => {
+				async rates => {
 					if (rates) {
 						this.rates = rates;
-						this.applyRate(rates);
+						return await this.applyRate(rates);
 					}
-				},
-				() => {
-				},
-				() => {
 				}
 			);
 	}
@@ -273,12 +285,25 @@ export class RequestTransactionFormComponent implements OnInit {
 
 	shouldGetRates($event: any = null): void {
 		if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
-			this.getRates();
+			this.transactionService.getAllRates()
+				.subscribe(
+					async rates => {
+						if (!rates) {
+							throw new Error('Could not get rate');
+						}
 
-			// Should recalculate cost if amount exists
-			if (this.transaction.amount) {
-				this.updateCalculatedAmount()
-			}
+						// Continue...
+						this.rates = rates;
+						await this.applyRate(rates)
+							.then(() => {
+								// Should recalculate cost if amount exists
+								if (this.transaction.amount) {
+									this.updateCalculatedAmount();
+								}
+							});
+
+					}
+				);
 		}
 
 		if (typeof this.transaction.buying_product_id !== 'undefined' && (this.transaction.buying_product_id === this.transaction.selling_product_id)) {
@@ -287,20 +312,6 @@ export class RequestTransactionFormComponent implements OnInit {
 			// this.transaction.transaction_type_id = '4';
 		} else {
 			delete this.transaction.transaction_type_id;
-		}
-	}
-
-
-	applyRate(rates = this.rates): void {
-		const b = this.transaction.buying_product_id;
-		const s = this.transaction.selling_product_id;
-
-		if (rates) {
-			try {
-				this.transaction.rate = (rates[b - 1]['rate'] / rates[s - 1]['rate']).toFixed(4);
-			} catch (e) {
-				console.error(e);
-			}
 		}
 	}
 

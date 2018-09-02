@@ -3,15 +3,15 @@
 	<!-- Stage 1 of FORM -->
 	<ng-container #step1 *ngIf="form1">
 
-		<div class="text-center" *ngIf="transaction?.rate">
-      <span class="text-success font-weight-bold font-enlarge">
-        <i class="mdi mdi-24px mdi-currency-{{transaction?.buying_product_id | currency:'value'}}" style="font-size: xx-large">1   </i>
-      </span>
-			<span>
-        <i class="mdi mdi-36px mdi-equal"></i>
-      </span>
+		<div class="text-center" *ngIf="rate">
 			<span class="text-info font-weight-bold font-enlarge">
-        <i class="mdi mdi-24px mdi-currency-{{transaction?.selling_product_id | currency:'value'}}" style="font-size: xx-large">{{transaction?.rate | number:'1.1-2'}}</i>
+        <i style="font-size: xx-large">{{transaction?.selling_product_id | currency:'sign'}}{{rate | number:'1.1-2'}}</i>
+      </span>
+			<span class="font-weight-bold font-enlarge">
+        <i style="font-size: xx-large"> = </i>
+      </span>
+			<span class="text-success font-weight-bold font-enlarge">
+        <i style="font-size: xx-large">{{transaction?.buying_product_id | currency:'sign'}}1</i>
       </span>
 		</div>
 
@@ -109,6 +109,16 @@
 		</div>
 
 
+		<div class="form-group row" *ngIf="role === 'fx-ops'">
+			<label for="rate" class="col-sm-3 text-right control-label col-form-label">Rate <span class="text-danger">*</span></label>
+			<div class="input-group col-sm-9">
+				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
+				<input type="number" class="form-control" required [(ngModel)]="transaction.rate" (keyup)="updateCalculatedAmount()" name="rate" id="rate" placeholder="Rate">
+				<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | currency }}</span>
+			</div>
+		</div>
+
+
 		<div class="form-group row">
 			<label for="calculated_amount" class="col-sm-3 text-right control-label col-form-label">
 				Calculated Cost
@@ -148,7 +158,11 @@
 			</div>
 		</div>
 
+	</ng-container>
+	<!-- END OF Stage 1 -->
 
+	<!-- Stage 2 of FORM -->
+	<ng-container #step2 *ngIf="form2">
 		<div class="form-group row"><label for="country" class="col-sm-3 text-right control-label col-form-label">
 			Country
 			<span class="text-danger">*</span></label>
@@ -170,11 +184,8 @@
 				</label>
 			</div>
 		</div>
-	</ng-container>
-	<!-- END OF Stage 1 -->
 
-	<!-- Stage 2 of FORM -->
-	<ng-container #step2 *ngIf="form2">
+		<hr value="">
 
 		<!-- Foreign or Local Account -->
 		<div class="form-control-lg text-center">
@@ -230,8 +241,8 @@
 			</div>
 
 
-			<div class="form-group row"><label for="account_name" class="col-sm-3 text-right control-label col-form-label">Account Name <span class="text-danger"
-			                                                                                                                                  *ngIf="newAccount">*</span></label>
+			<div class="form-group row">
+				<label for="account_name" class="col-sm-3 text-right control-label col-form-label">Account Name <span class="text-danger" *ngIf="newAccount">*</span></label>
 				<div class="input-group col-sm-9">
 					<input type="text" class="form-control" [required]="newAccount" [(ngModel)]="transaction.account_name"
 					       id="account_name" name="account_name" placeholder="Account Name">
@@ -239,8 +250,8 @@
 			</div>
 
 
-			<div class="form-group row"><label for="account_number" class="col-sm-3 text-right control-label col-form-label">Account Number <span class="text-danger"
-			                                                                                                                                      *ngIf="newAccount">*</span></label>
+			<div class="form-group row">
+				<label for="account_number" class="col-sm-3 text-right control-label col-form-label">Account Number <span class="text-danger" *ngIf="newAccount">*</span></label>
 				<div class="input-group col-sm-9">
 					<input type="text" class="form-control" [required]="newAccount" minlength="10" maxlength="10"
 					       [(ngModel)]="transaction.account_number" name="account_number" id="account_number"
@@ -295,87 +306,66 @@
 			</ng-container>
 		</ng-container>
 
+		<ng-container *ngIf="role === 'fx-ops'">
+			<hr>
+
+			<div class="form-group row"><label for="condition" class="col-sm-3 text-right control-label col-form-label">Condition</label>
+				<div class="input-group col-sm-9">
+					<select class="form-control" [(ngModel)]="transaction.condition" name="condition" id="condition">
+						<option value="advance">Advance</option>
+						<option value="funds received">Funds Received</option>
+						<option value="loan">Loan</option>
+						<option value="pay first">Pay First</option>
+						<option value="rate concession">Rate Concession</option>
+						<option value="waiver">Waiver</option>
+						<option value="others">Others</option>
+					</select>
+				</div>
+			</div>
+
+
+			<div class="form-group row">
+				<label for="referrer" class="col-sm-3 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
+				<div class="input-group col-sm-9">
+					<input class="form-control" name="referrer" required id="referrer" [(ngModel)]="transaction.referrer" type="text">
+				</div>
+			</div>
+
+			<div class="form-group row" *ngIf="transaction.transaction_type_id === '3'">
+				<label for="swap_charges" class="col-sm-3 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
+				<div class="input-group col-sm-9">
+					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
+					<input class="form-control" required name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
+				</div>
+			</div>
+
+
+			<div class="form-group row">
+				<label for="comment" class="col-sm-3 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
+				<div class="input-group col-sm-9">
+					<textarea class="form-control" required name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
+				</div>
+			</div>
+		</ng-container>
+
 	</ng-container>
 	<!-- END OF Stage 2 -->
 
-	<!-- Stage 3 of FORM -->
-	<ng-container #step3 *ngIf="form3">
-
-		<div class="form-group row"><label for="rate" class="col-sm-3 text-right control-label col-form-label">Rate <span class="text-danger">*</span></label>
-			<div class="input-group col-sm-9">
-				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
-				<input type="number" class="form-control" required [(ngModel)]="transaction.rate" name="rate" id="rate" placeholder="Rate">
-				<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | currency }}</span>
-			</div>
-		</div>
-
-
-		<div class="form-group row"><label for="condition" class="col-sm-3 text-right control-label col-form-label">Condition</label>
-			<div class="input-group col-sm-9">
-				<select class="form-control" [(ngModel)]="transaction.condition" name="condition" id="condition">
-					<option value="advance">Advance</option>
-					<option value="funds received">Funds Received</option>
-					<option value="loan">Loan</option>
-					<option value="pay first">Pay First</option>
-					<option value="rate concession">Rate Concession</option>
-					<option value="waiver">Waiver</option>
-					<option value="others">Others</option>
-				</select>
-			</div>
-		</div>
-
-
-		<div class="form-group row">
-			<label for="referrer" class="col-sm-3 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
-			<div class="input-group col-sm-9">
-				<input class="form-control" name="referrer" required id="referrer" [(ngModel)]="transaction.referrer" type="text">
-			</div>
-		</div>
-
-		<div class="form-group row" *ngIf="transaction.transaction_type_id === '3'">
-			<label for="swap_charges" class="col-sm-3 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
-			<div class="input-group col-sm-9">
-				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
-				<input class="form-control" required name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
-			</div>
-		</div>
-
-
-		<div class="form-group row">
-			<label for="comment" class="col-sm-3 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
-			<div class="input-group col-sm-9">
-				<textarea class="form-control" required name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
-			</div>
-		</div>
-	</ng-container>
-	<!-- END OF Stage 3 -->
-
 	<hr>
 
-	<button type="button" class="btn btn-info pull-right" [disabled]="transaction?.country === undefined" *ngIf="form1 && transaction.transaction_mode_id !== '1'"
-	        (click)="goToForm2()">
+	<button type="button" class="btn btn-info pull-right" *ngIf="form1" (click)="goToForm2()">
 		Next
 		<i class="mdi mdi-arrow-right-bold-circle"> </i>
 	</button>
 
-	<button type="button" class="btn btn-info pull-right" *ngIf="(role === 'fx-ops') && (form2 || (form1 && transaction.transaction_mode_id === '1')) " (click)="goToForm3()">
-		Next
-		<i class="mdi mdi-arrow-right-bold-circle"> </i>
-	</button>
-
-	<button type="button" class="btn btn-inverse pull-left" *ngIf="form2 || (form3 && transaction.transaction_mode_id === '1')" (click)="goToForm1()">
+	<button type="button" class="btn btn-inverse pull-left" *ngIf="form2" (click)="goToForm1()">
 		<i class="mdi mdi-arrow-left-bold-circle"></i>
 		Back
 	</button>
 
-	<button type="button" class="btn btn-inverse pull-left" *ngIf="form3 && transaction.transaction_mode_id !== '1'" (click)="goToForm2()">
-		<i class="mdi mdi-arrow-left-bold-circle"></i>
-		Back
-	</button>
-
-	<button type="submit" class="btn btn-success pull-right" *ngIf="((form2 || (form1 && transaction.transaction_mode_id === '1')) && (role !== 'fx-ops')) || form3"
-	        [title]="!requestForm.form.valid ? 'Form is not valid' : 'Send Request'" [disabled]="!requestForm.form.valid || (submitting === true)">
+	<button type="submit" class="btn btn-success pull-right" *ngIf="form2" [disabled]="!requestForm.form.valid || (submitting === true)">
 		{{ submitting ? 'Sending Request... ' : 'Request ' }}
+		<i class="mdi mdi-email"></i>
 	</button>
 
 </form>

@@ -1,0 +1,16 @@
+hr[value] {
+	border: none;
+	border-top: 3px double #333;
+	color: #333;
+	overflow: visible;
+	text-align: center;
+	height: 5px;
+}
+
+hr[value]:after {
+	background: #fff;
+	content: 'Account Details';
+	padding: 0 4px;
+	position: relative;
+	top: -13px;
+}
