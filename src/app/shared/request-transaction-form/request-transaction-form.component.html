@@ -68,7 +68,7 @@
 
 		<div class="form-group row">
 			<label for="buying_product_id" class="col-sm-3 text-right control-label col-form-label">
-				Buying
+				{{role === 'fx-ops' ? 'Selling' : 'Buying'}}
 				<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<select id="buying_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
@@ -83,7 +83,7 @@
 
 
 		<div class="form-group row"><label for="selling_product_id" class="col-sm-3 text-right control-label col-form-label">
-			Selling
+			{{role === 'fx-ops' ? 'Buying' : 'Selling'}}
 			<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<select id="selling_product_id" class="custom-select col-12" required (change)="shouldGetRates($event)"
