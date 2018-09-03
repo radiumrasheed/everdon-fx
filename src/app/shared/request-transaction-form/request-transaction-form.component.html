@@ -109,14 +109,34 @@
 		</div>
 
 
-		<div class="form-group row" *ngIf="role === 'fx-ops'">
-			<label for="rate" class="col-sm-3 text-right control-label col-form-label">Rate <span class="text-danger">*</span></label>
+		<ng-container *ngIf="role === 'fx-ops'">
+			<div class="form-group row" *ngIf="!(transaction.selling_product_id == 4 || transaction.buying_product_id == 4)">
+				<label for="rate" class="col-sm-3 text-right control-label col-form-label">
+					Rate
+					<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
 				<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
 				<input type="number" class="form-control" required [(ngModel)]="transaction.rate" (keyup)="updateCalculatedAmount()" name="rate" id="rate" placeholder="Rate">
 				<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | currency }}</span>
 			</div>
 		</div>
+
+
+			<div class="form-group row" *ngIf="transaction.selling_product_id == 4 || transaction.buying_product_id == 4">
+				<label for="local_rate" class="col-sm-3 text-right control-label col-form-label">
+					Local Rate
+					<span class="text-danger">*</span></label>
+				<div class="input-group col-sm-9">
+					<span class="input-group-addon">₦</span>
+					<input type="number" class="form-control" required [(ngModel)]="transaction.local_rate" (keyup)="updateRate().then()" name="local_rate" id="local_rate"
+					       placeholder="Local Rate">
+					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id && transaction?.buying_product_id != 4 && transaction?.selling_product_id == 4">
+					per {{transaction?.buying_product_id | currency }}</span>
+					<span class="input-group-addon disabled" *ngIf="transaction?.selling_product_id && transaction?.selling_product_id != 4 && transaction?.buying_product_id == 4">
+					per {{transaction?.selling_product_id | currency }}</span>
+				</div>
+			</div>
+		</ng-container>
 
 
 		<div class="form-group row">
@@ -167,7 +187,7 @@
 			Country
 			<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-9">
-				<select id="country" class="custom-select col-12" required [(ngModel)]="transaction.country" name="country" (change)="onCountryChange($event)">
+				<select id="country" class="custom-select col-12" required [(ngModel)]="transaction.country" name="country" (change)="onCountryChange()">
 					<option *ngFor="let country of countries" [value]="country.name">
 						{{ country.name }} - {{ country.code }}
 					</option>

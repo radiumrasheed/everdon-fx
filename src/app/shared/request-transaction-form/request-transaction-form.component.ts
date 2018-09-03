@@ -12,6 +12,9 @@ import {RequestTransactionFormService} from './request-transaction-form.service'
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 
+const LOCAL = 4;
+
+
 @Component({
 	selector: 'app-request-transaction-form',
 	templateUrl: './request-transaction-form.component.html',
@@ -159,6 +162,16 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
+	private static isLocalProduct(product: number | string): boolean {
+		return product == LOCAL;
+	}
+
+
+	private static inverseLocalRate(local_rate: number): Promise<any> {
+		return new Promise((resolve, reject) => resolve(1 / local_rate));
+	}
+
+
 	// Get Clients Accounts...
 	private getAccounts(client_id: any) {
 		this.transactionService.getClientAccounts(client_id)
@@ -182,7 +195,17 @@ export class RequestTransactionFormComponent implements OnInit {
 				try {
 					const _rate = RequestTransactionFormComponent.getRateFromRates({rates, buy, sell});
 					this.transaction.rate = _rate;
-					this.rate = RequestTransactionFormComponent.getDisplayRateFromRates({rates, buy, sell});
+
+					const displayRate = RequestTransactionFormComponent.getDisplayRateFromRates({rates, buy, sell});
+
+					this.rate = displayRate;
+
+					// Update Local Rate...
+					if (RequestTransactionFormComponent.isLocalProduct(this.transaction.buying_product_id)) {
+						this.transaction.local_rate = displayRate[1];
+					} else if (RequestTransactionFormComponent.isLocalProduct(this.transaction.selling_product_id)) {
+						this.transaction.local_rate = displayRate[0];
+					}
 
 					return resolve(_rate);
 				} catch (e) {
@@ -215,8 +238,8 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
-	updateCalculatedAmount() {
-		this.transaction.calculated_amount = this.transaction.rate * this.transaction.amount;
+	updateCalculatedAmount(): void {
+		this.transaction.calculated_amount = +(this.transaction.rate * this.transaction.amount).toFixed(4);
 	}
 
 
@@ -330,5 +353,22 @@ export class RequestTransactionFormComponent implements OnInit {
 
 	onCountryChange($event: any = null): void {
 		this.transaction.foreign = this.transaction.country !== 'Nigeria';
+	}
+
+
+	async updateRate($event) {
+		// Update Local Rate...
+		if (RequestTransactionFormComponent.isLocalProduct(this.transaction.buying_product_id)) {
+			await RequestTransactionFormComponent.inverseLocalRate(this.transaction.local_rate)
+				.then((rate) => {
+					this.transaction.rate = rate;
+					this.updateCalculatedAmount()
+				});
+		}
+
+		if (RequestTransactionFormComponent.isLocalProduct(this.transaction.selling_product_id)) {
+			this.transaction.rate = this.transaction.local_rate;
+			this.updateCalculatedAmount();
+		}
 	}
 }

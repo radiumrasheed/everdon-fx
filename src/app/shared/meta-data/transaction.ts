@@ -37,6 +37,7 @@ export class Transaction {
 	is_domiciliary?: boolean;
 	kyc_check?: boolean;
 	link?: string;
+	local_rate?: any;
 	org_account_id?: number;
 	rate?: any;
 	referrer?: string;
