@@ -306,7 +306,7 @@ export const TRANSACTION_MODES: GenericOption[] = [
 ];
 
 export const TRANSACTION_STATUSES: GenericOption[] = [
-	{id: 1, name: 'open', desc: 'Open', class: 'label-light-info, local: false', show: true},
+	{id: 1, name: 'open', desc: 'Open', class: 'label-light-info', show: true},
 	{id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning', show: true},
 	{id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary', show: true},
 	{id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary', show: true},
