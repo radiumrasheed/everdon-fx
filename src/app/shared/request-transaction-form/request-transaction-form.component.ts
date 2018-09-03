@@ -43,7 +43,6 @@ export class RequestTransactionFormComponent implements OnInit {
 	foreignProducts: Product[] = _.filter(PRODUCTS, ['local', false]);
 	form1 = true;
 	form2 = false;
-	form3 = false;
 	formatter = (user: User) => user.first_name + ' ' + user.last_name + ' -- ' + user.email;
 	gettingClient = false;
 	localProducts: Product[] = _.filter(PRODUCTS, 'local');
@@ -55,7 +54,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	@Input() profileLink: any;
 
 	// Form Properties...
-	rate: number | string;
+	rate: string[];
 	rates: any;
 	@Input() role: string;
 	roles$: Observable<string>;
@@ -65,24 +64,23 @@ export class RequestTransactionFormComponent implements OnInit {
 			distinctUntilChanged(),
 			tap(() => this.searching = true),
 			switchMap(term => {
-					if (term === '' || term.length < 3) {
-						return of([]);
-					}
+				if (term === '' || term.length < 3) {
+					return of([]);
+				}
 
 				delete this.transaction.client;
-					return this.transactionService.searchClients(term)
-						.pipe(
-							tap(result => {
-								this.searchFailed = false;
-								this.searchEmpty = result.length < 1;
-							}),
-							catchError(() => {
-								this.searchFailed = true;
-								return of([]);
-							})
-						);
-				}
-			),
+				return this.transactionService.searchClients(term)
+					.pipe(
+						tap(result => {
+							this.searchFailed = false;
+							this.searchEmpty = result.length < 1;
+						}),
+						catchError(() => {
+							this.searchFailed = true;
+							return of([]);
+						})
+					);
+			}),
 			tap(() => this.searching = false),
 			merge(this.hideSearchingWhenUnsubscribed)
 		);
@@ -98,6 +96,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	@Output() transactionChange = new EventEmitter<Transaction>();
 	transactionModes = TRANSACTION_MODES;
 	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
+
 	updateModel = (event: any) => {
 		this.getClient(event.item.id);
 		this.getAccounts(event.item.id);
@@ -140,6 +139,26 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
+	private static getDisplayRateFromRates(parameters: { rates: any, buy: number, sell: number }): string[] {
+		const {rates, buy, sell} = parameters;
+		if (rates[sell - 1]['local'] == true) {
+			return [(rates[buy - 1]['rate'] / 1).toFixed(4), '1'];
+		}
+		if (rates[buy - 1]['local'] == true) {
+			return ['1', (rates[sell - 1]['rate'] / 1).toFixed(4)];
+		}
+
+		return [(rates[buy - 1]['rate'] / rates[sell - 1]['rate']).toFixed(4), '1'];
+	}
+
+
+	private static getRateFromRates(parameters: { rates: any, buy: number, sell: number }): string {
+		const {rates, buy, sell} = parameters;
+
+		return (rates[buy - 1]['rate'] / rates[sell - 1]['rate']).toFixed(4);
+	}
+
+
 	// Get Clients Accounts...
 	private getAccounts(client_id: any) {
 		this.transactionService.getClientAccounts(client_id)
@@ -156,15 +175,16 @@ export class RequestTransactionFormComponent implements OnInit {
 
 	private applyRate(rates = this.rates): Promise<string> {
 		return new Promise<string>((resolve, reject) => {
-			const b = this.transaction.buying_product_id;
-			const s = this.transaction.selling_product_id;
+			const buy = this.transaction.buying_product_id;
+			const sell = this.transaction.selling_product_id;
 
 			if (rates) {
 				try {
-					const _rate = (rates[b - 1]['rate'] / rates[s - 1]['rate']).toFixed(4);
-					this.transaction.rate = this.rate = _rate;
+					const _rate = RequestTransactionFormComponent.getRateFromRates({rates, buy, sell});
+					this.transaction.rate = _rate;
+					this.rate = RequestTransactionFormComponent.getDisplayRateFromRates({rates, buy, sell});
 
-					resolve(_rate);
+					return resolve(_rate);
 				} catch (e) {
 					throw new Error(e);
 				}
@@ -176,14 +196,12 @@ export class RequestTransactionFormComponent implements OnInit {
 	protected goToForm2(): void {
 		this.form1 = false;
 		this.form2 = true;
-		this.form3 = false;
 	}
 
 
 	protected goToForm1(): void {
 		this.form1 = true;
 		this.form2 = false;
-		this.form3 = false;
 	}
 
 
@@ -267,19 +285,6 @@ export class RequestTransactionFormComponent implements OnInit {
 	onSubmittedSuccessfully($event: any = null): void {
 		this.createCustomerSwalComponent.nativeSwal.close();
 		this.customerCreatedSuccessfully.emit(true);
-	}
-
-
-	getRates(): any {
-		return this.transactionService.getAllRates()
-			.subscribe(
-				async rates => {
-					if (rates) {
-						this.rates = rates;
-						return await this.applyRate(rates);
-					}
-				}
-			);
 	}
 
 
