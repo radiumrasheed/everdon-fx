@@ -191,9 +191,7 @@
 									<div class="u-text">
 										<h4>{{ user?.name }}</h4>
 										<h6>{{ user?.email }}</h6>
-										<a href="javascript:void(0)" [routerLink]="role === 'admin' ? ['/admin/profile'] : ['/me/profile']"
-										   class="btn btn-rounded btn-danger btn-sm">View Profile
-										</a>
+										<label class="label label-rounded label-danger label-sm" *ngIf="role !== 'client'">{{roles$ | async}}</label>
 									</div>
 								</div>
 							</li>
