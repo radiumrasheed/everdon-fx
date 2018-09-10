@@ -33,7 +33,7 @@ export class TransactionDetailsComponent implements OnInit {
 	can_treat = false;
 	can_approve = false;
 	can_fulfil = false;
-	can_be_rejected = true;
+	can_be_returned = true;
 	can_be_treated = false;
 	can_be_approved = false;
 	can_be_fulfilled = false;
@@ -102,12 +102,13 @@ export class TransactionDetailsComponent implements OnInit {
 		switch (this.transaction.transaction_status_id) {
 			case 1: {
 				this.can_be_treated = true;
+				this.can_be_returned = false;
 				break;
 			}
 
 			case 2: {
 				this.can_be_treated = true;
-				this.can_be_rejected = false;
+				this.can_be_returned = false;
 				break;
 			}
 
@@ -122,14 +123,14 @@ export class TransactionDetailsComponent implements OnInit {
 			}
 
 			case 5: {
-				this.can_be_rejected = false;
+				this.can_be_returned = false;
 				this.can_be_cancelled = false;
 				break;
 			}
 
 			case 6: { // CLOSED...
 				this.can_be_updated = true;
-				this.can_be_rejected = false;
+				this.can_be_returned = false;
 				this.can_be_cancelled = false;
 				break;
 			}
@@ -280,7 +281,7 @@ export class TransactionDetailsComponent implements OnInit {
 				treated_transaction => {
 					if (treated_transaction) {
 						this.transaction = treated_transaction;
-						this.toastr.success('Rejected Successfully');
+						this.toastr.success('Returned Successfully');
 						this.router.navigate(['../../'], {relativeTo: this.route}).catch();
 					}
 				},

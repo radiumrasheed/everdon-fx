@@ -86,11 +86,12 @@ export class TransactionService {
 			);
 	}
 
-	rejectTransaction(transaction: Transaction, id: string): Observable<Transaction> {
+
+	returnTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/reject', transaction)
 			.pipe(
 				map(response => response['data']['transaction']),
-				catchError(this.handleError<Transaction>('Reject Transaction', null))
+				catchError(this.handleError<Transaction>('Return Transaction', null))
 			);
 	}
 

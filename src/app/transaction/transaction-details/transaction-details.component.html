@@ -40,16 +40,11 @@
 									<i class="mdi mdi-undo-variant"></i>
 								</button>
 
-														<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
-															Cancel
-															<i class="mdi mdi-block-helper"></i>
-														</button>
-
-														<button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
-															Reject
-															<i class="mdi mdi-close"></i>
-														</button>
-													</div>
+								<button type="button" class="btn btn-warning font-19" *ngIf="can_take_action && can_be_returned"
+								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="returnTransaction($event)">
+									Return
+									<i class="mdi mdi-close"></i>
+								</button>
 
 								<div class="clearfix"></div>
 

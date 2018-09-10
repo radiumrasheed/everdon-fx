@@ -188,7 +188,14 @@
 					<div class="d-flex flex-row comment-row" *ngFor="let event of events">
 						<div class="p-2"><span class="round"><img src="{{ event.image || 'assets/images/users/avi.png' }}" alt="user" width="50"></span></div>
 						<div class="comment-text w-100">
-							<h5>{{event?.done_by.name}} - {{ event.action }}</h5>
+							<h5>{{event?.done_by.name}} -
+								<span [ngClass]="{
+								'text-danger': event.action === 'Returned Transaction' || event.action === 'Cancelled Transaction',
+								'text-success': event.action === 'Requested Transaction'
+								}">
+								{{ event.action }}
+							</span>
+							</h5>
 							<p class="m-b-5">{{ event.comment }}</p>
 							<div class="comment-footer">
 								<span class="text-muted pull-right">{{ event.done_at | amTimeAgo }}</span>
