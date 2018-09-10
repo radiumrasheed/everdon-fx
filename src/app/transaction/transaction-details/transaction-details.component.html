@@ -30,9 +30,7 @@
 
 												<label><h2>{{ transaction.transaction_ref }}</h2></label>
 
-												<label class="label label-rounded btn-lg"
-												       [ngClass]="transaction?.transaction_status_id | status:'class'"
-												       *ngIf="transaction">
+												<label class="label label-rounded btn-lg" [ngClass]="transaction?.transaction_status_id | status:'class'" *ngIf="transaction">
 													{{ transaction?.transaction_status_id | status }}
 												</label>
 
@@ -587,7 +585,7 @@
 								</ng-template>
 							</ngb-tab>
 
-							<ngb-tab id="advance" title="Advanced Options" [disabled]="transaction">
+							<!--<ngb-tab id="advance" title="Advanced Options" [disabled]="transaction">
 								<ng-template ngbTabContent>
 									<div class="card-body">
 										<form class="form-horizontal form-material">
@@ -642,7 +640,7 @@
 										</form>
 									</div>
 								</ng-template>
-							</ngb-tab>
+							</ngb-tab>-->
 
 						</ngb-tabset>
 

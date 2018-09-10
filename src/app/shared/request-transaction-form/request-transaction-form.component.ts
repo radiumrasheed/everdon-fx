@@ -98,7 +98,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	submitting = false;
 	@Output() transactionChange = new EventEmitter<Transaction>();
 	transactionModes = TRANSACTION_MODES;
-	transactionTypes = _.filter(TRANSACTION_TYPES, 'show');
+	transactionTypes = TRANSACTION_TYPES;
 
 	updateModel = (event: any) => {
 		this.getClient(event.item.id);

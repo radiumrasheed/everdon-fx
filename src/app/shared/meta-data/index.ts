@@ -5,6 +5,7 @@ import {Transaction} from './transaction';
 import {Product} from './product';
 import {Organization} from './organization';
 import {GenericOption} from './genericOption';
+import {_TYPE, EUR, GBP, NGN, USD} from './constant';
 
 export {
 	Account,
@@ -17,10 +18,10 @@ export {
 };
 
 export const PRODUCTS: Product[] = [
-	{id: 1, name: 'USD', value: 'usd', description: 'US Dollar', sign: '$', local: false},
-	{id: 2, name: 'EUR', value: 'eur', description: 'European Euro', sign: '€', local: false},
-	{id: 3, name: 'GBP', value: 'gbp', description: 'British Pound', sign: '£', local: false},
-	{id: 4, name: 'NGN', value: 'ngn', description: 'Nigerian Naira', sign: '₦', local: true}
+	{id: USD, name: 'USD', value: 'usd', description: 'US Dollar', sign: '$', local: false},
+	{id: EUR, name: 'EUR', value: 'eur', description: 'European Euro', sign: '€', local: false},
+	{id: GBP, name: 'GBP', value: 'gbp', description: 'British Pound', sign: '£', local: false},
+	{id: NGN, name: 'NGN', value: 'ngn', description: 'Nigerian Naira', sign: '₦', local: true}
 ];
 
 export const ORGANIZATIONS: Organization[] = [
@@ -319,10 +320,10 @@ export const TRANSACTION_STATUSES: GenericOption[] = [
 ];
 
 export const TRANSACTION_TYPES: GenericOption[] = [
-	{id: 1, name: 'purchase', desc: 'Purchase', show: false},
-	{id: 2, name: 'sales', desc: 'Sales', show: false},
-	{id: 3, name: 'swap', desc: 'Swap', show: true},
-	{id: 6, name: 'cross', desc: 'Cross', show: true},
-	{id: 4, name: 'refund', desc: 'Refund', show: false},
-	{id: 5, name: 'expenses', desc: 'Expenses', show: true}
+	{id: _TYPE.PURCHASE, name: 'purchase', desc: 'Purchase', show: false},
+	{id: _TYPE.SALES, name: 'sales', desc: 'Sales', show: false},
+	{id: _TYPE.SWAP, name: 'swap', desc: 'Swap', show: true},
+	{id: _TYPE.CROSS, name: 'cross', desc: 'Cross', show: true},
+	{id: _TYPE.REFUND, name: 'refund', desc: 'Refund', show: false},
+	{id: _TYPE.EXPENSES, name: 'expenses', desc: 'Expenses', show: true}
 ];
