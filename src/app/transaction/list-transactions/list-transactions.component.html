@@ -2,7 +2,24 @@
 	<div class="col-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>All Transactions</h4>
+				<h4 class="card-title"><span class="lstick"></span>
+					All Transactions
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getRecentTransactions()"></i>
+
+					<swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
+
+						<app-request-transaction-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"
+						                              (customerCreatedSuccessfully)="onSubmittedSuccessfully($event, 'customer-created')">
+
+						</app-request-transaction-form>
+
+					</swal>
+					<button [swal]="requestSwal" *ngIf="!(transactions?.length === 0 || !transactions)"
+					        type="button" rel="tooltip" title="Request" class="btn btn-outline-primary pull-right" [disabled]="role !== 'fx-ops'">
+						Request Transaction
+						<i class="mdi mdi-cookie"></i>
+					</button>
+				</h4>
 			</div>
 
 			<div class="card-body" *ngIf="role$ | async as role">

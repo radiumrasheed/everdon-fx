@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CalendarPipe} from 'angular2-moment';
 import {Observable} from 'rxjs';
 
@@ -10,6 +10,7 @@ import {ProductPipe} from '../../shared/pipes/product.pipe';
 import {TypePipe} from '../../shared/pipes/type.pipe';
 import {StatusPipe} from '../../shared/pipes/status.pipe';
 import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '../../shared/meta-data';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 
 
 @Component({
@@ -19,9 +20,7 @@ import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '..
 	providers: [ProductPipe, CalendarPipe, StatusPipe, TypePipe]
 })
 export class ListTransactionsComponent implements OnInit {
-	transactions: Transaction[];
-
-	/* Smart table... */
+	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
 
 	// Filter Settings...
 	filterProductSettings = {
@@ -31,21 +30,6 @@ export class ListTransactionsComponent implements OnInit {
 			list: _.map(PRODUCTS, _.partial(_.pick, _, ['id', 'name'])).map(({id, name}) => ({value: id, title: name}))
 		}
 	};
-	filterStatusSettings = {
-		type: 'list',
-		config: {
-			selectText: 'select..',
-			list: _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
-		}
-	};
-	filterTypeSettings = {
-		type: 'list',
-		config: {
-			selectText: 'select..',
-			list: _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
-		}
-	};
-
 	// Client Settings...
 	client_table_settings = {
 		columns: {
@@ -96,6 +80,21 @@ export class ListTransactionsComponent implements OnInit {
 		}
 	};
 
+	/* Smart table... */
+	filterStatusSettings = {
+		type: 'list',
+		config: {
+			selectText: 'select..',
+			list: _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
+		}
+	};
+	filterTypeSettings = {
+		type: 'list',
+		config: {
+			selectText: 'select..',
+			list: _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
+		}
+	};
 	// Admin Settings...
 	admin_table_settings = {
 		columns: {
@@ -160,9 +159,10 @@ export class ListTransactionsComponent implements OnInit {
 			columnTitle: ''
 		}
 	};
-
-	roles$: Observable<any>;
+	role: string;
 	role$: Observable<any>;
+	roles$: Observable<any>;
+	transactions: Transaction[];
 
 
 	// Class Constructor...
@@ -172,7 +172,7 @@ export class ListTransactionsComponent implements OnInit {
 							private statusPipe: StatusPipe,
 							private productPipe: ProductPipe,
 							private typePipe: TypePipe,
-							private route: ActivatedRoute) {
+							private router: Router) {
 	}
 
 
@@ -180,6 +180,8 @@ export class ListTransactionsComponent implements OnInit {
 	ngOnInit() {
 		this.roles$ = this.authService.roles;
 		this.role$ = this.authService.role;
+		this.roles$.subscribe(roles => this.role = roles[0]);
+
 		this.getTransactions();
 	}
 
@@ -203,4 +205,22 @@ export class ListTransactionsComponent implements OnInit {
 			);
 	}
 
+
+	onSubmittedSuccessfully($event: any, type: string) {
+		switch (type) {
+			case 'request':
+				this.requestSwalComponent.nativeSwal.close();
+
+				// Navigate to the newly requested transaction...
+				this.router.navigate(['/admin', 'dashboard']).catch(err => console.error(err, $event));
+				break;
+
+			case 'customer-created':
+				this.requestSwalComponent.show().catch();
+				break;
+
+			default:
+			// Do Nothing...
+		}
+	}
 }

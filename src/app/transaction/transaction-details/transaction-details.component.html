@@ -16,6 +16,49 @@
 						<h3>
 							<span class="lstick"></span>
 							Transaction Information
+							<code class="text-bold">{{transaction.transaction_ref}}</code>
+
+							<div class="btn-group pull-right" role="group" aria-label="Treat Transaction">
+								<button type="button" class="btn btn-danger font-19" [disabled]="!(can_take_action && can_be_cancelled)"
+								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="cancelTransaction($event)">
+									Cancel
+									<i class="mdi mdi-block-helper"></i>
+								</button>
+
+								<swal #refundSwal title="Refund Transaction" [showConfirmButton]="false">
+
+									<app-request-transaction-form [transaction]="refund_transaction" *swalPartial
+									                              (submittedSuccessfully)="onSubmittedSuccessfully()"
+									                              [profileLink]="['admin', 'customer', transaction.client_id]">
+
+									</app-request-transaction-form>
+
+								</swal>
+								<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
+								        *ngIf="transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8">
+									Refund
+									<i class="mdi mdi-undo-variant"></i>
+								</button>
+
+														<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
+															Cancel
+															<i class="mdi mdi-block-helper"></i>
+														</button>
+
+														<button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
+															Reject
+															<i class="mdi mdi-close"></i>
+														</button>
+													</div>
+
+								<div class="clearfix"></div>
+
+								<button [disabled]="!can_take_action" class="btn btn-success waves-effect waves-light"
+								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="takeAction($event)">
+									<span class="btn-label">SUBMIT</span>
+									<i class="mdi mdi-send"></i>
+								</button>
+							</div>
 						</h3>
 					</div>
 					<div class="card-body">
@@ -33,44 +76,6 @@
 												<label class="label label-rounded btn-lg" [ngClass]="transaction?.transaction_status_id | status:'class'" *ngIf="transaction">
 													{{ transaction?.transaction_status_id | status }}
 												</label>
-
-												<div class="pull-right clearfix">
-
-													<div class="btn-group" role="group" aria-label="Treat Transaction">
-														<swal #refundSwal title="Refund Transaction" [showConfirmButton]="false">
-
-															<app-request-transaction-form [transaction]="refund_transaction" *swalPartial
-															                              (submittedSuccessfully)="onSubmittedSuccessfully()"
-															                              [profileLink]="['admin', 'customer', transaction.client_id]">
-
-															</app-request-transaction-form>
-
-														</swal>
-														<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
-														        [disabled]="!(transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8) ">
-															Refund
-															<i class="mdi mdi-undo-variant"></i>
-														</button>
-
-														<button type="button" class="btn btn-danger font-19" (click)="cancelTransaction()" [disabled]="!(can_take_action && can_be_cancelled)">
-															Cancel
-															<i class="mdi mdi-block-helper"></i>
-														</button>
-
-														<button type="button" class="btn btn-warning font-19" (click)="rejectTransaction()" [disabled]="!(can_take_action && can_be_rejected)">
-															Reject
-															<i class="mdi mdi-close"></i>
-														</button>
-													</div>
-
-
-													<button class="btn btn-outline-success waves-effect waves-light rounded-right font-19" [disabled]="!can_take_action" type="button" (click)="takeAction()">
-                            <span class="btn-label">
-                              SUBMIT
-                            </span>
-														<i class="mdi mdi-send"></i>
-													</button>
-												</div>
 											</div>
 										</div>
 
@@ -80,7 +85,7 @@
 												<div class="row">
 													<!-- Step 1 -->
 													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">Buying Currency</small>
+														<small class="text-muted">Outward Currency</small>
 														<br>
 														<p class="text-dark">{{ transaction.buying_product_id | currency:'desc' }}</p>
 													</div>
@@ -106,7 +111,7 @@
 
 													<!-- Step 2 -->
 													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">Selling Currency</small>
+														<small class="text-muted">Inward Currency</small>
 														<br>
 														<p class="text-dark">{{ transaction.selling_product_id | currency:'desc' }}</p>
 													</div>
@@ -126,52 +131,54 @@
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">Date Requested</small>
+														<small class="text-muted">Time Requested</small>
 														<br>
 														<p class="text-dark">{{ transaction?.created_at | amCalendar }}</p>
 													</div>
 													<!-- End of Step 2 -->
 
 													<!-- Step 3 -->
-													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">
-															Receiving Bank Account
-														</small>
-														<br>
-														<p class="text-dark" *ngIf="transaction.account_id">
-															{{ transaction?.account?.bank.toLocaleUpperCase() }}
-														</p>
-													</div>
+													<ng-container *ngIf="transaction.account_id">
+														<div class="col-md-3 col-xs-6 b-r">
+															<small class="text-muted">
+																Receiving Bank Account
+															</small>
+															<br>
+															<p class="text-dark" *ngIf="transaction.account_id">
+																{{ transaction?.account?.bank.toLocaleUpperCase() }}
+															</p>
+														</div>
 
-													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">
-															Receiving Bank Name
-														</small>
-														<br>
-														<p class="text-dark" *ngIf="transaction.account_id">
-															{{ transaction?.account?.name.toLocaleUpperCase() }}
-														</p>
-													</div>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small class="text-muted">
+																Receiving Bank Name
+															</small>
+															<br>
+															<p class="text-dark" *ngIf="transaction.account_id">
+																{{ transaction?.account?.name.toLocaleUpperCase() }}
+															</p>
+														</div>
 
-													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">
-															Receiving Account Number
-														</small>
-														<br>
-														<p class="text-dark" *ngIf="transaction.account_id">
-															{{ transaction?.account?.number }}
-														</p>
-													</div>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small class="text-muted">
+																Receiving Account Number
+															</small>
+															<br>
+															<p class="text-dark" *ngIf="transaction.account_id">
+																{{ transaction?.account?.number }}
+															</p>
+														</div>
 
-													<div class="col-md-3 col-xs-6 b-r">
-														<small class="text-muted">
-															Receiving Account BVN
-														</small>
-														<br>
-														<p class="text-dark" *ngIf="transaction.client?.bvn">
-															{{ transaction?.client?.bvn }}
-														</p>
-													</div>
+														<div class="col-md-3 col-xs-6 b-r">
+															<small class="text-muted">
+																Receiving Account BVN
+															</small>
+															<br>
+															<p class="text-dark" *ngIf="transaction.client?.bvn">
+																{{ transaction?.client?.bvn }}
+															</p>
+														</div>
+													</ng-container>
 													<!-- End of Step 3 -->
 
 													<!-- Step 4 -->
@@ -253,13 +260,13 @@
 											</div>
 										</ng-container>
 
-										<form #transactionFormm="ngForm" (ngSubmit)="takeAction()">
+										<form #transactionFormm="ngForm">
 											<div class="col-12">
 
 												<!--<h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>-->
 
 												<div class="row">
-													<div class="form-check col-lg-3 col-sm-12">
+													<!--<div class="form-check col-lg-3 col-sm-12">
 														<label class="custom-control custom-checkbox" for="funds_received">
 															<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
 															       class="custom-control-input input-group-lg">
@@ -275,7 +282,7 @@
 															<span class="custom-control-indicator"></span>
 															<span class="custom-control-description">Funds Paid</span>
 														</label>
-													</div>
+													</div>-->
 
 													<div class="form-check col-lg-3 col-sm-12">
 														<label class="custom-control custom-checkbox" for="aml_check">
@@ -378,21 +385,16 @@
 														</select>
 													</div>
 
-													<div class="form-group col-lg-6 col-sm-12">
+													<!--<div class="form-group col-lg-6 col-sm-12">
 														<label for="comment">
 															<i class="mdi mdi-comment text-success disabled"></i>
 															Comment
 															<span *ngIf="can_take_action" class="text-danger">*</span>
 														</label>
 														<textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
-													</div>
+													</div>-->
 
 												</div>
-
-												<button type="submit" [disabled]="!can_take_action" class="btn btn-outline-success waves-effect waves-light">
-													<span class="btn-label">SUBMIT</span>
-													<i class="mdi mdi-send"></i>
-												</button>
 
 											</div>
 										</form>
@@ -401,7 +403,7 @@
 								</ng-template>
 							</ngb-tab>
 
-							<!-- Customer -->
+							<!-- Profile -->
 							<ngb-tab id="customer" title="KYC Details">
 								<ng-template ngbTabContent>
 									<div class="card-body">
@@ -644,6 +646,11 @@
 
 						</ngb-tabset>
 
+					</div>
+					<div class="card-footer">
+						<button class="pull-left btn btn-xs btn-secondary">Previous</button>
+						<button class="pull-right btn btn-xs btn-secondary">Next</button>
+						<!--Next and Previous-->
 					</div>
 				</div>
 

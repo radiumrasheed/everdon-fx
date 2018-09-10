@@ -206,7 +206,8 @@ export class TransactionDetailsComponent implements OnInit {
 	}
 
 
-	takeAction() {
+	takeAction(comment: string) {
+		this.transaction.comment = comment;
 		switch (true) {
 			// FX-Ops && OPEN or IN_PROGRESS...
 			case this.can_treat && this.can_be_treated:
@@ -272,8 +273,9 @@ export class TransactionDetailsComponent implements OnInit {
 	}
 
 
-	rejectTransaction() {
-		this.transactionService.rejectTransaction(this.transaction, this.id)
+	returnTransaction(comment: string) {
+		this.transaction.comment = comment;
+		this.transactionService.returnTransaction(this.transaction, this.id)
 			.subscribe(
 				treated_transaction => {
 					if (treated_transaction) {
@@ -290,7 +292,8 @@ export class TransactionDetailsComponent implements OnInit {
 	}
 
 
-	cancelTransaction() {
+	cancelTransaction(comment: string) {
+		this.transaction.comment = comment;
 		this.transactionService.cancelTransaction(this.transaction, this.id)
 			.subscribe(
 				treated_transaction => {
@@ -341,5 +344,16 @@ export class TransactionDetailsComponent implements OnInit {
 
 	onSubmittedSuccessfully() {
 		this.refundSwalComponent.nativeSwal.close();
+	}
+
+
+	public saveEmail(email: string): void {
+		// ... save user email
+	}
+
+
+	public handleRefusalToSetEmail(dismissMethod: string): void {
+		// dismissMethod can be 'cancel', 'overlay', 'close', and 'timer'
+		// ... do something
 	}
 }
