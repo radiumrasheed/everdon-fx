@@ -5,7 +5,6 @@ import {CreateClientComponent} from './create-client/create-client.component';
 import {ClientsComponent} from './clients/clients.component';
 import {ViewClientComponent} from './view-client/view-client.component';
 import {NgModule} from '@angular/core';
-import {MeRoutes} from '../me/me.routing';
 
 export const AdminRoutes: Routes = [
 	{
