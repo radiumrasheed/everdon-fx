@@ -18,10 +18,19 @@
 							Transaction Information
 							<code class="text-bold">{{transaction.transaction_ref}}</code>
 
-							<div class="btn-group pull-right" role="group" aria-label="Treat Transaction">
-								<button type="button" class="btn btn-danger font-19" [disabled]="!(can_take_action && can_be_cancelled)"
+
+							<button [disabled]="!can_take_action" class="pull-right btn btn-success waves-effect waves-light ml-3" placement="bottom"
+							        ngbTooltip="Submit a transaction to Advance to the next phase."
+							        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="takeAction($event)">
+								<span class="btn-label">SUBMIT</span>
+								<i class="mdi mdi-send"></i>
+							</button>
+
+							<div class="btn-group pull-right" role="group">
+								<button type="button" class="btn btn-danger font-19" placement="bottom" ngbTooltip="Reject Transaction to terminate it"
+								        [disabled]="!(can_take_action && can_be_cancelled)"
 								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="cancelTransaction($event)">
-									Cancel
+									Reject
 									<i class="mdi mdi-block-helper"></i>
 								</button>
 
@@ -34,24 +43,17 @@
 									</app-request-transaction-form>
 
 								</swal>
-								<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19"
-								        *ngIf="transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8">
+								<button [swal]="refundSwal" type="button" rel="tooltip" title="Refund" class="btn btn-dribbble font-19" ngbTooltip="Refund Transaction by reverting exchange"
+								        *ngIf="transaction.transaction_status_id === 6 || transaction.transaction_status_id === 8" placement="bottom">
 									Refund
 									<i class="mdi mdi-undo-variant"></i>
 								</button>
 
-								<button type="button" class="btn btn-warning font-19" *ngIf="can_take_action && can_be_returned"
+								<button type="button" class="btn btn-warning font-19" [disabled]="!(can_take_action && can_be_returned)"
+								        placement="bottom" ngbTooltip="Return to FX-Ops for review"
 								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="returnTransaction($event)">
 									Return
-									<i class="mdi mdi-close"></i>
-								</button>
-
-								<div class="clearfix"></div>
-
-								<button [disabled]="!can_take_action" class="btn btn-success waves-effect waves-light"
-								        [swal]="{ title: 'Add Comment...', input: 'textarea', type: 'info', confirmButtonText: 'Submit' }" (confirm)="takeAction($event)">
-									<span class="btn-label">SUBMIT</span>
-									<i class="mdi mdi-send"></i>
+									<i class="mdi mdi-reply"></i>
 								</button>
 							</div>
 						</h3>
@@ -261,7 +263,7 @@
 												<!--<h5 *ngIf="can_take_action" class="card-title">{{ nextActionText }}</h5>-->
 
 												<div class="row">
-													<!--<div class="form-check col-lg-3 col-sm-12">
+													<div class="form-check col-lg-3 col-sm-12">
 														<label class="custom-control custom-checkbox" for="funds_received">
 															<input type="checkbox" [disabled]="!can_modify_funds_check" [(ngModel)]="transaction.funds_received" name="funds_received" id="funds_received"
 															       class="custom-control-input input-group-lg">
@@ -277,7 +279,7 @@
 															<span class="custom-control-indicator"></span>
 															<span class="custom-control-description">Funds Paid</span>
 														</label>
-													</div>-->
+													</div>
 
 													<div class="form-check col-lg-3 col-sm-12">
 														<label class="custom-control custom-checkbox" for="aml_check">
@@ -306,14 +308,14 @@
 														<label for="rate">
 															<i class="mdi mdi-percent text-warning disabled"></i>
 															Rate
-															<span *ngIf="transaction" class="text-danger">*</span>
+															<span class="text-danger">*</span>
 														</label>
 														<div class="input-group">
-															<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
-															<input type="text" class="form-control" [(ngModel)]="transaction.rate"
-															       (keyup)="updateCalculatedAmount()" [disabled]="!can_be_treated"
+															<span class="input-group-addon" *ngIf="transaction?.dynamic_product">{{ transaction?.dynamic_product | currency:'sign' }}</span>
+															<input type="text" class="form-control" [(ngModel)]="transaction.local_rate"
+															       (keyup)="updateRateAndCalculatedAmount()" [disabled]="!can_be_treated"
 															       name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
-															<span class="input-group-addon disabled">/ {{transaction.buying_product_id | currency }}</span>
+															<span class="input-group-addon disabled" *ngIf="transaction?.fixed_product">/ {{transaction?.fixed_product | currency }}</span>
 														</div>
 
 													</div>
@@ -380,14 +382,14 @@
 														</select>
 													</div>
 
-													<!--<div class="form-group col-lg-6 col-sm-12">
+													<div class="form-group col-lg-6 col-sm-12">
 														<label for="comment">
 															<i class="mdi mdi-comment text-success disabled"></i>
 															Comment
 															<span *ngIf="can_take_action" class="text-danger">*</span>
 														</label>
 														<textarea [disabled]="!can_take_action" class="form-control" name="comment" id="comment" [(ngModel)]="transaction.comment" rows="2"></textarea>
-													</div>-->
+													</div>
 
 												</div>
 
@@ -582,71 +584,14 @@
 								</ng-template>
 							</ngb-tab>
 
-							<!--<ngb-tab id="advance" title="Advanced Options" [disabled]="transaction">
-								<ng-template ngbTabContent>
-									<div class="card-body">
-										<form class="form-horizontal form-material">
-											<div class="form-group">
-												<label class="col-md-11">Full Name</label>
-												<div class="col-md-11">
-													<input type="text" placeholder="Johnathan Doe" name class="form-control form-control-line">
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="example-email" class="col-md-11">Email</label>
-												<div class="col-md-11">
-													<input type="email" placeholder="johnathan@admin.com" class="form-control form-control-line"
-													       name="example-email" id="example-email">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-md-11">Password</label>
-												<div class="col-md-11">
-													<input type="password" value="password" class="form-control form-control-line">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-md-11">Phone No</label>
-												<div class="col-md-11">
-													<input type="text" placeholder="123 456 7890" class="form-control form-control-line">
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-md-11">Message</label>
-												<div class="col-md-11">
-													<textarea rows="5" class="form-control form-control-line"></textarea>
-												</div>
-											</div>
-											<div class="form-group">
-												<label class="col-sm-11">Select Country</label>
-												<div class="col-sm-11">
-													<select class="form-control form-control-line">
-														<option>London</option>
-														<option>India</option>
-														<option>Usa</option>
-														<option>Canada</option>
-														<option>Thailand</option>
-													</select>
-												</div>
-											</div>
-											<div class="form-group">
-												<div class="col-sm-11">
-													<button class="btn btn-success">Update Profile</button>
-												</div>
-											</div>
-										</form>
-									</div>
-								</ng-template>
-							</ngb-tab>-->
-
 						</ngb-tabset>
 
 					</div>
-					<div class="card-footer">
+					<!--<div class="card-footer">
 						<button class="pull-left btn btn-xs btn-secondary">Previous</button>
 						<button class="pull-right btn btn-xs btn-secondary">Next</button>
-						<!--Next and Previous-->
-					</div>
+						&lt;!&ndash;Next and Previous&ndash;&gt;
+					</div>-->
 				</div>
 
 			</div>

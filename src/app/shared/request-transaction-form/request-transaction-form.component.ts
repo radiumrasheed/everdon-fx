@@ -1,16 +1,15 @@
+import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {ToastrService} from 'ngx-toastr';
 import {Observable, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
 import * as _ from 'lodash';
 
-import {User} from '../../authentication/login/user';
-import {Account, BANKS, Client, COUNTRIES, Product, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
-import {AuthService} from '../../services/auth/auth.service';
+import {Account, BANKS, COUNTRIES, Product, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
 import {RequestTransactionFormService} from './request-transaction-form.service';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
-
+import {AuthService} from '../../services/auth/auth.service';
+import {User} from '../../authentication/login/user';
 
 const LOCAL = 4;
 
@@ -90,8 +89,6 @@ export class RequestTransactionFormComponent implements OnInit {
 	};
 	searchEmpty = false;
 	searchFailed = false;
-
-	// Search Input Properties...
 	searching = false;
 	hideSearchingWhenUnsubscribed = new Observable(() => () => this.searching = false);
 	@Output() submittedSuccessfully = new EventEmitter<string>();
@@ -194,7 +191,7 @@ export class RequestTransactionFormComponent implements OnInit {
 			if (rates) {
 				try {
 					const _rate = RequestTransactionFormComponent.getRateFromRates({rates, buy, sell});
-					this.transaction.rate = _rate;
+					this.transaction.local_rate = _rate;
 
 					const displayRate = RequestTransactionFormComponent.getDisplayRateFromRates({rates, buy, sell});
 
@@ -311,6 +308,7 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
+	// Whether it should get new rates from the server
 	shouldGetRates($event: any = null): void {
 		if (this.transaction.buying_product_id && this.transaction.selling_product_id) {
 			this.transactionService.getAllRates()
@@ -351,24 +349,8 @@ export class RequestTransactionFormComponent implements OnInit {
 	}
 
 
+	// On change of the country....
 	onCountryChange($event: any = null): void {
 		this.transaction.foreign = this.transaction.country !== 'Nigeria';
-	}
-
-
-	async updateRate($event) {
-		// Update Local Rate...
-		if (RequestTransactionFormComponent.isLocalProduct(this.transaction.buying_product_id)) {
-			await RequestTransactionFormComponent.inverseLocalRate(this.transaction.local_rate)
-				.then((rate) => {
-					this.transaction.rate = rate;
-					this.updateCalculatedAmount()
-				});
-		}
-
-		if (RequestTransactionFormComponent.isLocalProduct(this.transaction.selling_product_id)) {
-			this.transaction.rate = this.transaction.local_rate;
-			this.updateCalculatedAmount();
-		}
 	}
 }

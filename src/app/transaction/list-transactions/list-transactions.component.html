@@ -24,7 +24,7 @@
 
 			<div class="card-body" *ngIf="role$ | async as role">
 				<div class="table table-responsive smart-table" *ngIf="role === 'admin'">
-					<ng2-smart-table [settings]="admin_table_settings" [source]="transactions" class=""></ng2-smart-table>
+					<ng2-smart-table [settings]="admin_table_settings" [source]="transactions"></ng2-smart-table>
 				</div>
 
 				<div class="table table-responsive smart-table" *ngIf="role === 'client'">

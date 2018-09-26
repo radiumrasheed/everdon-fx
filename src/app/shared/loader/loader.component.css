@@ -2,8 +2,8 @@
 	position: relative;
 	margin-top: 3px;
 	width: 100%;
-	height: 3px;
-	background-color: #fdba2c;
+	height: 2px;
+	background-color: #b52afd;
 }
 
 .bar {
@@ -17,7 +17,7 @@
 }
 
 .bar:nth-child(1) {
-	background-color: #da4733;
+	background-color: #42c3da;
 	animation: loading 3s linear infinite;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .bar:nth-child(3) {
-	background-color: #fdba2c;
+	background-color: #a1fd69;
 	animation: loading 3s linear 2s infinite;
 }
 

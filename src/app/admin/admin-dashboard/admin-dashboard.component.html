@@ -122,6 +122,7 @@
 						<i class="mdi mdi-cookie"></i>
 					</button>
 				</h4>
+				<app-loader *ngIf="loading?.recentTransaction"></app-loader>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive" *ngIf="transactions?.length > 0">
@@ -180,6 +181,8 @@
 						<i class="mdi mdi-account"></i>
 					</button>
 				</h4>
+
+				<app-loader *ngIf="loading?.recentEvent"></app-loader>
 			</div>
 			<div class="card-body">
 				<!-- Comment widgets -->
@@ -229,6 +232,8 @@
 					WACC Timeline
 					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTimeline()"></i>
 				</h4>
+
+				<app-loader *ngIf="loading?.timeline"></app-loader>
 			</div>
 
 			<div class="card-body">
@@ -245,6 +250,8 @@
 		<div class="card">
 			<div class="card-header">
 				<h4 class="card-title"><span class="lstick"></span>Transaction Status</h4>
+
+				<app-loader *ngIf="loading?.count"></app-loader>
 			</div>
 
 			<div class="card-body">

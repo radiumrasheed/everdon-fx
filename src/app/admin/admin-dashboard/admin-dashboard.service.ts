@@ -46,7 +46,7 @@ export class AdminDashboardService {
 		return this.http.get<any>(this.dashboardUrl + '/recent_transactions')
 			.pipe(
 				map(response => response['data']['transactions']),
-				catchError(this.handleError<any>('Recent Transactions', []))
+				// catchError(this.handleError<any>('Recent Transactions', []))
 			);
 	}
 
@@ -54,7 +54,7 @@ export class AdminDashboardService {
 		return this.http.get<any>(this.dashboardUrl + '/recent_events')
 			.pipe(
 				map(response => response['data']['events']),
-				catchError(this.handleError<any>('Recent Events', []))
+				// catchError(this.handleError<any>('Recent Events', []))
 			);
 	}
 
@@ -62,7 +62,7 @@ export class AdminDashboardService {
 		return this.http.get<any>(this.dashboardUrl + '/buckets')
 			.pipe(
 				map(response => response['data']['products']),
-				catchError(this.handleError<any>('Get Bucket Balance', null))
+				// catchError(this.handleError<any>('Get Bucket Balance', null))
 			);
 	}
 
@@ -70,7 +70,7 @@ export class AdminDashboardService {
 		return this.http.get<any>(this.dashboardUrl + '/timeline/wacc')
 			.pipe(
 				map(response => response['data']),
-				catchError(this.handleError<any>('Get WACC Timeline', null))
+				// catchError(this.handleError<any>('Get WACC Timeline', null))
 			);
 	}
 }

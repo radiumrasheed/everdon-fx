@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {SwalComponent} from '@toverux/ngx-sweetalert2';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Observable} from 'rxjs';
@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import {AdminDashboardService} from './admin-dashboard.service';
 import {AuthService} from '../../services/auth/auth.service';
 import {Event, Transaction} from '../../shared/meta-data';
+import {Loading} from '../../shared/meta-data/loading';
+import {finalize} from 'rxjs/operators';
 
 
 @Component({
@@ -15,17 +17,40 @@ import {Event, Transaction} from '../../shared/meta-data';
 	styleUrls: ['./admin-dashboard.component.css'],
 	providers: [AdminDashboardService]
 })
-export class AdminDashboardComponent implements AfterViewInit, OnInit {
-	// Child Components...
+export class AdminDashboardComponent implements OnDestroy, OnInit {
 	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
 	@ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
-
-	// Authentication Properties...
-	roles$: Observable<string>;
-	role: string;
-	transaction = new Transaction();
-
-	// This is for the WACC dashboard line chart...
+	buckets: any;
+	counts: any;
+	doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
+	doughnutChartLabels: string[] = [
+		'Open',
+		'In Progress',
+		'Awaiting Approval',
+		'Awaiting Fulfilment',
+		'Canceled',
+		'Closed'
+	];
+	doughnutChartLegend = false;
+	doughnutChartType = 'doughnut';
+	events: Event[];
+	lineChartColors: Array<any> = [
+		{
+			// info
+			borderColor: 'rgba(57,139,247,1)',
+			pointHoverBorderColor: 'rgba(57,139,247,1)'
+		},
+		{
+			// success
+			borderColor: 'rgba(6,215,156,1)',
+			pointHoverBorderColor: 'rgba(6,215,156,1)'
+		},
+		{
+			// warning
+			borderColor: 'rgba(255,178,43,1)',
+			pointHoverBorderColor: 'rgba(255,178,43,1)'
+		}
+	];
 	lineChartData: Array<any> = [
 		{
 			label: 'usd', data: [],
@@ -46,6 +71,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			pointHitRadius: 10
 		}
 	];
+	lineChartLegend = true;
 	lineChartOptions: any = {
 		scales: {
 			xAxes: [{
@@ -65,51 +91,19 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 			mode: 'index'  // or 'x-axis'
 		}
 	};
-	lineChartColors: Array<any> = [
-		{
-			// info
-			borderColor: 'rgba(57,139,247,1)',
-			pointHoverBorderColor: 'rgba(57,139,247,1)'
-		},
-		{
-			// success
-			borderColor: 'rgba(6,215,156,1)',
-			pointHoverBorderColor: 'rgba(6,215,156,1)'
-		},
-		{
-			// warning
-			borderColor: 'rgba(255,178,43,1)',
-			pointHoverBorderColor: 'rgba(255,178,43,1)'
-		}
-	];
-	lineChartLegend = true;
 	lineChartType = 'line';
-
-	// API Stats...
-	counts: any;
-	buckets: any;
-	transactions: Transaction[];
-	events: Event[];
-	waccs: any;
-
-	// Doughnut...
-	doughnutChartLabels: string[] = [
-		'Open',
-		'In Progress',
-		'Awaiting Approval',
-		'Awaiting Fulfilment',
-		'Canceled',
-		'Closed'
-	];
-	doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
+	loading: Loading = {};
+	role: string;
+	roles$: Observable<string>;
 	totalTransactions = 0;
 	doughnutChartOptions: any = {
 		borderWidth: 2,
 		maintainAspectRatio: false,
 		total: this.totalTransactions
 	};
-	doughnutChartType = 'doughnut';
-	doughnutChartLegend = false;
+	transaction = new Transaction();
+	transactions: Transaction[];
+	waccs: any;
 
 
 	constructor(
@@ -121,7 +115,10 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 	}
 
 
-	ngAfterViewInit() {
+	ngOnDestroy() {
+		delete this.transactions;
+		delete this.waccs;
+		delete this.buckets;
 	}
 
 
@@ -143,6 +140,7 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
 
 	getTransactionCounts() {
+		this.loading['count'] = true;
 		this.dashboardService.counts()
 			.subscribe(
 				counts => {
@@ -150,13 +148,17 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 					this.doughnutChartData = _.values(counts);
 					this.doughnutChartLabels = _.keys(counts);
 					this.totalTransactions = _.sum(this.doughnutChartData);
-				}
+				},
+				() => undefined,
+				() => this.loading['count'] = false
 			);
 	}
 
 
 	getRecentTransactions() {
+		this.loading['recentTransaction'] = true;
 		this.dashboardService.recentTransactions()
+			.pipe(finalize(() => this.loading['recentTransaction'] = false))
 			.subscribe(
 				transactions => this.transactions = transactions
 			);
@@ -164,7 +166,9 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
 
 	getRecentEvents() {
+		this.loading['recentEvent'] = true;
 		this.dashboardService.recentEvents()
+			.pipe(finalize(() => this.loading['recentEvent'] = false))
 			.subscribe(
 				events => this.events = events
 			);
@@ -247,7 +251,9 @@ export class AdminDashboardComponent implements AfterViewInit, OnInit {
 
 
 	getTimeline() {
+		this.loading['timeline'] = true;
 		this.dashboardService.timeline()
+			.pipe(finalize(() => this.loading['timeline'] = false))
 			.subscribe(
 				wacc => {
 					if (wacc) {

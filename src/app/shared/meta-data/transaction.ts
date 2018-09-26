@@ -14,13 +14,33 @@ export class Transaction {
 	}
 
 
-	set buying_product_id(value: number) {
-		this._buying_product_id = value;
-		this.setTransactionType();
+	private _local_rate?: any;
+
+
+	get local_rate(): any {
+		return this._local_rate;
 	}
 
 
-	private _selling_product_id? = NGN;
+	set local_rate(value: any) {
+		this._local_rate = value;
+		this.setRate(value);
+		this.setCurrencyRate();
+	}
+
+
+	set buying_product_id(value: number) {
+		this._buying_product_id = value;
+		this.setTransactionType();
+		this.setCurrencyRate();
+	}
+
+
+	set selling_product_id(value: number) {
+		this._selling_product_id = value;
+		this.setTransactionType();
+		this.setCurrencyRate();
+	}
 
 
 	get selling_product_id(): number {
@@ -28,10 +48,7 @@ export class Transaction {
 	}
 
 
-	set selling_product_id(value: number) {
-		this._selling_product_id = value;
-		this.setTransactionType();
-	}
+	private _selling_product_id?: number;
 
 
 	private _transaction_type_id?: number | string;
@@ -64,13 +81,15 @@ export class Transaction {
 	closed_by?: number;
 	comment?: string;
 	condition?: string;
-	country? = 'Nigeria';
+	country?: string;
 	created_at?: string;
+	dynamic_product?: any;
 	events: Event[];
-	foreign? = false;
+	fixed_product?: number;
+	foreign?: boolean;
 	full_name: string;
-	funds_paid? = false;
-	funds_received? = false;
+	funds_paid?: boolean;
+	funds_received?: boolean;
 	iban?: string;
 	id: number;
 	initiated_at?: number;
@@ -78,7 +97,6 @@ export class Transaction {
 	is_domiciliary?: boolean;
 	kyc_check?: boolean;
 	link?: string;
-	local_rate?: any;
 	org_account_id?: number;
 	rate?: any;
 	referrer?: string;
@@ -92,6 +110,20 @@ export class Transaction {
 	transaction_ref?: string;
 	transaction_status_id?: number | string;
 	updated_at?: string;
+
+
+	constructor() {
+		this.selling_product_id = NGN;
+		this.country = 'Nigeria';
+		this.funds_paid = false;
+		this.foreign = false;
+		this.funds_received = false;
+	}
+
+
+	public static isLocal(currency: number | string): boolean {
+		return currency == NGN;
+	}
 
 
 	private setTransactionType(value: number | string = null) {
@@ -118,6 +150,43 @@ export class Transaction {
 
 			default:
 				this.transaction_type_id = value;
+		}
+	}
+
+
+	setRate(value: number): void {
+		switch (true) {
+			case Transaction.isLocal(this.selling_product_id):
+				this.rate = value;
+				break;
+
+			case Transaction.isLocal(this.buying_product_id):
+				this.rate = 1 / value;
+				break;
+
+			default:
+				this.rate = value;
+				break;
+
+		}
+	}
+
+
+	setCurrencyRate(): void {
+		switch (true) {
+			case Transaction.isLocal(this.selling_product_id):
+				this.fixed_product = this.selling_product_id;
+				this.dynamic_product = this.buying_product_id;
+				break;
+
+			case Transaction.isLocal(this.buying_product_id):
+				this.fixed_product = this.buying_product_id;
+				this.dynamic_product = this.selling_product_id;
+				break;
+
+			default:
+				this.fixed_product = this.selling_product_id;
+				this.dynamic_product = this.buying_product_id;
 		}
 	}
 }
