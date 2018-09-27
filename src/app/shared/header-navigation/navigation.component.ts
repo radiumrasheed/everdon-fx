@@ -7,25 +7,28 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 declare var $: any;
 
+
 @Component({
 	selector: 'app-navigation',
 	styleUrls: ['./navigation.component.css'],
 	templateUrl: './navigation.component.html'
 })
 export class NavigationComponent implements AfterViewInit, OnInit {
-	name: string;
+	private next_url: string[];
 	public config: PerfectScrollbarConfigInterface = {};
 
 
 	isLoggedIn$: Observable<boolean>;
-	user$: Observable<any>;
+	name: string;
 	role$: Observable<string>;
 	roles$: Observable<any>;
-	private next_url: string[];
+	user$: Observable<any>;
+
 
 	constructor(private modalService: NgbModal, private authService: AuthService, private router: Router, private route: ActivatedRoute) {
 
 	}
+
 
 	ngAfterViewInit() {
 		const set = function () {
@@ -49,12 +52,14 @@ export class NavigationComponent implements AfterViewInit, OnInit {
 		$('body').trigger('resize');
 	}
 
+
 	ngOnInit() {
 		this.isLoggedIn$ = this.authService.isLoggedIn;
 		this.user$ = this.authService.user;
 		this.role$ = this.authService.role;
 		this.roles$ = this.authService.roles;
 	}
+
 
 	logout() {
 		this.role$.subscribe(
