@@ -13,3 +13,7 @@
 .ng-invalid:not(form).ng-touched {
   border: 1px solid #a94442; /* red */
 }
+
+.card-body {
+	min-height: 10vh;
+}

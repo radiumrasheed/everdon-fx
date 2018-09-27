@@ -22,14 +22,15 @@ export class AdminDashboardComponent implements OnDestroy, OnInit {
 	@ViewChild(`createSwal`) private createSwalComponent: SwalComponent;
 	buckets: any;
 	counts: any;
-	doughnutChartData: number[] = [0, 0, 0, 0, 0, 0];
+	doughnutChartData: number[] = [0, 0, 0, 0, 0, 0, 0];
 	doughnutChartLabels: string[] = [
 		'Open',
 		'In Progress',
-		'Awaiting Approval',
-		'Awaiting Fulfilment',
+		'Pending Approval',
+		'Pending Fulfilment',
 		'Canceled',
-		'Closed'
+		'Closed',
+		'Raised'
 	];
 	doughnutChartLegend = false;
 	doughnutChartType = 'doughnut';
@@ -142,15 +143,14 @@ export class AdminDashboardComponent implements OnDestroy, OnInit {
 	getTransactionCounts() {
 		this.loading['count'] = true;
 		this.dashboardService.counts()
+			.pipe(finalize(() => this.loading['count'] = false))
 			.subscribe(
 				counts => {
 					this.counts = counts;
 					this.doughnutChartData = _.values(counts);
 					this.doughnutChartLabels = _.keys(counts);
 					this.totalTransactions = _.sum(this.doughnutChartData);
-				},
-				() => undefined,
-				() => this.loading['count'] = false
+				}
 			);
 	}
 

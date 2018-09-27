@@ -53,7 +53,7 @@ export const ROUTES: RouteInfo[] = [
 				labelClass: '',
 				extralink: false,
 				submenu: []
-			},
+			}
 		]
 	},
 	{
@@ -76,9 +76,9 @@ export const ROUTES: RouteInfo[] = [
 				labelClass: '',
 				extralink: false,
 				submenu: []
-			},
+			}
 		]
-	},
+	}
 
 ];
 
