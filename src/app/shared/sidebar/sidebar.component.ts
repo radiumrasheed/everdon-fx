@@ -54,7 +54,12 @@ export class SidebarComponent implements OnInit {
 
 
 	// this is for the open close
-	addExpandClass(element: any) {
+	addExpandClass(element: any, sub_length?: number) {
+		if (sub_length <= 0) {
+			this.showMenu = '0';
+			return;
+		}
+
 		if (element === this.showMenu) {
 			this.showMenu = '0';
 
