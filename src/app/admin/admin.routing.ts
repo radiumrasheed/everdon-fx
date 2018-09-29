@@ -34,7 +34,7 @@ export const AdminRoutes: Routes = [
 
 			{path: 'customers', redirectTo: 'customer', pathMatch: 'full'},
 			{
-				path: 'customer',
+				path: 'customer/list',
 				component: ClientsComponent,
 				data: {
 					title: 'View Customers',
