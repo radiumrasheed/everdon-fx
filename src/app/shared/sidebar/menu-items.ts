@@ -46,11 +46,7 @@ export const ROUTES: RouteInfo[] = [
 
 	// Currency Routes...
 	{
-		path: '', title: 'Currencies', icon: 'mdi mdi-cash-multiple', class: 'has-arrow', extralink: false, role: 'admin', submenu: [
-			{
-				path: '/admin/currency/list', title: 'Currencies', icon: 'mdi mdi-bank', extralink: false, submenu: []
-			}
-		]
-	}
+		path: '/admin/currency', title: 'Currencies', icon: 'mdi mdi-bank', extralink: false, submenu: [], role: 'admin'
+	},
 ];
 

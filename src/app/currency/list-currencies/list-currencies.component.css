@@ -1,0 +1,19 @@
+a {
+	color: #1890ff !important;
+	background-color: transparent;
+	text-decoration: none;
+	outline: 0;
+	cursor: pointer;
+	transition: color .3s;
+	-webkit-text-decoration-skip: objects;
+	transition: color .3s ease;
+}
+
+.editable-row-operations a, button {
+	margin-right: 8px;
+}
+
+.number {
+	font-family: Consolas, monospace;
+	font-size: small;
+}

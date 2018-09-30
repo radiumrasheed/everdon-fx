@@ -6,9 +6,8 @@ export const CurrencyRoutes: Routes = [
 	{
 		path: '',
 		children: [
-			{path: '', redirectTo: 'list', pathMatch: 'full'},
 			{
-				path: 'list',
+				path: '',
 				component: ListCurrenciesComponent,
 				data: {
 					title: 'All Currencies',
