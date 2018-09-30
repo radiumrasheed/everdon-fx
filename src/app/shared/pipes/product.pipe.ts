@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import {Product, PRODUCTS} from '../meta-data';
 
 @Pipe({
-	name: 'currency'
+	name: 'product'
 })
 export class ProductPipe implements PipeTransform {
 	selectedCurrency: Product;

@@ -72,15 +72,15 @@
 				<div class="text-right">
 					<h1 class="font-weight-bold">
 						<sup>Total</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket | number:'2.' }}
 					</h1>
 					<h2 class="font-light">
 						<sup>Cash</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
 					</h2>
 					<h2 class="font-light">
 						<sup>Transfer</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
 					</h2>
 				</div>
 				<p>
@@ -122,6 +122,7 @@
 						<i class="mdi mdi-cookie"></i>
 					</button>
 				</h4>
+				<app-loader *ngIf="loading?.recentTransaction"></app-loader>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive" *ngIf="transactions?.length > 0">
@@ -147,7 +148,7 @@
 							</td>
 							<td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>
 							</td>
-							<td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+							<td>{{ transaction?.buying_product_id | product:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
 						</tr>
 						</tbody>
 					</table>
@@ -180,6 +181,8 @@
 						<i class="mdi mdi-account"></i>
 					</button>
 				</h4>
+
+				<app-loader *ngIf="loading?.recentEvent"></app-loader>
 			</div>
 			<div class="card-body">
 				<!-- Comment widgets -->
@@ -229,6 +232,8 @@
 					WACC Timeline
 					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTimeline()"></i>
 				</h4>
+
+				<app-loader *ngIf="loading?.timeline"></app-loader>
 			</div>
 
 			<div class="card-body">
@@ -244,7 +249,12 @@
 	<div class="col-lg-3 col-md-6">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>Transaction Status</h4>
+				<h4 class="card-title"><span class="lstick"></span>
+					Transaction Status
+					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTransactionCounts()"></i>
+				</h4>
+
+				<app-loader *ngIf="loading?.count"></app-loader>
 			</div>
 
 			<div class="card-body">
@@ -255,47 +265,34 @@
 					</canvas>
 				</div>
 
-				<table class="table vm font-14 m-b-0">
+				<table class="table vm font-14 m-b-0" *ngIf="counts">
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td class="b-0">Open</td>
-						</a>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Open</span></a></td>
 						<td class="text-right font-medium b-0">{{(counts?.open / totalTransactions) * 100 | number:'1.1-1' }}%</td>
 					</tr>
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td>In Progress</td>
-						</a>
-						<td class="text-right font-medium">{{(counts?.in_progress / totalTransactions) * 100 | number:'1.1-1' }}%
-						</td>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">In Progress</span></a></td>
+						<td class="text-right font-medium">{{(counts?.in_progress / totalTransactions) * 100 | number:'1.1-1' }}%</td>
 					</tr>
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td>Awaiting Approval</td>
-						</a>
-						<td class="text-right font-medium">{{(counts?.pending_approval / totalTransactions) * 100 | number:'1.1-1'
-							}}%
-						</td>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Pending Approval</span></a></td>
+						<td class="text-right font-medium">{{(counts?.pending_approval / totalTransactions) * 100 | number:'1.1-1'}}%</td>
 					</tr>
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td>Awaiting Fulfilment</td>
-						</a>
-						<td class="text-right font-medium">{{(counts?.pending_fulfilment / totalTransactions) * 100 | number:'1.1-1'
-							}}%
-						</td>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Pending Fulfilment</span></a></td>
+						<td class="text-right font-medium">{{(counts?.pending_fulfilment / totalTransactions) * 100 | number:'1.1-1'}}%</td>
 					</tr>
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td>Cancelled</td>
-						</a>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Cancelled</span></a></td>
 						<td class="text-right font-medium">{{(counts?.cancelled / totalTransactions) * 100 | number:'1.1-1' }}%</td>
 					</tr>
 					<tr>
-						<a [routerLink]="'../transaction/list'">
-							<td>Closed</td>
-						</a>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Closed</span></a></td>
 						<td class="text-right font-medium">{{(counts?.closed / totalTransactions) * 100 | number:'1.1-1' }}%</td>
+					</tr>
+					<tr>
+						<td><a [routerLink]="'../transaction/list'"><span class="b-0">Raised</span></a></td>
+						<td class="text-right font-medium">{{(counts?.raised / totalTransactions) * 100 | number:'1.1-1' }}%</td>
 					</tr>
 				</table>
 			</div>

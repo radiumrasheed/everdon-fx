@@ -6,6 +6,7 @@ import {DashboardService} from './dashboard.service';
 import {Account, PRODUCTS, Transaction} from '../../shared/meta-data';
 import {TransactionService} from '../../transaction/transaction.service';
 
+
 @Component({
 	selector: 'app-dashboard',
 	templateUrl: './dashboard.component.html',
@@ -14,17 +15,29 @@ import {TransactionService} from '../../transaction/transaction.service';
 })
 export class DashboardComponent implements OnInit {
 
+	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
+	accounts: Account[];
+	availableProducts = PRODUCTS;
+	public buckets: any;
 	// Dashboard Properties
 	public figures: any;
-
-	public transactions: Transaction[];
-	public buckets: any;
-	submitting = false;
-	newAccount = true;
-	availableProducts = PRODUCTS;
-	accounts: Account[];
-	transaction = new Transaction();
-
+	public lineChartColors: Array<any> = [
+		{
+			// info
+			borderColor: 'rgba(57,139,247,1)',
+			pointHoverBorderColor: 'rgba(57,139,247,1)'
+		},
+		{
+			// success
+			borderColor: 'rgba(6,215,156,1)',
+			pointHoverBorderColor: 'rgba(6,215,156,1)'
+		},
+		{
+			// warning
+			borderColor: 'rgba(255,178,43,1)',
+			pointHoverBorderColor: 'rgba(255,178,43,1)'
+		}
+	];
 	// Bar chart properties...
 	public lineChartData: Array<any> = [
 		{
@@ -44,8 +57,9 @@ export class DashboardComponent implements OnInit {
 			fill: false,
 			pointRadius: 0,
 			pointHitRadius: 10
-		},
+		}
 	];
+	public lineChartLegend = true;
 	public lineChartOptions: any = {
 		scales: {
 			xAxes: [{
@@ -65,30 +79,17 @@ export class DashboardComponent implements OnInit {
 			mode: 'index'  // or 'x-axis'
 		}
 	};
-	public lineChartColors: Array<any> = [
-		{
-			// info
-			borderColor: 'rgba(57,139,247,1)',
-			pointHoverBorderColor: 'rgba(57,139,247,1)'
-		},
-		{
-			// success
-			borderColor: 'rgba(6,215,156,1)',
-			pointHoverBorderColor: 'rgba(6,215,156,1)'
-		},
-		{
-			// warning
-			borderColor: 'rgba(255,178,43,1)',
-			pointHoverBorderColor: 'rgba(255,178,43,1)'
-		}
-	];
-	public lineChartLegend = true;
 	public lineChartType = 'line';
-	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
+	newAccount = true;
+	submitting = false;
+	transaction = new Transaction();
+	public transactions: Transaction[];
+
 
 	constructor(private dashboardService: DashboardService,
-	            private transactionService: TransactionService) {
+							private transactionService: TransactionService) {
 	}
+
 
 	ngOnInit() {
 		this.getFigures();
@@ -97,6 +98,7 @@ export class DashboardComponent implements OnInit {
 		this.getMyAccounts();
 		this.getBucketBalance();
 	}
+
 
 	getMyAccounts(): void {
 		this.transactionService.getAccounts()
@@ -112,6 +114,7 @@ export class DashboardComponent implements OnInit {
 			);
 	}
 
+
 	// Get Transaction & Account Figures
 	public getFigures() {
 		this.dashboardService.figures()
@@ -126,6 +129,7 @@ export class DashboardComponent implements OnInit {
 			);
 	}
 
+
 	// Get recent Transactions
 	public getRecentTransactions() {
 		this.dashboardService.recentTransactions()
@@ -137,6 +141,7 @@ export class DashboardComponent implements OnInit {
 				}
 			);
 	}
+
 
 	// Get Timeline data and plot graph
 	public getTimeline() {

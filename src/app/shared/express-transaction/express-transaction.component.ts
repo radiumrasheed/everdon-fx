@@ -7,6 +7,7 @@ import {debounceTime} from 'rxjs/operators';
 import {ExpressService, ExpressTransaction} from './express.service';
 import {PRODUCTS, Transaction} from '../meta-data';
 
+
 @Component({
 	selector: 'app-express-transaction',
 	templateUrl: './express-transaction.component.html',
@@ -15,11 +16,7 @@ import {PRODUCTS, Transaction} from '../meta-data';
 })
 export class ExpressTransactionComponent implements OnInit {
 
-	transaction = new ExpressTransaction;
-	form1 = true;
-	form2 = false;
-	successMessage: string;
-	staticAlertClosed = false;
+	private _success = new Subject<string>();
 	bankList = [
 		{name: 'GTB', value: 'gtb'},
 		{name: 'UBA', value: 'uba'},
@@ -27,14 +24,20 @@ export class ExpressTransactionComponent implements OnInit {
 		{name: 'Access', value: 'access'}
 	];
 	currencyList = PRODUCTS;
+	form1 = true;
+	form2 = false;
+	staticAlertClosed = false;
 	public submitting: boolean;
-	private _success = new Subject<string>();
+	successMessage: string;
+	transaction = new ExpressTransaction;
+
 
 	constructor(private transactionService: ExpressService,
-	            private router: Router,
-	            private route: ActivatedRoute,
-	            private toastr: ToastrService) {
+							private router: Router,
+							private route: ActivatedRoute,
+							private toastr: ToastrService) {
 	}
+
 
 	ngOnInit(): void {
 		setTimeout(() => this.staticAlertClosed = true, 20000);
@@ -44,6 +47,7 @@ export class ExpressTransactionComponent implements OnInit {
 			debounceTime(5000)
 		).subscribe(() => this.successMessage = null);
 	}
+
 
 	// Submit an express transaction Request...
 	requestTransaction(form): void {
@@ -67,10 +71,12 @@ export class ExpressTransactionComponent implements OnInit {
 				});
 	}
 
+
 	goToForm2() {
 		this.form1 = false;
 		this.form2 = true;
 	}
+
 
 	goToForm1() {
 		this.form1 = true;

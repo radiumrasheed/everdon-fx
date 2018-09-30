@@ -5,7 +5,6 @@ import {CreateClientComponent} from './create-client/create-client.component';
 import {ClientsComponent} from './clients/clients.component';
 import {ViewClientComponent} from './view-client/view-client.component';
 import {NgModule} from '@angular/core';
-import {MeRoutes} from '../me/me.routing';
 
 export const AdminRoutes: Routes = [
 	{
@@ -13,7 +12,17 @@ export const AdminRoutes: Routes = [
 		component: AdminComponent,
 		children: [
 			{path: '', redirectTo: 'dashboard', pathMatch: 'full'},
+
 			{path: 'transactions', redirectTo: 'transaction', pathMatch: 'full'},
+			{
+				path: 'transaction',
+				loadChildren: '../transaction/transaction.module#TransactionModule',
+				data: {
+					title: 'Transactions',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'Transactions'}]
+				}
+			},
+
 			{
 				path: 'dashboard',
 				component: AdminDashboardComponent,
@@ -22,16 +31,19 @@ export const AdminRoutes: Routes = [
 					urls: [{title: 'Admin', url: '/admin'}, {title: 'Dashboard'}]
 				}
 			},
+
+			{path: 'customers', redirectTo: 'customer', pathMatch: 'full'},
 			{
-				path: 'customers',
+				path: 'customer/list',
 				component: ClientsComponent,
 				data: {
 					title: 'View Customers',
 					urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customers'}]
 				}
 			},
+			{path: 'create_customer', redirectTo: 'customer/create', pathMatch: 'full'},
 			{
-				path: 'create_customer',
+				path: 'customer/create',
 				component: CreateClientComponent,
 				data: {
 					title: 'Create Customer',
@@ -46,14 +58,16 @@ export const AdminRoutes: Routes = [
 					urls: [{title: 'Admin', url: '/admin'}, {title: 'View Customer'}]
 				}
 			},
+
+			{path: 'currencies', redirectTo: 'currency', pathMatch: 'full'},
 			{
-				path: 'transaction',
-				loadChildren: '../transaction/transaction.module#TransactionModule',
+				path: 'currency',
+				loadChildren: '../currency/currency.module#CurrencyModule',
 				data: {
-					title: 'Transactions',
-					urls: [{title: 'Admin', url: '/admin'}, {title: 'Transactions'}]
+					title: 'Currencies',
+					urls: [{title: 'Admin', url: '/admin'}, {title: 'Currencies'}]
 				}
-			}
+			},
 		]
 	}
 ];

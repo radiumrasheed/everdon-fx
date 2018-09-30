@@ -110,6 +110,7 @@ $topbar-alt: #272c33;
   }
   .sidebar-nav > ul > li.active > a {
     color: $themecolor;
+	  font-weight: 600;
     border-color: $themecolor;
     i {
       color: $themecolor;

@@ -1,12 +1,12 @@
 export class User {
+	country = '';
 	email?: string;
-	country?: string = '';
+	first_name?: string;
+	is_cooperate?: string;
+	last_name?: string;
+	middle_name?: string;
 	password?: string;
 	password_confirmation?: string;
 	phone?: string;
-	is_cooperate?: string;
 	rc_number?: string;
-	first_name?: string;
-	middle_name?: string;
-	last_name?: string;
 }

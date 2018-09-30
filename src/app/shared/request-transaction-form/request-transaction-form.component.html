@@ -5,20 +5,22 @@
 
 		<div class="text-center" *ngIf="rate">
 			<span class="text-info font-weight-bold font-enlarge">
-        <i style="font-size: xx-large">{{transaction?.selling_product_id | currency:'sign'}}{{rate[0] | number:'1.1-2'}}</i>
+        <i style="font-size: xx-large">{{transaction?.selling_product_id | product:'sign'}}{{rate[0] | number:'1.1-2'}}</i>
       </span>
 			<span class="font-weight-bold font-enlarge">
         <i style="font-size: xx-large"> = </i>
       </span>
 			<span class="text-success font-weight-bold font-enlarge">
-        <i style="font-size: xx-large">{{transaction?.buying_product_id | currency:'sign'}}{{rate[1] | number:'1.1-2'}}</i>
+        <i style="font-size: xx-large">{{transaction?.buying_product_id | product:'sign'}}{{rate[1] | number:'1.1-2'}}</i>
       </span>
 		</div>
 
 		<ng-container *ngIf="role === 'fx-ops'">
 
 			<div class="form-group row">
+				<!--Label & Input for Searching Client-->
 				<label for="client_id" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-account-circle text-warning"></i>
 					Client
 					<span class="text-danger">*</span>
 				</label>
@@ -41,12 +43,14 @@
 						<span class="input-group-addon label label-danger" *ngSwitchCase="searchFailed && !searching">Search Failed</span>
 					</ng-container>
 				</div>
+
+				<!--Loading Icon-->
+				<app-loader class="offset-sm-4 col-sm-8" *ngIf="gettingClient"></app-loader>
+
+				<!--Profile Info-->
 				<div class="offset-sm-4">
-					<app-loader *ngIf="gettingClient"></app-loader>
-
 					<br *ngIf="transaction.client">
-
-					<ng-template #tipContent>
+					<ng-template #popContent>
 						<p>First Name: <b>{{ transaction.client?.first_name }}</b></p>
 						<p>Last Name: <b>{{ transaction.client?.last_name }}</b></p>
 						<p>Email: <b>{{ transaction.client?.email }}</b></p>
@@ -56,18 +60,20 @@
 						<p *ngIf="transaction.client.gender">Gender: <b>{{ transaction.client?.gender }}</b></p>
 						<p *ngIf="transaction.client.rc_number">RC Number: <b>{{ transaction.client?.rc_number }}</b></p>
 					</ng-template>
-					<button *ngIf="transaction.client" type="button" (click)="goToProfilePage()" class="btn btn-sm btn-rounded btn-info" [ngbTooltip]="tipContent" placement="right">
+					<button *ngIf="transaction.client" type="button" (click)="goToProfilePage()" class="btn btn-sm btn-rounded btn-info"
+					        [triggers]="'mouseenter:mouseleave'" [ngbPopover]="popContent" [popoverTitle]="'Brief Info'" [placement]="'right'">
 						<i class="mdi mdi-account"></i>
 						Go To Profile Page
 					</button>
-					<span *ngIf="transaction.client?.kyc.status === 1" class="text-success"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
-					<span *ngIf="transaction.client?.kyc.status === 0" class="text-danger"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
+					<span *ngIf="transaction.client?.kyc.status === 1" class="text-success text-sm-center"> Customer has a valid KYC! <i class="mdi mdi-check-circle"></i></span>
+					<span *ngIf="transaction.client?.kyc.status === 0" class="text-danger  text-sm-center"> Customer does not have a valid KYC! <i class="mdi mdi-close-circle"></i></span>
 				</div>
 			</div>
 		</ng-container>
 
 		<div class="form-group row">
 			<label for="buying_product_id" class="col-sm-4 text-right control-label col-form-label">
+				<i class="mdi mdi-currency-usd text-warning"></i>
 				{{role === 'fx-ops' ? 'Outward Currency' : 'Buying'}}
 				<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-8">
@@ -83,6 +89,7 @@
 
 
 		<div class="form-group row"><label for="selling_product_id" class="col-sm-4 text-right control-label col-form-label">
+			<i class="mdi mdi-currency-usd-off text-warning"></i>
 			{{role === 'fx-ops' ? 'Inward Currency' : 'Selling'}}
 			<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-8">
@@ -97,72 +104,8 @@
 
 
 		<div class="form-group row">
-			<label for="amount" class="col-sm-4 text-right control-label col-form-label">
-				Amount
-				<span class="text-danger">*</span>
-			</label>
-			<div class="input-group col-sm-8">
-				<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
-				<input type="text" pattern="[^a-z ] *([.0-9])*\d" class="form-control" required (keyup)="updateCalculatedAmount()"
-				       [(ngModel)]="transaction.amount" name="amount" id="amount" aria-label="Amount">
-			</div>
-		</div>
-
-
-		<ng-container *ngIf="role === 'fx-ops'">
-			<div class="form-group row" *ngIf="!(transaction.selling_product_id == 4 || transaction.buying_product_id == 4)">
-				<label for="rate" class="col-sm-4 text-right control-label col-form-label">
-					Rate
-					<span class="text-danger">*</span></label>
-				<div class="input-group col-sm-8">
-					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
-					<input type="number" class="form-control" required [(ngModel)]="transaction.rate" (keyup)="updateCalculatedAmount()" name="rate" id="rate" placeholder="Rate">
-					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | currency }}</span>
-				</div>
-			</div>
-
-
-			<div class="form-group row" *ngIf="transaction.selling_product_id == 4 || transaction.buying_product_id == 4">
-				<label for="local_rate" class="col-sm-4 text-right control-label col-form-label">
-					Local Rate
-					<span class="text-danger">*</span></label>
-				<div class="input-group col-sm-8">
-					<span class="input-group-addon">₦</span>
-					<input type="number" class="form-control" required [(ngModel)]="transaction.local_rate" (keyup)="updateRate().then()" name="local_rate" id="local_rate"
-					       placeholder="Local Rate">
-					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id && transaction?.buying_product_id != 4 && transaction?.selling_product_id == 4">
-					per {{transaction?.buying_product_id | currency }}</span>
-					<span class="input-group-addon disabled" *ngIf="transaction?.selling_product_id && transaction?.selling_product_id != 4 && transaction?.buying_product_id == 4">
-					per {{transaction?.selling_product_id | currency }}</span>
-				</div>
-			</div>
-		</ng-container>
-
-
-		<div class="form-group row">
-			<label for="calculated_amount" class="col-sm-4 text-right control-label col-form-label">
-				Calculated Cost
-			</label>
-			<div class="input-group col-sm-8">
-				<span class="input-group-addon" *ngIf="transaction.selling_product_id">{{ transaction.selling_product_id | currency:'sign' }}</span>
-				<input type="text" class="form-control" [(ngModel)]="transaction.calculated_amount" disabled name="calculated_amount" id="calculated_amount">
-			</div>
-		</div>
-
-		<div class="form-group row" *ngIf="role === 'fx-ops'">
-			<label for="transaction-type" class="col-sm-4 text-right control-label col-form-label">Transaction Type</label>
-			<div class="input-group col-sm-8">
-				<select disabled [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id" class="custom-select col-12">
-					<option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">
-						{{ transactionType.desc }}
-					</option>
-				</select>
-			</div>
-		</div>
-
-
-		<div class="form-group row">
 			<label for="transaction-mode" class="col-sm-4 text-right control-label col-form-label">
+				<i class="mdi mdi-transfer text-warning"></i>
 				Transaction Mode
 				<span class="text-danger">*</span>
 			</label>
@@ -176,12 +119,82 @@
 			</div>
 		</div>
 
+
+		<div class="form-group row">
+			<label for="amount" class="col-sm-4 text-right control-label col-form-label">
+				<i class="mdi mdi-cash text-warning"></i>
+				Amount
+				<span class="text-danger">*</span>
+			</label>
+			<div class="input-group col-sm-8">
+				<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | product:'sign' }}</span>
+				<input type="text" pattern="[^a-z ] *([.0-9])*\d" class="form-control" required (keyup)="updateCalculatedAmount()"
+				       [(ngModel)]="transaction.amount" name="amount" id="amount" aria-label="Amount">
+			</div>
+		</div>
+
+
+		<ng-container *ngIf="role === 'fx-ops'">
+			<!--<div class="form-group row">
+				<label for="rate" class="col-sm-4 text-right control-label col-form-label">
+					Rate
+					<span class="text-danger">*</span></label>
+				<div class="input-group col-sm-8">
+					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | product:'sign' }}</span>
+					<input type="number" class="form-control" required [(ngModel)]="transaction.rate" (keyup)="updateCalculatedAmount()" name="rate" id="rate" placeholder="Rate">
+					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | product }}</span>
+				</div>
+			</div>-->
+
+
+			<div class="form-group row">
+				<label for="local_rate" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-water-percent text-warning"></i>
+					Rate
+					<span class="text-danger">*</span></label>
+				<div class="input-group col-sm-8">
+					<span class="input-group-addon" *ngIf="transaction?.fixed_product">{{transaction?.fixed_product | product:'sign' }}</span>
+					<input type="number" class="form-control" required [(ngModel)]="transaction.local_rate" (keyup)="updateCalculatedAmount()" name="local_rate" id="local_rate"
+					       placeholder="Local Rate">
+					<span class="input-group-addon disabled" *ngIf="transaction?.dynamic_product">
+					per {{transaction?.dynamic_product | product }}</span>
+				</div>
+			</div>
+		</ng-container>
+
+
+		<div class="form-group row">
+			<label for="calculated_amount" class="col-sm-4 text-right control-label col-form-label">
+				<i class="mdi mdi-code-string text-warning"></i>
+				Calculated Cost
+			</label>
+			<div class="input-group col-sm-8">
+				<span class="input-group-addon" *ngIf="transaction.selling_product_id">{{ transaction.selling_product_id | product:'sign' }}</span>
+				<input type="text" class="form-control" [(ngModel)]="transaction.calculated_amount" disabled name="calculated_amount" id="calculated_amount">
+			</div>
+		</div>
+
+		<div class="form-group row" *ngIf="role === 'fx-ops'">
+			<label for="transaction-type" class="col-sm-4 text-right control-label col-form-label">
+				<i class="mdi mdi-source-commit-local text-warning"></i>
+				Transaction Type
+			</label>
+			<div class="input-group col-sm-8">
+				<select disabled [(ngModel)]="transaction.transaction_type_id" id="transaction-type" name="transaction_type_id" class="custom-select col-12">
+					<option *ngFor="let transactionType of transactionTypes" [value]="transactionType.id">
+						{{ transactionType.desc }}
+					</option>
+				</select>
+			</div>
+		</div>
+
 	</ng-container>
 	<!-- END OF Stage 1 -->
 
 	<!-- Stage 2 of FORM -->
 	<ng-container #step2 *ngIf="form2">
 		<div class="form-group row"><label for="country" class="col-sm-4 text-right control-label col-form-label">
+			<i class="mdi mdi-earth text-warning"></i>
 			Country
 			<span class="text-danger">*</span></label>
 			<div class="input-group col-sm-8">
@@ -327,7 +340,10 @@
 		<ng-container *ngIf="role === 'fx-ops'">
 			<hr>
 
-			<div class="form-group row"><label for="condition" class="col-sm-4 text-right control-label col-form-label">Condition</label>
+			<div class="form-group row">
+				<label for="condition" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-code-greater-than-or-equal text-warning"></i>
+					Condition</label>
 				<div class="input-group col-sm-8">
 					<select class="form-control" [(ngModel)]="transaction.condition" name="condition" id="condition">
 						<option value="advance">Advance</option>
@@ -343,23 +359,43 @@
 
 
 			<div class="form-group row">
-				<label for="referrer" class="col-sm-4 text-right control-label col-form-label">Referrer <span class="text-danger">*</span></label>
+				<label for="referrer" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-account-switch text-warning"></i>
+					Referrer <span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
 					<input class="form-control" name="referrer" required id="referrer" [(ngModel)]="transaction.referrer" type="text">
 				</div>
 			</div>
 
+			<div class="form-group row">
+				<label for="org_account_id" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-bank text-warning"></i>
+					Paying Org
+					<span class="text-danger">*</span>
+				</label>
+				<div class="input-group col-sm-8">
+					<select class="form-control" [(ngModel)]="transaction.org_account_id" name="org_account_id" id="org_account_id">
+						<option *ngFor="let organization of organizationList" value="{{organization.id}}">
+							{{organization.name + ' ' + organization.account_number}}
+						</option>
+					</select>
+				</div>
+			</div>
+
 			<div class="form-group row" *ngIf="transaction.transaction_type_id === '3'">
+				<i class="mdi mdi-ticket-percent text-warning"></i>
 				<label for="swap_charges" class="col-sm-4 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
-					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
+					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | product:'sign' }}</span>
 					<input class="form-control" required name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
 				</div>
 			</div>
 
 
 			<div class="form-group row">
-				<label for="comment" class="col-sm-4 text-right control-label col-form-label">Comment <span class="text-danger">*</span></label>
+				<label for="comment" class="col-sm-4 text-right control-label col-form-label">
+					<i class="mdi mdi-comment-plus-outline text-warning"></i>
+					Comment <span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
 					<textarea class="form-control" required name="comment" id="comment" [(ngModel)]="transaction.comment" rows="3"></textarea>
 				</div>
@@ -385,5 +421,11 @@
 		{{ submitting ? 'Sending Request... ' : 'Request ' }}
 		<i class="mdi mdi-email"></i>
 	</button>
+
+	<ng-container *ngIf="submitting">
+		<br>
+		<br>
+		<app-loader class="mt-20"></app-loader>
+	</ng-container>
 
 </form>

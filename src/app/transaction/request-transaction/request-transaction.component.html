@@ -8,12 +8,14 @@
 				</h4>
 			</div>
 			<div class="card-body">
-				<div class="row">
+				<div class="text-center">
 					<ngb-alert *ngIf="(roles[0] !== 'client') && (roles[0] !== 'fx-ops')" [type]="'warning'">
 						<b>NOTE: </b>You're not eligible to make this request! Please refer to FX-Ops Member
 					</ngb-alert>
+				</div>
+				<div class="row">
 
-					<app-request-transaction-form class="offset-lg-1 col-lg-10" [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="roles[0]"
+					<app-request-transaction-form class="col-lg-10" [(transaction)]="transaction" (submittedSuccessfully)="onSubmittedSuccessfully($event)" [role]="roles[0]"
 					                              [profileLink]="['admin', 'customer', transaction.client_id]">
 
 					</app-request-transaction-form>
