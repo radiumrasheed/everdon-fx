@@ -23,6 +23,7 @@ export class ListCurrenciesComponent implements OnInit {
 	loading = false;
 	parserNaira = value => value.replace('₦ ', '');
 	waccs: any;
+	index1: number;
 
 
 	constructor(private currencyService: CurrencyService, private message: NzMessageService) {
