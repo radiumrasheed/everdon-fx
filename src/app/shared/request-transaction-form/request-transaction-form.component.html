@@ -5,13 +5,13 @@
 
 		<div class="text-center" *ngIf="rate">
 			<span class="text-info font-weight-bold font-enlarge">
-        <i style="font-size: xx-large">{{transaction?.selling_product_id | currency:'sign'}}{{rate[0] | number:'1.1-2'}}</i>
+        <i style="font-size: xx-large">{{transaction?.selling_product_id | product:'sign'}}{{rate[0] | number:'1.1-2'}}</i>
       </span>
 			<span class="font-weight-bold font-enlarge">
         <i style="font-size: xx-large"> = </i>
       </span>
 			<span class="text-success font-weight-bold font-enlarge">
-        <i style="font-size: xx-large">{{transaction?.buying_product_id | currency:'sign'}}{{rate[1] | number:'1.1-2'}}</i>
+        <i style="font-size: xx-large">{{transaction?.buying_product_id | product:'sign'}}{{rate[1] | number:'1.1-2'}}</i>
       </span>
 		</div>
 
@@ -127,7 +127,7 @@
 				<span class="text-danger">*</span>
 			</label>
 			<div class="input-group col-sm-8">
-				<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
+				<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | product:'sign' }}</span>
 				<input type="text" pattern="[^a-z ] *([.0-9])*\d" class="form-control" required (keyup)="updateCalculatedAmount()"
 				       [(ngModel)]="transaction.amount" name="amount" id="amount" aria-label="Amount">
 			</div>
@@ -140,9 +140,9 @@
 					Rate
 					<span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
-					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
+					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | product:'sign' }}</span>
 					<input type="number" class="form-control" required [(ngModel)]="transaction.rate" (keyup)="updateCalculatedAmount()" name="rate" id="rate" placeholder="Rate">
-					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | currency }}</span>
+					<span class="input-group-addon disabled" *ngIf="transaction?.buying_product_id">per {{transaction?.buying_product_id | product }}</span>
 				</div>
 			</div>-->
 
@@ -153,11 +153,11 @@
 					Rate
 					<span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
-					<span class="input-group-addon" *ngIf="transaction?.fixed_product">{{transaction?.fixed_product | currency:'sign' }}</span>
+					<span class="input-group-addon" *ngIf="transaction?.fixed_product">{{transaction?.fixed_product | product:'sign' }}</span>
 					<input type="number" class="form-control" required [(ngModel)]="transaction.local_rate" (keyup)="updateCalculatedAmount()" name="local_rate" id="local_rate"
 					       placeholder="Local Rate">
 					<span class="input-group-addon disabled" *ngIf="transaction?.dynamic_product">
-					per {{transaction?.dynamic_product | currency }}</span>
+					per {{transaction?.dynamic_product | product }}</span>
 				</div>
 			</div>
 		</ng-container>
@@ -169,7 +169,7 @@
 				Calculated Cost
 			</label>
 			<div class="input-group col-sm-8">
-				<span class="input-group-addon" *ngIf="transaction.selling_product_id">{{ transaction.selling_product_id | currency:'sign' }}</span>
+				<span class="input-group-addon" *ngIf="transaction.selling_product_id">{{ transaction.selling_product_id | product:'sign' }}</span>
 				<input type="text" class="form-control" [(ngModel)]="transaction.calculated_amount" disabled name="calculated_amount" id="calculated_amount">
 			</div>
 		</div>
@@ -386,7 +386,7 @@
 				<i class="mdi mdi-ticket-percent text-warning"></i>
 				<label for="swap_charges" class="col-sm-4 text-right control-label col-form-label">Swap Charges <span class="text-danger">*</span></label>
 				<div class="input-group col-sm-8">
-					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | currency:'sign' }}</span>
+					<span class="input-group-addon" *ngIf="transaction?.selling_product_id">{{ transaction?.selling_product_id | product:'sign' }}</span>
 					<input class="form-control" required name="swap_charges" id="swap_charges" [(ngModel)]="transaction.swap_charges" type="number">
 				</div>
 			</div>

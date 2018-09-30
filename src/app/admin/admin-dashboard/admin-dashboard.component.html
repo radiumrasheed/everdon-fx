@@ -72,15 +72,15 @@
 				<div class="text-right">
 					<h1 class="font-weight-bold">
 						<sup>Total</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket | number:'2.' }}
 					</h1>
 					<h2 class="font-light">
 						<sup>Cash</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket_cash | number:'2.' }}
 					</h2>
 					<h2 class="font-light">
 						<sup>Transfer</sup>
-						{{ bucket.id | currency:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
+						{{ bucket.id | product:'sign'}}{{ bucket.bucket_transfer | number:'2.' }}
 					</h2>
 				</div>
 				<p>
@@ -148,7 +148,7 @@
 							</td>
 							<td><span class="label" [ngClass]="transaction?.transaction_status_id | status:'class'">{{ transaction?.transaction_status_id | status }}</span>
 							</td>
-							<td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+							<td>{{ transaction?.buying_product_id | product:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
 						</tr>
 						</tbody>
 					</table>

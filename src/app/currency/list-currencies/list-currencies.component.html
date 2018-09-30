@@ -1,23 +1,117 @@
-<nz-table
-	#rowSelectionTable
-	[nzData]="data"
-	(nzCurrentPageDataChange)="currentPageDataChange($event)"
-	(nzPageIndexChange)="refreshStatus()"
-	(nzPageSizeChange)="refreshStatus()">
-	<thead>
-	<tr>
-		<th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
-		<th>Name</th>
-		<th>Age</th>
-		<th>Address</th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr *ngFor="let data of rowSelectionTable.data">
-		<td nzShowCheckbox [(nzChecked)]="data.checked" [nzDisabled]="data.disabled" (nzCheckedChange)="refreshStatus()"></td>
-		<td>{{data.name}}</td>
-		<td>{{data.age}}</td>
-		<td>{{data.address}}</td>
-	</tr>
-	</tbody>
-</nz-table>
+<nz-card style="width: 100%;" nzTitle="Currencies, Rates & Balances">
+	<nz-card-tab>
+		<nz-tabset nzSize="large" [(nzSelectedIndex)]="index1">
+			<nz-tab [nzTitle]="'Overview'">
+
+			</nz-tab>
+
+			<nz-tab [nzTitle]="'Update'">
+				<div style="margin-bottom: 16px;">
+					<button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="getProducts()">
+						Reload
+					</button>
+				</div>
+
+				<nz-table
+					#editRowTable
+					[nzTitle]="'List of Currencies'"
+					[nzLoading]="loading"
+					[nzBordered]="true"
+					[nzSize]="'large'"
+					[nzData]="dataSet">
+					<thead>
+					<tr>
+						<th [nzWidth]="'15%'">Name</th>
+						<th [nzWidth]="'10%'">Rate</th>
+						<th [nzWidth]="'10%'">WACC</th>
+						<th [nzWidth]="'10%'">Cash Balance</th>
+						<th [nzWidth]="'10%'">Transfer Balance</th>
+						<th [nzWidth]="'10%'">Total Balance</th>
+						<th [nzWidth]="'12%'">Last Updated</th>
+						<th>Actions</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr *ngFor="let data of editRowTable.data">
+						<td>
+							<div class="editable-cell">
+								<div class="editable-cell-text-wrapper">
+									<ng-container *ngIf="!editCache[data.id]?.edit">
+										{{data.description}}
+									</ng-container>
+									<ng-container *ngIf="editCache[data.id]?.edit">
+										<input type="text" nz-input [(ngModel)]="editCache[data.id].data.description">
+									</ng-container>
+								</div>
+							</div>
+						</td>
+
+						<td class="text-right number">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								₦{{ data.rate | number:'1.1-4' }}
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<nz-input-number [(ngModel)]="editCache[data.id].data.rate" [nzStep]="0.1" [nzFormatter]="formatterNaira" [nzParser]="parserNaira"></nz-input-number>
+							</ng-container>
+						</td>
+
+						<td class="text-right number">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								₦{{ data.wacc | number:'1.1-4' }}
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<nz-input-number [(ngModel)]="editCache[data.id].data.wacc" [nzStep]="0.1" [nzFormatter]="formatterNaira" [nzParser]="parserNaira"></nz-input-number>
+							</ng-container>
+						</td>
+
+						<td class="text-right number">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								{{ data.id | product:'sign' }}{{ data.bucket_cash | number:'1.1-4' }}
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<nz-input-number [(ngModel)]="editCache[data.id].data.bucket_cash" [nzStep]="0.1"></nz-input-number>
+							</ng-container>
+						</td>
+
+						<td class="text-right number">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								{{ data.id | product:'sign' }}{{ data.bucket_transfer | number:'1.1-4' }}
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<nz-input-number [(ngModel)]="editCache[data.id].data.bucket_transfer" [nzStep]="0.1"></nz-input-number>
+							</ng-container>
+						</td>
+
+						<td class="text-right number">
+							{{ data.id | product:'sign' }}{{ data.bucket | number:'1.1-4' }}
+						</td>
+
+						<td>
+							{{ data.updated_at | date:'short' }}
+						</td>
+
+						<td>
+							<div class="editable-row-operations">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									<!--<a (click)="startEdit(data.id)">Edit</a>-->
+									<button nz-button [nzSize]="'small'" nzType="primary" (click)="startEdit(data.id)" [nzLoading]="loading">Edit</button>
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<!--<a (click)="cancelEdit(data.id)">Cancel</a>-->
+									<button nz-button [nzSize]="'small'" nzType="danger" (click)="cancelEdit(data.id)">Cancel</button>
+
+									<nz-popconfirm [nzTitle]="'Sure to Update?'" (nzOnConfirm)="saveEdit(data.id)">
+										<!--<a nz-popconfirm>Update</a>-->
+										<button nz-button [nzSize]="'small'" nzType="primary" nz-popconfirm>Update</button>
+									</nz-popconfirm>
+								</ng-container>
+							</div>
+						</td>
+					</tr>
+					</tbody>
+				</nz-table>
+			</nz-tab>
+		</nz-tabset>
+	</nz-card-tab>
+
+</nz-card>

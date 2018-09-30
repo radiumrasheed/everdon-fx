@@ -27,7 +27,7 @@
 				<div class="text-right">
 					<h1 class="font-weight-bold">
 						<sup>₦</sup>
-						{{ bucket.rate | number:'2.' }}/{{ bucket.id | currency}}
+						{{ bucket.rate | number:'2.' }}/{{ bucket.id | product}}
 					</h1>
 				</div>
 			</div>
@@ -108,13 +108,13 @@
 							</td>
 							<td>
 								<h6>
-									<li class="p-l-0">{{ transaction?.buying_product_id | currency }}/{{ transaction?.selling_product_id | currency }}</li>
+									<li class="p-l-0">{{ transaction?.buying_product_id | product }}/{{ transaction?.selling_product_id | product }}</li>
 								</h6>
 							</td>
 							<td><span class="label"
 							          [ngClass]="transaction?.transaction_status_id | status:'class':'client'">{{ transaction?.transaction_status_id | status:null:'client' }}</span>
 							</td>
-							<td>{{ transaction?.buying_product_id | currency:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
+							<td>{{ transaction?.buying_product_id | product:'sign' }}{{ transaction?.amount | number:'1.1-2' }}</td>
 						</tr>
 						</tbody>
 					</table>
@@ -162,7 +162,7 @@
 						<div class="form-group col-6 offset-3 m-t-20">
 							<label for="_amount" class="form-control-label">Amount</label>
 							<div class="input-group">
-								<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | currency:'sign' }}</span>
+								<span class="input-group-addon" *ngIf="transaction.buying_product_id">{{ transaction.buying_product_id | product:'sign' }}</span>
 								<input type="number" [(ngModel)]="transaction.amount" id="_amount" name="_amount" class="form-control" placeholder="Amount to buy">
 							</div>
 						</div>

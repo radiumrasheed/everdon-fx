@@ -84,13 +84,13 @@
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Outward Currency</small>
 														<br>
-														<p class="text-dark">{{ transaction.buying_product_id | currency:'desc' }}</p>
+														<p class="text-dark">{{ transaction.buying_product_id | product:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Amount Out</small>
 														<br>
-														<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{transaction.amount | number:'1.1-2' }}</p>
+														<p class="text-dark">{{transaction.buying_product_id | product:'sign' }}{{transaction.amount | number:'1.1-2' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
@@ -110,14 +110,14 @@
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Inward Currency</small>
 														<br>
-														<p class="text-dark">{{ transaction.selling_product_id | currency:'desc' }}</p>
+														<p class="text-dark">{{ transaction.selling_product_id | product:'desc' }}</p>
 													</div>
 
 													<div class="col-md-3 col-xs-6 b-r">
 														<small class="text-muted">Amount In</small>
 														<br>
 														<p class="text-dark" *ngIf="transaction.calculated_amount">
-															{{ transaction.selling_product_id | currency:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
+															{{ transaction.selling_product_id | product:'sign' }}{{ transaction.calculated_amount | number:'1.1-2' }}
 														</p>
 													</div>
 
@@ -311,11 +311,11 @@
 															<span class="text-danger">*</span>
 														</label>
 														<div class="input-group">
-															<span class="input-group-addon" *ngIf="transaction?.dynamic_product">{{ transaction?.dynamic_product | currency:'sign' }}</span>
+															<span class="input-group-addon" *ngIf="transaction?.dynamic_product">{{ transaction?.dynamic_product | product:'sign' }}</span>
 															<input type="text" class="form-control" [(ngModel)]="transaction.local_rate"
 															       (keyup)="updateRateAndCalculatedAmount()" [disabled]="!can_be_treated"
 															       name="rate" id="rate" aria-label="Amount (to the nearest dollar)">
-															<span class="input-group-addon disabled" *ngIf="transaction?.fixed_product">/ {{transaction?.fixed_product | currency }}</span>
+															<span class="input-group-addon disabled" *ngIf="transaction?.fixed_product">/ {{transaction?.fixed_product | product }}</span>
 														</div>
 
 													</div>
@@ -327,7 +327,7 @@
 															<span *ngIf="transaction" class="text-danger">*</span>
 														</label>
 														<div class="input-group">
-															<span class="input-group-addon">{{ transaction.selling_product_id | currency:'sign' }}</span>
+															<span class="input-group-addon">{{ transaction.selling_product_id | product:'sign' }}</span>
 															<input type="text" class="form-control" disabled
 															       [ngModel]="transaction.calculated_amount"
 															       name="calculated_amount" id="calculated_amount"
@@ -645,19 +645,19 @@
 								<div class="col-md-3 col-xs-6 b-r">
 									<small class="text-muted">Currency</small>
 									<br>
-									<p class="text-dark">{{ transaction.buying_product_id | currency:'desc' }}</p>
+									<p class="text-dark">{{ transaction.buying_product_id | product:'desc' }}</p>
 								</div>
 								<div class="col-md-3 col-xs-6 b-r">
 									<small class="text-muted">Exchange Rate</small>
 									<br>
-									<p class="text-dark"> 1 {{transaction.buying_product_id | currency }} = {{
-										transaction.rate | number:'1.1-2' }} {{ transaction.selling_product_id | currency
+									<p class="text-dark"> 1 {{transaction.buying_product_id | product }} = {{
+										transaction.rate | number:'1.1-2' }} {{ transaction.selling_product_id | product
 										}}</p>
 								</div>
 								<div class="col-md-3 col-xs-6 b-r">
 									<small class="text-muted">Amount</small>
 									<br>
-									<p class="text-dark">{{transaction.buying_product_id | currency:'sign' }}{{
+									<p class="text-dark">{{transaction.buying_product_id | product:'sign' }}{{
 										transaction.amount | number:'1.1-2' }}</p>
 								</div>
 
@@ -670,9 +670,9 @@
 					<div class="col-md-12">
 						<div class="pull-right m-t-30 text-right">
 							<!--<p>Sub - Total amount: $13,848</p>-->
-							<p>vat (0%) : {{transaction.selling_product_id | currency:'sign' }}{{ 0 | number:'1.1-2' }} </p>
+							<p>vat (0%) : {{transaction.selling_product_id | product:'sign' }}{{ 0 | number:'1.1-2' }} </p>
 							<hr>
-							<h3><b>Total :</b> {{transaction.selling_product_id | currency:'sign' }}{{
+							<h3><b>Total :</b> {{transaction.selling_product_id | product:'sign' }}{{
 								transaction.calculated_amount | number:'1.1-2' }} </h3>
 						</div>
 						<div class="clearfix"></div>
