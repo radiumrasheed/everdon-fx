@@ -47,6 +47,11 @@ export class HttpErrorHandler {
 					break;
 				}
 
+				case (e.status === 401 && ['token_not_provided', 'token_expired'].includes(e.error.error)): {
+					message = 'Authentication Failed! Please sign in again.';
+					break;
+				}
+
 				case e.status === 422: {
 					for (const error of Object.keys(e.error.errors.message)) {
 						message = e.error.errors.message[error];

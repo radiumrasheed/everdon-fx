@@ -8,6 +8,7 @@ import { LoggingInterceptor } from './logging-interceptor';
 import { NoopInterceptor } from './noop-interceptor';
 import { TrimNameInterceptor } from './trim-name-interceptor';
 import { UploadInterceptor } from './upload-interceptor';
+import { JwtInterceptor } from './jwt-interceptor';
 
 
 /** Http interceptor providers in outside-in order */
@@ -18,6 +19,7 @@ export const HttpInterceptorProviders = [
 	{provide: HTTP_INTERCEPTORS, useClass: LoggingInterceptor, multi: true},
 	// {provide: HTTP_INTERCEPTORS, useClass: CachingInterceptor, multi: true},
 	// { provide: HTTP_INTERCEPTORS, useClass: UploadInterceptor, multi: true },
+	{provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
 	{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
 ];
 
