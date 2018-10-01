@@ -1,16 +1,16 @@
 import * as _ from 'lodash';
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {CalendarPipe} from 'angular2-moment';
-import {Observable} from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CalendarPipe } from 'angular2-moment';
+import { Observable } from 'rxjs';
 
-import {TransactionService} from '../transaction.service';
-import {AuthService} from '../../services/auth/auth.service';
-import {ProductPipe} from '../../shared/pipes/product.pipe';
-import {TypePipe} from '../../shared/pipes/type.pipe';
-import {StatusPipe} from '../../shared/pipes/status.pipe';
-import {PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES} from '../../shared/meta-data';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import { TransactionService } from '../transaction.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { ProductPipe } from '../../shared/pipes/product.pipe';
+import { TypePipe } from '../../shared/pipes/type.pipe';
+import { StatusPipe } from '../../shared/pipes/status.pipe';
+import { PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES } from '../../shared/meta-data';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 
 @Component({

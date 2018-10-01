@@ -1,4 +1,4 @@
-import {RouteInfo} from './sidebar.metadata';
+import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
 	// Dashboard Routes for admin & client...
@@ -47,6 +47,6 @@ export const ROUTES: RouteInfo[] = [
 	// Currency Routes...
 	{
 		path: '/admin/currency', title: 'Currencies', icon: 'mdi mdi-bank', extralink: false, submenu: [], role: 'admin'
-	},
+	}
 ];
 

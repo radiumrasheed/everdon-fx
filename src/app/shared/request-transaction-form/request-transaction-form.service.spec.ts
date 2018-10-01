@@ -1,6 +1,6 @@
-import {TestBed, inject} from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
-import {RequestTransactionFormService} from './request-transaction-form.service';
+import { RequestTransactionFormService } from './request-transaction-form.service';
 
 describe('RequestTransactionFormService', () => {
 	beforeEach(() => {

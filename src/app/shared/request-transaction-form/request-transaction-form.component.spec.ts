@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {RequestTransactionFormComponent} from './request-transaction-form.component';
+import { RequestTransactionFormComponent } from './request-transaction-form.component';
 
 describe('RequestTransactionFormComponent', () => {
 	let component: RequestTransactionFormComponent;

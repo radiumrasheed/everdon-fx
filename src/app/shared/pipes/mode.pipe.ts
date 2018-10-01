@@ -1,13 +1,15 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {GenericOption} from '../meta-data/genericOption';
+import { Pipe, PipeTransform } from '@angular/core';
+import { GenericOption } from '../meta-data/genericOption';
 import * as _ from 'lodash';
-import {TRANSACTION_MODES} from '../meta-data';
+import { TRANSACTION_MODES } from '../meta-data';
+
 
 @Pipe({
 	name: 'mode'
 })
 export class ModePipe implements PipeTransform {
 	selectedMode: GenericOption;
+
 
 	transform(value: any, args?: any): any {
 		this.selectedMode = _.find(TRANSACTION_MODES, mode => {

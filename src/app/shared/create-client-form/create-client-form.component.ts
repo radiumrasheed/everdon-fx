@@ -1,10 +1,10 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {debounceTime} from 'rxjs/operators';
-import {ToastrService} from 'ngx-toastr';
-import {Subject} from 'rxjs';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { debounceTime } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
 
-import {Client, COUNTRIES} from '../meta-data';
-import {CreateClientFormService} from './create-client-form.service';
+import { Client, COUNTRIES } from '../meta-data';
+import { CreateClientFormService } from './create-client-form.service';
 
 
 @Component({

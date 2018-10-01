@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from '../../services/auth/auth.service';
-import {Router} from '@angular/router';
-import {User} from '../login/user';
-import {ToastrService} from 'ngx-toastr';
-import {COUNTRIES} from '../../shared/meta-data';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { User } from '../login/user';
+import { ToastrService } from 'ngx-toastr';
+import { COUNTRIES } from '../../shared/meta-data';
 
 
 @Component({

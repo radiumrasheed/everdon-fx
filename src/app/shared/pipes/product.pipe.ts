@@ -1,6 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
-import {Product, PRODUCTS} from '../meta-data';
+import { Product, PRODUCTS } from '../meta-data';
+
 
 @Pipe({
 	name: 'product'
@@ -8,6 +9,7 @@ import {Product, PRODUCTS} from '../meta-data';
 export class ProductPipe implements PipeTransform {
 	selectedCurrency: Product;
 	result: string;
+
 
 	transform(value: any, args?: any): any {
 		this.selectedCurrency = _.find(PRODUCTS, currency => {

@@ -1,7 +1,8 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth/auth.service';
-import {User} from '../login/user';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import { User } from '../login/user';
+
 
 @Component({
 	selector: 'app-login',
@@ -12,11 +13,14 @@ export class Login2Component implements OnInit, AfterViewInit {
 
 	public user: User = new User();
 
+
 	constructor(public router: Router, public authService: AuthService) {
 	}
 
+
 	ngOnInit() {
 	}
+
 
 	ngAfterViewInit() {
 		$(function () {
@@ -29,6 +33,7 @@ export class Login2Component implements OnInit, AfterViewInit {
 		});
 	}
 
+
 	login() {
 		this.authService.adminLogin(this.user)
 			.subscribe(() => {
@@ -38,6 +43,7 @@ export class Login2Component implements OnInit, AfterViewInit {
 				}
 			});
 	}
+
 
 	logout() {
 		this.authService.logout();

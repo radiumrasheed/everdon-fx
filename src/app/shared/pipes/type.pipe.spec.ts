@@ -1,4 +1,4 @@
-import {TypePipe} from './type.pipe';
+import { TypePipe } from './type.pipe';
 
 describe('TypePipe', () => {
 	it('create an instance', () => {

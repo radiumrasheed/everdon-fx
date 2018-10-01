@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {Transaction} from '../../shared/meta-data';
-import {Observable} from 'rxjs/Observable';
-import {AuthService} from '../../services/auth/auth.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Transaction } from '../../shared/meta-data';
+import { Observable } from 'rxjs/Observable';
+import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
 	selector: 'app-request-transaction',
@@ -15,8 +16,10 @@ export class RequestTransactionComponent implements OnInit {
 
 	transaction: Transaction;
 
+
 	constructor(private auth: AuthService, private router: Router) {
 	}
+
 
 	ngOnInit() {
 		if (!this.transaction) {
@@ -26,6 +29,7 @@ export class RequestTransactionComponent implements OnInit {
 		this.roles$ = this.auth.roles;
 		this.roles$.subscribe(roles => this.role = roles[0]);
 	}
+
 
 	public onSubmittedSuccessfully($event: any) {
 		if (this.role === 'client') {

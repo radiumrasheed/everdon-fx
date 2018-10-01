@@ -1,11 +1,11 @@
-import {Account} from './account';
-import {Event} from './event';
-import {Client} from './client';
-import {Transaction} from './transaction';
-import {Product} from './product';
-import {Organization} from './organization';
-import {GenericOption} from './genericOption';
-import {_TYPE, EUR, GBP, NGN, USD} from './constant';
+import { Account } from './account';
+import { Event } from './event';
+import { Client } from './client';
+import { Transaction } from './transaction';
+import { Product } from './product';
+import { Organization } from './organization';
+import { GenericOption } from './genericOption';
+import { _TYPE, EUR, GBP, NGN, USD } from './constant';
 
 export {
 	Account,

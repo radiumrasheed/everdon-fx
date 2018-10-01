@@ -1,6 +1,6 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {ExpressTransactionComponent} from './express-transaction.component';
+import { ExpressTransactionComponent } from './express-transaction.component';
 
 describe('ExpressTransactionComponent', () => {
 	let component: ExpressTransactionComponent;

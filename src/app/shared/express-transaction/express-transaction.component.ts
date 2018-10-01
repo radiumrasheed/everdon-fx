@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {Subject} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
-import {ExpressService, ExpressTransaction} from './express.service';
-import {PRODUCTS, Transaction} from '../meta-data';
+import { ExpressService, ExpressTransaction } from './express.service';
+import { PRODUCTS, Transaction } from '../meta-data';
 
 
 @Component({

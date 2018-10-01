@@ -1,10 +1,10 @@
 import * as _ from 'lodash';
-import {finalize} from 'rxjs/operators';
-import {NzMessageService} from 'ng-zorro-antd';
-import {Component, OnInit} from '@angular/core';
+import { finalize } from 'rxjs/operators';
+import { NzMessageService } from 'ng-zorro-antd';
+import { Component, OnInit } from '@angular/core';
 
-import {CurrencyService} from '../currency.service';
-import {Product} from '../../shared/meta-data';
+import { CurrencyService } from '../currency.service';
+import { Product } from '../../shared/meta-data';
 
 
 @Component({

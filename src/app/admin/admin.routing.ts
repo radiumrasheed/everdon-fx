@@ -1,10 +1,10 @@
-import {RouterModule, Routes} from '@angular/router';
-import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component';
-import {AdminComponent} from './admin.component';
-import {CreateClientComponent} from './create-client/create-client.component';
-import {ClientsComponent} from './clients/clients.component';
-import {ViewClientComponent} from './view-client/view-client.component';
-import {NgModule} from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { AdminComponent } from './admin.component';
+import { CreateClientComponent } from './create-client/create-client.component';
+import { ClientsComponent } from './clients/clients.component';
+import { ViewClientComponent } from './view-client/view-client.component';
+import { NgModule } from '@angular/core';
 
 export const AdminRoutes: Routes = [
 	{
@@ -67,7 +67,7 @@ export const AdminRoutes: Routes = [
 					title: 'Currencies',
 					urls: [{title: 'Admin', url: '/admin'}, {title: 'Currencies'}]
 				}
-			},
+			}
 		]
 	}
 ];

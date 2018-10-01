@@ -1,9 +1,9 @@
-import {TestBed, async} from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 
-import {AppComponent} from './app.component';
-import {SpinnerComponent} from './shared/spinner.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {ToastrService} from 'ngx-toastr';
+import { AppComponent } from './app.component';
+import { SpinnerComponent } from './shared/spinner.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ToastrService } from 'ngx-toastr';
 
 let toastrServiceStub: Partial<ToastrService>;
 let toastrService: any;
@@ -15,7 +15,7 @@ describe('AppComponent', () => {
 		TestBed.configureTestingModule({
 			declarations: [
 				AppComponent,
-				SpinnerComponent,
+				SpinnerComponent
 			],
 			providers: [{provide: ToastrService, useValue: toastrServiceStub}],
 			imports: [RouterTestingModule]

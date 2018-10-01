@@ -1,10 +1,10 @@
-import {Component, AfterViewInit, OnInit, Input} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ROUTES} from './menu-items';
-import {RouteInfo} from './sidebar.metadata';
-import {Router, ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../services/auth/auth.service';
-import {Observable} from 'rxjs';
+import { Component, AfterViewInit, OnInit, Input } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ROUTES } from './menu-items';
+import { RouteInfo } from './sidebar.metadata';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
+import { Observable } from 'rxjs';
 
 declare var $: any;
 

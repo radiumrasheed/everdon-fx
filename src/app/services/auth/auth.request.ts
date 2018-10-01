@@ -1,8 +1,9 @@
-import {BaseRequestOptions} from '@angular/http';
-import {TOKEN_NAME} from './auth.service';
+import { BaseRequestOptions } from '@angular/http';
+import { TOKEN_NAME } from './auth.service';
 
 const AUTH_HEADER_KEY = 'Authorization';
 const AUTH_PREFIX = 'Bearer';
+
 
 export class AuthRequestOptions extends BaseRequestOptions {
 

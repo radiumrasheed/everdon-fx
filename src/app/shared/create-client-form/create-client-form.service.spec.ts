@@ -1,10 +1,10 @@
-import {TestBed, inject} from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
-import {CreateClientFormService} from './create-client-form.service';
-import {HttpClient} from '@angular/common/http';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {HttpErrorHandler} from '../../services/http-error-handler.service';
-import {ToastrService} from 'ngx-toastr';
+import { CreateClientFormService } from './create-client-form.service';
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpErrorHandler } from '../../services/http-error-handler.service';
+import { ToastrService } from 'ngx-toastr';
 
 describe('CreateClientFormService', () => {
 	let httpClient: HttpClient;

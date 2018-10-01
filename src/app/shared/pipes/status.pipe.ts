@@ -1,6 +1,7 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import * as _ from 'lodash';
-import {GenericOption, TRANSACTION_STATUSES} from '../meta-data';
+import { GenericOption, TRANSACTION_STATUSES } from '../meta-data';
+
 
 @Pipe({
 	name: 'status'
@@ -8,6 +9,7 @@ import {GenericOption, TRANSACTION_STATUSES} from '../meta-data';
 export class StatusPipe implements PipeTransform {
 	selectedStatus: GenericOption;
 	result: string;
+
 
 	transform(value: any, ...args): any {
 		const [kind, user, ...rest] = args;

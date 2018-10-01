@@ -1,14 +1,14 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {AppConfig} from '../../app.config';
+import { AppConfig } from '../../app.config';
 import * as jwt_decode from 'jwt-decode';
 import * as _ from 'lodash';
 
 
-import {BehaviorSubject, Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
-import {HandleError, HttpErrorHandler} from '../http-error-handler.service';
-import {catchError, map, tap} from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { HandleError, HttpErrorHandler } from '../http-error-handler.service';
+import { catchError, map, tap } from 'rxjs/operators';
 
 
 export const TOKEN_NAME = 'jwt_token';
@@ -20,67 +20,69 @@ export const CLIENT_ROLES = ['client'];
 
 @Injectable()
 export class AuthService {
-	public redirectUrl: string;
 	private url = AppConfig.API_URL;
 	private readonly handleError: HandleError;
+	public redirectUrl: string;
 
-	constructor(private http: HttpClient,
-	            private httpErrorHandler: HttpErrorHandler) {
-		this.handleError = httpErrorHandler.createHandleError('TransactionService');
-
-	}
 
 	private _isLoggedIn = new BehaviorSubject<boolean>(false);
+
 
 	get isLoggedIn() {
 		return this._isLoggedIn.asObservable();
 	}
 
+
 	private _role = new BehaviorSubject<string>('');
+
 
 	get role() {
 		return this._role.asObservable();
 	}
 
+
 	private _roles = new BehaviorSubject<any>([]);
+
 
 	get roles() {
 		return this._roles.asObservable();
 	}
 
+
 	public _user = new BehaviorSubject<any>({});
+
 
 	get user() {
 		return this._user.asObservable();
 	}
 
-	static getToken(): string {
-		return localStorage.getItem(TOKEN_NAME);
+
+	constructor(private http: HttpClient,
+							private httpErrorHandler: HttpErrorHandler) {
+		this.handleError = httpErrorHandler.createHandleError('TransactionService');
+
 	}
 
-	static getRoleToken(): string {
-		return localStorage.getItem(ROLE_TOKEN_NAME);
-	}
-
-	static getUser(): any {
-		return localStorage.getItem(USER_);
-	}
 
 	private static setToken(token: string): void {
 		localStorage.setItem(TOKEN_NAME, 'Bearer ' + token);
 	}
 
+
 	private static setRoleToken(token: string): void {
 		localStorage.setItem(ROLE_TOKEN_NAME, 'Bearer ' + token);
 	}
+
 
 	private static setUser(user: any): void {
 		localStorage.setItem(USER_, user);
 	}
 
+
 	private static removeTokens(): void {
 		localStorage.clear();
 	}
+
 
 	private static getTokenExpirationDate(token: string): Date {
 		const decoded = jwt_decode(token);
@@ -94,6 +96,7 @@ export class AuthService {
 		return date;
 	}
 
+
 	private static getDecodedToken(token: string): any {
 		const decoded = jwt_decode(token);
 
@@ -102,6 +105,21 @@ export class AuthService {
 		}
 
 		return decoded;
+	}
+
+
+	static getToken(): string {
+		return localStorage.getItem(TOKEN_NAME);
+	}
+
+
+	static getRoleToken(): string {
+		return localStorage.getItem(ROLE_TOKEN_NAME);
+	}
+
+
+	static getUser(): any {
+		return localStorage.getItem(USER_);
 	}
 
 
@@ -244,6 +262,7 @@ export class AuthService {
 		this._isLoggedIn.next(false);
 		this._roles.next([]);
 	}
+
 
 	recover(user): Observable<any> {
 		return this.http

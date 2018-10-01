@@ -1,8 +1,8 @@
-import {RouterModule, Routes} from '@angular/router';
-import {DashboardComponent} from './dashboard/dashboard.component';
-import {ProfileComponent} from './profile/profile.component';
-import {MeComponent} from './me.component';
-import {NgModule} from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MeComponent } from './me.component';
+import { NgModule } from '@angular/core';
 
 export const MeRoutes: Routes = [
 	{
@@ -34,7 +34,7 @@ export const MeRoutes: Routes = [
 					title: 'Transactions',
 					urls: [{title: 'Me', url: '/me'}, {title: 'Transactions'}]
 				}
-			},
+			}
 		]
 	}
 ];

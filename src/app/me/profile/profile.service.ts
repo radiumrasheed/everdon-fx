@@ -1,19 +1,22 @@
-import {Injectable} from '@angular/core';
-import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
-import {AppConfig} from '../../app.config';
-import {HttpClient} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {Account, Client} from '../../shared/meta-data';
+import { Injectable } from '@angular/core';
+import { HandleError, HttpErrorHandler } from '../../services/http-error-handler.service';
+import { AppConfig } from '../../app.config';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Account, Client } from '../../shared/meta-data';
+
 
 @Injectable()
 export class ProfileService {
 	private readonly clientUrl = AppConfig.API_URL + '/clients';
 	private readonly handleError: HandleError;
 
+
 	constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
 		this.handleError = httpErrorHandler.createHandleError('ProfileService');
 	}
+
 
 	/** GET: get a transaction */
 	getMyProfile(): Observable<Client> {
@@ -24,6 +27,7 @@ export class ProfileService {
 			);
 	}
 
+
 	updateProfile(client: FormData, id: number): Observable<Client> {
 		return this.http.post<Client>(this.clientUrl + '/' + id, client, {headers: {'Content-Type': 'ignore'}})
 			.pipe(
@@ -31,6 +35,7 @@ export class ProfileService {
 				catchError(this.handleError<Client>('Get Profile', null))
 			);
 	}
+
 
 	// Create a new Account for the Customer
 	createAccount(account: Account, id: number): Observable<Account[]> {
@@ -40,6 +45,7 @@ export class ProfileService {
 				catchError(this.handleError<Account[]>('Create Account', null))
 			);
 	}
+
 
 	updateIdentity(client: FormData, id: number): Observable<Client> {
 		return this.http.post<Client>(`${this.clientUrl}/${id}/identity`, client, {headers: {'Content-Type': 'ignore'}})

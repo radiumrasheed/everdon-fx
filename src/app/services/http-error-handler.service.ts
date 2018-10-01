@@ -1,13 +1,14 @@
-import {Injectable} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 
-import {Observable, of} from 'rxjs';
+import { Observable, of } from 'rxjs';
 
-import {ToastrService} from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
 	<T> (operation?: string, result?: T) => (error: HttpErrorResponse) => Observable<T>;
+
 
 /** Handles HttpClient errors */
 @Injectable()
@@ -16,8 +17,10 @@ export class HttpErrorHandler {
 	createHandleError = (serviceName = '') => <T>
 	(operation = 'operation', result = {} as T) => this.handleError(serviceName, operation, result);
 
+
 	constructor(private toastr: ToastrService) {
 	}
+
 
 	/**
 	 * Returns a function that handles Http operation failures.

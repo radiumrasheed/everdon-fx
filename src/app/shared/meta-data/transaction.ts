@@ -1,69 +1,11 @@
-import {Client} from './client';
-import {Account} from './account';
-import {Event} from './event';
-import {User} from './user';
-import {_TYPE, NGN} from './constant';
+import { Client } from './client';
+import { Account } from './account';
+import { Event } from './event';
+import { User } from './user';
+import { _TYPE, NGN } from './constant';
 
 
 export class Transaction {
-	private _buying_product_id?: number;
-
-
-	get buying_product_id(): number {
-		return this._buying_product_id;
-	}
-
-
-	private _local_rate?: any;
-
-
-	get local_rate(): any {
-		return this._local_rate;
-	}
-
-
-	set local_rate(value: any) {
-		this._local_rate = value;
-		this.setRate(value);
-		this.setCurrencyRate();
-	}
-
-
-	set buying_product_id(value: number) {
-		this._buying_product_id = value;
-		this.setTransactionType();
-		this.setCurrencyRate();
-	}
-
-
-	set selling_product_id(value: number) {
-		this._selling_product_id = value;
-		this.setTransactionType();
-		this.setCurrencyRate();
-	}
-
-
-	get selling_product_id(): number {
-		return this._selling_product_id;
-	}
-
-
-	private _selling_product_id?: number;
-
-
-	private _transaction_type_id?: number | string;
-
-
-	get transaction_type_id(): number | string {
-		return this._transaction_type_id;
-	}
-
-
-	set transaction_type_id(value: number | string) {
-		this._transaction_type_id = value;
-	}
-
-
 	account: Account;
 	account_id: number;
 	account_name?: string;
@@ -110,6 +52,64 @@ export class Transaction {
 	transaction_ref?: string;
 	transaction_status_id?: number | string;
 	updated_at?: string;
+
+
+	private _buying_product_id?: number;
+
+
+	get buying_product_id(): number {
+		return this._buying_product_id;
+	}
+
+
+	set buying_product_id(value: number) {
+		this._buying_product_id = value;
+		this.setTransactionType();
+		this.setCurrencyRate();
+	}
+
+
+	private _local_rate?: any;
+
+
+	get local_rate(): any {
+		return this._local_rate;
+	}
+
+
+	set local_rate(value: any) {
+		this._local_rate = value;
+		this.setRate(value);
+		this.setCurrencyRate();
+	}
+
+
+	private _selling_product_id?: number;
+
+
+	get selling_product_id(): number {
+		return this._selling_product_id;
+	}
+
+
+	set selling_product_id(value: number) {
+		this._selling_product_id = value;
+		this.setTransactionType();
+		this.setCurrencyRate();
+	}
+
+
+	private _transaction_type_id?: number | string;
+
+
+	get transaction_type_id(): number | string {
+		return this._transaction_type_id;
+	}
+
+
+	set transaction_type_id(value: number | string) {
+		this._transaction_type_id = value;
+	}
 
 
 	constructor() {

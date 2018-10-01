@@ -1,11 +1,12 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
-import {AuthService} from '../../services/auth/auth.service';
-import {User} from './user';
-import {Subject} from 'rxjs';
-import {debounceTime} from 'rxjs/operators';
+import { AuthService } from '../../services/auth/auth.service';
+import { User } from './user';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+
 
 @Component({
 	selector: 'app-login',
@@ -22,8 +23,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	_success = new Subject<string>();
 	_error = new Subject<string>();
 
+
 	constructor(public router: Router, public authService: AuthService) {
 	}
+
 
 	ngOnInit() {
 		this._error.subscribe((message) => this.errorMessage = message);
@@ -36,6 +39,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			debounceTime(10000)
 		).subscribe(() => this.successMessage = null);
 	}
+
 
 	ngAfterViewInit() {
 		$(function () {
@@ -52,6 +56,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			$('#recoverform').slideUp();
 		});
 	}
+
 
 	login() {
 		this.submitting = true;
@@ -75,6 +80,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			);
 	}
 
+
 	recover() {
 		this.submitting = true;
 		this.authService.recover(this.user)
@@ -91,6 +97,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				}
 			);
 	}
+
 
 	logout() {
 		this.authService.logout();

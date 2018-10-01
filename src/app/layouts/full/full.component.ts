@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
 
 @Component({
 	selector: 'app-full-layout',
@@ -19,8 +20,10 @@ export class FullComponent implements OnInit {
 
 	public config: PerfectScrollbarConfigInterface = {};
 
+
 	constructor(public router: Router) {
 	}
+
 
 	ngOnInit() {
 		// todo Add Signed In condition...

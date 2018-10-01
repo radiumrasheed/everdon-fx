@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {catchError, map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
-import {HandleError, HttpErrorHandler} from '../../services/http-error-handler.service';
-import {HttpClient} from '@angular/common/http';
-import {AppConfig} from '../../app.config';
+import { Injectable } from '@angular/core';
+import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { HandleError, HttpErrorHandler } from '../../services/http-error-handler.service';
+import { HttpClient } from '@angular/common/http';
+import { AppConfig } from '../../app.config';
+
 
 export class ExpressTransaction {
 	first_name?: string;
@@ -30,9 +31,11 @@ export class ExpressService {
 	transaction: ExpressTransaction;
 	transactionUrl: string = AppConfig.API_URL + '/transactions/express';
 
+
 	constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
 		this.handleError = httpErrorHandler.createHandleError('TransactionService');
 	}
+
 
 	requestTransaction(transaction: ExpressTransaction): Observable<ExpressTransaction> {
 		return this.http.post<ExpressTransaction>(this.transactionUrl, transaction)

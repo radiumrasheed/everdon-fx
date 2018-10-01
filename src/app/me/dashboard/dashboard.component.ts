@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import * as _ from 'lodash';
 
-import {DashboardService} from './dashboard.service';
-import {Account, PRODUCTS, Transaction} from '../../shared/meta-data';
-import {TransactionService} from '../../transaction/transaction.service';
+import { DashboardService } from './dashboard.service';
+import { Account, PRODUCTS, Transaction } from '../../shared/meta-data';
+import { TransactionService } from '../../transaction/transaction.service';
 
 
 @Component({

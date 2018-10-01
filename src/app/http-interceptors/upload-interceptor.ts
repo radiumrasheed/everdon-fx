@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
 	HttpEvent, HttpInterceptor, HttpHandler,
 	HttpRequest, HttpResponse,
 	HttpEventType, HttpProgressEvent
 } from '@angular/common/http';
 
-import {Observable, of} from 'rxjs';
+import { Observable, of } from 'rxjs';
+
 
 /** Simulate server replying to file upload request */
 @Injectable()
@@ -18,6 +19,7 @@ export class UploadInterceptor implements HttpInterceptor {
 		return createUploadEvents(delay);
 	}
 }
+
 
 /** Create simulation of upload event stream */
 function createUploadEvents(delay: number) {

@@ -1,6 +1,6 @@
-import {TestBed, inject} from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 
-import {AdminDashboardService} from './admin-dashboard.service';
+import { AdminDashboardService } from './admin-dashboard.service';
 
 describe('AdminDashboardService', () => {
 	beforeEach(() => {

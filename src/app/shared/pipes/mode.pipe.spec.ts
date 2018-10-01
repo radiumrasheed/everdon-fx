@@ -1,4 +1,4 @@
-import {ModePipe} from './mode.pipe';
+import { ModePipe } from './mode.pipe';
 
 describe('ModePipe', () => {
 	it('create an instance', () => {

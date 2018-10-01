@@ -1,14 +1,14 @@
-import {Routes} from '@angular/router';
+import { Routes } from '@angular/router';
 
-import {AdminGuard} from './guards/admin.guard';
-import {AuthGuard} from './guards/auth/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { AuthGuard } from './guards/auth/auth.guard';
 
-import {FullComponent} from './layouts/full/full.component';
-import {BlankComponent} from './layouts/blank/blank.component';
-import {LoginComponent} from './authentication/login/login.component';
-import {SignupComponent} from './authentication/signup/signup.component';
-import {Login2Component} from './authentication/login2/login2.component';
-import {NotFoundComponent} from './authentication/404/not-found.component';
+import { FullComponent } from './layouts/full/full.component';
+import { BlankComponent } from './layouts/blank/blank.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { SignupComponent } from './authentication/signup/signup.component';
+import { Login2Component } from './authentication/login2/login2.component';
+import { NotFoundComponent } from './authentication/404/not-found.component';
 
 export const AppRoutes: Routes = [
 	{

@@ -1,8 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {RequestTransactionComponent} from './request-transaction/request-transaction.component';
-import {TransactionDetailsComponent} from './transaction-details/transaction-details.component';
-import {ListTransactionsComponent} from './list-transactions/list-transactions.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { RequestTransactionComponent } from './request-transaction/request-transaction.component';
+import { TransactionDetailsComponent } from './transaction-details/transaction-details.component';
+import { ListTransactionsComponent } from './list-transactions/list-transactions.component';
 
 export const TransactionRoutes: Routes = [
 	{
@@ -37,12 +37,14 @@ export const TransactionRoutes: Routes = [
 	}
 ];
 
+
 @NgModule({
 	imports: [RouterModule.forChild(TransactionRoutes)],
 	exports: [RouterModule]
 })
 export class TransactionRoutingModule {
 }
+
 
 export const TransactionComponents = [TransactionDetailsComponent, RequestTransactionComponent, ListTransactionsComponent];
 

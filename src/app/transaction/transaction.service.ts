@@ -1,11 +1,12 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {Account, Client, Product, Transaction} from '../shared/meta-data';
-import {HttpClient} from '@angular/common/http';
-import {HandleError, HttpErrorHandler} from '../services/http-error-handler.service';
-import {AppConfig} from '../app.config';
-import {Observable, of} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import { Account, Client, Product, Transaction } from '../shared/meta-data';
+import { HttpClient } from '@angular/common/http';
+import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
+import { AppConfig } from '../app.config';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+
 
 @Injectable()
 export class TransactionService {
@@ -15,9 +16,11 @@ export class TransactionService {
 	private readonly clientUrl = AppConfig.API_URL + '/clients';
 	private readonly handleError: HandleError;
 
+
 	constructor(private http: HttpClient, httpErrorHandler: HttpErrorHandler) {
 		this.handleError = httpErrorHandler.createHandleError('TransactionService');
 	}
+
 
 	/** GET: get the list of all videos */
 	getProducts(): Observable<Product[]> {
@@ -28,6 +31,7 @@ export class TransactionService {
 			);
 	}
 
+
 	/** GET: get the list of all videos */
 	getTransactions(): Observable<Transaction[]> {
 		return this.http.get<any>(this.transactionUrl)
@@ -36,6 +40,7 @@ export class TransactionService {
 				catchError(this.handleError<Transaction[]>('Get Transactions', []))
 			);
 	}
+
 
 	/** GET: get a transaction */
 	getTransaction(id: string): Observable<Transaction> {
@@ -46,6 +51,7 @@ export class TransactionService {
 			);
 	}
 
+
 	requestTransaction(transaction: Transaction): Observable<Transaction> {
 		return this.http.post<Transaction>(this.transactionUrl, transaction)
 			.pipe(
@@ -53,6 +59,7 @@ export class TransactionService {
 				catchError(this.handleError<Transaction>('Request Transaction', null))
 			);
 	}
+
 
 	treatTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/treat', transaction)
@@ -62,6 +69,7 @@ export class TransactionService {
 			);
 	}
 
+
 	approveTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/approve', transaction)
 			.pipe(
@@ -70,6 +78,7 @@ export class TransactionService {
 			);
 	}
 
+
 	fulfilTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.put<Transaction>(this.transactionUrl + '/' + id + '/fulfil', transaction)
 			.pipe(
@@ -77,6 +86,7 @@ export class TransactionService {
 				catchError(this.handleError<Transaction>('Get Transaction', null))
 			);
 	}
+
 
 	cancelTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/cancel', transaction)
@@ -95,6 +105,7 @@ export class TransactionService {
 			);
 	}
 
+
 	updateTransaction(transaction: Transaction, id: string): Observable<Transaction> {
 		return this.http.patch<Transaction>(this.transactionUrl + '/' + id + '/update', transaction)
 			.pipe(
@@ -103,6 +114,7 @@ export class TransactionService {
 			);
 	}
 
+
 	getAccounts(): Observable<Account[]> {
 		return this.http.get<any>(this.accountUrl)
 			.pipe(
@@ -110,6 +122,7 @@ export class TransactionService {
 				// catchError(err => Observable.of([]))
 			);
 	}
+
 
 	searchClients(term: string): Observable<Client[]> {
 		if (term === '' || term.length < 3) {
@@ -120,6 +133,7 @@ export class TransactionService {
 				map(response => response['data']['clients'])
 			);
 	}
+
 
 	getClientAccounts(client_id: any): Observable<Account[]> {
 		return this.http.get<any>(`${this.clientUrl}/${client_id}/accounts`)

@@ -1,17 +1,19 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
 	HttpEvent, HttpInterceptor, HttpHandler,
 	HttpRequest, HttpResponse
 } from '@angular/common/http';
 
-import {Observable} from 'rxjs';
-import {finalize, tap} from 'rxjs/operators';
-import {MessageService} from '../services/message.service';
+import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
+import { MessageService } from '../services/message.service';
+
 
 @Injectable()
 export class LoggingInterceptor implements HttpInterceptor {
 	constructor(private messenger: MessageService) {
 	}
+
 
 	intercept(req: HttpRequest<any>, next: HttpHandler) {
 		const started = Date.now();

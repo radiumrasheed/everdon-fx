@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {CalendarPipe} from 'angular2-moment';
+import { Component, OnInit } from '@angular/core';
+import { CalendarPipe } from 'angular2-moment';
 
-import {Client} from '../../shared/meta-data';
-import {CreateClientFormService} from '../../shared/create-client-form/create-client-form.service';
+import { Client } from '../../shared/meta-data';
+import { CreateClientFormService } from '../../shared/create-client-form/create-client-form.service';
 
 
 @Component({

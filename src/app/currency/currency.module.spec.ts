@@ -1,4 +1,4 @@
-import {CurrencyModule} from './currency.module';
+import { CurrencyModule } from './currency.module';
 
 describe('CurrencyModule', () => {
 	let currencyModule: CurrencyModule;

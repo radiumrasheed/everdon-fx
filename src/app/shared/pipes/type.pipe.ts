@@ -1,7 +1,8 @@
-import {Pipe, PipeTransform} from '@angular/core';
-import {GenericOption} from '../meta-data/genericOption';
+import { Pipe, PipeTransform } from '@angular/core';
+import { GenericOption } from '../meta-data/genericOption';
 import * as _ from 'lodash';
-import {TRANSACTION_TYPES} from '../meta-data';
+import { TRANSACTION_TYPES } from '../meta-data';
+
 
 @Pipe({
 	name: 'type'

@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ProfileService} from './profile.service';
-import {Account, BANKS, Client} from '../../shared/meta-data';
-import {ToastrService} from 'ngx-toastr';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {AppConfig} from '../../app.config';
-import {AuthService} from '../../services/auth/auth.service';
-import {FileHolder} from 'angular2-image-upload';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ProfileService } from './profile.service';
+import { Account, BANKS, Client } from '../../shared/meta-data';
+import { ToastrService } from 'ngx-toastr';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { AppConfig } from '../../app.config';
+import { AuthService } from '../../services/auth/auth.service';
+import { FileHolder } from 'angular2-image-upload';
 
 
 @Component({

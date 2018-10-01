@@ -1,6 +1,6 @@
-import {RouterModule, Routes} from '@angular/router';
-import {NgModule} from '@angular/core';
-import {ListCurrenciesComponent} from './list-currencies/list-currencies.component';
+import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { ListCurrenciesComponent } from './list-currencies/list-currencies.component';
 
 export const CurrencyRoutes: Routes = [
 	{

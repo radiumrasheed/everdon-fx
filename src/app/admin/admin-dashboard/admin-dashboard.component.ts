@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
-import {AdminDashboardService} from './admin-dashboard.service';
-import {AuthService} from '../../services/auth/auth.service';
-import {Event, Transaction} from '../../shared/meta-data';
-import {Loading} from '../../shared/meta-data/loading';
-import {finalize} from 'rxjs/operators';
+import { AdminDashboardService } from './admin-dashboard.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { Event, Transaction } from '../../shared/meta-data';
+import { Loading } from '../../shared/meta-data/loading';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({

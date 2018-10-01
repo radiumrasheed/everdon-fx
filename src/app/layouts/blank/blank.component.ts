@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 
 @Component({
-	selector: 'blank-layout',
+	selector: 'app-blank-layout',
 	templateUrl: './blank.component.html',
 	styleUrls: []
 })

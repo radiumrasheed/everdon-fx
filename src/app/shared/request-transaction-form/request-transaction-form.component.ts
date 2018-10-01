@@ -1,15 +1,15 @@
-import {catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap} from 'rxjs/operators';
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {SwalComponent} from '@toverux/ngx-sweetalert2';
-import {ToastrService} from 'ngx-toastr';
-import {Observable, of} from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, merge, switchMap, tap } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
 import * as _ from 'lodash';
 
-import {Account, BANKS, COUNTRIES, Product, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES} from '../meta-data';
-import {RequestTransactionFormService} from './request-transaction-form.service';
-import {AuthService} from '../../services/auth/auth.service';
-import {User} from '../../authentication/login/user';
+import { Account, BANKS, COUNTRIES, Product, PRODUCTS, Transaction, TRANSACTION_MODES, TRANSACTION_TYPES } from '../meta-data';
+import { RequestTransactionFormService } from './request-transaction-form.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { User } from '../../authentication/login/user';
 
 const LOCAL = 4;
 
@@ -21,18 +21,6 @@ const LOCAL = 4;
 	providers: [RequestTransactionFormService]
 })
 export class RequestTransactionFormComponent implements OnInit {
-
-
-	private _transaction: Transaction;
-	get transaction(): Transaction {
-		return this._transaction;
-	}
-
-
-	@Input() set transaction(transaction: Transaction) {
-		this._transaction = transaction;
-		this.transactionChange.emit(transaction);
-	}
 
 
 	@ViewChild(`createCustomerSwal`) private createCustomerSwalComponent: SwalComponent;
@@ -54,7 +42,6 @@ export class RequestTransactionFormComponent implements OnInit {
 	 *  Link to profile relative to `transaction.client_id`
 	 * */
 	@Input() profileLink: any;
-
 	// Form Properties...
 	rate: string[];
 	rates: any;
@@ -96,12 +83,25 @@ export class RequestTransactionFormComponent implements OnInit {
 	@Output() transactionChange = new EventEmitter<Transaction>();
 	transactionModes = TRANSACTION_MODES;
 	transactionTypes = TRANSACTION_TYPES;
-
 	updateModel = (event: any) => {
 		this.getClient(event.item.id);
 		this.getAccounts(event.item.id);
 		this.transaction.client_id = event.item.id;
 	};
+
+
+	private _transaction: Transaction;
+
+
+	get transaction(): Transaction {
+		return this._transaction;
+	}
+
+
+	@Input() set transaction(transaction: Transaction) {
+		this._transaction = transaction;
+		this.transactionChange.emit(transaction);
+	}
 
 
 	constructor(private transactionService: RequestTransactionFormService,

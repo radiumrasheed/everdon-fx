@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ToastrService} from 'ngx-toastr';
-import {CreateClientFormService} from '../../shared/create-client-form/create-client-form.service';
-import {Client} from '../../shared/meta-data';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { CreateClientFormService } from '../../shared/create-client-form/create-client-form.service';
+import { Client } from '../../shared/meta-data';
 
 
 @Component({
