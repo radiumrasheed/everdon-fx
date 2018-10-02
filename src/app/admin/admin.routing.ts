@@ -5,6 +5,7 @@ import { CreateClientComponent } from './create-client/create-client.component';
 import { ClientsComponent } from './clients/clients.component';
 import { ViewClientComponent } from './view-client/view-client.component';
 import { NgModule } from '@angular/core';
+import { StaffComponent } from './staff/staff.component';
 
 export const AdminRoutes: Routes = [
 	{
@@ -66,6 +67,17 @@ export const AdminRoutes: Routes = [
 				data: {
 					title: 'Currencies',
 					urls: [{title: 'Admin', url: '/admin'}, {title: 'Currencies'}]
+				}
+			},
+
+
+			{path: 'staffs', redirectTo: 'staff', pathMatch: 'full'},
+			{
+				path: 'staff',
+				component: StaffComponent,
+				data: {
+					title: 'Staff',
+					urls: [{title: 'Staff', url: '/admin'}, {title: 'Staff'}]
 				}
 			}
 		]
