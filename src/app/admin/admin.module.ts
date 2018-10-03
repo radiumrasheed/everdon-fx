@@ -19,6 +19,7 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { UiSwitchModule } from 'ngx-ui-switch';
 import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
 import { StaffComponent } from './staff/staff.component';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { StaffComponent } from './staff/staff.component';
 		AdminRoutingModule,
 		SweetAlert2Module,
 		UiSwitchModule,
-		ImageViewerModule
+		ImageViewerModule,
+		NgZorroAntdModule
 	],
 	declarations: [
 		AdminDashboardComponent,

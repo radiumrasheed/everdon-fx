@@ -1,0 +1,8 @@
+.editable-row-operations a, button {
+	margin-right: 8px;
+}
+
+.number {
+	font-family: Consolas, monospace;
+	font-size: small;
+}

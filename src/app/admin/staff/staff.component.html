@@ -1,3 +1,143 @@
-<p>
-	staff works!
-</p>
+<nz-card style="width: 100%;" [nzTitle]="'Staffs & Roles'">
+	<nz-card-tab>
+
+	</nz-card-tab>
+
+	<nz-tabset nzSize="large" [(nzSelectedIndex)]="index1">
+		<nz-tab [nzTitle]="'Overview'">
+
+
+		</nz-tab>
+
+		<nz-tab [nzTitle]="'Add Staff'">
+
+
+		</nz-tab>
+
+		<nz-tab [nzTitle]="'Manage Existing Staffs'">
+			<div style="margin-bottom: 16px;">
+				<button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="pageIndex = 1; getStaffs();">
+					Reload
+				</button>
+			</div>
+
+			<nz-table
+				#editRowTable
+				[nzTotal]="total"
+				[nzData]="dataSet"
+				[nzSize]="'small'"
+				[nzBordered]="true"
+				[nzLoading]="loading"
+				[(nzPageSize)]="pageSize"
+				[nzShowSizeChanger]="true"
+				[nzFrontPagination]="false"
+				[(nzPageIndex)]="pageIndex"
+				(nzPageIndexChange)="searchData()"
+				(nzPageSizeChange)="searchData(true)">
+
+				<thead (nzSortChange)="sort($event)" nzSingleSort>
+				<tr>
+					<th nzShowSort nzSortKey>Email</th>
+					<th nzShowSort nzSortKey>First Name</th>
+					<th nzShowSort nzSortKey>Last Name</th>
+					<th>Phone Number</th>
+					<th nzShowSort nzSortKey>Role</th>
+					<th>Last Updated</th>
+					<th [nzWidth]="'15%'">Actions</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr *ngFor="let data of editRowTable.data">
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{ data.email }}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="email" name="email" nz-input [(ngModel)]="editCache[data.id].data.email" title="Email">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.first_name}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="text" name="first_name" nz-input [(ngModel)]="editCache[data.id].data.first_name" title="First Name">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.last_name}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="text" name="last_name" nz-input [(ngModel)]="editCache[data.id].data.last_name" title="Last Name">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.phone}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="phone" name="phone" nz-input [(ngModel)]="editCache[data.id].data.phone" title="Phone Number">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.user.roles[0].display_name}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="text" name="role" nz-input [(ngModel)]="editCache[data.id].data.user.roles[0].display_name" title="Role">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						{{ data.updated_at | date:'short' }}
+					</td>
+
+					<td>
+						<div class="editable-row-operations">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								<!--<a (click)="startEdit(data.id)">Edit</a>-->
+								<button nz-button [nzSize]="'small'" nzType="primary" (click)="startEdit(data.id)">Edit</button>
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<!--<a (click)="cancelEdit(data.id)">Cancel</a>-->
+								<button nz-button [nzSize]="'small'" nzType="danger" (click)="cancelEdit(data.id)">Cancel</button>
+
+								<nz-popconfirm [nzTitle]="'Sure to Update?'" (nzOnConfirm)="saveEdit(data.id)">
+									<!--<a nz-popconfirm>Update</a>-->
+									<button nz-button [nzSize]="'small'" nzType="primary" nz-popconfirm>Update</button>
+								</nz-popconfirm>
+							</ng-container>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+			</nz-table>
+		</nz-tab>
+	</nz-tabset>
+
+</nz-card>
