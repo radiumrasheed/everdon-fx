@@ -33,7 +33,7 @@ export const AppRoutes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: '/404'
+		redirectTo: '/'
 	}
 ];
 

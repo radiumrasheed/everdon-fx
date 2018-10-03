@@ -3,10 +3,10 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
 	// Dashboard Routes for admin & client...
 	{
-		path: '/me/dashboard', title: 'Dashboard', icon: 'mdi mdi-gauge', extralink: false, submenu: [], role: 'client'
+		path: '/me/dashboard', title: 'Dashboard', icon: 'mdi mdi-security-home', extralink: false, submenu: [], role: 'client'
 	},
 	{
-		path: '/admin/dashboard', title: 'Admin Dashboard', icon: 'mdi mdi-gauge', extralink: false, submenu: [], role: 'admin'
+		path: '/admin/dashboard', title: 'Admin Dashboard', icon: 'mdi mdi-security-home', extralink: false, submenu: [], role: 'admin'
 	},
 
 	// Profile Routes...
@@ -16,18 +16,18 @@ export const ROUTES: RouteInfo[] = [
 
 	// Transaction routes...
 	{
-		path: '/me/transaction/request', title: 'New Request', icon: 'mdi mdi-certificate', extralink: false, role: 'client', submenu: []
+		path: '/me/transaction/request', title: 'New Request', icon: 'mdi mdi-file-send', extralink: false, role: 'client', submenu: []
 	},
 	{
-		path: '/me/transaction', title: 'My Transactions', icon: 'mdi mdi-receipt', extralink: false, submenu: [], role: 'client'
+		path: '/me/transaction', title: 'My Transactions', icon: 'mdi mdi-file-cloud', extralink: false, submenu: [], role: 'client'
 	},
 	{
-		path: '', title: 'Transactions', icon: 'mdi mdi-receipt', class: 'has-arrow', extralink: false, role: 'admin', submenu: [
+		path: '', title: 'Transactions', icon: 'mdi mdi-file-document', class: 'has-arrow', extralink: false, role: 'admin', submenu: [
 			{
-				path: '/admin/transaction/list', title: 'All Transactions', icon: 'mdi mdi-pages', extralink: false, submenu: []
+				path: '/admin/transaction/list', title: 'All Transactions', icon: 'mdi mdi-file-cloud', extralink: false, submenu: []
 			},
 			{
-				path: '/admin/transaction/request', title: 'Make Transaction', icon: 'mdi mdi-whatshot', extralink: false, submenu: []
+				path: '/admin/transaction/request', title: 'Make Transaction', icon: 'mdi mdi-file-send', extralink: false, submenu: []
 			}
 		]
 	},
@@ -52,6 +52,11 @@ export const ROUTES: RouteInfo[] = [
 	// Staff Routes...
 	{
 		path: '/admin/staff', title: 'Staffs', 'icon': 'mdi mdi-worker', extralink: false, submenu: [], role: 'admin'
-	}
+	},
+
+	// Reporting Routes...
+	/*{
+		path: '/admin/reports', title: 'Reports', 'icon': 'mdi mdi-poll-box', extralink: false, submenu: [], role: 'admin'
+	}*/
 ];
 
