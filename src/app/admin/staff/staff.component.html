@@ -1,24 +1,152 @@
 <nz-card style="width: 100%;" [nzTitle]="'Staffs & Roles'">
-	<nz-card-tab>
+	<nz-card-tab></nz-card-tab>
 
-	</nz-card-tab>
+	<nz-tabset nzSize="large" [(nzSelectedIndex)]="tab_index">
+		<nz-tab [nzTitle]="'Overview'"></nz-tab>
 
-	<nz-tabset nzSize="large" [(nzSelectedIndex)]="index1">
-		<nz-tab [nzTitle]="'Overview'">
-
-
-		</nz-tab>
-
+		<!-- add staff -->
 		<nz-tab [nzTitle]="'Add Staff'">
 
+			<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)">
+
+				<!--<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="userName" placeholder="async validate try to write JasonWood">
+						<nz-form-explain *ngIf="validateForm.get('userName').dirty && validateForm.get('userName').errors || validateForm.get('userName').pending ">
+							<ng-container *ngIf="validateForm.get('userName').hasError('required')">
+								Please input your username!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('userName').hasError('duplicated')">
+								The username is redundant!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('userName').pending">
+								Validating...
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>-->
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>E-mail</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="email" placeholder="email" type="email">
+						<nz-form-explain *ngIf="validateForm.get('email').dirty&&validateForm.get('email').errors">
+							<ng-container *ngIf="validateForm.get('email').hasError('email')">
+								The input is not valid E-mail!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('email').hasError('required')">
+								Please input your E-mail!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Role</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<nz-select nzShowSearch nzAllowClear formControlName="role" nzPlaceHolder="select role">
+							<nz-option nzCustomContent nzLabel="fx ops" nzValue="fx-ops"><i class="anticon anticon-qq"></i> FX Ops</nz-option>
+							<nz-option nzCustomContent nzLabel="fx ops manager" nzValue="fx-ops-manager"><i class="anticon anticon-dingding"></i> FX Ops Manager</nz-option>
+							<nz-option nzCustomContent nzLabel="treasury ops" nzValue="treasury-ops"><i class="anticon anticon-aliwangwang"></i> Treasury Ops</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>First Name</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="first_name" placeholder="first name" type="text">
+						<nz-form-explain *ngIf="validateForm.get('first_name').dirty&&validateForm.get('first_name').errors">
+							<ng-container *ngIf="validateForm.get('first_name').hasError('required')">
+								Please input staff's First Name!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Last Name</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="last_name" placeholder="last name" type="text">
+						<nz-form-explain *ngIf="validateForm.get('last_name').dirty&&validateForm.get('last_name').errors">
+							<ng-container *ngIf="validateForm.get('last_name').hasError('email')">
+								The input is not valid E-mail!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('last_name').hasError('required')">
+								Please input staff's Last Name!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzFor="gender" nzRequired>Gender</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<nz-select id="gender" nzAllowClear formControlName="gender" nzPlaceHolder="select gender">
+							<nz-option nzCustomContent nzLabel="male" nzValue="male"><i class="anticon anticon-man"></i> Male</nz-option>
+							<nz-option nzCustomContent nzLabel="female" nzValue="female"><i class="anticon anticon-woman"></i> Female</nz-option>
+						</nz-select>
+						<nz-form-explain *ngIf="validateForm.get('gender').dirty && validateForm.get('gender').errors">Please select your gender!</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Phone Number</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="phone" placeholder="phone" type="text">
+						<nz-form-explain *ngIf="validateForm.get('phone').dirty&&validateForm.get('phone').errors">
+							<ng-container *ngIf="validateForm.get('phone').hasError('email')">
+								The input is not valid E-mail!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('phone').hasError('required')">
+								Please input staff's Phone Number!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+					<div>
+						<nz-form-control [nzSpan]="12" nzHasFeedback>
+							<input nz-input type="password" formControlName="password" placeholder="enter password" (ngModelChange)="validateConfirmPassword()">
+							<nz-form-explain *ngIf="validateForm.get('password').dirty&&validateForm.get('password').hasError('required')">Please input your password!</nz-form-explain>
+						</nz-form-control>
+					</div>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Confirm Password</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input type="password" formControlName="confirm" placeholder="confirm password">
+						<nz-form-explain *ngIf="validateForm.get('confirm').dirty&&validateForm.get('confirm').errors">
+							<ng-container *ngIf="validateForm.get('confirm').hasError('required')">
+								Please confirm password!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('confirm').hasError('confirm')">
+								Password is inconsistent!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-control [nzOffset]="7" [nzSpan]="12">
+						<button nz-button nzType="primary" [nzLoading]="loading" [disabled]="!validateForm.valid">Submit</button>
+						<button nz-button (click)="resetForm($event)">Reset</button>
+					</nz-form-control>
+				</nz-form-item>
+			</form>
 
 		</nz-tab>
 
+		<!-- list of staffs -->
 		<nz-tab [nzTitle]="'Manage Existing Staffs'">
-			<div style="margin-bottom: 16px;">
-				<button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="pageIndex = 1; getStaffs();">
-					Reload
-				</button>
+			<div class="table-operations">
+				<button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="pageIndex = 1; getStaffs();">Reload</button>
+				<button nz-button (click)="resetFilters()">Clear filters</button>
+				<button nz-button (click)="resetSortAndFilters()">Clear filters and sorters</button>
 			</div>
 
 			<nz-table
@@ -33,10 +161,13 @@
 				[nzFrontPagination]="false"
 				[(nzPageIndex)]="pageIndex"
 				(nzPageIndexChange)="searchData()"
-				(nzPageSizeChange)="searchData(true)">
+				(nzPageSizeChange)="searchData(true)"
+				(nzCurrentPageDataChange)="currentPageDataChange($event)"
+			>
 
 				<thead (nzSortChange)="sort($event)" nzSingleSort>
 				<tr>
+					<th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
 					<th nzShowSort nzSortKey>Email</th>
 					<th nzShowSort nzSortKey>First Name</th>
 					<th nzShowSort nzSortKey>Last Name</th>
@@ -48,6 +179,7 @@
 				</thead>
 				<tbody>
 				<tr *ngFor="let data of editRowTable.data">
+					<td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
 					<td>
 						<div class="editable-cell">
 							<div class="editable-cell-text-wrapper">

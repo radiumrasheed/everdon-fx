@@ -6,3 +6,11 @@
 	font-family: Consolas, monospace;
 	font-size: small;
 }
+
+.table-operations {
+	margin-bottom: 16px;
+}
+
+.table-operations > button {
+	margin-right: 8px;
+}

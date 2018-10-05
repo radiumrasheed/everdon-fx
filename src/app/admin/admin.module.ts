@@ -5,7 +5,7 @@ import { AdminRoutingModule } from './admin.routing';
 import { ChartsModule } from 'ng2-charts';
 import { ChartistModule } from 'ng-chartist';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminComponent } from './admin.component';
 import { SharedModule } from '../shared/shared.module';
@@ -27,6 +27,7 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 		CommonModule,
 		HttpClientModule,
 		FormsModule,
+		ReactiveFormsModule,
 		CommonModule,
 		NgbModule,
 		ChartsModule,

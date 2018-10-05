@@ -49,10 +49,10 @@ export class StaffService {
 
 
 	public addStaff(staff: any): Observable<any> {
-		return this.http.post<any>(this.staffUrl + '/buckets', staff)
+		return this.http.post<any>(this.staffUrl, staff)
 			.pipe(
-				map(response => response['data']['staff'])
-				// catchError(this.handleError<any>('Get Bucket Balance', null))
+				map(response => response['data']['staff']),
+				catchError(this.handleError<any>('Add Staff', null))
 			);
 	}
 }
