@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { CurrencyService } from '../../currency/currency.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService, NzNotificationService } from 'ng-zorro-antd';
+import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { finalize } from 'rxjs/operators';
-import { Product } from '../../shared/meta-data';
+
 import { StaffService } from './staff.service';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Observable, Observer } from 'rxjs';
 
 
-interface Staff {
+export interface Staff {
 	id: number;
 	user_id: number;
 
@@ -33,6 +32,8 @@ interface Staff {
 	providers: [StaffService]
 })
 export class StaffComponent implements OnInit {
+	__ = {loading: false, deleting: false};
+	filterRoleList: string[] = [];
 	allChecked = false;
 	disabledButton = true;
 	checkedNumber = 0;
@@ -40,17 +41,21 @@ export class StaffComponent implements OnInit {
 	pageSize = 10;
 	total: number;
 	pageIndex = 1;
-	sortValue: string;
-	sortKey: string;
+	sortValue = '';
+	sortKey = '';
 	dataSet = [];
 	editCache = {};
 	i = 1;
 	loading = false;
-	tab_index: number;
+	tab_index = 2;
 	displayData: Array<Staff> = [];
-
+	filterRole = [
+		{text: 'fx ops', value: 'fx-ops'},
+		{text: 'fx ops manager', value: 'fx-ops-manager'},
+		{text: 'treasury ops', value: 'treasury-ops'},
+		{text: 'systems admin', value: 'systems-admin'}
+	];
 	validateForm: FormGroup;
-
 	submitForm = ($event, value) => {
 		this.loading = true;
 
@@ -69,9 +74,7 @@ export class StaffComponent implements OnInit {
 				this.resetForm();
 			});
 	};
-
-
-	userNameAsyncValidator = (control: FormControl) => Observable.create((observer: Observer<ValidationErrors>) => {
+	/*userNameAsyncValidator = (control: FormControl) => Observable.create((observer: Observer<ValidationErrors>) => {
 		setTimeout(() => {
 			if (control.value === 'JasonWood') {
 				observer.next({error: true, duplicated: true});
@@ -80,9 +83,7 @@ export class StaffComponent implements OnInit {
 			}
 			observer.complete();
 		}, 1000);
-	});
-
-
+	});*/
 	confirmValidator = (control: FormControl): { [s: string]: boolean } => {
 		if (!control.value) {
 			return {required: true};
@@ -97,10 +98,10 @@ export class StaffComponent implements OnInit {
 		this.validateForm = this.fb.group({
 			// userName: ['', [Validators.required], [this.userNameAsyncValidator]],
 			email: ['', [Validators.email]],
-			role: ['', [Validators.required]],
+			role: [null, [Validators.required]],
 			first_name: ['', [Validators.required]],
 			last_name: ['', [Validators.required]],
-			gender: ['', [Validators.required]],
+			gender: [null, [Validators.required]],
 			phone: ['', [Validators.required]],
 			password: ['', [Validators.required]],
 			confirm: ['', [this.confirmValidator]]
@@ -110,6 +111,37 @@ export class StaffComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.getStaffs();
+	}
+
+
+	private updateDataSet(key: string, data: any): void {
+		const index = this.dataSet.findIndex(item => item.id === key);
+
+		Object.assign(this.dataSet[index], data);
+		Object.assign(this.editCache[key], data);
+
+		this.editCache[key].edit = false;
+		// this.__[key] = false;
+	}
+
+
+	private updateStaff(staff: any) {
+		this.__[staff.id] = true;
+
+		this.staffService.updateStaff(staff.id, staff)
+			.pipe(finalize(() => this.__[staff.id] = false))
+			.subscribe(updated_staff => {
+				if (updated_staff) {
+					this.updateDataSet(updated_staff.id, updated_staff);
+					this.message.success('Updated Successfully', {nzDuration: 10000});
+				}
+			})
+	}
+
+
+	public updateRoleFilter(value: string[]): void {
+		this.filterRoleList = value;
+		this.searchData(true);
 	}
 
 
@@ -168,7 +200,8 @@ export class StaffComponent implements OnInit {
 
 	public sort(sort: { key: string, value: string }): void {
 		this.sortKey = sort.key;
-		this.sortValue = sort.value;
+		this.sortValue = sort.value === 'descend' ? 'desc' : 'asc';
+
 		this.searchData();
 	}
 
@@ -179,38 +212,39 @@ export class StaffComponent implements OnInit {
 
 
 	public getStaffs(): void {
-		this.loading = true;
+		this.__.loading = true;
 
 		this.staffService.getStaffs({
 			pageIndex: this.pageIndex,
 			pageSize: this.pageSize,
-			sortKey: this.sortKey,
-			sortValue: this.sortValue
+			sortField: this.sortKey,
+			sortOrder: this.sortValue,
+			// add other filters below ...
+			role: this.filterRoleList
 		})
 			.pipe(finalize(() => {
-				this.updateEditCache();
-				this.loading = false;
+				this.__.loading = false;
 			}))
 			.subscribe(
 				pagination => {
 					this.dataSet = pagination.data;
 					this.total = pagination.total;
+					this.updateEditCache();
 				}
 			)
 	}
 
 
-	public updateStaff(staff: any) {
-		this.loading = true;
-
-		/*this.staffService.updateProduct(product.id, product)
-			.pipe(finalize(() => this.loading = false))
-			.subscribe(updated_staff => {
-				if (updated_staff) {
-					this.updateDataSet(updated_staff.id, updated_staff);
-					this.message.success('Updated Successfully', {nzDuration: 10000});
+	public deleteStaff(staff_id: number): void {
+		this.__.deleting = true;
+		this.staffService.deleteStaff(staff_id)
+			.pipe(finalize(() => this.__.deleting = false))
+			.subscribe(
+				() => {
+					_.remove(this.dataSet, staff => staff.id === staff_id);
+					this.message.success('Staff deleted')
 				}
-			})*/
+			);
 	}
 
 
@@ -220,7 +254,7 @@ export class StaffComponent implements OnInit {
 
 
 	public saveEdit(key: string): void {
-		// this.updateStaff(this.editCache[key].data);
+		this.updateStaff(this.editCache[key].data);
 	}
 
 
@@ -236,12 +270,10 @@ export class StaffComponent implements OnInit {
 	}
 
 
-	public resetFilters() {
-
-	}
-
-
-	public resetSortAndFilters() {
-
+	public resetSort() {
+		if (this.sortKey !== '' || this.sortValue !== '') {
+			this.sortValue = this.sortKey = '';
+			this.getStaffs();
+		}
 	}
 }

@@ -60,9 +60,8 @@ export const AdminRoutes: Routes = [
 				}
 			},
 
-			{path: 'currencies', redirectTo: 'currency', pathMatch: 'full'},
 			{
-				path: 'currency',
+				path: 'currencies',
 				loadChildren: '../currency/currency.module#CurrencyModule',
 				data: {
 					title: 'Currencies',
@@ -71,9 +70,8 @@ export const AdminRoutes: Routes = [
 			},
 
 
-			{path: 'staffs', redirectTo: 'staff', pathMatch: 'full'},
 			{
-				path: 'staff',
+				path: 'staffs',
 				component: StaffComponent,
 				data: {
 					title: 'Staff',

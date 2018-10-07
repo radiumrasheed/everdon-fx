@@ -46,12 +46,12 @@ export const ROUTES: RouteInfo[] = [
 
 	// Currency Routes...
 	{
-		path: '/admin/currency', title: 'Currencies', icon: 'mdi mdi-bank', extralink: false, submenu: [], role: 'admin'
+		path: '/admin/currencies', title: 'Currencies', icon: 'mdi mdi-bank', extralink: false, submenu: [], role: 'admin'
 	},
 
 	// Staff Routes...
 	{
-		path: '/admin/staff', title: 'Staffs', 'icon': 'mdi mdi-worker', extralink: false, submenu: [], role: 'admin'
+		path: '/admin/staffs', title: 'Staffs', 'icon': 'mdi mdi-worker', extralink: false, submenu: [], role: 'admin'
 	},
 
 	// Reporting Routes...
