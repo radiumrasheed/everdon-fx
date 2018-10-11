@@ -17,6 +17,7 @@ export class Transaction {
 	bank_name?: string;
 	bvn?: string;
 	calculated_amount: number;
+	checked: boolean;
 	client?: Client;
 	client_id: number;
 	closed_at?: string;

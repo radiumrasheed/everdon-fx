@@ -307,16 +307,16 @@ export const TRANSACTION_MODES: GenericOption[] = [
 ];
 
 export const TRANSACTION_STATUSES: GenericOption[] = [
-	{id: 1, name: 'open', desc: 'Open', class: 'label-light-info', show: true},
-	{id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning', show: true},
-	{id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary', show: true},
-	{id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary', show: true},
-	{id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger', show: true},
-	{id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success', show: true},
-	{id: 7, name: 'raised', desc: 'Raised', class: '', show: true},
-	{id: 8, name: 'closed-processed', desc: 'Closed & Processed', class: 'label-light-success', show: false},
-	{id: 9, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning', show: false},
-	{id: 10, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green', show: false}
+	{ id: 1, name: 'open', desc: 'Open', class: 'label-light-info', show: true, color: 'lime' },
+	{ id: 2, name: 'in-progress', desc: 'In Progress', class: 'label-light-warning', show: true, color: 'cyan' },
+	{ id: 3, name: 'pending-approval', desc: 'Pending Approval', class: 'label-light-primary', show: true, color: 'blue' },
+	{ id: 4, name: 'pending-fulfilment', desc: 'Pending Fulfilment', class: 'label-light-primary', show: true, color: 'geekblue' },
+	{ id: 5, name: 'cancelled', desc: 'Cancelled', class: 'label-light-danger', show: true, color: 'red' },
+	{ id: 6, name: 'closed', desc: 'Closed', class: 'label-light-success', show: true, color: 'gold' },
+	{ id: 7, name: 'raised', desc: 'Raised', class: '', show: true, color: 'green' },
+	{ id: 8, name: 'closed-processed', desc: 'Closed & Processed', class: 'label-light-success', show: false, color: 'green' },
+	{ id: 9, name: 'processing', desc: 'Your exchange is being processed', class: 'label-light-warning', show: false, color: 'gold' },
+	{ id: 10, name: 'completed', desc: 'Success! Your exchange is complete', class: 'label-light-green', show: false, color: 'purple' }
 ];
 
 export const TRANSACTION_TYPES: GenericOption[] = [

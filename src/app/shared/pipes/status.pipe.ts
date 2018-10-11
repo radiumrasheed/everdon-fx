@@ -42,6 +42,9 @@ export class StatusPipe implements PipeTransform {
 			case 'desc':
 				this.result = this.selectedStatus.desc;
 				break;
+			case 'color':
+				this.result = this.selectedStatus.color;
+				break;
 			default:
 				this.result = this.selectedStatus.name;
 				break;

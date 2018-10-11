@@ -4,4 +4,5 @@ export class GenericOption {
 	id: number;
 	name: string;
 	show?: boolean;
+	color?: string;
 }

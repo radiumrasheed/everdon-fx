@@ -27,7 +27,6 @@ export const AppRoutes: Routes = [
 			{path: '404', component: NotFoundComponent},
 			{path: 'login', component: LoginComponent},
 			{path: 'admin-login', component: Login2Component},
-			{path: 'signup', redirectTo: '/sign-up', pathMatch: 'full'},
 			{path: 'sign-up', component: SignupComponent}
 		]
 	},
