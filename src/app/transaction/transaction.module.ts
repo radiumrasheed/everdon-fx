@@ -1,18 +1,19 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { MomentModule } from 'angular2-moment';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { UiSwitchModule } from 'ngx-ui-switch';
+import { CommonModule } from '@angular/common';
+import { MomentModule } from 'angular2-moment';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
 
 
 import { TransactionComponents, TransactionRoutingModule } from './transaction.routing';
+import { HttpInterceptorProviders } from '../http-interceptors';
 import { TransactionService } from './transaction.service';
 import { SharedModule } from '../shared/shared.module';
-import { HttpInterceptorProviders } from '../http-interceptors';
-import { HttpClientModule } from '@angular/common/http';
-import { UiSwitchModule } from 'ngx-ui-switch';
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 		Ng2SmartTableModule,
 		UiSwitchModule,
 		SweetAlert2Module,
+		NgZorroAntdModule,
 
 		TransactionRoutingModule
 	],

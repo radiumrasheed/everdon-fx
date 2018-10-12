@@ -1,16 +1,19 @@
-import * as _ from 'lodash';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { CalendarPipe } from 'angular2-moment';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
-import { TransactionService } from '../transaction.service';
+
+import { PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES } from '../../shared/meta-data';
 import { AuthService } from '../../services/auth/auth.service';
 import { ProductPipe } from '../../shared/pipes/product.pipe';
-import { TypePipe } from '../../shared/pipes/type.pipe';
+import { TransactionService } from '../transaction.service';
 import { StatusPipe } from '../../shared/pipes/status.pipe';
-import { PRODUCTS, Transaction, TRANSACTION_STATUSES, TRANSACTION_TYPES } from '../../shared/meta-data';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { TypePipe } from '../../shared/pipes/type.pipe';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -22,15 +25,38 @@ import { SwalComponent } from '@toverux/ngx-sweetalert2';
 export class ListTransactionsComponent implements OnInit {
 	@ViewChild(`requestSwal`) private requestSwalComponent: SwalComponent;
 
-	// Filter Settings...
+	module: string;
+	tabIndex = 0;
+	o = {};
+	filterCreatedAtList: string[] = [moment().day(-26).startOf('day').format(), moment().endOf('day').format()];
+	filterTypeList: string[] = _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id'])).map(({ id }) => (id));
+	filterStatusList: string[] = _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id'])).map(({ id }) => (id));
+	pageSize = 10;
+	total: number;
+	pageIndex = 1;
+	sortValue = '';
+	sortKey = '';
+	dataSet = [];
+
+	displayData: Array<Transaction> = [];
+	filterStatus = _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id', 'desc'])).map(({ id, desc }) => ({ value: id, text: desc, byDefault: true }));
+	filterType = _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id', 'desc'])).map(({ id, desc }) => ({ value: id, text: desc, byDefault: true }));
+
+	dateRangePresets = {
+		'Today': [moment().startOf('day').format(), moment().endOf('day').format()],
+		'Last 7 days': [moment().day(-3).startOf('day').format(), moment().endOf('day').format()],
+		'Last 30 days': [moment().day(-26).startOf('day').format(), moment().endOf('day').format()],
+		'This Week': [moment().startOf('week').format(), moment().endOf('week').format()],
+		'This Month': [moment().startOf('month').format(), moment().endOf('month').format()]
+	};
+
 	filterProductSettings = {
 		type: 'list',
 		config: {
 			selectText: 'select..',
-			list: _.map(PRODUCTS, _.partial(_.pick, _, ['id', 'name'])).map(({id, name}) => ({value: id, title: name}))
+			list: _.map(PRODUCTS, _.partial(_.pick, _, ['id', 'name'])).map(({ id, name }) => ({ value: id, title: name }))
 		}
 	};
-	// Client Settings...
 	client_table_settings = {
 		columns: {
 			link: {
@@ -80,85 +106,6 @@ export class ListTransactionsComponent implements OnInit {
 		}
 	};
 
-	/* Smart table... */
-	filterStatusSettings = {
-		type: 'list',
-		config: {
-			selectText: 'select..',
-			list: _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
-		}
-	};
-	filterTypeSettings = {
-		type: 'list',
-		config: {
-			selectText: 'select..',
-			list: _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id', 'desc'])).map(({id, desc}) => ({value: id, title: desc}))
-		}
-	};
-	// Admin Settings...
-	admin_table_settings = {
-		columns: {
-			full_name: {
-				title: 'Client Name',
-				filter: true
-			},
-			link: {
-				title: 'Transaction Reference',
-				filter: true,
-				type: 'html'
-			},
-			selling_product_id: {
-				title: 'Selling',
-				filter: this.filterProductSettings,
-				valuePrepareFunction: (val) => {
-					return this.productPipe.transform(val);
-				}
-			},
-			buying_product_id: {
-				title: 'Buying',
-				filter: this.filterProductSettings,
-				valuePrepareFunction: (val) => {
-					return this.productPipe.transform(val);
-				}
-			},
-			amount: {
-				title: 'Amount',
-				filter: true
-			},
-			transaction_type_id: {
-				title: 'Type',
-				valuePrepareFunction: (val) => {
-					return this.typePipe.transform(val);
-				},
-				filter: this.filterTypeSettings
-			},
-			transaction_status_id: {
-				title: 'Status',
-				valuePrepareFunction: (val) => {
-					return this.statusPipe.transform(val);
-				},
-				filter: this.filterStatusSettings
-			},
-			referrer: {
-				title: 'Referrer',
-				filter: true
-			},
-			created_at: {
-				title: 'Time Requested',
-				filter: true,
-				valuePrepareFunction: (val) => {
-					return this.calendarPipe.transform(val);
-				}
-			}
-		},
-		noDataMessage: 'No transactions',
-		actions: {
-			add: false,
-			edit: false,
-			delete: false,
-			columnTitle: ''
-		}
-	};
 	role: string;
 	role$: Observable<any>;
 	roles$: Observable<any>;
@@ -180,25 +127,25 @@ export class ListTransactionsComponent implements OnInit {
 	ngOnInit() {
 		this.roles$ = this.authService.roles;
 		this.role$ = this.authService.role;
-		this.roles$.subscribe(roles => this.role = roles[0]);
+		this.roles$.subscribe(roles => {
+			this.role = roles[0];
+			this.module = roles === 'admin' ? 'admin' : 'me';
+		});
 
 		this.getTransactions();
+		this.getPaginatedTransactions();
 	}
 
 
 	// Get the transactions and format them for viewing...
-	getTransactions(): void {
+	public getTransactions(): void {
 		this.transactionService.getTransactions()
 			.subscribe(
 				transactions => {
-					this.role$.subscribe(
-						value => {
-							const module = value === 'admin' ? 'admin' : 'me';
-							this.transactions = transactions.map<Transaction>(transaction => {
-								transaction.link = `<a href="/#/${module}/transaction/details/${transaction.id}">#${transaction.transaction_ref}</a>`;
-								transaction.full_name = transaction.client.first_name + ' ' + transaction.client.last_name;
-								return transaction;
-							});
+					this.transactions = transactions.map<Transaction>(transaction => {
+							transaction.link = `<a href="/#/${this.module}/transaction/details/${transaction.id}">#${transaction.transaction_ref}</a>`;
+							transaction.full_name = transaction.client.first_name + ' ' + transaction.client.last_name;
+							return transaction;
 						}
 					);
 				}
@@ -206,7 +153,90 @@ export class ListTransactionsComponent implements OnInit {
 	}
 
 
-	onSubmittedSuccessfully($event: any, type: string) {
+	// Get the transactions and format them for viewing...
+	public getPaginatedTransactions(): void {
+		this.o['loading'] = true;
+		this.transactionService.getPaginatedTransactions({
+			pageIndex: this.pageIndex,
+			pageSize: this.pageSize,
+			sortField: this.sortKey,
+			sortOrder: this.sortValue,
+			// add other filters below ...
+			status: this.filterStatusList,
+			type: this.filterTypeList,
+			created_at: this.filterCreatedAtList
+		})
+			.pipe(
+				finalize(() => this.o['loading'] = false)
+			)
+			.subscribe(
+				collection => {
+					this.dataSet = collection.data;
+					this.total = collection.total;
+				}
+			);
+	}
+
+
+	// Filter Methods...
+
+	public updateStatusFilter(value: string[]): void {
+		this.filterStatusList = value;
+		this.searchData(true);
+	}
+
+
+	public updateTypeFilter(value: string[]): void {
+		this.filterTypeList = value;
+		this.searchData(true);
+	}
+
+
+	public updateDateRangeFilter($event) {
+		this.filterCreatedAtList = [moment($event[0]).format(), moment($event[1]).format()];
+		this.getPaginatedTransactions();
+	}
+
+
+	// Sort Methods...
+
+	public sort(sort: { key: string, value: string }): void {
+		this.sortKey = sort.key;
+		this.sortValue = sort.value === 'descend' ? 'desc' : 'asc';
+
+		this.searchData();
+	}
+
+
+	public searchData(reset: boolean = false): void {
+		if (reset) {
+			this.pageIndex = 1;
+		}
+
+		this.getPaginatedTransactions();
+	}
+
+
+	// Reset Methods...
+
+	public resetSortAndFilter(): void {
+		this.sortValue = this.sortKey = '';
+
+		this.filterCreatedAtList = [moment().day(-26).startOf('day').format(), moment().endOf('day').format()];
+		this.filterTypeList = _.map(TRANSACTION_TYPES, _.partial(_.pick, _, ['id'])).map(({ id }) => (id));
+		this.filterStatusList = _.map(_.filter(TRANSACTION_STATUSES, 'show'), _.partial(_.pick, _, ['id'])).map(({ id }) => (id));
+
+		this.searchData(true);
+	}
+
+
+	public currentPageDataChange($event: Array<Transaction>): void {
+		this.displayData = $event;
+	}
+
+
+	// For request transaction...
+	public onRequestSuccessful($event: any, type: string) {
 		switch (type) {
 			case 'request':
 				this.requestSwalComponent.nativeSwal.close();

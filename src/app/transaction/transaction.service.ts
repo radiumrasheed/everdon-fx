@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Account, Client, Product, Transaction } from '../shared/meta-data';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HandleError, HttpErrorHandler } from '../services/http-error-handler.service';
 import { AppConfig } from '../app.config';
 import { Observable, of } from 'rxjs';
@@ -42,21 +42,33 @@ export class TransactionService {
 	}
 
 
+	/** GET: get the list of all videos */
+	getPaginatedTransactions(options): Observable<any> {
+		const { pageIndex, pageSize, sortField, sortOrder, ...filters } = options;
+		let params = new HttpParams()
+			.append('page', `${pageIndex}`)
+			.append('per_page', `${pageSize}`)
+			.append('sort_field', `${sortField}`)
+			.append('sort_order', `${sortOrder}`);
+
+		for (const [key, value] of Object.entries(filters)) {
+			params = params.append(key, value.toString());
+		}
+
+		return this.http.get<any>(`${this.transactionUrl}/paginate`, { params })
+			.pipe(
+				map(response => response['data']['transactions']),
+				catchError(this.handleError<any>('Get Transactions', []))
+			);
+	}
+
+
 	/** GET: get a transaction */
 	getTransaction(id: string): Observable<Transaction> {
 		return this.http.get<any>(this.transactionUrl + '/' + id)
 			.pipe(
 				map(response => response['data']['transaction']),
 				catchError(this.handleError<Transaction>('Get Transaction', null))
-			);
-	}
-
-
-	requestTransaction(transaction: Transaction): Observable<Transaction> {
-		return this.http.post<Transaction>(this.transactionUrl, transaction)
-			.pipe(
-				map(response => response['data']['transaction']),
-				catchError(this.handleError<Transaction>('Request Transaction', null))
 			);
 	}
 

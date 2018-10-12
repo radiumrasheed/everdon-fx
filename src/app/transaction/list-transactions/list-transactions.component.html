@@ -1,36 +1,200 @@
-<div class="row">
-	<div class="col-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title"><span class="lstick"></span>
-					All Transactions
-					<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTransactions()"></i>
+<ng-container *ngIf="role$ | async as adminOrClient">
 
-					<swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
-
-						<app-request-transaction-form *swalPartial (submittedSuccessfully)="onSubmittedSuccessfully($event, 'request')"
-						                              (customerCreatedSuccessfully)="onSubmittedSuccessfully($event, 'customer-created')">
-
-						</app-request-transaction-form>
-
-					</swal>
-					<button [swal]="requestSwal" *ngIf="!(transactions?.length === 0 || !transactions)"
-					        type="button" rel="tooltip" title="Request" class="btn btn-outline-primary pull-right" [disabled]="role !== 'fx-ops'">
-						Request Transaction
-						<i class="mdi mdi-cookie"></i>
-					</button>
-				</h4>
-			</div>
-
-			<div class="card-body" *ngIf="role$ | async as role">
-				<div class="table table-responsive smart-table" *ngIf="role === 'admin'">
-					<ng2-smart-table [settings]="admin_table_settings" [source]="transactions"></ng2-smart-table>
+	<!-- Client Page -->
+	<div class="row" *ngIf="adminOrClient === 'client'">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title"><span class="lstick"></span>
+						All Transactions
+						<i class="mdi mdi-reload mdi-28px text-info" style="cursor: pointer;" (click)="getTransactions()"></i>
+					</h4>
 				</div>
 
-				<div class="table table-responsive smart-table" *ngIf="role === 'client'">
-					<ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>
+				<div class="card-body">
+
+					<div class="table table-responsive smart-table">
+						<ng2-smart-table [settings]="client_table_settings" [source]="transactions" class=""></ng2-smart-table>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
+
+	<!-- Admin Page -->
+	<nz-card *ngIf="adminOrClient === 'admin'" style="width: 100%;">
+
+		<nz-tabset [nzSize]="'medium'" [(nzSelectedIndex)]="tabIndex">
+
+			<!-- new -->
+			<nz-tab [nzTitle]="'Transactions'">
+
+				<nz-card [nzBordered]="false" [nzTitle]="'All Transactions'" [nzExtra]="extraTemplate">
+
+					<div class="table-operations">
+						<button [nzSize]="'small'" nz-button [nzType]="'dashed'" [nzLoading]="o.loading" (click)="pageIndex = 1;  resetSortAndFilter()">Reset Sort & Filter</button>
+						<nz-range-picker [nzSize]="'small'" [nzRanges]="dateRangePresets" nzShowTime nzFormat="yyyy/MM/dd HH:mm:ss"
+						                 [(ngModel)]="filterCreatedAtList" (nzOnOk)="updateDateRangeFilter($event)"></nz-range-picker>
+					</div>
+
+					<nz-table
+						#editRowTable
+						[nzTotal]="total"
+						[nzData]="dataSet"
+						[nzSize]="'small'"
+						[nzBordered]="true"
+						[nzLoading]="o.loading"
+						[(nzPageSize)]="pageSize"
+						[nzShowSizeChanger]="true"
+						[nzFrontPagination]="false"
+						[(nzPageIndex)]="pageIndex"
+						(nzPageIndexChange)="searchData()"
+						(nzPageSizeChange)="searchData(true)"
+						(nzCurrentPageDataChange)="currentPageDataChange($event)">
+
+						<thead (nzSortChange)="sort($event)" nzSingleSort>
+						<tr>
+							<th nzShowSort [nzSortKey]="'transaction_ref'">Reference ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th nzShowSort [nzSortKey]="'selling_product_id'">Selling</th>
+							<th nzShowSort [nzSortKey]="'buying_product_id'">Buying</th>
+							<th nzShowSort [nzSortKey]="'amount'">Amount</th>
+							<th nzShowSort [nzSortKey]="'rate'">Rate</th>
+							<th nzShowSort [nzSortKey]="'transaction_type_id'" nzShowFilter [nzFilters]="filterType" (nzFilterChange)="updateTypeFilter($event)">Type</th>
+							<th nzShowSort [nzSortKey]="'transaction_status_id'" nzShowFilter [nzFilters]="filterStatus" (nzFilterChange)="updateStatusFilter($event)">Status</th>
+							<th nzShowSort [nzSortKey]="'referrer'">
+								<i class="anticon anticon-user-add"></i>
+								Referrer
+							</th>
+							<th nzShowSort [nzSortKey]="'created_at'">
+								<i class="anticon anticon-calendar"></i>
+								Request Time
+							</th>
+							<th nzShowSort [nzSortKey]="'updated_at'">
+								<i class="anticon anticon-calendar"></i>
+								Last Updated
+							</th>
+						</tr>
+						</thead>
+
+						<tbody>
+						<tr *ngFor="let data of editRowTable.data">
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										<a [routerLink]="['/admin', 'transaction', 'details', data.id]">{{ data.transaction_ref }}</a>
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										{{ data.client.first_name }}
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										{{ data.client.last_name }}
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										<nz-tag>
+											{{ data.selling_product_id | product:'desc' }}
+										</nz-tag>
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										<nz-tag>
+											{{ data.buying_product_id | product:'desc' }}
+										</nz-tag>
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper number text-right">
+										{{ data.amount | currency }}
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper number text-right">
+										{{ data.rate | currency }}
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										{{ data.transaction_type_id | type:'desc' }}
+									</div>
+								</div>
+							</td>
+
+							<td>
+								<div class="editable-cell">
+									<div class="editable-cell-text-wrapper">
+										<nz-tag [nzColor]="data.transaction_status_id | status:'color'">
+											{{ data.transaction_status_id | status }}
+										</nz-tag>
+									</div>
+								</div>
+							</td>
+
+							<td>
+								{{ data.referrer }}
+							</td>
+
+							<td>
+								{{ data.created_at | date:'short' }}
+							</td>
+
+							<td>
+								{{ data.updated_at | date:'short' }}
+							</td>
+
+						</tr>
+						</tbody>
+
+					</nz-table>
+
+				</nz-card>
+
+			</nz-tab>
+
+			<ng-template #extraTemplate>
+				<swal #requestSwal title="Request Transaction" [showConfirmButton]="false">
+
+					<app-request-transaction-form *swalPartial (submittedSuccessfully)="onRequestSuccessful($event, 'request')"
+					                              (customerCreatedSuccessfully)="onRequestSuccessful($event, 'customer-created')"></app-request-transaction-form>
+
+				</swal>
+				<button nz-button [swal]="requestSwal" *ngIf="!(transactions?.length === 0 || !transactions)" [nzType]="'primary'" [nzSize]="'small'"
+				        type="button" class="pull-right" [disabled]="role !== 'fx-ops'">
+					<i class="anticon anticon-rocket"></i>
+					Request Transaction
+				</button>
+			</ng-template>
+		</nz-tabset>
+
+	</nz-card>
+
+</ng-container>
