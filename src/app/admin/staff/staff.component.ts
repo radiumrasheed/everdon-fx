@@ -32,7 +32,7 @@ export interface Staff {
 	providers: [StaffService]
 })
 export class StaffComponent implements OnInit {
-	__ = {loading: false, deleting: false};
+	o = { loading: false, deleting: false };
 	filterRoleList: string[] = [];
 	allChecked = false;
 	disabledButton = true;
@@ -121,15 +121,15 @@ export class StaffComponent implements OnInit {
 		Object.assign(this.editCache[key], data);
 
 		this.editCache[key].edit = false;
-		// this.__[key] = false;
+		// this.o[key] = false;
 	}
 
 
 	private updateStaff(staff: any) {
-		this.__[staff.id] = true;
+		this.o[staff.id] = true;
 
 		this.staffService.updateStaff(staff.id, staff)
-			.pipe(finalize(() => this.__[staff.id] = false))
+			.pipe(finalize(() => this.o[staff.id] = false))
 			.subscribe(updated_staff => {
 				if (updated_staff) {
 					this.updateDataSet(updated_staff.id, updated_staff);
@@ -212,7 +212,7 @@ export class StaffComponent implements OnInit {
 
 
 	public getStaffs(): void {
-		this.__.loading = true;
+		this.o.loading = true;
 
 		this.staffService.getStaffs({
 			pageIndex: this.pageIndex,
@@ -223,7 +223,7 @@ export class StaffComponent implements OnInit {
 			role: this.filterRoleList
 		})
 			.pipe(finalize(() => {
-				this.__.loading = false;
+				this.o.loading = false;
 			}))
 			.subscribe(
 				pagination => {
@@ -236,9 +236,9 @@ export class StaffComponent implements OnInit {
 
 
 	public deleteStaff(staff_id: number): void {
-		this.__.deleting = true;
+		this.o.deleting = true;
 		this.staffService.deleteStaff(staff_id)
-			.pipe(finalize(() => this.__.deleting = false))
+			.pipe(finalize(() => this.o.deleting = false))
 			.subscribe(
 				() => {
 					_.remove(this.dataSet, staff => staff.id === staff_id);
