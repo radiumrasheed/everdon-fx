@@ -1,0 +1,192 @@
+<nz-card style="width: 100%;">
+
+	<nz-tabset nzSize="small" [(nzSelectedIndex)]="tab_index">
+		<nz-tab [nzTitle]="'Overview'"></nz-tab>
+
+		<!-- add organization -->
+		<nz-tab [nzTitle]="'Add Organization'">
+
+			<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event,validateForm.value)" autocomplete="off">
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Name</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="name" placeholder="name" type="text" autocomplete="off">
+						<nz-form-explain *ngIf="validateForm.get('name').dirty&&validateForm.get('name').errors">
+							<ng-container *ngIf="validateForm.get('name').hasError('required')">
+								Please input your name!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Bank Name</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<nz-select nzShowSearch nzAllowClear formControlName="bank_name" nzPlaceHolder="select bank">
+							<nz-option nzCustomContent *ngFor="let bank of bankList" [nzLabel]="bank.name" [nzValue]="bank.value">
+								<i class="anticon anticon-bank"></i>
+								{{ bank.name }}
+							</nz-option>
+						</nz-select>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Account Name</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="account_name" placeholder="account name" type="text">
+						<nz-form-explain *ngIf="validateForm.get('account_name').dirty&&validateForm.get('account_name').errors">
+							<ng-container *ngIf="validateForm.get('account_name').hasError('required')">
+								Please input organization's Account Name!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-label [nzSpan]="7" nzRequired>Account Number</nz-form-label>
+					<nz-form-control [nzSpan]="12" nzHasFeedback>
+						<input nz-input formControlName="account_number" placeholder="account number" type="text">
+						<nz-form-explain *ngIf="validateForm.get('account_number').dirty&&validateForm.get('account_number').errors">
+							<ng-container *ngIf="validateForm.get('account_number').hasError('email')">
+								The input is not valid E-mail!
+							</ng-container>
+							<ng-container *ngIf="validateForm.get('account_number').hasError('required')">
+								Please input organization's Account Number!
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+
+				<nz-form-item>
+					<nz-form-control [nzOffset]="7" [nzSpan]="12">
+						<button nz-button nzType="primary" [nzLoading]="loading" [disabled]="!validateForm.valid">Submit</button>
+						<button nz-button (click)="resetForm($event)">Reset</button>
+					</nz-form-control>
+				</nz-form-item>
+			</form>
+
+		</nz-tab>
+
+		<!-- list of organization s -->
+		<nz-tab [nzTitle]="'Manage Existing Organizations'">
+			<div class="table-operations">
+				<button nz-button [nzType]="'primary'" [nzLoading]="o.loading" (click)="pageIndex = 1; getOrganization();">Reload</button>
+				<button nz-button [nzType]="'dashed'" (click)="resetSort()">Clear Sorters</button>
+			</div>
+
+			<nz-table
+				#editRowTable
+				[nzTotal]="total"
+				[nzData]="dataSet"
+				[nzSize]="'small'"
+				[nzBordered]="true"
+				[nzLoading]="o.loading"
+				[(nzPageSize)]="pageSize"
+				[nzShowSizeChanger]="true"
+				[nzFrontPagination]="false"
+				[(nzPageIndex)]="pageIndex"
+				(nzPageIndexChange)="searchData()"
+				(nzPageSizeChange)="searchData(true)"
+				(nzCurrentPageDataChange)="currentPageDataChange($event)">
+
+				<thead (nzSortChange)="sort($event)" nzSingleSort>
+				<tr>
+					<th nzShowCheckbox [(nzChecked)]="allChecked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="checkAll($event)"></th>
+					<th nzShowSort [nzSortKey]="'name'">Name</th>
+					<th nzShowSort [nzSortKey]="'bank_name'">Bank Name</th>
+					<th nzShowSort [nzSortKey]="'account_name'">Account Name</th>
+					<th nzShowSort [nzSortKey]="'account_number'">Account Number</th>
+					<th [nzWidth]="'15%'">Actions</th>
+				</tr>
+				</thead>
+
+				<tbody>
+				<tr *ngFor="let data of editRowTable.data">
+					<td nzShowCheckbox [(nzChecked)]="data.checked" (nzCheckedChange)="refreshStatus()"></td>
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{ data.name }}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="email" name="name" nz-input [(ngModel)]="editCache[data.id].data.name" title="Name">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.bank_name}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<nz-select style="width: 150px;" nzShowSearch nzAllowClear nzPlaceHolder="select bank" [(ngModel)]="editCache[data.id].data.bank_name">
+										<nz-option nzCustomContent *ngFor="let bank of bankList" [nzLabel]="bank.name" [nzValue]="bank.value">
+											<i class="anticon anticon-bank"></i>
+											{{ bank.name }}
+										</nz-option>
+									</nz-select>
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{ data.account_name }}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="text" name="account_name" nz-input [(ngModel)]="editCache[data.id].data.account_name" title="Account Name">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-cell">
+							<div class="editable-cell-text-wrapper">
+								<ng-container *ngIf="!editCache[data.id]?.edit">
+									{{data.account_number}}
+								</ng-container>
+								<ng-container *ngIf="editCache[data.id]?.edit">
+									<input type="phone" name="account_number" nz-input [(ngModel)]="editCache[data.id].data.account_number" title="Account Number">
+								</ng-container>
+							</div>
+						</div>
+					</td>
+
+					<td>
+						<div class="editable-row-operations">
+							<ng-container *ngIf="!editCache[data.id]?.edit">
+								<button nz-button [nzSize]="'small'" nzType="primary" (click)="startEdit(data.id)">Edit</button>
+
+
+							</ng-container>
+							<ng-container *ngIf="editCache[data.id]?.edit">
+								<button nz-button [nzSize]="'small'" nzType="danger" (click)="cancelEdit(data.id)">Cancel</button>
+
+								<nz-popconfirm [nzTitle]="'sure to update ?'" (nzOnConfirm)="saveEdit(data.id)">
+									<button nz-button [nzSize]="'small'" [nzLoading]="o[data.id]" nzType="primary" nz-popconfirm>Update</button>
+								</nz-popconfirm>
+							</ng-container>
+
+							<nz-popconfirm [nzTitle]="'sure to delete ?'" (nzOnConfirm)="deleteOrganization(data.id)">
+								<button nz-button [nzSize]="'small'" class="pull-right" nzType="danger" nz-popconfirm nzShape="circle"><i class="anticon anticon-delete"></i></button>
+							</nz-popconfirm>
+						</div>
+					</td>
+				</tr>
+				</tbody>
+
+			</nz-table>
+		</nz-tab>
+	</nz-tabset>
+
+</nz-card>

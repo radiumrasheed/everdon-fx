@@ -20,6 +20,7 @@ import { UiSwitchModule } from 'ngx-ui-switch';
 import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
 import { StaffComponent } from './staff/staff.component';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { OrganizationComponent } from './organization/organization.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { NgZorroAntdModule } from 'ng-zorro-antd';
 		ClientsComponent,
 		CreateClientComponent,
 		ViewClientComponent,
-		StaffComponent
+		StaffComponent,
+		OrganizationComponent
 	],
 	providers: [
 		HttpInterceptorProviders

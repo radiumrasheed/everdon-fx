@@ -6,7 +6,7 @@ export const ROUTES: RouteInfo[] = [
 		path: '/me/dashboard', title: 'Dashboard', icon: 'mdi mdi-security-home', extralink: false, submenu: [], role: 'client'
 	},
 	{
-		path: '/admin/dashboard', title: 'Admin Dashboard', icon: 'mdi mdi-security-home', extralink: false, submenu: [], role: 'admin'
+		path: '/admin/dashboard', title: 'Dashboard', icon: 'mdi mdi-security-home', extralink: false, submenu: [], role: 'admin'
 	},
 
 	// Profile Routes...
@@ -52,6 +52,11 @@ export const ROUTES: RouteInfo[] = [
 	// Staff Routes...
 	{
 		path: '/admin/staffs', title: 'Staffs', 'icon': 'mdi mdi-worker', extralink: false, submenu: [], role: 'admin'
+	}, ,
+
+	// Organization Routes...
+	{
+		path: '/admin/organizations', title: 'Organizations', 'icon': 'mdi mdi-domain', extralink: false, submenu: [], role: 'admin'
 	},
 
 	// Reporting Routes...

@@ -6,6 +6,7 @@ import { ClientsComponent } from './clients/clients.component';
 import { ViewClientComponent } from './view-client/view-client.component';
 import { NgModule } from '@angular/core';
 import { StaffComponent } from './staff/staff.component';
+import { OrganizationComponent } from './organization/organization.component';
 
 export const AdminRoutes: Routes = [
 	{
@@ -75,7 +76,17 @@ export const AdminRoutes: Routes = [
 				component: StaffComponent,
 				data: {
 					title: 'Staff',
-					urls: [{title: 'Staff', url: '/admin'}, {title: 'Staff'}]
+					urls: [{ title: 'Staff', url: '/admin' }, { title: 'Staff' }]
+				}
+			},
+
+
+			{
+				path: 'organizations',
+				component: OrganizationComponent,
+				data: {
+					title: 'Organization',
+					urls: [{ title: 'organization', url: '/admin' }, { title: 'Organization' }]
 				}
 			}
 		]
