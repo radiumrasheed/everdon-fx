@@ -14,7 +14,6 @@ import { ImageViewerModule } from '@hallysonh/ngx-imageviewer';
 import { ToastrModule } from 'ngx-toastr';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { ImageUploadModule } from 'angular2-image-upload';
-import { UiSwitchModule } from 'ngx-ui-switch';
 
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
@@ -57,7 +56,6 @@ registerLocaleData(en);
 		FormsModule,
 		SharedModule,
 		HttpClientModule,
-		UiSwitchModule,
 		ImageViewerModule,
 		NgbModule.forRoot(),
 		ImageUploadModule.forRoot(),

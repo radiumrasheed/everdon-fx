@@ -3,7 +3,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
-import { UiSwitchModule } from 'ngx-ui-switch';
 import { CommonModule } from '@angular/common';
 import { MomentModule } from 'angular2-moment';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +24,6 @@ import { SharedModule } from '../shared/shared.module';
 		NgbModule,
 		SharedModule,
 		Ng2SmartTableModule,
-		UiSwitchModule,
 		SweetAlert2Module,
 		NgZorroAntdModule,
 

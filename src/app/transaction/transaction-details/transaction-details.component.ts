@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { RefundTransaction } from '../../shared/meta-data/transaction';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class TransactionDetailsComponent implements OnInit {
 
 	private can_be_updated = false;
 	@ViewChild(`refundSwal`) private refundSwalComponent: SwalComponent;
+	o: any = {};
 	can_approve = false;
 	can_be_approved = false;
 	can_be_cancelled = true;
@@ -190,7 +192,7 @@ export class TransactionDetailsComponent implements OnInit {
 			.subscribe(
 				transaction => {
 					if (!transaction) {
-						this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+						this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 					}
 
 					function round(number: number) {
@@ -266,7 +268,7 @@ export class TransactionDetailsComponent implements OnInit {
 							if (treated_transaction) {
 								this.transaction = treated_transaction;
 								this.toastr.success('Successfully treated');
-								this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+								this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 							}
 						}
 					);
@@ -280,7 +282,7 @@ export class TransactionDetailsComponent implements OnInit {
 							if (treated_transaction) {
 								this.transaction = treated_transaction;
 								this.toastr.success('Successfully approved');
-								this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+								this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 							}
 						}
 					);
@@ -295,7 +297,7 @@ export class TransactionDetailsComponent implements OnInit {
 							if (treated_transaction) {
 								this.transaction = treated_transaction;
 								this.toastr.success('Successfully approved');
-								this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+								this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 							}
 						}
 					);
@@ -309,7 +311,7 @@ export class TransactionDetailsComponent implements OnInit {
 							if (treated_transaction) {
 								this.transaction = treated_transaction;
 								this.toastr.success('Fulfilled Successfully');
-								this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+								this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 							}
 						}
 					);
@@ -330,7 +332,7 @@ export class TransactionDetailsComponent implements OnInit {
 					if (treated_transaction) {
 						this.transaction = treated_transaction;
 						this.toastr.success('Returned Successfully');
-						this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+						this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 					}
 				},
 				err => {
@@ -349,7 +351,7 @@ export class TransactionDetailsComponent implements OnInit {
 					if (treated_transaction) {
 						this.transaction = treated_transaction;
 						this.toastr.success('Cancelled Successfully');
-						this.router.navigate(['../../'], {relativeTo: this.route}).catch();
+						this.router.navigate(['../../'], { relativeTo: this.route }).catch();
 					}
 				}
 			);
@@ -374,35 +376,22 @@ export class TransactionDetailsComponent implements OnInit {
 
 
 	validateKYC() {
+
+		this.o.loading = true;
+		this.transaction.client.kyc.status = !this.transaction.client.kyc.status;
+
 		this.transactionService.validateKYC(this.transaction.client_id, this.transaction.client.kyc)
+			.pipe(finalize(() => this.o.loading = false))
 			.subscribe(
 				client => {
 					if (client) {
 						this.transaction.client = client;
 					}
-				},
-				() => {
-
-				},
-				() => {
-
-				}
-			);
+				});
 	}
 
 
 	onSubmittedSuccessfully() {
 		this.refundSwalComponent.nativeSwal.close();
-	}
-
-
-	public saveEmail(email: string): void {
-		// ... save user email
-	}
-
-
-	public handleRefusalToSetEmail(dismissMethod: string): void {
-		// dismissMethod can be 'cancel', 'overlay', 'close', and 'timer'
-		// ... do something
 	}
 }

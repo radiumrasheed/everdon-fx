@@ -166,7 +166,7 @@
 						<div *ngIf="client?.kyc" class="pricing-box featured-plan">
 							<div class="pricing-body">
 								<div class="pricing-header">
-									<h3 class="price-lable text-white bg-primary"> KYC Card</h3>
+									<h3 class="price-lable text-white bg-primary"> KYC Status</h3>
 								</div>
 								<div class="price-table-content">
 									<label class="label-light-warning label-rounded" *ngIf="client?.kyc?.awaiting_review === 1">
@@ -175,24 +175,29 @@
 									<br *ngIf="client.kyc?.awaiting_review === 1">
 
 									<i class="mdi mdi-calendar-clock"> </i>
-									{{ client?.kyc?.awaiting_review === 1 ? 'Customer updated' : 'Updated'}} {{ client?.updated_at | amCalendar }}
+									{{ client?.kyc?.awaiting_review === 1 ? 'Customer last updated' : 'Profile last updated'}} {{ client?.updated_at | amCalendar }}
 
 									<hr>
-									<form>
-										<h1 class="text-center">
-											<span>{{ client?.kyc?.status ? '   ' : 'No' }}</span>
-											<ui-switch [(ngModel)]="client.kyc.status" name="status" size="large"></ui-switch>
-											<span>{{ client?.kyc?.status ? 'Yes' : '  ' }}</span>
-										</h1>
-										<button class="btn btn-lg btn-info waves-effect waves-light m-t-20" (click)="validateKYC()">
-											{{ client?.kyc?.status ? 'Update' : 'Update' }}
-											<i class="mdi mdi-toggle-{{ client?.kyc?.status ? 'switch' : 'switch-off'}} "></i>
-										</button>
-										<br>
-										<br>
-										<i class="icon-calender"> </i>
-										Last reviewed {{ client?.kyc?.last_reviewed_at | amCalendar }}
-									</form>
+
+									<h1 class="text-center">
+
+										<nz-switch name="status" [(ngModel)]="client.kyc.status" [nzSize]="'default'" [nzControl]="true" (click)="validateKYC()" [nzLoading]="loading"
+										           [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+
+										<ng-template #checkedTemplate>
+											<i class="anticon anticon-check"></i>
+											Valid
+										</ng-template>
+
+										<ng-template #unCheckedTemplate>
+											Invalid
+											<i class="anticon anticon-close"></i>
+										</ng-template>
+
+									</h1>
+
+									<i class="icon-calender"></i>
+									Last reviewed {{ client?.kyc?.last_reviewed_at | amCalendar }}
 								</div>
 							</div>
 						</div>
@@ -203,27 +208,7 @@
 						<div *ngIf="client" class="pricing-box featured-plan">
 							<div class="pricing-body">
 								<div class="pricing-header">
-									<h3 class="price-lable text-white bg-primary"> Identity Card</h3>
-								</div>
-
-								<div class="price-table-content">
-
-									<swal #documentSwal [title]="client?.identification ? client?.identification?.toLocaleUpperCase() : 'CAC DOCUMENT'" [showConfirmButton]="false" width="850px">
-										<ng-container *swalPartial>
-											<div class="col-12">
-												<p *ngIf="client.identification_document">You have 1 document uploaded already</p>
-												<ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
-											</div>
-
-											<div class="col-12">
-												<p *ngIf="client.cac_document">You have 1 document uploaded already</p>
-												<ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
-											</div>
-										</ng-container>
-
-									</swal>
-									<a *ngIf="client.cac_document || client.identification_document" class="btn btn-rounded btn-outline-info" [swal]="documentSwal" href="javascript:void(0)">View
-										Document</a>
+									<h3 class="price-lable text-white bg-primary"> Identity</h3>
 								</div>
 
 								<br>
@@ -239,6 +224,27 @@
 													<option value="international passport">International Passport</option>
 													<option value="national id card">National ID Card</option>
 												</select>
+
+												<br>
+
+												<swal #documentSwal [title]="client?.identification ? client?.identification?.toLocaleUpperCase() : 'CAC DOCUMENT'" [showConfirmButton]="false"
+												      width="850px">
+													<ng-container *swalPartial>
+														<div class="col-12">
+															<p *ngIf="client.identification_document">You have 1 document uploaded already</p>
+															<ngx-imageviewer *ngIf="client.identification_document" [src]="client.identification_document"></ngx-imageviewer>
+														</div>
+
+														<div class="col-12">
+															<p *ngIf="client.cac_document">You have 1 document uploaded already</p>
+															<ngx-imageviewer *ngIf="client.cac_document" [src]="client.cac_document"></ngx-imageviewer>
+														</div>
+													</ng-container>
+
+												</swal>
+												<button *ngIf="client.cac_document || client.identification_document" class="btn btn-rounded btn-outline-info btn-xs mt-2"
+												        [swal]="documentSwal">View Document
+												</button>
 											</div>
 										</div>
 

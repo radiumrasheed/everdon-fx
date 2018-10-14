@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CreateClientFormService } from '../../shared/create-client-form/create-client-form.service';
 import { Client } from '../../shared/meta-data';
+import { finalize } from 'rxjs/operators';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { Client } from '../../shared/meta-data';
 })
 export class ViewClientComponent implements OnInit {
 	private formData: FormData = new FormData();
-
+	loading: boolean;
 	public id: string;
 	public successMessage: boolean;
 	public client: Client;
@@ -72,15 +73,20 @@ export class ViewClientComponent implements OnInit {
 
 
 	validateKYC(): void {
-		this.clientService.validateKYC(this.client.id, this.client.kyc)
-			.subscribe(
-				client => {
-					if (client) {
-						this.client = client;
-						this.toastr.success('Customer KYC validated successfully');
+		if (!this.loading) {
+			this.loading = true;
+			this.client.kyc.status = !this.client.kyc.status;
+			this.clientService.validateKYC(this.client.id, this.client.kyc)
+				.pipe(finalize(() => this.loading = false))
+				.subscribe(
+					client => {
+						if (client) {
+							this.client = client;
+							this.toastr.success('Customer KYC validated successfully');
+						}
 					}
-				}
-			);
+				);
+		}
 	}
 
 

@@ -518,36 +518,42 @@
 												<div class="pricing-box featured-plan">
 													<div class="pricing-body">
 														<div class="pricing-header">
-															<h3 class="price-lable text-white bg-primary"> KYC Card</h3>
+															<h3 class="price-lable text-white bg-primary"> KYC Status</h3>
 														</div>
 														<div class="price-table-content">
-															<label class="label-light-danger label-rounded" *ngIf="transaction.client.kyc.awaiting_review === 1">
+															<label class="label-light-warning label-rounded" *ngIf="transaction?.client?.kyc?.awaiting_review === 1">
 																Recently updated by Customer !
 															</label>
-															<br *ngIf="transaction.client.kyc.awaiting_review === 1">
+															<br *ngIf="transaction?.client.kyc?.awaiting_review === 1">
 
 															<i class="mdi mdi-calendar-clock"> </i>
-															{{ transaction.client.kyc.awaiting_review === 1 ? 'Customer updated' : 'Updated'}} {{ transaction?.client?.updated_at | amCalendar }}
+															{{ transaction?.client?.kyc?.awaiting_review === 1 ? 'Customer last updated' : 'Profile last updated'}}
+															{{ transaction?.client?.updated_at | amCalendar }}
 
 															<br>
 
 															<a [routerLink]="['/admin', 'customer', transaction.client.kyc.client_id]" class="">Go To Customer Page</a>
 															<hr>
-															<form>
-																<h1 class="text-center">
-																	<span>{{ transaction?.client?.kyc?.status ? '   ' : 'No' }}</span>
-																	<ui-switch [(ngModel)]="transaction.client.kyc.status" name="status" size="large"></ui-switch>
-																	<span>{{ transaction?.client?.kyc?.status ? 'Yes' : '  ' }}</span>
-																</h1>
-																<button class="btn btn-lg btn-info waves-effect waves-light m-t-20" (click)="validateKYC()">
-																	{{ transaction?.client?.kyc?.status ? 'Update' : 'Update' }}
-																	<i class="mdi mdi-toggle-{{ transaction?.client?.kyc?.status ? 'switch' : 'switch-off'}} "></i>
-																</button>
-																<br>
-																<br>
-																<i class="icon-calender"> </i>
-																Last reviewed {{ transaction?.client?.kyc?.last_reviewed_at | amCalendar }}
-															</form>
+
+															<h1 class="text-center">
+
+																<nz-switch name="status" [(ngModel)]="transaction?.client.kyc.status" [nzSize]="'default'" [nzControl]="true" (click)="validateKYC()"
+																           [nzLoading]="o.loading" [nzCheckedChildren]="checkedTemplate" [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+
+																<ng-template #checkedTemplate>
+																	<i class="anticon anticon-check"></i>
+																	Valid
+																</ng-template>
+
+																<ng-template #unCheckedTemplate>
+																	Invalid
+																	<i class="anticon anticon-close"></i>
+																</ng-template>
+
+															</h1>
+
+															<i class="icon-calender"></i>
+															Last reviewed {{ transaction?.client?.kyc?.last_reviewed_at | amCalendar }}
 														</div>
 													</div>
 												</div>
